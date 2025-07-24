@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul class="space-y-2" style="height:280px;overflow-y: scroll;font-size:13px;">
+                    <li><a href="/rdoc/index.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Introduction to rAthena Scripting</a></li>
+                    <li><a href="/rdoc/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
+                    <li><a href="/rdoc/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
+                    <li><a href="/rdoc/page/variables.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200 active">Variables</a></li>
+                    <li><a href="/rdoc/page/set-setarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">set and setarray</a></li>
+                    <li><a href="/rdoc/page/comments.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Comments</a></li>
+                    <li><a href="/rdoc/page/operators.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Operators</a></li>
+                </ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;">
+                    <li><a href="sc_script/sc_1.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Bloody Branch Quest</a></li>
+                    <li><a href="sc_script/sc_2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hunting Board NPC</a></li>
+                    <li><a href="sc_script/sc_3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Newbie Freebies</a></li>
+                    <li><a href="sc_script/sc_4.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Server Announcement</a></li>
+                    <li><a href="sc_script/sc_5.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Buyer</a></li>
+                    <li><a href="sc_script/sc_6.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Last Fallen Warrior Event</a></li>
+                    <li><a href="sc_script/sc_7.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Hunt Event</a></li>
+                    <li><a href="sc_script/sc_8.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Summon Treasure Box Event</a></li>
+                    <li><a href="sc_script/sc_9.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autoasura</a></li>
+                    <li><a href="sc_script/sc_10.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Ticket Seller</a></li>
+                    <li><a href="sc_script/sc_11.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Dual Client Kick Script</a></li>
+                    <li><a href="sc_script/sc_12.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Punch Event</a></li>
+                    <li><a href="sc_script/sc_13.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holiday Announcer</a></li>
+                    <li><a href="sc_script/sc_14.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Sex Changer</a></li>
+                    <li><a href="sc_script/sc_15.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autopots</a></li>
+                    <li><a href="sc_script/sc_16.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">C. Master of Wind Quest</a></li>
+                    <li><a href="sc_script/sc_17.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Advance Clone Script</a></li>
+                    <li><a href="sc_script/sc_18.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Falcon Rental NPC</a></li>
+                    <li><a href="sc_script/sc_19.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fishing Event</a></li>
+                    <li><a href="sc_script/sc_20.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Item Deleter</a></li>
+                    <li><a href="sc_script/sc_21.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Geffen Tower Summit Event</a></li>
+                    <li><a href="sc_script/sc_22.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hide and Seek Event</a></li>
+                    <li><a href="sc_script/sc_23.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Mushroom Kill Event</a></li>
+                    <li><a href="sc_script/sc_24.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">My Character ID Script</a></li>
+                    <li><a href="sc_script/sc_25.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Real Poring Hunt Event</a></li>
+                    <li><a href="sc_script/sc_26.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Treasure Box Spawner</a></li>
+                    <li><a href="sc_script/sc_27.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Promoter Event</a></li>
+                    <li><a href="sc_script/sc_28.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rename Ticket Script</a></li>
+                    <li><a href="sc_script/sc_29.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Trader</a></li>
+                    <li><a href="sc_script/sc_30.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ticket Refiner</a></li>
+                    <li><a href="sc_script/sc_31.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Activity Token Trader</a></li>
+                    <li><a href="sc_script/sc_32.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Event Token Trader</a></li>
+                    <li><a href="sc_script/sc_33.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ayothaya HG Quest</a></li>
+                    <li><a href="sc_script/sc_34.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Exchanger NPC</a></li>
+                    <li><a href="sc_script/sc_35.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Body Style Changer</a></li>
+                    <li><a href="sc_script/sc_36.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Cheap Costume Item Enchanter</a></li>
+                    <li><a href="sc_script/sc_37.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Payon HG Quest</a></li>
+                    <li><a href="sc_script/sc_38.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Christmas HG Quest</a></li>
+                    <li><a href="sc_script/sc_39.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Coin Zeny Exchanger</a></li>
+                    <li><a href="sc_script/sc_40.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Costume Item Enchanter</a></li>
+                    <li><a href="sc_script/sc_41.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Enable PVP Town Script</a></li>
+                    <li><a href="sc_script/sc_42.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Player HP Configuration Script</a></li>
+                    <li><a href="sc_script/sc_43.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gold Trader</a></li>
+                    <li><a href="sc_script/sc_44.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gonryun HG Quest</a></li>
+                    <li><a href="sc_script/sc_45.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">HE Bubble Gum Trader</a></li>
+                    <li><a href="sc_script/sc_46.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holloween HG Quest</a></li>
+                    <li><a href="sc_script/sc_47.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Quest</a></li>
+                    <li><a href="sc_script/sc_48.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Trader</a></li>
+                    <li><a href="sc_script/sc_49.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Jobs Item Dealer</a></li>
+                    <li><a href="sc_script/sc_50.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 1</a></li>
+                    <li><a href="sc_script/sc_51.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 2</a></li>
+                    <li><a href="sc_script/sc_52.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 3</a></li>
+                    <li><a href="sc_script/sc_53.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 4</a></li>
+                    <li><a href="sc_script/sc_54.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Lucky 9 Game NPC</a></li>
+                    <li><a href="sc_script/sc_55.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Monster Invasion Script</a></li>
+                    <li><a href="sc_script/sc_56.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">MVP Voucher Trader</a></li>
+                    <li><a href="sc_script/sc_57.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Odin Mask Quest</a></li>
+                    <li><a href="sc_script/sc_58.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">PC Logout Event Script</a></li>
+                    <li><a href="sc_script/sc_59.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Prontera HG Quest</a></li>
+                    <li><a href="sc_script/sc_60.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rune Skill Trader</a></li>
+                    <li><a href="sc_script/sc_61.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Shadow Item Trader</a></li>
+                    <li><a href="sc_script/sc_62.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Stats Seller</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- NPC Scripting Content -->
+            <div id="scripting" class="content-section mb-8">
+                <h2 class="text-3xl font-semibold mb-4 text-gray-800">Variables ✨</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Variables are essential tools in scripting, serving as designated locations where you can store various types of data. They allow your scripts to remember information, perform calculations, and make decisions based on changing values.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Usually, <code>set</code> command is used to assign a value to a variable. It's one of the most basic and frequently used commands for data manipulation.
+                </p>
+                
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">Variable Identification 🏷️</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Every variable in rAthena is uniquely identified by a combination of three parts:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><b>Prefix</b>: Determines the scope (where the variable can be accessed) and extent (how long it persists) of the variable.</li>
+                    <li><b>Name</b>: An identifier consisting of alphanumeric characters and underscores. Variable names are not case-sensitive.</li>
+                    <li><b>Postfix</b>: Determines the data type of the variable, either integer or string.</li>
+                </ul>
+
+                <hr/><br/>
+
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">A demonstration of variable data types:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    declaring variables for numbers, strings, and booleans is straightforward, primarily using the <code>set</code> command or direct assignment.
+                </p>
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Variable Declaration Sample
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates how to declare number, string, and boolean variables.
+//============================================================
+prontera,150,150,4&#9;script&#9;VariableDeclarer&#9;767,{
+    mes "Hello! I will show you how to declare different variable types.";
+    next;
+
+    // Declaring a number (integer) variable
+    set .@myInteger, 12345;
+    mes "My integer variable is: " + .@myInteger;
+    next;
+
+    // Declaring a string variable
+    set .@myString$, "This is a sample string.";
+    mes "My string variable is: " + .@myString$;
+    next;
+
+    // Declaring a boolean variable (using 0 for false, 1 for true)
+    set .@isGameActive, 1; // True
+    set .@isPlayerReady, 0; // False
+
+    if (.@isGameActive) {
+        mes "The game is currently active!";
+    } else {
+        mes "The game is not active.";
+    }
+    next;
+
+    if (.@isPlayerReady) {
+        mes "The player is ready.";
+    } else {
+        mes "The player is not ready.";
+    }
+    next;
+
+    mes "You can also assign values directly:";
+    .@directNumber = 987;
+    .@directString$ = "Direct assignment works!";
+    .@directBoolean = 1;
+    mes "Direct number: " + .@directNumber;
+    mes "Direct string: " + .@directString$;
+    mes "Direct boolean (1 for true): " + .@directBoolean;
+    close;
+}</pre>
+</div>
+
+                <hr/><br/>
+
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">Scope and Extent of Variables 🌐</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Variables are categorized by their scope and how long they exist:
+                </p>
+                <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                    <li>
+                        <b>No Prefix (Permanent Character Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Attached to a specific character.</li>
+                            <li><b>Extent</b>: Permanent; persists even after server resets.</li>
+                            <li><b>Example</b>: <code>name</code>, <code>name$</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b><code>@</code> (Temporary Character Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Attached to a specific character.</li>
+                            <li><b>Extent</b>: Temporary; ceases to exist when the server resets.</li>
+                            <li><b>Example</b>: <code>@name</code>, <code>@name$</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b><code>$</code> (Permanent Global Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Global to all map servers.</li>
+                            <li><b>Extent</b>: Permanent; stored in the mapreg database table.</li>
+                            <li><b>Example</b>: <code>$name</code>, <code>$name$</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b><code>$@</code> (Temporary Global Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Global to all map servers.</li>
+                            <li><b>Extent</b>: Temporary; ceases to exist when the server resets. Important for scripts without an attached RID.</li>
+                            <li><b>Example</b>: <code>$@name</code>, <code>$@name$</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b><code>.</code> (NPC Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Attached to a specific NPC.</li>
+                            <li><b>Extent</b>: Temporary; disappears when the server restarts or the NPC is reloaded.</li>
+                            <li><b>Example</b>: <code>.name</code>, <code>.name$</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b><code>.@</code> (NPC Scope Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Unique to an instance and its scope.</li>
+                            <li><b>Extent</b>: Temporary; ends when the script or function scope ends.</li>
+                            <li><b>Example</b>: <code>.@name</code>, <code>.@name$</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b><code>'</code> (Instance Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Unique to each instance type in the instancing system.</li>
+                            <li><b>Extent</b>: Persists as long as the instance exists.</li>
+                            <li><b>Example</b>: <code>'name</code>, <code>'name$</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b><code>#</code> (Permanent Local Account Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Attached to the account of the character.</li>
+                            <li><b>Extent</b>: Permanent; stored in <code>acc_reg_num</code> and <code>acc_reg_str tables</code>.</li>
+                            <li><b>Example</b>: <code>#name</code>, <code>#name$</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b><code>##</code> (Permanent Global Account Variable):</b>
+                        <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>Scope</b>: Shared across all char-servers connected to the same login server.</li>
+                            <li><b>Extent</b>: Permanent; stored in <code>global_acc_reg_num</code> and <code>global_acc_reg_str</code> tables.</li>
+                            <li><b>Example</b>: <code>##name</code>, <code>##name$</code></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <hr/><br/>
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">Variable Types: Integer vs. String 🔢🔤</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><b>No Postfix</b>: Denotes an integer variable, capable of storing whole numbers (positive or negative). For example: <code>my_number = 100;</code></li>
+                    <li><b>$ Postfix</b>: Denotes a string variable, used for storing text. For example: <code>my_text$ = "Hello World";</code></li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If a variable has never been set, integer variables default to 0, and string variables default to an empty string "".
+                </p>
+
+                <hr/><br/>
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">Special Variables and Constants ✨</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    These variables are automatically defined for the invoking character (the player interacting with the script). They behave like regular variables but often reflect real-time character data. While you can read their values, directly setting all of them might not work as expected; it's generally preferable to use specific commands or functions for modifications when available.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><b>Character-based Variables</b>: <code>Zeny</code>, <code>Hp</code>, <code>MaxHp</code>, <code>Sp</code>, <code>MaxSp</code>, <code>StatusPoint</code>, <code>SkillPoint</code>, <code>BaseLevel</code>, <code>JobLevel</code>, <code>BaseExp</code>, <code>JobExp</code>, <code>NextBaseExp</code>, <code>NextJobExp</code>, <code>Weight</code>, <code>MaxWeight</code>, <code>Sex</code>, <code>Class</code>, <code>Upper</code>, <code>BaseClass</code>, <code>BaseJob</code>, <code>Karma</code>, <code>Manner</code>, <code>Ap</code>, <code>MaxAp</code></li>
+                    <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                        <li><strong>Zeny:</strong> The character's current amount of Zeny.</li>
+                        <li><strong>Hp:</strong> Current Hit Points.</li>
+                        <li><strong>MaxHp:</strong> Maximum Hit Points.</li>
+                        <li><strong>Sp:</strong> Current Spell Points.</li>
+                        <li><strong>MaxSp:</strong> Maximum Spell Points.</li>
+                        <li><strong>StatusPoint:</strong> Amount of status points remaining.</li>
+                        <li><strong>SkillPoint:</strong> Amount of skill points remaining.</li>
+                        <li><strong>BaseLevel:</strong> Character's base level.</li>
+                        <li><strong>JobLevel:</strong> Character's job level.</li>
+                        <li><strong>BaseExp:</strong> Current base experience points.</li>
+                        <li><strong>JobExp:</strong> Current job experience points.</li>
+                        <li><strong>NextBaseExp:</strong> Base experience needed for the next level.</li>
+                        <li><strong>NextJobExp:</strong> Job experience needed for the next level.</li>
+                        <li><strong>Weight:</strong> Current weight carried.</li>
+                        <li><strong>MaxWeight:</strong> Maximum weight capacity.</li>
+                        <li><strong>Sex:</strong> 0 for female, 1 for male.</li>
+                        <li><strong>Class:</strong> Character's current job ID.</li>
+                        <li><strong>Upper:</strong> 0 for normal, 1 for advanced, 2 for baby class.</li>
+                        <li><strong>BaseClass:</strong> The character's 1-1 'normal' job, regardless of Upper value.</li>
+                        <li><strong>BaseJob:</strong> The character's 'normal' job, regardless of Upper value.</li>
+                        <li><strong>Karma:</strong> Character's karma rating.</li>
+                        <li><strong>Manner:</strong> Character's manner rating.</li>
+                        <li><strong>Ap:</strong> Current Activity Points.</li>
+                        <li><strong>MaxAp:</strong> Maximum Activity Points.</li>
+                    </ul>
+
+                    <br/>
+
+                    <li><b>Server Constants</b>: <code>PACKETVER</code>, <code>MAX_LEVEL</code>, <code>MAX_STORAGE</code>, <code>MAX_INVENTORY</code>, <code>MAX_CART</code>, <code>MAX_ZENY</code>, <code>MAX_PARTY</code>, <code>MAX_GUILD</code>, <code>MAX_GUILDLEVEL</code>, <code>MAX_GUILD_STORAGE</code>, <code>MAX_BG_MEMBERS</code>, <code>MAX_CHAT_USERS</code>, <code>VIP_SCRIPT</code>, <code>MIN_STORAGE</code>, and various Option_ constants (e.g., Option_Sight, Option_Hide)</li>
+                    <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                        <li><strong>PACKETVER:</strong> The client packet version the server is running.</li>
+                        <li><strong>MAX_LEVEL:</strong> Maximum character level allowed.</li>
+                        <li><strong>MAX_STORAGE:</strong> Maximum storage slots.</li>
+                        <li><strong>MAX_INVENTORY:</strong> Maximum inventory slots.</li>
+                        <li><strong><strong>MAX_CART:</strong></strong> Maximum cart slots.</li>
+                        <li><strong>MAX_ZENY:</strong> Maximum Zeny a character can hold.</li>
+                        <li><strong>MAX_PARTY:</strong> Maximum party members.</li>
+                        <li><strong>MAX_GUILD:</strong> Maximum guild members.</li>
+                        <li><strong>MAX_GUILDLEVEL:</strong> Maximum guild level.</li>
+                        <li><strong>MAX_GUILD_STORAGE:</strong> Maximum guild storage slots.</li>
+                        <li><strong>MAX_BG_MEMBERS:</strong> Maximum Battleground members.</li>
+                        <li><strong>MAX_CHAT_USERS:</strong> Maximum chat room users.</li>
+                        <li><strong>VIP_SCRIPT:</strong> Indicates if the VIP system is enabled.</li>
+                        <li><strong>MIN_STORAGE:</strong> Minimum storage slots.</li>
+                    </ul>
+                </ul>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Healer NPC
+//===== By: rAthena AI Assistant ============================
+//= Heals the player's HP and SP to maximum.
+//============================================================
+prontera,154,171,4&#9;script&#9;Healer&#9;768,{
+    mes "Your current Base Level is: " + BaseLevel;
+    mes "You have " + Zeny + " Zeny.";
+    next;
+    mes "Allow me to heal you completely!";
+    heal MaxHp, MaxSp;
+    mes "You are now fully healed!";
+    close;
+}</pre>
+</div>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        This rAthena script defines a 'Healer' NPC and uses <code>Special variables</code>, located at <code>prontera 154,171,</code> which provides a free and instant full HP and SP recovery service to players. Upon interaction, the NPC first displays the player's current base level (<code>BaseLevel</code>) and <code>Zeny</code>, then, after a prompt to continue, it uses the <code>heal MaxHp, MaxSp;</code> command to fully restore the player's health and magic. The dialogue concludes with a confirmation of the healing and a <code>close;</code> command to end the interaction.
+                    </p>
+
+                    <p><hr/></p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <img src="img/p4_sample1.gif" style="border-radius:10px;" />
+
+
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

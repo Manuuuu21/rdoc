@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul class="space-y-2" style="height:280px;overflow-y: scroll;font-size:13px;">
+                    <li><a href="/rdoc/index.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Introduction to rAthena Scripting</a></li>
+                    <li><a href="/rdoc/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
+                    <li><a href="/rdoc/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
+                    <li><a href="/rdoc/page/variables.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Variables</a></li>
+                    <li><a href="/rdoc/page/set-setarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200 active">set and setarray</a></li>
+                    <li><a href="/rdoc/page/comments.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Comments</a></li>
+                    <li><a href="/rdoc/page/operators.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Operators</a></li>
+                </ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;">
+                    <li><a href="sc_script/sc_1.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Bloody Branch Quest</a></li>
+                    <li><a href="sc_script/sc_2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hunting Board NPC</a></li>
+                    <li><a href="sc_script/sc_3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Newbie Freebies</a></li>
+                    <li><a href="sc_script/sc_4.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Server Announcement</a></li>
+                    <li><a href="sc_script/sc_5.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Buyer</a></li>
+                    <li><a href="sc_script/sc_6.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Last Fallen Warrior Event</a></li>
+                    <li><a href="sc_script/sc_7.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Hunt Event</a></li>
+                    <li><a href="sc_script/sc_8.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Summon Treasure Box Event</a></li>
+                    <li><a href="sc_script/sc_9.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autoasura</a></li>
+                    <li><a href="sc_script/sc_10.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Ticket Seller</a></li>
+                    <li><a href="sc_script/sc_11.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Dual Client Kick Script</a></li>
+                    <li><a href="sc_script/sc_12.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Punch Event</a></li>
+                    <li><a href="sc_script/sc_13.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holiday Announcer</a></li>
+                    <li><a href="sc_script/sc_14.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Sex Changer</a></li>
+                    <li><a href="sc_script/sc_15.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autopots</a></li>
+                    <li><a href="sc_script/sc_16.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">C. Master of Wind Quest</a></li>
+                    <li><a href="sc_script/sc_17.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Advance Clone Script</a></li>
+                    <li><a href="sc_script/sc_18.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Falcon Rental NPC</a></li>
+                    <li><a href="sc_script/sc_19.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fishing Event</a></li>
+                    <li><a href="sc_script/sc_20.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Item Deleter</a></li>
+                    <li><a href="sc_script/sc_21.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Geffen Tower Summit Event</a></li>
+                    <li><a href="sc_script/sc_22.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hide and Seek Event</a></li>
+                    <li><a href="sc_script/sc_23.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Mushroom Kill Event</a></li>
+                    <li><a href="sc_script/sc_24.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">My Character ID Script</a></li>
+                    <li><a href="sc_script/sc_25.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Real Poring Hunt Event</a></li>
+                    <li><a href="sc_script/sc_26.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Treasure Box Spawner</a></li>
+                    <li><a href="sc_script/sc_27.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Promoter Event</a></li>
+                    <li><a href="sc_script/sc_28.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rename Ticket Script</a></li>
+                    <li><a href="sc_script/sc_29.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Trader</a></li>
+                    <li><a href="sc_script/sc_30.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ticket Refiner</a></li>
+                    <li><a href="sc_script/sc_31.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Activity Token Trader</a></li>
+                    <li><a href="sc_script/sc_32.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Event Token Trader</a></li>
+                    <li><a href="sc_script/sc_33.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ayothaya HG Quest</a></li>
+                    <li><a href="sc_script/sc_34.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Exchanger NPC</a></li>
+                    <li><a href="sc_script/sc_35.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Body Style Changer</a></li>
+                    <li><a href="sc_script/sc_36.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Cheap Costume Item Enchanter</a></li>
+                    <li><a href="sc_script/sc_37.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Payon HG Quest</a></li>
+                    <li><a href="sc_script/sc_38.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Christmas HG Quest</a></li>
+                    <li><a href="sc_script/sc_39.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Coin Zeny Exchanger</a></li>
+                    <li><a href="sc_script/sc_40.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Costume Item Enchanter</a></li>
+                    <li><a href="sc_script/sc_41.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Enable PVP Town Script</a></li>
+                    <li><a href="sc_script/sc_42.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Player HP Configuration Script</a></li>
+                    <li><a href="sc_script/sc_43.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gold Trader</a></li>
+                    <li><a href="sc_script/sc_44.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gonryun HG Quest</a></li>
+                    <li><a href="sc_script/sc_45.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">HE Bubble Gum Trader</a></li>
+                    <li><a href="sc_script/sc_46.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holloween HG Quest</a></li>
+                    <li><a href="sc_script/sc_47.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Quest</a></li>
+                    <li><a href="sc_script/sc_48.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Trader</a></li>
+                    <li><a href="sc_script/sc_49.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Jobs Item Dealer</a></li>
+                    <li><a href="sc_script/sc_50.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 1</a></li>
+                    <li><a href="sc_script/sc_51.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 2</a></li>
+                    <li><a href="sc_script/sc_52.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 3</a></li>
+                    <li><a href="sc_script/sc_53.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 4</a></li>
+                    <li><a href="sc_script/sc_54.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Lucky 9 Game NPC</a></li>
+                    <li><a href="sc_script/sc_55.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Monster Invasion Script</a></li>
+                    <li><a href="sc_script/sc_56.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">MVP Voucher Trader</a></li>
+                    <li><a href="sc_script/sc_57.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Odin Mask Quest</a></li>
+                    <li><a href="sc_script/sc_58.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">PC Logout Event Script</a></li>
+                    <li><a href="sc_script/sc_59.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Prontera HG Quest</a></li>
+                    <li><a href="sc_script/sc_60.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rune Skill Trader</a></li>
+                    <li><a href="sc_script/sc_61.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Shadow Item Trader</a></li>
+                    <li><a href="sc_script/sc_62.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Stats Seller</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- NPC Scripting Content -->
+            <div id="scripting" class="content-section mb-8">
+                <h2 class="text-3xl font-semibold mb-4 text-gray-800">set and setarray</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Let's explore how to use the <code>set</code> and <code>setarray</code> commands in rAthena scripting. These are fundamental for managing data within your scripts. 😊
+                </p>
+                
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">✨ The set Command</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The set command is used to assign a value to a variable. It's a very basic yet essential command for storing and manipulating data.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code><b>Syntax</b>: set &lt;variable>,&lt;expression>{,&lt;char_id>}; or set(&lt;variable>,&lt;expression>{,&lt;char id>})</code></li>
+                    <li><code><b>&lt;variable></b></code>: The name of the variable you want to set.</li>
+                    <li><code><b>&lt;expression></b></code>: The value or calculation result you want to assign to the variable. This can be a number, a string, or an operation involving other variables or functions.</li>
+                    <li><code><b>{,&lt;char id>}</b></code>: (Optional) The character ID for whom the variable should be set. This is typically used for character-specific or account-specific variables when you're not directly interacting with the player (e.g., in a timer script).</li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    You can also assign values directly to variables without using the set command, similar to other programming languages. This is often preferred for cleaner code.
+                </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+// Assigns the integer value 100 to the NPC scope variable .@myNumber.
+set .@myNumber, 100;
+// Displays the value of .@myNumber in the NPC dialogue box.
+mes "My number is: " + .@myNumber;
+
+// Direct Assignment 
+// Assigns the string "Hello, World!" to the NPC scope string variable .@myString$.
+.@myString$ = "Hello, World!";
+// Displays the value of .@myString$ in the NPC dialogue box.
+mes .@myString$;
+
+// Direct Assignment 
+// Performs an arithmetic calculation (5 + (10 / 2)) and assigns the result to .@calculatedValue.
+// Note: In rAthena, division is integer division, so 10 / 2 equals 5.
+.@calculatedValue = 5 + (10 / 2); // Result will be 10 (integer division)
+// Displays the calculated value in the NPC dialogue box.
+mes "Calculated value: " + .@calculatedValue;</pre>
+</div>
+
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">✨ Direct Assignment</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Instead of <code>set &lt;variable>, &lt;value>;</code>, you can simply use <code>&lt;variable> = &lt;value>;</code>. The rAthena scripting engine supports this syntax for assigning values to both integer and string variables.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    In the code provided, the line <code>.@myString$ = "Hello, World!";</code> is an example of direct assignment. It achieves the same result as <code>set .@myString$, "Hello, World!";</code>.
+                    This direct assignment syntax makes your scripts look more like conventional programming languages and can improve readability.
+                </p>
+
+                <hr/><br/>
+
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">📦 The setarray Command</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>setarray</code> command allows you to quickly populate multiple elements of an array with specified values in a single line.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code><b>Syntax</b>: setarray &lt;array name>[&lt;first value>],&lt;value>{,&lt;value>...&lt;value>};</code></li>
+                    <li><code><b>&lt;array name></b></code>: The name of the array variable you want to fill.</li>
+                    <li><code><b>[&lt;first value>]</b></code>: The starting index from which to begin filling the array. Array indices typically start from 0.</li>
+                    <li><code><b>&lt;value>{,&lt;value>...&lt;value>}</b></code>: A comma-separated list of values to assign to the array elements, starting from the specified index.</li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If you use <code>setarray</code> on an existing array, it will overwrite the elements starting from the specified index. Any elements beyond the provided values will remain unchanged or be considered zero/empty if they were never set.
+                </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+setarray .@myArray[0], 10, 20, 30, 40, 50;
+mes "First element: " + .@myArray[0]; // Displays 10
+mes "Third element: " + .@myArray[2]; // Displays 30
+
+setarray .@stringArray$[0], "Apple", "Banana", "Cherry";
+mes "Fruit: " + .@stringArray$[1]; // Displays Banana
+
+// Overwriting part of the array
+setarray .@myArray[2], 100, 200;
+mes "New third element: " + .@myArray[2]; // Displays 100
+mes "New fourth element: " + .@myArray[3]; // Displays 200
+mes "Fifth element (unchanged): " + .@myArray[4]; // Displays 50</pre>
+</div>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    These commands are fundamental for managing data in your scripts, whether it's a single value or a collection of related data in an array.
+                </p>                
+
+
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

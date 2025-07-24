@@ -1,0 +1,164 @@
+* {box-sizing: border-box}
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f0f2f5; /* Light gray background */
+}
+/* Custom scrollbar for sidebar */
+.sidebar-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+    background: #e2e8f0; /* bg-gray-200 */
+    border-radius: 10px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background: #94a3b8; /* bg-gray-400 */
+    border-radius: 10px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+    background: #64748b; /* bg-gray-500 */
+    }
+code {
+    background: #bfdbfe;
+    padding: 0 5px 0 5px;
+    border-radius: 10px;
+}
+/* Hide original pre tags as Ace Editor will replace them */
+pre {
+    display: none;
+}
+/* Smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+/* Active link styling */
+.sidebar-link:hover,
+.sidebar-link:focus {
+    background-color: #bfdbfe; /* bg-blue-200 */
+    color: #1e40af; /* text-blue-800 */
+}
+@media (min-width: 1536px) {
+    .container {
+        max-width: 1280px !important;
+    }
+}
+/* Responsive adjustments for sidebar */
+@media (min-width: 768px) {
+    #sidebar {
+        display: block !important; /* Always show on desktop */
+    }
+}
+@media (min-width: 768px) {
+    .md\:w-64 {
+        width: 20rem !important;
+    }
+}
+.active {
+    background: #1d4ed8;
+    color: #ffffff !important;
+}
+.pre_container {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem; /* Padding for the container */
+    border-radius: 0.5rem;
+    border: 1px solid #cfcfcf;
+   /* box-shadow: -1px 1px 5px silver; */
+    background-color: none; /* Match monokai background for consistency */
+    overflow: hidden; /* Ensure rounded corners are respected */
+}
+.copy-button {
+    display: block;
+    margin-bottom: 0.5rem;
+    margin-left: auto;
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease-in-out;
+    width: fit-content;
+}
+
+.mySlides {display: none}
+img {vertical-align: middle;}
+
+.slideshow-container { max-width: 1000px; position: relative; margin: auto; }
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.next { right: 0; border-radius: 3px 0 0 3px; }
+
+.prev:hover, .next:hover { background-color: rgba(0,0,0,0.5); }
+
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fade { animation-name: fade; animation-duration: 1.5s; }
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* Base styles for the modal overlay and content */
+/* These define the initial hidden/off-screen state */
+.modal-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Smooth transition for fade */
+}
+/* State when the modal is visible */
+.modal-overlay.is-visible {
+    opacity: 1;
+}
+
+.modal-content {
+    opacity: 0;
+    transform: translateY(-20px); /* Start slightly above its final position */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for slide and fade */
+}
+/* State when the modal content is visible */
+.modal-content.is-visible {
+    opacity: 1;
+    transform: translateY(0); /* Move to its final position */
+}
+.max-w-lg {
+    max-width: 32rem !important;
+    max-height: 28rem !important;
+}

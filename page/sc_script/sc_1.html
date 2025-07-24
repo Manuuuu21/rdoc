@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul class="space-y-2" style="height:280px;overflow-y: scroll;font-size:13px;">
+                    <li><a href="/rdoc/index.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Introduction to rAthena Scripting</a></li>
+                    <li><a href="/rdoc/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
+                    <li><a href="/rdoc/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
+                    <li><a href="/rdoc/page/variables.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Variables</a></li>
+                    <li><a href="/rdoc/page/set-setarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">set and setarray</a></li>
+                    <li><a href="/rdoc/page/comments.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Comments</a></li>
+                    <li><a href="/rdoc/page/operators.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Operators</a></li>
+                </ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;">
+                    <li><a href="sc_1.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200 active">Bloody Branch Quest</a></li>
+                    <li><a href="sc_2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hunting Board NPC</a></li>
+                    <li><a href="sc_3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Newbie Freebies</a></li>
+                    <li><a href="sc_4.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Server Announcement</a></li>
+                    <li><a href="sc_5.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Buyer</a></li>
+                    <li><a href="sc_6.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Last Fallen Warrior Event</a></li>
+                    <li><a href="sc_7.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Hunt Event</a></li>
+                    <li><a href="sc_8.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Summon Treasure Box Event</a></li>
+                    <li><a href="sc_9.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autoasura</a></li>
+                    <li><a href="sc_10.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Ticket Seller</a></li>
+                    <li><a href="sc_11.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Dual Client Kick Script</a></li>
+                    <li><a href="sc_12.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Punch Event</a></li>
+                    <li><a href="sc_13.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holiday Announcer</a></li>
+                    <li><a href="sc_14.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Sex Changer</a></li>
+                    <li><a href="sc_15.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autopots</a></li>
+                    <li><a href="sc_16.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">C. Master of Wind Quest</a></li>
+                    <li><a href="sc_17.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Advance Clone Script</a></li>
+                    <li><a href="sc_18.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Falcon Rental NPC</a></li>
+                    <li><a href="sc_19.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fishing Event</a></li>
+                    <li><a href="sc_20.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Item Deleter</a></li>
+                    <li><a href="sc_21.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Geffen Tower Summit Event</a></li>
+                    <li><a href="sc_22.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hide and Seek Event</a></li>
+                    <li><a href="sc_23.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Mushroom Kill Event</a></li>
+                    <li><a href="sc_24.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">My Character ID Script</a></li>
+                    <li><a href="sc_25.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Real Poring Hunt Event</a></li>
+                    <li><a href="sc_26.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Treasure Box Spawner</a></li>
+                    <li><a href="sc_27.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Promoter Event</a></li>
+                    <li><a href="sc_28.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rename Ticket Script</a></li>
+                    <li><a href="sc_29.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Trader</a></li>
+                    <li><a href="sc_30.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ticket Refiner</a></li>
+                    <li><a href="sc_31.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Activity Token Trader</a></li>
+                    <li><a href="sc_32.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Event Token Trader</a></li>
+                    <li><a href="sc_33.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ayothaya HG Quest</a></li>
+                    <li><a href="sc_34.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Exchanger NPC</a></li>
+                    <li><a href="sc_35.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Body Style Changer</a></li>
+                    <li><a href="sc_36.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Cheap Costume Item Enchanter</a></li>
+                    <li><a href="sc_37.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Payon HG Quest</a></li>
+                    <li><a href="sc_38.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Christmas HG Quest</a></li>
+                    <li><a href="sc_39.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Coin Zeny Exchanger</a></li>
+                    <li><a href="sc_40.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Costume Item Enchanter</a></li>
+                    <li><a href="sc_41.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Enable PVP Town Script</a></li>
+                    <li><a href="sc_42.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Player HP Configuration Script</a></li>
+                    <li><a href="sc_43.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gold Trader</a></li>
+                    <li><a href="sc_44.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gonryun HG Quest</a></li>
+                    <li><a href="sc_45.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">HE Bubble Gum Trader</a></li>
+                    <li><a href="sc_46.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holloween HG Quest</a></li>
+                    <li><a href="sc_47.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Quest</a></li>
+                    <li><a href="sc_48.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Trader</a></li>
+                    <li><a href="sc_49.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Jobs Item Dealer</a></li>
+                    <li><a href="sc_50.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 1</a></li>
+                    <li><a href="sc_51.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 2</a></li>
+                    <li><a href="sc_52.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 3</a></li>
+                    <li><a href="sc_53.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 4</a></li>
+                    <li><a href="sc_54.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Lucky 9 Game NPC</a></li>
+                    <li><a href="sc_55.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Monster Invasion Script</a></li>
+                    <li><a href="sc_56.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">MVP Voucher Trader</a></li>
+                    <li><a href="sc_57.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Odin Mask Quest</a></li>
+                    <li><a href="sc_58.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">PC Logout Event Script</a></li>
+                    <li><a href="sc_59.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Prontera HG Quest</a></li>
+                    <li><a href="sc_60.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rune Skill Trader</a></li>
+                    <li><a href="sc_61.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Shadow Item Trader</a></li>
+                    <li><a href="sc_62.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Stats Seller</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- NPC Scripting Content -->
+            <div id="scripting" class="content-section mb-8">
+                <h2 class="text-3xl font-semibold mb-4 text-gray-800">Bloody Branch Quest</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This rAthena script defines an NPC named <code>Bloody Branch Quest</code> located in Prontera. Its primary function is to offer a quest where players pay Zeny to summon a <code>"Poring Pet"</code> in <code>lhz_dun03</code>. If the player who paid the fee successfully kills the summoned Poring, they receive a <code>"Bloody Branch"</code> as a reward. If the Poring Pet is killed by other Player, the other player can receive the Bloody Branch. The quest also incorporates a cooldown system to prevent immediate re-participation.
+                </p>
+                
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Bloody Branch Quest
+//===== By: rAthena AI Assistant ============================
+//= Manages a Bloody Branch quest, including Poring summoning,
+//= cooldowns, and reward distribution.
+//============================================================
+prontera,156,238,3&#9;script&#9;Bloody Branch Quest&#9;635,{
+    // Set name of the NPC
+    set @name$, "[^1100AA Bloody Branch Quest ^000000]";
+
+    // Set a cooldown of 60 minutes (3600 seconds)
+    set .questCoolDown, 3600;
+
+    OnTouch:
+        // Event label for counting Porings
+        set .@poringCount, mobcount("lhz_dun03", "Bloody Branch Quest::OnPoringKilled");
+
+        if (isPoringKilled == 1) {
+            // If the player who talks to the NPC is the same as the killer
+            if (@poringKillerID == getcharid(0)) {
+                // Give the reward to the killer
+                getitem 12103, 1; // Bloody Branch (ID: 12103)
+                mes @name$;
+                mes "Here is your reward for killing the Poring!";
+                // Reset all relevant quest flags and variables
+                set isPoringKilled, 0;
+                set isBBQuestStart, 0;
+                set isBBQuestProgress, 0;
+                set @summonerID, 0;
+                set @poringKillerID, 0;
+                close;
+            } else {
+                // If someone else talks to the NPC, tell them no reward is available
+                mes @name$;
+                mes "You didn't kill the Poring, so no reward for you.";
+                close;
+            }
+        }
+
+        if (gettimetick(2) < quest_cooldownBBQuest) {
+            mes @name$;
+            mes "Go back after 1 hour!";
+            close;
+        }
+
+        if (isBBQuestProgress == 1) {
+            if (.@poringCount == 0) {
+                set quest_cooldownBBQuest, gettimetick(2) + .questCoolDown;
+
+                set isBBQuestStart, 0;
+                set isBBQuestProgress, 0;
+
+                mes @name$;
+                mes "Its seems someone already killed pet poring!";
+                close;
+            }
+
+            mes @name$;
+            mes "Go! find the pet poring and kill it!";
+            close;
+        }
+
+        if (isBBQuestStart != 1) {
+            mes @name$;
+            mes "There is pet Poring by someone we didn't know inside Somatology Laboratory lvl 3.";
+            mes "if you found and killed it. Go back to me and I'll give you the reward.";
+            next;
+            mes @name$;
+            mes "But first you need to pay me for ^1100AA10,000,000^000000 Zeny.";
+
+            switch(select("Okay, I'll pay you:Nope")) {
+                case 1:
+                    next;
+                    if (Zeny < 10000000) {
+                        mes @name$;
+                        mes "You don't have enough money.";
+                        close;
+                    }
+                    else {
+                        // Deduct Zeny here
+                        set Zeny, Zeny - 10000000;
+
+                        mes @name$;
+                        mes "Now, Go find the pet Poring at Somatology Laboratory lvl 3!";
+
+                        // call the OnSummonPoring Event
+                        callsub OnSummonPoring;
+                        close;
+                    }
+                break;
+
+                case 2:
+                    next;
+                    mes @name$;
+                    mes "No worries mate!";
+                    mes "You can comeback anytime.";
+                    close;
+                break;
+            }
+        }
+    end;
+
+    OnSummonPoring:
+        // set the flag the the BB Quest have started
+        set isBBQuestStart, 1;
+        // set the flag of the Progress of killing the pet poring
+        set isBBQuestProgress, 1;
+
+        // Store the ID of the player who initiates the quest (the summoner)
+        set @summonerID, getcharid(0); // Get the character ID of the summoner
+        set @summonerName$, strcharinfo(0); // Get the summoner's name
+
+        .@map$ = "lhz_dun03";
+        getfreecell("lhz_dun03",.@x,.@y);
+
+        // Summon the Poring randomly in target map
+        monster .@map$, .@x, .@y, "Poring Pet", 1002, 1, "Bloody Branch Quest::OnPoringKilled";
+
+        // For Debugging
+        // announce "The player: " + @summonerName$ + " summoned the Poring Pet (" + .@x + ", " + .@y + ") at " + .@map$, 0;
+    end;
+
+    OnPoringKilled:
+        set quest_cooldownBBQuest, gettimetick(2) + .questCoolDown;
+
+        // This label is called when the Poring is killed
+        set isPoringKilled, 1; // Set the flag that the Poring is killed
+
+        // This label is called when the Poring is killed
+        set @poringKillerName$, strcharinfo(0); // Get the killer's name
+        set @poringKillerID, getcharid(0); // Get the killer's character ID
+
+        // Announce the Poring was killed and by whom
+        mapannounce "lhz_dun03", "The Poring Pet has been killed by " + @poringKillerName$ + "!", 0;
+    end;
+}</pre>
+</div>
+                
+            <h3 class="text-1xl font-semibold mb-4 text-gray-800">✨ Script Functionality Breakdown</h3>
+
+                <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                    <li>
+                        <b>Quest Initiation:</b>
+                         When a player interacts with the NPC, it first checks if a Poring was recently killed or if the quest is currently on cooldown. If not, it offers the quest for a fee of <code>10,000,000 Zeny</code>. If the player accepts and has enough Zeny, the Zeny is deducted, and the quest proceeds.
+                    </li>
+                    <li>
+                        <b>Poring Summoning:</b>
+                         Upon successful payment, a "Poring Pet" (mob ID <code>1002</code>) is summoned at a random free cell within <code>lhz_dun03</code>. The NPC stores the <code>character ID</code> and <code>name</code> of the player who initiated the quest (the summoner).
+                    </li>
+                    <li>
+                        <b>Poring Killed Event:</b>
+                          When the summoned "Poring Pet" is killed by any player, the <code>OnPoringKilled</code> event is triggered. This event records the <code>character ID</code> and <code>name</code> of the killer and announces the Poring's demise in <code>lhz_dun03</code>. It also activates a <code>1-hour cooldown</code> for the quest.
+                    </li>
+                    <li>
+                        <b>Reward System:</b>
+                          If the player who initiated the quest (the summoner) is also the one who killed the "Poring Pet" and talks to the NPC again, they receive <code>1 Bloody Branch (item ID 12103)</code>. All quest-related flags and variables are then reset.
+                    </li>
+                    <li>
+                        <b>Cooldown Mechanism:</b>
+                          A <code>60-minute (3600 seconds) cooldown</code> is applied after a Poring is killed, preventing any player from starting a new quest until the cooldown expires. If a player attempts to start the quest during the cooldown, they are informed to wait.
+                    </li>
+                    <li>
+                        <b>Quest Progress Check:</b>
+                          If a quest is already in progress (<code>isBBQuestProgress == 1</code>), the NPC will remind the player to find and kill the Poring. If the Poring has already been killed by someone else (not the summoner), the NPC will inform the player and apply the cooldown.
+                    </li>
+                </ul>
+                
+                <p><hr/></p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <!-- First Slideshow -->
+                <div class="slideshow-container" data-slideshow="1">
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_001.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_002.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_003.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_004.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_005.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_006.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_007.jpg" style="width:100%"><div class="text"></div></div>
+                  <a class="prev" data-action="prev">❮</a>
+                  <a class="next" data-action="next">❯</a>
+                </div>
+
+                <!--
+                <p><hr/></p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <div class="slideshow-container" data-slideshow="2">
+                  <div class="mySlides fade"><img src="../img/p2_sample1.gif" style="width:100%"><div class="text">Caption Text</div></div>
+                  <div class="mySlides fade"><img src="../img/p3_sample1.gif" style="width:100%"><div class="text">Caption Two</div></div>
+                  <div class="mySlides fade"><img src="../img/p4_sample1.gif" style="width:100%"><div class="text">Caption Three</div></div>
+                  <a class="prev" data-action="prev">❮</a>
+                  <a class="next" data-action="next">❯</a>
+                </div>
+                -->
+
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+    <script>
+        function initAllSlideshows() {
+          const containers = document.querySelectorAll('.slideshow-container');
+          containers.forEach((container) => {
+            let slides = container.querySelectorAll('.mySlides');
+            let slideIndex = 1;
+            // Add numbertext dynamically
+            slides.forEach((slide, i) => {
+              let numberText = document.createElement("div");
+              numberText.className = "numbertext";
+              numberText.innerText = `${i + 1} / ${slides.length}`;
+              slide.prepend(numberText);
+            });
+            showSlides(container, slideIndex);
+            container.querySelector('[data-action="prev"]').onclick = () => {
+              showSlides(container, (slideIndex -= 1));
+            };
+            container.querySelector('[data-action="next"]').onclick = () => {
+              showSlides(container, (slideIndex += 1));
+            };
+            function showSlides(cont, n) {
+              if (n > slides.length) slideIndex = 1;
+              if (n < 1) slideIndex = slides.length;
+              slides.forEach((slide) => (slide.style.display = "none"));
+              slides[slideIndex - 1].style.display = "block";
+            }
+          });
+        }
+        window.onload = initAllSlideshows;
+    </script>
+</body>
+</html>
