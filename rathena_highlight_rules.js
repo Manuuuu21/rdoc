@@ -13,7 +13,7 @@ const supportFunctionKeywords = [
 	"mes", "next", "clear", "close", "close2", "close3", "menu", "select", "prompt", "emotion", "dispbottom", "message",
 	// Original mapCommands
 	"pvpon", "pvpoff", "navigateto", "mapflag", "warpwaitingpc", "shop", "itemshop", "buyingstore",
-	"pointshop", "cashshop", "soundeffect", "soundeffectall", "mapid2name", "removemapflag", "setmapflag",
+	"pointshop", "marketshop", "cashshop", "soundeffect", "soundeffectall", "mapid2name", "removemapflag", "setmapflag",
 	"callshop", "pcblockmove", "sleep", "sleep2", "progressbar", "warp", "mapwarp",
 	"attachrid", "mapannounce", "killmonsterall", "getmapusers", "enablenpc", "disablenpc",
 	// Original otherBlueKeywords (some might be recategorized)
@@ -577,12 +577,155 @@ myModal.style.display = 'none'; // Initially hidden
 const modalContent = document.createElement('div');
 modalContent.className = 'bg-white rounded-lg shadow-xl p-8 m-4 max-w-lg w-full modal-content';
 
+const mainTopicList = `
+	<li><a href="/rdoc/index.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Introduction to rAthena Scripting</a></li>
+  <li><a href="/rdoc/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
+  <li><a href="/rdoc/page/floating-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Floating NPC Script</a></li>
+  <li><a href="/rdoc/page/load-reloadnpcfile-unloadnpcfile.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">@load, @reloadnpcfile, @unloadnpcfile</a></li>
+  <li><a href="/rdoc/page/function-callfunc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">function, callfunc</a></li>
+  <li><a href="/rdoc/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
+  <li><a href="/rdoc/page/variables.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Variables</a></li>
+  <li><a href="/rdoc/page/set-setarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">set and setarray</a></li>
+  <li><a href="/rdoc/page/string.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">String</a></li>
+  <li><a href="/rdoc/page/comments.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Comments</a></li>
+  <li><a href="/rdoc/page/operators.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Operators</a></li>
+  <li><a href="/rdoc/page/monster.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">monster</a></li>
+  <li><a href="/rdoc/page/warp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warp</a></li>
+  <li><a href="/rdoc/page/shop-itemshop-cashshop-pointshop-marketshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">shop, itemshop, cashshop, pointshop, marketshop</a></li>
+`;
+
+// Append the Show Case Script list at the Sidenav
+document.getElementById("rathena-topic-list").innerHTML = mainTopicList;
+
+const title = document.getElementById("rathena-topic-title").textContent.trim().toLowerCase();
+const links = document.querySelectorAll("#rathena-topic-list li a");
+links.forEach((a, index) => {
+  const li = a.parentElement;
+  li.id = `topic-${index + 1}`;
+
+  const linkText = a.textContent.trim().toLowerCase();
+  if (title.includes(linkText)) {
+    a.classList.add("active");
+
+    // Lock body scroll just in case (optional, but avoids jump)
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+
+    setTimeout(() => {
+      li.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest"
+      });
+
+      // Restore body scroll position
+      window.scrollTo(scrollX, scrollY);
+    }, 50);
+  }
+});
+
+
+
+const showCaseList = `
+	<li><a href="/rdoc/page/sc_script/sc_1.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Bloody Branch Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hunting Board NPC</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Newbie Freebies</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_4.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Server Announcement</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_5.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Buyer</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_6.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Last Fallen Warrior Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_7.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Hunt Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_8.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Summon Treasure Box Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_9.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autoasura</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_10.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Ticket Seller</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_11.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Dual Client Kick Script</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_12.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Punch Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_13.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holiday Announcer</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_14.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Sex Changer</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_15.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autopots</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_16.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">C. Master of Wind Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_17.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Advance Clone Script</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_18.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Falcon Rental NPC</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_19.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fishing Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_20.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Item Deleter</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_21.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Geffen Tower Summit Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_22.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hide and Seek Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_23.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Mushroom Kill Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_24.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">My Character ID Script</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_25.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Real Poring Hunt Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_26.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Treasure Box Spawner</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_27.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Promoter Event</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_28.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rename Ticket Script</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_29.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_30.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ticket Refiner</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_31.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Activity Token Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_32.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Event Token Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_33.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ayothaya HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_34.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Exchanger NPC</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_35.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Body Style Changer</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_36.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Cheap Costume Item Enchanter</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_37.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Payon HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_38.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Christmas HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_39.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Coin Zeny Exchanger</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_40.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Costume Item Enchanter</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_41.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Enable PVP Town Script</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_42.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Player HP Configuration Script</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_43.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gold Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_44.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gonryun HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_45.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">HE Bubble Gum Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_46.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holloween HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_47.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_48.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_49.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Jobs Item Dealer</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_50.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 1</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_51.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 2</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_52.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 3</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_53.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 4</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_54.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Lucky 9 Game NPC</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_55.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Monster Invasion Script</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_56.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">MVP Voucher Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_57.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Odin Mask Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_58.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">PC Logout Event Script</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_59.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Prontera HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_60.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rune Skill Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_61.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Shadow Item Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/sc_62.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Stats Seller</a></li>
+`;
+
+// Append the Show Case Script list at the Sidenav
+document.getElementById("show-case-list").innerHTML = showCaseList;
+
+const showCaselistItems = document.querySelectorAll("#show-case-list li a");
+showCaselistItems.forEach((a, index) => {
+  const li = a.parentElement;
+  li.id = `showcase-${index + 1}`;
+
+  const linkText = a.textContent.trim().toLowerCase();
+  if (title.includes(linkText)) {
+    a.classList.add("active");
+
+    // Prevent body scroll jump
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+
+    setTimeout(() => {
+      li.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest"
+      });
+
+      // Restore original body scroll position
+      window.scrollTo(scrollX, scrollY);
+    }, 50);
+  }
+});
+
 modalContent.innerHTML = `
     <!-- Modal Header -->
     <div class="flex justify-between items-center mb-6">
         <h3 class="text-1xl font-bold text-gray-800">Filter topic you wanted to read here!</h3>
         <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700 text-3xl font-light leading-none focus:outline-none">
-            &times;
+          &times;
         </button>
     </div>
 
@@ -593,13 +736,11 @@ modalContent.innerHTML = `
 
         <!-- Filterable List -->
         <ul id="filterableList" class="space-y-2" style="height: 260px;overflow-y:scroll;font-size:13px;">
-            <li><a href="/rdoc/index.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Introduction to rAthena Scripting</a></li>
-            <li><a href="/rdoc/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
-            <li><a href="/rdoc/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
-            <li><a href="/rdoc/page/variables.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Variables</a></li>
-            <li><a href="/rdoc/page/set-setarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">set and setarray</a></li>
-            <li><a href="/rdoc/page/comments.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Comments</a></li>
-            <li><a href="/rdoc/page/operators.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Operators</a></li>
+					<!-- Main Topic -->
+          ${mainTopicList}
+
+					<!-- Showcase Script -->
+					${showCaseList}
         </ul>
     </div>
 `;
@@ -685,3 +826,33 @@ document.addEventListener('keydown', function(event) {
 if (filterInput) {
     filterInput.addEventListener('input', filterList);
 }
+
+
+function initAllSlideshows() {
+  const containers = document.querySelectorAll('.slideshow-container');
+  containers.forEach((container) => {
+    let slides = container.querySelectorAll('.mySlides');
+    let slideIndex = 1;
+    // Add numbertext dynamically
+    slides.forEach((slide, i) => {
+      let numberText = document.createElement("div");
+      numberText.className = "numbertext";
+      numberText.innerText = `${i + 1} / ${slides.length}`;
+      slide.prepend(numberText);
+    });
+    showSlides(container, slideIndex);
+    container.querySelector('[data-action="prev"]').onclick = () => {
+      showSlides(container, (slideIndex -= 1));
+    };
+    container.querySelector('[data-action="next"]').onclick = () => {
+      showSlides(container, (slideIndex += 1));
+    };
+    function showSlides(cont, n) {
+      if (n > slides.length) slideIndex = 1;
+      if (n < 1) slideIndex = slides.length;
+      slides.forEach((slide) => (slide.style.display = "none"));
+      slides[slideIndex - 1].style.display = "block";
+    }
+  });
+}
+window.onload = initAllSlideshows;
