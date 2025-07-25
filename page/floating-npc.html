@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- Floating NPC Content -->
+            <div id="floating-npc" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Floating NPC Script</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    A Floating NPC is a special type of NPC object in rAthena scripting that is not triggered by conventional means like clicking on it or walking into a trigger area. Instead, it's primarily used for background tasks or functions that need to be called by other scripts.
+                </p>
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">Purpose of Floating NPCs 💡</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of Floating NPCs is to run scripts at specified times or in response to server-wide events, rather than player interaction. Since they are not tied to a specific map location or player interaction, they are ideal for:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>Running scripts at scheduled times (e.g., daily announcements, hourly events).</li>
+                    <li>Handling server-wide events (e.g., WoE start/end, server initialization).</li>
+                    <li>Acting as central script hubs that can be called by other NPCs or functions without needing a physical presence.</li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Here is the standard structure for declaring a permanent floating NPC:<br/>
+                    <code>-%TAB%script%TAB%&lt;NPC Name>%TAB%-1,{&lt;code>}</code>
+                </p>
+                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4">📝 Sytanx Explanation:</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>-</code>: This hyphen indicates that the NPC does not have a map name, x-coordinate, y-coordinate, or facing direction. This is what makes it 'floating'.</li>
+                    <li><code>&lt;NPC Name></code>: This is the unique name for your NPC. It follows the format &lt;Display name>{#&lt;Unique name>}. For a floating NPC, the display name is often irrelevant as it's not visible, but the unique name is crucial for identification.</li>
+                    <li><code>-1</code>: The -1 here is the sprite ID. A value of -1 makes the NPC invisible and unclickable, reinforcing its 'floating' nature.</li>
+                    <li><code>,{&lt;code>}</code>: This curly bracket block contains the actual script code that the NPC will execute. Unlike other uses of curly brackets in the documentation, this part is mandatory and not optional for NPC definitions.</li>
+                </ul>
+
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Floating Announcer
+//===== By: rAthena AI Assistant ============================
+//= Announces a message upon server initialization.
+//============================================================
+-&#9;script&#9;FloatingAnnouncer#ANNOUNCE_NPC&#9;-1,{
+OnInit:
+    npctalk "Hello adventurers! The server has just started or scripts have been reloaded.",bc_all;
+    end;
+}
+</pre>
+</div>
+                
+                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>The NPC is defined as FloatingAnnouncer#ANNOUNCE_NPC with a sprite ID of -1, making it invisible and non-interactive by normal means.</li>
+                    <li>The OnInit: label is a special label that the script engine executes every time scripts are loaded, including when the server starts up or when the @reloadscript command is used.</li>
+                    <li>Inside the OnInit: block, the npctalk command is used to broadcast a message to all players on the server (bc_all flag).</li>
+                    <li>The end; command terminates the execution thread for this specific label.</li>
+                </ul>
+
+                
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

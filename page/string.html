@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 230px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- Floating NPC Content -->
+            <div id="floating-npc" class="content-section mb-8">
+
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">String</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Strings in rAthena scripting are fundamental for handling text-based data. Let's explore what they are, their purpose, how to use them, and see a practical example. 🤔
+                </p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is a String?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    In rAthena scripting, a string is a sequence of characters used to store text. It can contain letters, numbers, symbols, and spaces.
+                </p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of Strings?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Strings serve various purposes in rAthena scripts, including:
+                </p>
+                <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                    <li>Storing and displaying messages to players (e.g., NPC dialogues, announcements).</li>
+                    <li>Storing player names, item names, map names, or other descriptive text.</li>
+                    <li>Handling user input that involves text.</li>
+                    <li>Constructing dynamic variable names or event labels.</li>
+                </ul>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of Strings?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    In rAthena scripting, strings are enclosed within double-quotes ("").
+                </p>
+                <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                    <li>Example: <code>"Hello World"</code></li>
+                    <li>Strings can be concatenated (joined together) using the + operator.</li>
+                </ul>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= String_Example_NPC
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates basic string usage and manipulation.
+//============================================================
+dewata,197,177,4&#9;script&#9;String_Example_NPC&#9;727,{
+    mes "Hello, adventurer!";
+    mes "What is your name?";
+    next;
+    input .@player_name$;
+    
+    if (.@player_name$ == "") {
+        mes "You didn't tell me your name.";
+        close;
+        return;
+    }
+    
+    mes "Nice to meet you, " + .@player_name$ + "!";
+    mes "Did you know your current map is " + strcharinfo(3) + "?";
+    next;
+    
+    .@item_name$ = getitemname(501); // Get the name of Red Potion
+    mes "I have some " + .@item_name$ + "s if you need them.";
+    next;
+    
+    mes "This is a string with an escaped quote: ""Hello"".";
+    next;
+    
+    // --- Substring Example ---
+    .@full_string$ = "Ragnarok Online";
+    .@sub_string$ = substr(.@full_string$, 0, 7); // Extracts "Ragnarok"
+    mes "From '" + .@full_string$ + "', the substring from index 0 to 7 is: " + .@sub_string$ + ".";
+    next;
+    
+    // --- Explode Example ---
+    .@data_string$ = "Apple,Banana,Grape,Orange";
+    explode(.@fruit_array$, .@data_string$, ",");
+    
+    mes "I split '" + .@data_string$ + "' by comma.";
+    mes "The first fruit is: " + .@fruit_array$[0] + ".";
+    mes "The third fruit is: " + .@fruit_array$[2] + ".";
+    next;
+    
+    // --- Implode Example (for completeness, though not explicitly asked) ---
+    .@combined_string$ = implode(.@fruit_array$, " - ");
+    mes "And combining them with ' - ' gives: " + .@combined_string$ + ".";
+    next;
+    
+    // --- strtoupper and strtolower Examples ---
+    .@mixed_case_string$ = "rAthena Scripting";
+    .@upper_string$ = strtoupper(.@mixed_case_string$);
+    .@lower_string$ = strtolower(.@mixed_case_string$);
+    mes "Original: " + .@mixed_case_string$ + ".";
+    mes "Uppercase: " + .@upper_string$ + ".";
+    mes "Lowercase: " + .@lower_string$ + ".";
+    next;
+    
+    // --- getstrlen Example ---
+    .@length = getstrlen(.@mixed_case_string$);
+    mes "The length of '" + .@mixed_case_string$ + "' is " + .@length + " characters.";
+    close;
+}
+</pre>
+</div>
+                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    It serves as a demonstration of various string manipulation functions available in rAthena scripting.
+                </p>
+                <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                    <li>Greets the player and asks for their name.</li>
+                    <li>Validates <code>input</code>: Checks if the player entered a name.</li>
+                    <li>Displays player's name and current map using <code>strcharinfo</code>.</li>
+                    <li>Shows an item name using <code>getitemname</code>.</li>
+                    <li>Demonstrates string escaping for double quotes.</li>
+                    <li>Uses <code>substr</code> to extract a portion of a string.</li>
+                    <li>Uses <code>explode</code> to split a string into an array based on a delimiter.</li>
+                    <li>Uses <code>implode</code> to join an array of strings back into a single string.</li>
+                    <li>Converts string case using <code>strtoupper</code> (to uppercase) and <code>strtolower</code> (to lowercase).</li>
+                    <li>Determines string length using <code>getstrlen</code>.</li>
+                </ul>
+                
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

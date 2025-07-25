@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- NPC Scripting Content -->
+            <div id="scripting" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">monster</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>monster</code> command in rAthena can be used in two main contexts: as a <code>top-level command</code> for permanent monster spawns and as a <code>script command</code> for temporary monster spawns. Let's explore both:
+                </p>
+                
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">👾 monster Top-Level Command</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The monster top-level command is used to define a permanent monster spawn on a specific map in rAthena. These spawns are loaded when the map server starts and will respawn automatically after being killed, based on the configured delays.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Here is the standard structure for declaring a permanent monster spawn:<br/>
+                    <code>&lt;map name>,&lt;x>,&lt;y>%TAB%monster%TAB%&lt;monster name>%TAB%&lt;mob id>,&lt;amount>,&lt;delay1>,&lt;delay2>,&lt;event>,&lt;mob size>,&lt;mob ai></code>
+                </p>
+                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4">Parameter Explain:</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>&lt;map name></code>: This specifies the name of the map where the monsters will spawn.</li>
+                    <li><code>&lt;x>, &lt;y></code>: These are the X and Y coordinates on the map where the monsters should spawn. If you set both to 0, the monsters will spawn randomly on the map.</li>
+                    <li><code>&lt;monster name></code>: This is the name that will be displayed for the monsters on screen.</li>
+                    <li><code>&lt;mob id></code>: This is the numerical ID that identifies the monster record in the mob_db.yml database.</li>
+                    <li><code>&lt;amount></code>: This is the number of monsters that will be spawned when this command is executed.</li>
+                    <li><code>&lt;delay1></code>: This controls the fixed base respawn time for the monster, given in milliseconds (1000 = 1 second).</li>
+                    <li><code>&lt;delay2></code>: This controls the random variance on top of the base respawn time, also given in milliseconds.</li>
+                    <li><code>&lt;event></code>: This is an optional script event to be executed when the mob is killed.</li>
+                    <li><code>&lt;mob size></code>: This is an optional field to specify the monster's size.</li>
+                    <li><code>&lt;mob ai></code>: This is an optional field to specify the monster's AI type.</li>
+                </ul>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+// Spawns a 1 permanent Poring that has on event once killed.
+// That respawn once killed in 10-15 seconds
+prontera,169,193&#9;monster&#9;"Friendly Poring"&#9;1002,1,10000,5000,"MyNPC::OnPoringKilled",Size_Small,AI_NONE
+
+// If you do not want to declare the event, and size, just replace it with ,, (nothing)
+// You can declare it like this.
+prontera,169,193&#9;monster&#9;"Friendly Poring2"&#9;1002,1,10000,5000,,,AI_NONE
+
+//===== rAthena Script =======================================
+//= MyNPC
+//===== By: rAthena AI Assistant ============================
+//= Handles events triggered by the spawned Poring.
+//============================================================
+prontera,166,190,4&#9;script&#9;MyNPC&#9;767,{
+    mes "Hello there! I'm MyNPC.";
+    close;
+
+OnPoringKilled:
+    // This label is triggered when a "Friendly Poring" is killed.
+    // The 'killedrid' variable will contain the mob ID (1002 for Poring).
+    // The 'killedgid' variable will contain the unique game ID of the killed mob.
+    announce "A Friendly Poring was just defeated by " + strcharinfo(0) + "!",bc_blue|bc_all;
+    end;
+}
+</pre>
+</div>
+                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code><b>prontera,169,193</b></code>: This is the <code>name of the map</code> and <code>x</code> and <code>y</code> coordinates where the monster will spawn. If you change the coordinates into <code>,0,0</code> it will respawn it randomly in the target map.</li>
+                    <li><code><b>"Friendly Poring"</b></code>: This is the display name the monster will have on screen.</li>
+                    <li><code><b>1002</b></code>: This is the <code>mob id</code>, which uniquely identifies the monster in the mob_db.yml database. 1002 corresponds to a Poring.</li>
+                    <li><code><b>1</b></code>: This is the <code>amount</code> of monsters that will be spawned when the server loads this script. In this case, one "Friendly Poring" will be spawned.</li>
+                    <li><code><b>10000</b></code>: This is <code>delay1</code>, the fixed base respawn time in milliseconds. So, after being killed, this Poring will respawn after 10 seconds.</li>
+                    <li><code><b>5000</b></code>: This is <code>delay2</code>, the random variance on top of the base respawn time, also in milliseconds. This means the actual respawn time will be between 10 and 15 seconds (10000 + a random value up to 5000).</li>
+                    <li><code><b>"MyNPC::OnPoringKilled"</b></code>: This is the <code>event</code> label that will be executed when the monster is killed. It specifies that the <code>OnPoringKilled</code> label within the <code>MyNPC</code> script object should be triggered.</li>
+                    <li><code><b>Size_Small</b></code>: This sets the visual size of the monster to small.</li>
+                    <li><code><b>AI_NONE</b></code>: This sets the monster's AI behavior to none, meaning it will not actively attack or use special AI patterns.</li>
+                </ul>
+
+                <hr/><br/>
+
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">📏 Monster Size (&lt;mob size>)</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This parameter determines the visual size of the spawned monster. The valid options are:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code><b>Size_Small (0)</b></code>: The default small size.</li>
+                    <li><code><b>Size_Medium (1)</b></code>: A medium size.</li>
+                    <li><code><b>Size_Large (2)</b></code>: A large size.</li>
+                </ul>
+                <hr/><br/>
+
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">🤖 Monster AI (&lt;mob ai>)</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This parameter controls the artificial intelligence behavior of the spawned monster. The valid options are:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code><b>AI_NONE (0)</b></code>: This is the default, meaning the monster has no special AI behavior.</li>
+                    <li><code><b>AI_ATTACK (1)</b></code>: The monster will exhibit aggressive or friendly attack behavior.</li>
+                    <li><code><b>AI_SPHERE (2)</b></code>: Used for Alchemist's Marine Sphere skill.</li>
+                    <li><code><b>AI_FLORA (3)</b></code>: Used for Alchemist's Flora skill.</li>
+                    <li><code><b>AI_ZANZOU (4)</b></code>: Used for Kagerou/Oboro's Zanzou skill.</li>
+                    <li><code><b>AI_LEGION (5)</b></code>: Used for Sera's Legion skill.</li>
+                    <li><code><b>AI_FAW (6)</b></code>: Used for Mechanic's FAW skill.</li>
+                    <li><code><b>AI_WAVEMODE (7)</b></code>: Normal monsters will ignore attacks from monsters with this AI.</li>
+                </ul>
+
+                
+                <hr/><br/>
+
+                <h3 class="text-1xl font-semibold mb-4 text-gray-800">👻 monster Script Command</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This command is used within an NPC script's code block to temporarily spawn monsters. These monsters typically do not respawn on their own unless explicitly handled by the script.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    📝 Command Syntax:<br/>
+                    <code>monster "&lt;map name>",&lt;x>,&lt;y>,"&lt;name to show>",&lt;mob id>,&lt;amount>{"&lt;event label>",&lt;size>,&lt;ai>};</code>
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Alternatively, you can use the monster's Aegis name:<br/>
+                    <code>monster "&lt;map name>",&lt;x>,&lt;y>,"&lt;name to show>",&lt;mob name>,&lt;amount>{"&lt;event label>",&lt;size>,&lt;ai>};</code>
+                </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Monster Summoner
+//===== By: rAthena AI Assistant ============================
+//= Summons Porings and tracks their kills.
+//============================================================
+prontera,150,150,4&#9;script&#9;Monster Summoner&#9;767,{
+    mes "[Monster Summoner]";
+    mes "Would you like to start a Poring hunt?";
+    next;
+    if (select("Yes:No") == 2) {
+        mes "[Monster Summoner]";
+        mes "Come back later when you're ready.";
+        close;
+    }
+
+    // Summon 5 Porings at random locations on prontera map.
+    // The 'Monster Summoner::OnPoringKilled' label will be triggered when each Poring is killed.
+    monster "prontera",0,0,"Quest Poring",1002,5,"Monster Summoner::OnPoringKilled";
+
+    mes "[Monster Summoner]";
+    mes "I have summoned 5 'Quest Poring' monsters. Go defeat them!";
+    set .@porings_killed, 0; // Initialize kill counter for this player
+    close;
+
+OnPoringKilled:
+    // This label is executed when a 'Quest Poring' spawned by this NPC is killed.
+    // The 'killedrid' variable holds the mob ID (1002 for Poring).
+    // The 'killedgid' variable holds the unique game ID of the killed monster.
+
+    // Check if the killed monster is indeed a Poring (mob ID 1002).
+    if (killedrid == 1002) {
+        set .@porings_killed, .@porings_killed + 1;
+        mes "[Monster Summoner]";
+        mes "You have defeated " + .@porings_killed + "/5 Porings.";
+
+        if (.@porings_killed >= 5) {
+            mes "[Monster Summoner]";
+            mes "Congratulations! You have defeated all the summoned Porings!";
+            set .@porings_killed, 0; // Reset counter for future hunts
+        }
+        next;
+    }
+    end;
+}</pre>
+</div>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code><b>prontera,0,0</b></code>: This is the <code>name of the map</code> and <code>x</code> and <code>y</code> coordinates where the monster will spawn. If you change the coordinates into <code>,0,0</code> will spawn the monsters randomly on the map.</li>
+                    <li><code><b>"Quest Poring"</b></code>: This is the display name the monster will have on screen.</li>
+                    <li><code><b>1002</b></code>: This is the <code>mob id</code>, which uniquely identifies the monster in the mob_db.yml database. 1002 corresponds to a Poring.</li>
+                    <li><code><b>5</b></code>: This is the <code>amount</code> of monsters that will be spawned when the server loads this script. In this case, one "Friendly Poring" will be spawned.</li>
+                    <li><code><b>"Monster Summoner::OnPoringKilled"</b></code>: This is the <code>event</code> label that will be executed when the monster is killed. It specifies that the <code>OnPoringKilled</code> label within the <code>Monster Summoner</code> script object should be triggered.</li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    In summary, This script, titled 'Monster Summoner', facilitates a 'Poring hunt' for players by initiating a dialogue and, upon acceptance, summoning 5 'Quest Poring' monsters at random locations on the 'prontera' map. It actively tracks the player's kills of these specific monsters, providing real-time updates, and congratulates them once all 5 targets are defeated, resetting the hunt counter for future engagements
+                </p>
+
+
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

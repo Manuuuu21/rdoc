@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 140px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <!-- Introduction Content -->
+            <div id="introduction" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">@load, @reloadnpcfile, @unloadnpcfile</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    In rAthena, the <code>loadnpc</code>, <code>reloadnpcfile</code>, and <code>unloadnpcfile</code> commands are used to manage NPC scripts dynamically without restarting the server. <code>loadnpc &lt;filepath></code> loads a new NPC script file (e.g., <code>"npc/custom/mytestnpc.txt"</code>) into the game while the server is running. <code>reloadnpcfile &lt;filepath></code> reloads an already loaded NPC script, applying any changes made to the file without unloading other NPCs. <code>unloadnpcfile &lt;filepath></code> removes NPCs and scripts loaded from that specific file, effectively disabling them. These commands are commonly used for testing or hot-swapping content in development environments.
+                </p>
+            </div>
+            <hr/><br/>
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Creating test script:</h2>
+            <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                <li>
+                    <b>Creating mytestnpc.txt Script:</b>
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+// Simple mytestnpc NPC for rAthena
+prontera,150,150,4&#9;script&#9;mytestnpc&#9;99,{
+    mes "[mytestnpc]";
+    mes "Hello, adventurer! I hope you enjoy this game!";
+    close;
+}</pre>
+</div>
+                </li>
+                <li>
+                    <b>Save the Script:</b>
+                    <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                    <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                        <li>Lets say you created a new text file named <code>mytestnpc.txt</code>.</li>
+                        <li>Save the file in the <code>npc/custom/</code> folder of your rAthena Emulator directory (e.g., <code>npc/custom/mytestnpc.txt</code>). If the <code>custom</code> folder doesn’t exist, create it..</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><hr/></p>
+            <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Testing script:</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                To test your created <code>mytestnpc.txt</code>, you need to use <code>@loadnpc &lt;filepath></code> and <code>@reloadnpcfile &lt;filepath></code> command via in-game. Follow these steps:
+            </p>
+            <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                <li>Lets assume you are already in-game.</li>
+                <li>To load the NPC without restarting the server, use <code>@loadnpc &lt;filepath></code> in-game. Just make sure you are in GM Account</li>
+                <li>If you revise your <code>mytestnpc.txt</code>, you can use <code>@reloadnpcfile &lt;filepath></code> in-game to apply the changes in your NPC script.</li>
+                <li>If you wanted to remove the loaded npc. use <code>@unloadnpcfile &lt;filepath></code> to dynamically remove temporary event NPCs or scripts that are no longer needed to free up server resources.</li>
+                <li>
+                    <b>Key Difference Summary 🔑</b>
+                    <!-- Removed list-inside, added pl-8 for nested list indentation -->
+                    <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                        <li><code>@loadnpc &lt;filepath></code>: For new script files or files that were explicitly <code>unloaded</code>.</li>
+                        <li><code>@reloadnpcfile &lt;filepath></code>: For existing script files that have been <code>modified</code>.</li>
+                        <li><code>@unloadnpcfile &lt;filepath></code>: Remove temporary event NPCs or scripts that are no longer needed to free up server resources.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p><hr/></p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <img src="/rdoc/page/img/index_sample1.gif" style="border-radius:10px;" />
+
+
+
+
+
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
