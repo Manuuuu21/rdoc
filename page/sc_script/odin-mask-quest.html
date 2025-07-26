@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- NPC Scripting Content -->
+            <div id="scripting" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Odin Mask Quest</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This is a Paragraph
+                </p>
+                
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Odin Temple Scholar
+//===== By: rAthena AI Assistant ============================
+//= Crafts an Odin Mask for players.
+//= Requires specific items to recreate the artifact.
+//============================================================
+hugel,96,231,5&#9;script&#9;Odin Temple Scholar&#9;47,{
+    set @name$, "[^FF0000 Manuel ^000000]";
+    setarray .requiredItemID, 7511, 2295, 30343, 30341, 7615;
+    setarray .requiredItemAmount, 3000, 10, 70, 50, 100;
+    @odinmaskItemID = 5483;
+    @odinmaskItemAmount = 1;
+    mes @name$;
+    mes "Oh, hello there!";
+    mes "You've come just at the right time! My name is Manuel, and I've been studying the ancient Odin Temple for quite a while now.";
+    next;
+    mes @name$;
+    mes "There's so much mystery surrounding that place! Artifacts, lost knowledge, secrets hidden in its depths... it's all fascinating!";
+    next;
+    mes "[ " +  strcharinfo(0) + " ]";
+    mes "I actually heard that you might be able to craft an Odin Mask. Is that true?";
+    next;
+    mes @name$;
+    mes "Ah, the Odin Mask! Yes, you've heard right.";
+    mes "It's a rare artifact we uncovered during one of our expeditions into the temple. Quite a powerful relic, really.";
+    next;
+    mes @name$;
+    mes "I can remake it for you, but it won't be easy. It requires some very specific items to recreate.";
+    mes "You'll have to bring them to me if you want me to work on it.";
+    next;
+    mes @name$;
+    for( .@i = 0; .@i < getarraysize(.requiredItemID); .@i++ ) {
+        mes .requiredItemAmount[.@i] + "pcs - " + getitemname(.requiredItemID[.@i]) + ".";
+    }
+    next;
+    switch(select("Here I have the required items:Maybe I will gather the required items")) {
+        case 1:
+            .@isMissingItem = false;
+            for (.@i = 0; .@i < getarraysize(.requiredItemID); .@i++) {
+                if (countitem(.requiredItemID[.@i]) < .requiredItemAmount[.@i]) {
+                    .@missingItem = true;
+                    break;
+                }
+            }
+            if (.@missingItem) {
+                mes @name$;
+                mes "Hmm, it looks like you don't have everything I need.";
+                mes "Come back once you've gathered all the items, alright? I'll be here waiting.";
+                close;
+            }
+            else {
+                mes @name$;
+                mes "Ah, perfect! You've got everything!";
+                mes "Give me a moment to work on this ...";
+                next;
+                for( .@j = 0; .@j < getarraysize(.requiredItemID); .@j++ ) {
+                    delitem .requiredItemID[.@j], .requiredItemAmount[.@j];
+                }
+                getitem @odinmaskItemID, @odinmaskItemAmount;
+                mes @name$;
+                mes "There we go! One freshly recreated Odin Mask, just for you.";
+                mes "Wear it well! It's not just a mask. it carries the legacy of the Odin Temple with it.";
+                mes "Good luck, adventurer!";
+                close;
+            }
+        break;
+        case 2:
+            mes @name$;
+            mes "Make sure you gather everything exactly as listed. If you don't have the right amounts, I won't be able to help you.";
+            close;
+        break;
+    }
+}
+</pre>
+</div>
+                
+            
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- NPC Scripting Content -->
+            <div id="scripting" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Hunting Board NPC</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This is a Paragraph
+                </p>
+                
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Monster Hunting Board
+//===== By: rAthena AI Assistant ============================
+//= Simple quest for novices to hunt various monsters and earn TCG Cards.
+//= @reloadnpcfile npc/custom/manuel_npc/Hunting_board.txt
+//============================================================
+prontera,153,232,4&#9;script&#9;Hunting Board (1-55)&#9;837,{
+    mes "Welcome, adventurer! Looking for a challenge?";
+    mes "I manage hunting requests for the local area.";
+    next;
+
+    if ( @quest_active == 1 ) {
+        // Player has an active quest
+        mes "You are currently on the '"+ @quest_mob_name$ +" Hunt' quest.";
+        mes "You have defeated ^1100AA"+ @quest_kills +" out of "+ @quest_target +" "+ @quest_mob_name$ +"s.^000000";
+        next;
+        
+        if ( @quest_kills >= @quest_target ) {
+            mes "Congratulations! You have completed the "+ @quest_mob_name$ +" Hunt!";
+            mes "Here is your reward: "+ @quest_reward +" TCG Cards.";
+            getitem 7227, @quest_reward; // Give TCG Card (Item ID: 7227)
+            set @quest_active, 0; // Mark quest as complete
+            set @quest_mob_id, 0; // Clear monster ID
+            set @quest_mob_name$, ""; // Clear monster name
+            set @quest_kills, 0; // Reset kill count
+            set @quest_target, 0; // Reset target count
+            set @quest_reward, 0; // Reset reward
+            mes "Come back anytime for more tasks!";
+            close;
+        } else {
+            mes "Keep up the good work!";
+            close;
+        }
+    } else {
+        // Player does not have an active quest
+        mes "I have a few hunting tasks available. Which monster would you like to hunt?";
+        next;
+        
+        // Offer choices for different monsters
+        @menu = select("Poring (10 kills):Thief Bug (10 kills):Poporing (10 kills):Nevermind");
+        
+        if ( @menu == 1 ) { // Poring
+            set @quest_mob_id, 1002;
+            set @quest_mob_name$, "Poring";
+            set @quest_target, 10;
+            set @quest_reward, 1;
+        } else if ( @menu == 2 ) { // Thief Bug
+            set @quest_mob_id, 1003;
+            set @quest_mob_name$, "Thief Bug";
+            set @quest_target, 10;
+            set @quest_reward, 1;
+        } else if ( @menu == 3 ) { // Poporing
+            set @quest_mob_id, 1031;
+            set @quest_mob_name$, "Poporing";
+            set @quest_target, 10;
+            set @quest_reward, 1;
+        } else {
+            mes "Perhaps another time, then.";
+            close;
+        }
+
+        // If a quest was selected, activate it
+        set @quest_active, 1;
+        set @quest_kills, 0;
+        mes "Excellent! The '"+ @quest_mob_name$ +" Hunt' quest has begun. Good luck!";
+        close;
+    }
+
+OnNPCKillEvent:
+    // This event triggers when a monster is killed by the player.
+    // 'killedrid' holds the monster's Mob ID.
+    // 'killedgid' holds the monster's unique Game ID.
+
+    // Check if the killed monster matches the active quest's monster ID and the player has the quest active.
+    if ( killedrid == @quest_mob_id && @quest_active == 1 ) {
+        // Increment the kill count for the current player.
+        set @quest_kills, @quest_kills + 1;
+        // Optional: Notify the player of their progress.
+        dispbottom @quest_mob_name$ +" defeated! ("+ @quest_kills +"/"+ @quest_target +")";
+    }
+    end;
+}
+
+//===== rAthena Script =======================================
+//= Monster Hunting Board (55-99)
+//===== By: rAthena AI Assistant ============================
+//= Quest board for adventurers level 55-99.
+//============================================================
+prontera,155,232,4&#9;script&#9;Hunting Board (55-99)&#9;837,{
+    mes "Welcome, seasoned adventurer! Ready for tougher challenges?";
+    mes "I have hunting requests for mid-level monsters.";
+    next;
+
+    if ( @quest_active == 1 ) {
+        mes "You are currently on the '"+ @quest_mob_name$ +" Hunt' quest.";
+        mes "You have defeated ^1100AA"+ @quest_kills +" out of "+ @quest_target +" "+ @quest_mob_name$ +"s.^000000";
+        next;
+        
+        if ( @quest_kills >= @quest_target ) {
+            mes "Congratulations! You have completed the "+ @quest_mob_name$ +" Hunt!";
+            mes "Here is your reward: "+ @quest_reward +" TCG Cards.";
+            getitem 7227, @quest_reward;
+            set @quest_active, 0;
+            set @quest_mob_id, 0;
+            set @quest_mob_name$, "";
+            set @quest_kills, 0;
+            set @quest_target, 0;
+            set @quest_reward, 0;
+            mes "Come back anytime for more tasks!";
+            close;
+        } else {
+            mes "Keep up the good work!";
+            close;
+        }
+    } else {
+        mes "Choose your next target:";
+        next;
+        
+        @menu = select("Orc Warrior (15 kills):Desert Wolf (15 kills):High Orc (15 kills):Nevermind");
+        
+        if ( @menu == 1 ) { // Orc Warrior
+            set @quest_mob_id, 1023;
+            set @quest_mob_name$, "Orc Warrior";
+            set @quest_target, 15;
+            set @quest_reward, 1;
+        } else if ( @menu == 2 ) { // Desert Wolf
+            set @quest_mob_id, 1106;
+            set @quest_mob_name$, "Desert Wolf";
+            set @quest_target, 15;
+            set @quest_reward, 1;
+        } else if ( @menu == 3 ) { // High Orc
+            set @quest_mob_id, 1213;
+            set @quest_mob_name$, "High Orc";
+            set @quest_target, 15;
+            set @quest_reward, 1;
+        } else {
+            mes "Perhaps another time, then.";
+            close;
+        }
+
+        set @quest_active, 1;
+        set @quest_kills, 0;
+        mes "Excellent! The '"+ @quest_mob_name$ +" Hunt' quest has begun. Good luck!";
+        close;
+    }
+
+OnNPCKillEvent:
+    if ( killedrid == @quest_mob_id && @quest_active == 1 ) {
+        set @quest_kills, @quest_kills + 1;
+        dispbottom @quest_mob_name$ +" defeated! ("+ @quest_kills +"/"+ @quest_target +")";
+    }
+    end;
+}
+
+//===== rAthena Script =======================================
+//= Monster Hunting Board (99-150)
+//===== By: rAthena AI Assistant ============================
+//= Quest board for adventurers level 99-150.
+//============================================================
+prontera,157,232,4&#9;script&#9;Hunting Board (99-150)&#9;837,{
+    mes "Greetings, veteran adventurer! The challenges grow with your strength.";
+    mes "I have requests for high-level monster hunts.";
+    next;
+
+    if ( @quest_active == 1 ) {
+        mes "You are currently on the '"+ @quest_mob_name$ +" Hunt' quest.";
+        mes "You have defeated ^1100AA"+ @quest_kills +" out of "+ @quest_target +" "+ @quest_mob_name$ +"s.^000000";
+        next;
+        
+        if ( @quest_kills >= @quest_target ) {
+            mes "Congratulations! You have completed the "+ @quest_mob_name$ +" Hunt!";
+            mes "Here is your reward: "+ @quest_reward +" TCG Cards.";
+            getitem 7227, @quest_reward;
+            set @quest_active, 0;
+            set @quest_mob_id, 0;
+            set @quest_mob_name$, "";
+            set @quest_kills, 0;
+            set @quest_target, 0;
+            set @quest_reward, 0;
+            mes "Come back anytime for more tasks!";
+            close;
+        } else {
+            mes "Keep up the good work!";
+            close;
+        }
+    } else {
+        mes "These monsters require considerable skill. Choose wisely:";
+        next;
+        
+        @menu = select("Pasana (20 kills):Sting (20 kills):Anolian (20 kills):Nevermind");
+        
+        if ( @menu == 1 ) { // Pasana
+            set @quest_mob_id, 1154;
+            set @quest_mob_name$, "Pasana";
+            set @quest_target, 20;
+            set @quest_reward, 1;
+        } else if ( @menu == 2 ) { // Sting
+            set @quest_mob_id, 1207;
+            set @quest_mob_name$, "Sting";
+            set @quest_target, 20;
+            set @quest_reward, 1;
+        } else if ( @menu == 3 ) { // Anolian
+            set @quest_mob_id, 1206;
+            set @quest_mob_name$, "Anolian";
+            set @quest_target, 20;
+            set @quest_reward, 1;
+        } else {
+            mes "Perhaps another time, then.";
+            close;
+        }
+
+        set @quest_active, 1;
+        set @quest_kills, 0;
+        mes "Excellent! The '"+ @quest_mob_name$ +" Hunt' quest has begun. Good luck!";
+        close;
+    }
+
+OnNPCKillEvent:
+    if ( killedrid == @quest_mob_id && @quest_active == 1 ) {
+        set @quest_kills, @quest_kills + 1;
+        dispbottom @quest_mob_name$ +" defeated! ("+ @quest_kills +"/"+ @quest_target +")";
+    }
+    end;
+}
+
+//===== rAthena Script =======================================
+//= Monster Hunting Board (150-200)
+//===== By: rAthena AI Assistant ============================
+//= Quest board for adventurers level 150-200.
+//============================================================
+prontera,159,232,4&#9;script&#9;Hunting Board (150-200)&#9;837,{
+    mes "Welcome, master adventurer! Only the strongest dare to face these foes.";
+    mes "I have requests for the most dangerous monsters.";
+    next;
+
+    if ( @quest_active == 1 ) {
+        mes "You are currently on the '"+ @quest_mob_name$ +" Hunt' quest.";
+        mes "You have defeated ^1100AA"+ @quest_kills +" out of "+ @quest_target +" "+ @quest_mob_name$ +"s.^000000";
+        next;
+        
+        if ( @quest_kills >= @quest_target ) {
+            mes "Congratulations! You have completed the "+ @quest_mob_name$ +" Hunt!";
+            mes "Here is your reward: "+ @quest_reward +" TCG Cards.";
+            getitem 7227, @quest_reward;
+            set @quest_active, 0;
+            set @quest_mob_id, 0;
+            set @quest_mob_name$, "";
+            set @quest_kills, 0;
+            set @quest_target, 0;
+            set @quest_reward, 0;
+            mes "Come back anytime for more tasks!";
+            close;
+        } else {
+            mes "Keep up the good work!";
+            close;
+        }
+    } else {
+        mes "These are formidable opponents. Are you ready?";
+        next;
+        
+        @menu = select("Bradium Golem (25 kills):Naga (25 kills):Queen Scaraba (25 kills):Nevermind");
+        
+        if ( @menu == 1 ) { // Bradium Golem
+            set @quest_mob_id, 2024;
+            set @quest_mob_name$, "Bradium Golem";
+            set @quest_target, 25;
+            set @quest_reward, 1;
+        } else if ( @menu == 2 ) { // Naga
+            set @quest_mob_id, 1993;
+            set @quest_mob_name$, "Naga";
+            set @quest_target, 25;
+            set @quest_reward, 1;
+        } else if ( @menu == 3 ) { // Queen Scaraba
+            set @quest_mob_id, 2087;
+            set @quest_mob_name$, "Queen Scaraba";
+            set @quest_target, 25;
+            set @quest_reward, 1;
+        } else {
+            mes "Perhaps another time, then.";
+            close;
+        }
+
+        set @quest_active, 1;
+        set @quest_kills, 0;
+        mes "Excellent! The '"+ @quest_mob_name$ +" Hunt' quest has begun. Good luck!";
+        close;
+    }
+
+OnNPCKillEvent:
+    if ( killedrid == @quest_mob_id && @quest_active == 1 ) {
+        set @quest_kills, @quest_kills + 1;
+        dispbottom @quest_mob_name$ +" defeated! ("+ @quest_kills +"/"+ @quest_target +")";
+    }
+    end;
+}
+
+// Duplicate NPC
+payon,178,97,4&#9;duplicate(Hunting Board (1-55))&#9;Hunting Board (1-55)#pay1&#9;837
+payon,180,97,4&#9;duplicate(Hunting Board (55-99))&#9;Hunting Board (55-99)#pay2&#9;837
+payon,182,97,4&#9;duplicate(Hunting Board (99-150))&#9;Hunting Board (99-150)#pay3&#9;837
+payon,184,97,4&#9;duplicate(Hunting Board (150-200))&#9;Hunting Board (150-200)#pay4&#9;837
+</pre>
+</div>
+                
+            
+                
+
+
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

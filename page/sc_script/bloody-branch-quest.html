@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- NPC Scripting Content -->
+            <div id="scripting" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Bloody Branch Quest</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This rAthena script defines an NPC named <code>Bloody Branch Quest</code> located in Prontera. Its primary function is to offer a quest where players pay Zeny to summon a <code>"Poring Pet"</code> in <code>lhz_dun03</code>. If the player who paid the fee successfully kills the summoned Poring, they receive a <code>"Bloody Branch"</code> as a reward. If the Poring Pet is killed by other Player, the other player can receive the Bloody Branch. The quest also incorporates a cooldown system to prevent immediate re-participation.
+                </p>
+                
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Bloody Branch Quest
+//===== By: rAthena AI Assistant ============================
+//= Manages a Bloody Branch quest, including Poring summoning,
+//= cooldowns, and reward distribution.
+//============================================================
+prontera,156,238,3&#9;script&#9;Bloody Branch Quest&#9;635,{
+    set @name$, "[^1100AA Bloody Branch Quest ^000000]";
+    set .questCoolDown, 3600;
+    OnTouch:
+        set .@poringCount, mobcount("lhz_dun03", "Bloody Branch Quest::OnPoringKilled");
+        if (isPoringKilled == 1) {
+            if (@poringKillerID == getcharid(0)) {
+                getitem 12103, 1;
+                mes @name$;
+                mes "Here is your reward for killing the Poring!";
+                set isPoringKilled, 0;
+                set isBBQuestStart, 0;
+                set isBBQuestProgress, 0;
+                set @summonerID, 0;
+                set @poringKillerID, 0;
+                close;
+            } else {
+                mes @name$;
+                mes "You didn't kill the Poring, so no reward for you.";
+                close;
+            }
+        }
+        if (gettimetick(2) < quest_cooldownBBQuest) {
+            mes @name$;
+            mes "Go back after 1 hour!";
+            close;
+        }
+        if (isBBQuestProgress == 1) {
+            if (.@poringCount == 0) {
+                set quest_cooldownBBQuest, gettimetick(2) + .questCoolDown;
+                set isBBQuestStart, 0;
+                set isBBQuestProgress, 0;
+                mes @name$;
+                mes "Its seems someone already killed pet poring!";
+                close;
+            }
+            mes @name$;
+            mes "Go! find the pet poring and kill it!";
+            close;
+        }
+        if (isBBQuestStart != 1) {
+            mes @name$;
+            mes "There is pet Poring by someone we didn't know inside Somatology Laboratory lvl 3.";
+            mes "if you found and killed it. Go back to me and I'll give you the reward.";
+            next;
+            mes @name$;
+            mes "But first you need to pay me for ^1100AA10,000,000^000000 Zeny.";
+            switch(select("Okay, I'll pay you:Nope")) {
+                case 1:
+                    next;
+                    if (Zeny < 10000000) {
+                        mes @name$;
+                        mes "You don't have enough money.";
+                        close;
+                    }
+                    else {
+                        set Zeny, Zeny - 10000000;
+                        mes @name$;
+                        mes "Now, Go find the pet Poring at Somatology Laboratory lvl 3!";
+                        callsub OnSummonPoring;
+                        close;
+                    }
+                break;
+                case 2:
+                    next;
+                    mes @name$;
+                    mes "No worries mate!";
+                    mes "You can comeback anytime.";
+                    close;
+                break;
+            }
+        }
+    end;
+    OnSummonPoring:
+        set isBBQuestStart, 1;
+        set isBBQuestProgress, 1;
+        set @summonerID, getcharid(0);
+        set @summonerName$, strcharinfo(0);
+        .@map$ = "lhz_dun03";
+        getfreecell("lhz_dun03",.@x,.@y);
+        monster .@map$, .@x, .@y, "Poring Pet", 1002, 1, "Bloody Branch Quest::OnPoringKilled";
+    end;
+    OnPoringKilled:
+        set quest_cooldownBBQuest, gettimetick(2) + .questCoolDown;
+        set isPoringKilled, 1;
+        set @poringKillerName$, strcharinfo(0);
+        set @poringKillerID, getcharid(0);
+        mapannounce "lhz_dun03", "The Poring Pet has been killed by " + @poringKillerName$ + "!", 0;
+    end;
+}
+</pre>
+</div>
+                
+            <h3 class="text-1xl font-semibold mb-4 text-gray-800">✨ Script Functionality Breakdown</h3>
+
+                <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                    <li>
+                        <b>Quest Initiation:</b>
+                         When a player interacts with the NPC, it first checks if a Poring was recently killed or if the quest is currently on cooldown. If not, it offers the quest for a fee of <code>10,000,000 Zeny</code>. If the player accepts and has enough Zeny, the Zeny is deducted, and the quest proceeds.
+                    </li>
+                    <li>
+                        <b>Poring Summoning:</b>
+                         Upon successful payment, a "Poring Pet" (mob ID <code>1002</code>) is summoned at a random free cell within <code>lhz_dun03</code>. The NPC stores the <code>character ID</code> and <code>name</code> of the player who initiated the quest (the summoner).
+                    </li>
+                    <li>
+                        <b>Poring Killed Event:</b>
+                          When the summoned "Poring Pet" is killed by any player, the <code>OnPoringKilled</code> event is triggered. This event records the <code>character ID</code> and <code>name</code> of the killer and announces the Poring's demise in <code>lhz_dun03</code>. It also activates a <code>1-hour cooldown</code> for the quest.
+                    </li>
+                    <li>
+                        <b>Reward System:</b>
+                          If the player who initiated the quest (the summoner) is also the one who killed the "Poring Pet" and talks to the NPC again, they receive <code>1 Bloody Branch (item ID 12103)</code>. All quest-related flags and variables are then reset.
+                    </li>
+                    <li>
+                        <b>Cooldown Mechanism:</b>
+                          A <code>60-minute (3600 seconds) cooldown</code> is applied after a Poring is killed, preventing any player from starting a new quest until the cooldown expires. If a player attempts to start the quest during the cooldown, they are informed to wait.
+                    </li>
+                    <li>
+                        <b>Quest Progress Check:</b>
+                          If a quest is already in progress (<code>isBBQuestProgress == 1</code>), the NPC will remind the player to find and kill the Poring. If the Poring has already been killed by someone else (not the summoner), the NPC will inform the player and apply the cooldown.
+                    </li>
+                </ul>
+                
+                <p><hr/></p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <!-- First Slideshow -->
+                <div class="slideshow-container" data-slideshow="1">
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_001.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_002.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_003.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_004.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_005.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_006.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/sc_1/sc_1_007.jpg" style="width:100%"><div class="text"></div></div>
+                  <a class="prev" data-action="prev">❮</a>
+                  <a class="next" data-action="next">❯</a>
+                </div>
+
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>
