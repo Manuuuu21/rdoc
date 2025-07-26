@@ -16,7 +16,7 @@
     <style>
         /* Styling for the Ace Editor container */
         .ace-editor-instance {
-            min-height: 200px; /* Default height for Ace editor */
+            min-height: 250px; /* Default height for Ace editor */
             max-height: 250px; /* Max height, Ace will add scrollbar */
             width: 100%;
             border-radius: 0.5rem; /* Match pre_container border-radius */
@@ -71,57 +71,106 @@
             <!-- Floating NPC Content -->
             <div id="floating-npc" class="content-section mb-8">
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
-                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Floating NPC Script</h2>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">callshop</h2>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    A Floating NPC is a special type of NPC object in rAthena scripting that is not triggered by conventional means like clicking on it or walking into a trigger area. Instead, it's primarily used for background tasks or functions that need to be called by other scripts.
+                    The callshop command is used to create dynamic shops by calling an invisible shop as if a player clicked on it. This allows for custom logic when players buy or sell items.
                 </p>
-                <h3 class="text-1xl font-semibold mb-4 text-gray-800">Purpose of Floating NPCs 💡</h3>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The primary purpose of Floating NPCs is to run scripts at specified times or in response to server-wide events, rather than player interaction. Since they are not tied to a specific map location or player interaction, they are ideal for:
+                    Here's the syntax and details:
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li><code>callshop "&lt;name>"{,&lt;option>};</code></li>
+                    </ul>
                 </p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Parameter Explain:</h3>
                 <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                    <li>Running scripts at scheduled times (e.g., daily announcements, hourly events).</li>
-                    <li>Handling server-wide events (e.g., WoE start/end, server initialization).</li>
-                    <li>Acting as central script hubs that can be called by other NPCs or functions without needing a physical presence.</li>
+                    <li>This command calls an invisible shop (view -1) as if the player clicked on it. The <code>&lt;name></code> refers to the unique name of the shop NPC.</li>
+                    <li><code>{,&lt;option>}:</code>
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><b>0</b>: The normal shop window (buy, sell, and cancel buttons) (default).</li>
+                            <li><b>1</b>: The buy-only window.</li>
+                            <li><b>2</b>: The sell-only window.</li>
+                        </ul>
+                    </li>
                 </ul>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    Here is the standard structure for declaring a permanent floating NPC:<br/>
-                    <code>-%TAB%script%TAB%&lt;NPC Name>%TAB%-1,{&lt;code>}</code>
+                    Please note that the <code>&lt;option></code> parameter only works on shop type NPCs.
                 </p>
-                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4">📝 Sytanx Explanation:</h3>
-                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                    <li><code>-</code>: This hyphen indicates that the NPC does not have a map name, x-coordinate, y-coordinate, or facing direction. This is what makes it 'floating'.</li>
-                    <li><code>&lt;NPC Name></code>: This is the unique name for your NPC. It follows the format &lt;Display name>{#&lt;Unique name>}. For a floating NPC, the display name is often irrelevant as it's not visible, but the unique name is crucial for identification.</li>
-                    <li><code>-1</code>: The -1 here is the sprite ID. A value of -1 makes the NPC invisible and unclickable, reinforcing its 'floating' nature.</li>
-                    <li><code>,{&lt;code>}</code>: This curly bracket block contains the actual script code that the NPC will execute. Unlike other uses of curly brackets in the documentation, this part is mandatory and not optional for NPC definitions.</li>
-                </ul>
-
 
 <div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
 <button class="copy-button">Copy</button>
 <pre>
 //===== rAthena Script =======================================
-//= Floating Announcer
+//= ShopCallerNPC
 //===== By: rAthena AI Assistant ============================
-//= Announces a message upon server initialization.
+//= Demonstrates calling various shop types using 'callshop'.
 //============================================================
--&#9;script&#9;FloatingAnnouncer#ANNOUNCE_NPC&#9;-1,{
-OnInit:
-    announce "Hello adventurers! The server has just started or scripts have been reloaded.",bc_all;
-    end;
+prontera,140,226,4&#9;script&#9;ShopCallerNPC&#9;767,{
+    mes "Hello! I can show you different types of shops.";
+    set @menu, select("Open Floating Shop:Open Item Shop:Open Point Shop:Open Cash Shop");
+
+    switch (@menu) {
+        case 1: // Open Floating Shop
+            mes "Opening the Floating Shop...";
+            close2;
+            callshop "FloatingShop";
+            end;
+        case 2: // Open Item Shop
+            mes "Opening the Item Shop...";
+            close2;
+            callshop "MyItemShop";
+            end;
+        case 3: // Open Point Shop
+            mes "Opening the Point Shop...";
+            close2;
+            callshop "MyPointShop";
+            end;
+        case 4: // Open Cash Shop
+            mes "Opening the Cash Shop...";
+            close2;
+            callshop "MyCashShop";
+            end;
+    }
+
+    mes "Thank you for visiting!";
+    close;
 }
+
+//===== Shop Definitions =====================================
+// Floating Shop (invisible, only callable by script)
+-&#9;shop&#9;FloatingShop&#9;-1,501:100,502:200,503:300
+
+// Item Shop (uses item 512 'Apple' as currency)
+-&#9;itemshop&#9;MyItemShop&#9;-1,512,504:1,505:1,506:1
+
+// Point Shop (uses #CASHPOINTS as currency)
+-&#9;pointshop&#9;MyPointShop&#9;-1,#CASHPOINTS,507:10,508:20,509:30
+
+// Cash Shop (uses #CASHPOINTS or #KAFRAPOINTS as currency, typically #CASHPOINTS)
+-&#9;cashshop&#9;MyCashShop&#9;-1,510:50,511:100,512:150
 </pre>
 </div>
                 
-                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
-                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                    <li>The NPC is defined as FloatingAnnouncer#ANNOUNCE_NPC with a sprite ID of -1, making it invisible and non-interactive by normal means.</li>
-                    <li>The OnInit: label is a special label that the script engine executes every time scripts are loaded, including when the server starts up or when the @reloadscript command is used.</li>
-                    <li>Inside the OnInit: block, the announce command is used to broadcast a message to all players on the server (bc_all flag).</li>
-                    <li>The end; command terminates the execution thread for this specific label.</li>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📝 Code Explanation:</h3>
+                <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                    <li>The main NPC ShopCallerNPC is placed at Prontera (140,226).</li>
+                    <li>Each menu option uses close2; to close the dialogue window while keeping the script running, followed by callshop "ShopName"; to open the respective shop.</li>
+                    <li>The shop definitions (FloatingShop, MyItemShop, MyPointShop, MyCashShop) are placed as floating NPCs (using - for map/coordinates and -1 for sprite ID to make them invisible).</li>
+                    <li>FloatingShop is a basic shop type..</li>
+                    <li>MyItemShop is an itemshop that requires 512 (Apple) as currency..</li>
+                    <li>MyPointShop is a pointshop that uses the #CASHPOINTS account variable as currency..</li>
+                    <li>MyCashShop is a cashshop that also uses cash points (typically #CASHPOINTS or #KAFRAPOINTS)..</li>
+                    <li>The item IDs used (e.g., 501, 502, 504, 507, 510, 512) are common consumable items for demonstration purposes..</li>
                 </ul>
 
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <video autoplay loop muted playsinline width="100%" height="auto">
+                    <source src="img/callshop_01.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
                 
+
             </div>
         </section>
     </main>

@@ -89,11 +89,11 @@
                 <p class="text-gray-700 leading-relaxed mb-4">
                     This is the first line of your NPC script that tells the map server where to place the NPC and what it looks like. There are 2 basic syntax:
                 </p>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>&lt;map name&gt;,&lt;x&gt;,&lt;y&gt;,&lt;facing&gt;%TAB%script%TAB%&lt;NPC Name&gt;%TAB%&lt;sprite id&gt;,{&lt;code&gt;}</code><br/>
-                    <code>&lt;map name&gt;,&lt;x&gt;,&lt;y&gt;,&lt;facing&gt;%TAB%script%TAB%&lt;NPC Name&gt;%TAB%&lt;sprite id&gt;,&lt;triggerX>,&lt;triggerY>,{&lt;code&gt;}</code>
-                </p>
-                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4"><b>Parameter Explain:</b></h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>&lt;map name&gt;,&lt;x&gt;,&lt;y&gt;,&lt;facing&gt;%TAB%script%TAB%&lt;NPC Name&gt;%TAB%&lt;sprite id&gt;,{&lt;code&gt;}</code></li>
+                    <li><code>&lt;map name&gt;,&lt;x&gt;,&lt;y&gt;,&lt;facing&gt;%TAB%script%TAB%&lt;NPC Name&gt;%TAB%&lt;sprite id&gt;,&lt;triggerX>,&lt;triggerY>,{&lt;code&gt;}</code></li>
+                </ul>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Parameter Explain:</h3>
                 <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
                 <li><code>&lt;map name&gt;</code>: The map where the NPC will appear (e.g., 'prontera').</li>
                 <li><code>&lt;x&gt;,&lt;y&gt;</code>: The coordinates on the map where the NPC will be placed.</li>
@@ -124,23 +124,6 @@ prontera,150,150,4&#9;script&#9;MyNPC#unique_id&#9;767,{
     mes "I hope you have a great time here!";
     close;
 }
-
-//===== rAthena Script =======================================
-//= Guard
-//===== By: rAthena AI Assistant ============================
-//= Greets players when clicked or touched. 
-//= Triggered 3x3 cell area when you walked near the NPC
-//============================================================
-prontera,150,180,0&#9;script&#9;Guard#PRT_GUARD&#9;767,3,3,{
-    mes "[Guard]";
-    mes "Greetings, adventurer! Stay safe in Prontera.";
-    close;
-
-OnTouch:
-    mes "[Guard]";
-    mes "Watch your step! You've entered my patrol area.";
-    close;
-}
 </pre>
 </div>
 
@@ -154,13 +137,56 @@ OnTouch:
                     <li><code>next;</code>: Advances to the next message or command in the script.</li>
                     <li><code>close;</code>: Closes the NPC dialogue window.</li>
                 </ul>
-
-                <p><hr/></p>
                 <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
                 <img src="img/p2_sample1.gif" style="border-radius:10px;" />
 
-            </div>
+                <br/><hr/>
 
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">NPC Interaction with Trigger Cell Area</h3>
+                <p class="text-gray-700 leading-relaxed mt-4">
+                    This NPC has two main interactions:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>When a player clicks on the NPC, it will display a greeting: "Greetings, adventurer! Stay safe in Prontera."</li>
+                    <li>When a player walks into its trigger area (defined as 3x3 cells around its location), it will display a warning: "Watch your step! You've entered my patrol area."</li>
+                </ul>
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Guard
+//===== By: rAthena AI Assistant ============================
+//= Greets players when clicked or touched. 
+//= Triggered 3x3 cell area when you walked near the NPC
+//============================================================
+prontera,156,316,0&#9;script&#9;Guard#PRT_GUARD&#9;56,3,3,{
+    mes "[Guard]";
+    mes "Greetings, adventurer! Stay safe in Prontera.";
+    close;
+
+OnTouch:
+    mes "[Guard]";
+    mes "Watch your step! You've entered my patrol area.";
+    close;
+}
+</pre>
+</div>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mt-4">
+                    <code>OnTouch</code>: This label defines a special block of code that is executed when a player walks into the NPC's defined trigger area (3x3 cells in this case)
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <video autoplay loop muted playsinline width="100%" height="auto">
+                    <source src="img/p2_sample2.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
+                <!-- 
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/33bP-DB3OxM?si=qQ0WwTR9_1HrlOjz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+
+
+            </div>
         </section>
     </main>
 

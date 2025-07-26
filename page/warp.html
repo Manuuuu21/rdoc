@@ -76,7 +76,7 @@
                     The <code>warp</code> command in rAthena is used to create teleportation points or to move players programmatically. It can be used as a <code>top-level command</code> for permanent warp portals or as a <code>script command</code> to instantly teleport players within an NPC script.
                 </p>
                 
-                <h3 class="text-1xl font-semibold mb-4 text-gray-800">🚪 warp Top-Level Command</h3>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🚪 warp Top-Level Command</h3>
                 <p class="text-gray-700 leading-relaxed mb-4">
                     The `warp` top-level command defines a static, permanent warp portal on a specific map. These warps are loaded when the map server starts and function as fixed entry/exit points for players.
                 </p>
@@ -84,7 +84,7 @@
                     Here is the standard structure for declaring a permanent warp portal:<br/>
                     <code>&lt;from mapname>,&lt;fromX>,&lt;fromY>,&lt;facing>%TAB%warp%TAB%&lt;warp name>%TAB%&lt;spanx>,&lt;spany>,&lt;to mapname>,&lt;toX>,&lt;toY></code>
                 </p>
-                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4"><b>Parameter Explain:</b></h3>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Parameter Explain:</h3>
                 <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
                     <li><code>from mapname</code>: The map where the warp point will be located.</li>
                     <li><code>fromX, fromY</code>: The coordinates of the warp point on the from mapname.</li>
@@ -109,18 +109,18 @@ payon,103,103,0&#9;warp&#9;WarpToProntera&#9;1,1,prontera,153,153
 </pre>
 </div>
                 
-                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4"><b>In this script:</b></h3>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
                 <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
                     <li><code>prontera,150,150,0</code>: This defines the <code>map name</code> (prontera), <code>x</code> and <code>y</code> coordinates (150, 150) where the warp portal is located, and the <code>facing</code> direction (4, which is south) warping going to <code>payon,100,100</code>.</li>
                     <li><code>payon,103,103,0</code>: This specifies the <code>map name</code> (payon) and the <code>x</code> and <code>y</code> coordinates (103, 103) where the player will be warped going to <code>prontera,153,153</code>.</li>
                     <li><code>1,1</code>: These are the <code>spanx</code> and <code>spany</code>. This means the warp will activate if a player steps within a 1x1 cell area centered at the warp's coordinates.</li>
                 </ul>
-                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4"><b>This would look like this:</b></h3>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
                 <iframe width="100%" height="315" src="https://www.youtube.com/embed/pLSXU_M9lFg?si=kq9GK-Umhy3om5Ns" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 
-                <br/><hr/><br/>
+                <br/><hr/>
 
-                <h3 class="text-1xl font-semibold mb-4 text-gray-800">✨ warp Script Command</h3>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">✨ warp Script Command</h3>
                 <p class="text-gray-700 leading-relaxed mb-4">
                     The <code>warp</code> script command is used within an NPC script to instantly teleport a player to a specified location. This is useful for quests, events, or custom teleporters.
                 </p>
@@ -128,7 +128,7 @@ payon,103,103,0&#9;warp&#9;WarpToProntera&#9;1,1,prontera,153,153
                     📝 Command Syntax:<br/>
                     <code>warp "&lt;map name>",&lt;x>,&lt;y>{,&lt;char id>};</code>
                 </p>
-                <h3 class="text-1xl font-medium mb-2 text-gray-800 mt-4"><b>Parameter Explain:</b></h3>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Parameter Explain:</h3>
                 <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
                     <li><code>"&lt;map name>"</code>: The destination map name (must be in quotes).<br/>
                         <span class="pl-8">Special Map Names:</span>
@@ -145,11 +145,12 @@ payon,103,103,0&#9;warp&#9;WarpToProntera&#9;1,1,prontera,153,153
 <button class="copy-button">Copy</button>
 <pre>
 //===== rAthena Script =======================================
-//= Teleporter NPC
+//= Wizard Teleporter NPC
 //===== By: rAthena AI Assistant ============================
 //= Warps the player to a specified location, including random spots and save point.
 //============================================================
-prontera,150,151,4&#9;script&#9;Teleporter&#9;767,{
+geffen,104,50,5&#9;script&#9;WizTeleporter&#9;767,{
+    mes "[WizTeleporter]";
     mes "Hello! Where would you like to go?";
     next;
 
@@ -193,9 +194,21 @@ prontera,150,151,4&#9;script&#9;Teleporter&#9;767,{
                     <li><code>SavePoint</code>: Warps the player to their last saved spawn point.</li>
                 </ul>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    It uses the select() function to capture the player's choice and a switch statement to execute the corresponding warp command.
+                    It uses the <code>select()</code> function to capture the player's choice and a switch statement to execute the corresponding warp command.
                 </p>
-
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <!-- First Slideshow -->
+                <div class="slideshow-container" data-slideshow="1">
+                  <div class="mySlides fade"><img src="img/warp_00.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/warp_01.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/warp_02.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/warp_03.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/warp_04.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/warp_05.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/warp_06.jpg" style="width:100%"><div class="text"></div></div>
+                  <a class="prev" data-action="prev">❮</a>
+                  <a class="next" data-action="next">❯</a>
+                </div>
             
             </div>
         </section>

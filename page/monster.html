@@ -193,7 +193,7 @@ OnPoringKilled:
 //===== By: rAthena AI Assistant ============================
 //= Summons Porings and tracks their kills.
 //============================================================
-prontera,150,150,4&#9;script&#9;Monster Summoner&#9;767,{
+umbala,89,156,4&#9;script&#9;Monster Summoner&#9;459,{
     mes "[Monster Summoner]";
     mes "Would you like to start a Poring hunt?";
     next;
@@ -203,13 +203,13 @@ prontera,150,150,4&#9;script&#9;Monster Summoner&#9;767,{
         close;
     }
 
-    // Summon 5 Porings at random locations on prontera map.
+    // Summon 5 Porings at random locations on umbala map.
     // The 'Monster Summoner::OnPoringKilled' label will be triggered when each Poring is killed.
-    monster "prontera",0,0,"Quest Poring",1002,5,"Monster Summoner::OnPoringKilled";
+    monster "umbala",90,154,"Quest Poring",1002,5,"Monster Summoner::OnPoringKilled";
 
     mes "[Monster Summoner]";
     mes "I have summoned 5 'Quest Poring' monsters. Go defeat them!";
-    set .@porings_killed, 0; // Initialize kill counter for this player
+    set @porings_killed, 0; // Initialize kill counter for this player
     close;
 
 OnPoringKilled:
@@ -217,34 +217,52 @@ OnPoringKilled:
     // The 'killedrid' variable holds the mob ID (1002 for Poring).
     // The 'killedgid' variable holds the unique game ID of the killed monster.
 
+    // Ensure a player is attached to the script before accessing player-specific variables.
+    if (playerattached() == 0) {
+        end; // No player attached, end script execution.
+    }
+
     // Check if the killed monster is indeed a Poring (mob ID 1002).
     if (killedrid == 1002) {
-        set .@porings_killed, .@porings_killed + 1;
-        mes "[Monster Summoner]";
-        mes "You have defeated " + .@porings_killed + "/5 Porings.";
+        set @porings_killed, @porings_killed + 1;
 
-        if (.@porings_killed >= 5) {
-            mes "[Monster Summoner]";
-            mes "Congratulations! You have defeated all the summoned Porings!";
-            set .@porings_killed, 0; // Reset counter for future hunts
+        if (@porings_killed < 5) {
+            dispbottom "[Monster Summoner]: You have defeated " + @porings_killed + "/5 Porings.";
+        } else {
+            dispbottom "[Monster Summoner]: You have defeated " + @porings_killed + "/5 Porings.";
+            dispbottom "Congratulations! You have defeated all the summoned Porings!";
+            set @porings_killed, 0; // Reset counter for future hunts
         }
-        next;
     }
     end;
-}</pre>
+}
+</pre>
 </div>
                 <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
-                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                    <li><code><b>prontera,0,0</b></code>: This is the <code>name of the map</code> and <code>x</code> and <code>y</code> coordinates where the monster will spawn. If you change the coordinates into <code>,0,0</code> will spawn the monsters randomly on the map.</li>
-                    <li><code><b>"Quest Poring"</b></code>: This is the display name the monster will have on screen.</li>
-                    <li><code><b>1002</b></code>: This is the <code>mob id</code>, which uniquely identifies the monster in the mob_db.yml database. 1002 corresponds to a Poring.</li>
-                    <li><code><b>5</b></code>: This is the <code>amount</code> of monsters that will be spawned when the server loads this script. In this case, one "Friendly Poring" will be spawned.</li>
-                    <li><code><b>"Monster Summoner::OnPoringKilled"</b></code>: This is the <code>event</code> label that will be executed when the monster is killed. It specifies that the <code>OnPoringKilled</code> label within the <code>Monster Summoner</code> script object should be triggered.</li>
-                </ul>
+                
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    In summary, This script, titled 'Monster Summoner', facilitates a 'Poring hunt' for players by initiating a dialogue and, upon acceptance, summoning 5 'Quest Poring' monsters at random locations on the 'prontera' map. It actively tracks the player's kills of these specific monsters, providing real-time updates, and congratulates them once all 5 targets are defeated, resetting the hunt counter for future engagements
+                    This script defines a <code>Monster Summoner</code> NPC that facilitates a 'Poring hunt' for players. When a player interacts with the NPC, they are given the option to start the hunt.
                 </p>
-
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If the player agrees, the NPC summons 5 'Quest Poring' monsters at 90,54 coordinate location on the 'umbala' map. A unique event label, <code>Monster Summoner::OnPoringKilled</code>, is attached to these summoned monsters.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Each time a 'Quest Poring' is defeated, the <code>OnPoringKilled</code> label is triggered. The script then increments a player-specific kill counter (@porings_killed).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The player receives real-time updates on their progress via <code>dispbottom</code> messages. Once all 5 summoned Porings are defeated, a congratulatory message is displayed, and the kill counter is reset, allowing the player to start a new hunt if desired.
+                </p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <!-- First Slideshow -->
+                <div class="slideshow-container" data-slideshow="1">
+                  <div class="mySlides fade"><img src="img/monster_01.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/monster_02.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/monster_03.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/monster_04.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/monster_05.jpg" style="width:100%"><div class="text"></div></div>
+                  <a class="prev" data-action="prev">❮</a>
+                  <a class="next" data-action="next">❯</a>
+                </div>
 
 
             </div>
