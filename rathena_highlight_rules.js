@@ -592,6 +592,7 @@ const mainTopicList = `
   <li><a href="/rdoc/page/monster.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">monster</a></li>
   <li><a href="/rdoc/page/warp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warp</a></li>
   <li><a href="/rdoc/page/shop-itemshop-cashshop-pointshop-marketshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">shop, itemshop, cashshop, pointshop, marketshop</a></li>
+  <li><a href="/rdoc/page/callshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">callshop</a></li>
 `;
 
 // Append the Show Case Script list at the Sidenav
@@ -624,71 +625,69 @@ links.forEach((a, index) => {
   }
 });
 
-
-
 const showCaseList = `
-	<li><a href="/rdoc/page/sc_script/sc_1.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Bloody Branch Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hunting Board NPC</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Newbie Freebies</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_4.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Server Announcement</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_5.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Buyer</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_6.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Last Fallen Warrior Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_7.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Hunt Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_8.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Summon Treasure Box Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_9.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autoasura</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_10.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Ticket Seller</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_11.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Dual Client Kick Script</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_12.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Punch Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_13.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holiday Announcer</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_14.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Sex Changer</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_15.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autopots</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_16.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">C. Master of Wind Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_17.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Advance Clone Script</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_18.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Falcon Rental NPC</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_19.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fishing Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_20.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Item Deleter</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_21.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Geffen Tower Summit Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_22.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hide and Seek Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_23.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Mushroom Kill Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_24.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">My Character ID Script</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_25.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Real Poring Hunt Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_26.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Treasure Box Spawner</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_27.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Promoter Event</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_28.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rename Ticket Script</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_29.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_30.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ticket Refiner</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_31.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Activity Token Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_32.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Event Token Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_33.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ayothaya HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_34.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Exchanger NPC</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_35.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Body Style Changer</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_36.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Cheap Costume Item Enchanter</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_37.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Payon HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_38.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Christmas HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_39.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Coin Zeny Exchanger</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_40.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Costume Item Enchanter</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_41.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Enable PVP Town Script</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_42.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Player HP Configuration Script</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_43.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gold Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_44.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gonryun HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_45.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">HE Bubble Gum Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_46.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holloween HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_47.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_48.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_49.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Jobs Item Dealer</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_50.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 1</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_51.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 2</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_52.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 3</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_53.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 4</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_54.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Lucky 9 Game NPC</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_55.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Monster Invasion Script</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_56.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">MVP Voucher Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_57.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Odin Mask Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_58.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">PC Logout Event Script</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_59.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Prontera HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_60.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rune Skill Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_61.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Shadow Item Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/sc_62.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Stats Seller</a></li>
+	<li><a href="/rdoc/page/sc_script/bloody-branch-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Bloody Branch Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/hunting-board-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hunting Board NPC</a></li>
+  <li><a href="/rdoc/page/sc_script/newbie-freebies.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Newbie Freebies</a></li>
+  <li><a href="/rdoc/page/sc_script/server-announcement.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Server Announcement</a></li>
+  <li><a href="/rdoc/page/sc_script/tcg-buyer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Buyer</a></li>
+  <li><a href="/rdoc/page/sc_script/last-fallen-warrior-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Last Fallen Warrior Event</a></li>
+  <li><a href="/rdoc/page/sc_script/fabre-hunt-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Hunt Event</a></li>
+  <li><a href="/rdoc/page/sc_script/gm-summon-treasure-box-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Summon Treasure Box Event</a></li>
+  <li><a href="/rdoc/page/sc_script/autoasura.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autoasura</a></li>
+  <li><a href="/rdoc/page/sc_script/berry-ticket-seller.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Ticket Seller</a></li>
+  <li><a href="/rdoc/page/sc_script/dual-client-kick-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Dual Client Kick Script</a></li>
+  <li><a href="/rdoc/page/sc_script/fabre-punch-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Punch Event</a></li>
+  <li><a href="/rdoc/page/sc_script/holiday-announcer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holiday Announcer</a></li>
+  <li><a href="/rdoc/page/sc_script/sex-changer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Sex Changer</a></li>
+  <li><a href="/rdoc/page/sc_script/autopots.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autopots</a></li>
+  <li><a href="/rdoc/page/sc_script/c-master-of-wind-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">C. Master of Wind Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/advance-clone-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Advance Clone Script</a></li>
+  <li><a href="/rdoc/page/sc_script/falcon-rental-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Falcon Rental NPC</a></li>
+  <li><a href="/rdoc/page/sc_script/fishing-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fishing Event</a></li>
+  <li><a href="/rdoc/page/sc_script/global-item-deleter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Item Deleter</a></li>
+  <li><a href="/rdoc/page/sc_script/geffen-tower-summit-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Geffen Tower Summit Event</a></li>
+  <li><a href="/rdoc/page/sc_script/hide-and-seek-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hide and Seek Event</a></li>
+  <li><a href="/rdoc/page/sc_script/mushroom-kill-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Mushroom Kill Event</a></li>
+  <li><a href="/rdoc/page/sc_script/my-character-id-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">My Character ID Script</a></li>
+  <li><a href="/rdoc/page/sc_script/real-poring-hunt-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Real Poring Hunt Event</a></li>
+  <li><a href="/rdoc/page/sc_script/treasure-box-spawner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Treasure Box Spawner</a></li>
+  <li><a href="/rdoc/page/sc_script/gm-promoter-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Promoter Event</a></li>
+  <li><a href="/rdoc/page/sc_script/rename-ticket-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rename Ticket Script</a></li>
+  <li><a href="/rdoc/page/sc_script/tcg-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/ticket-refiner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ticket Refiner</a></li>
+  <li><a href="/rdoc/page/sc_script/activity-token-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Activity Token Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/event-token-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Event Token Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/ayothaya-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ayothaya HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/berry-exchanger-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Exchanger NPC</a></li>
+  <li><a href="/rdoc/page/sc_script/body-style-changer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Body Style Changer</a></li>
+  <li><a href="/rdoc/page/sc_script/cheap-costume-item-enchanter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Cheap Costume Item Enchanter</a></li>
+  <li><a href="/rdoc/page/sc_script/payon-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Payon HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/christmas-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Christmas HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/coin-zeny-exchanger.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Coin Zeny Exchanger</a></li>
+  <li><a href="/rdoc/page/sc_script/costume-item-enchanter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Costume Item Enchanter</a></li>
+  <li><a href="/rdoc/page/sc_script/enable-pvp-town-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Enable PVP Town Script</a></li>
+  <li><a href="/rdoc/page/sc_script/global-player-hp-configuration-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Player HP Configuration Script</a></li>
+  <li><a href="/rdoc/page/sc_script/gold-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gold Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/gonryun-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gonryun HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/he-bubble-gum-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">HE Bubble Gum Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/holloween-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holloween HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/icepick-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/icepick-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/jobs-item-dealer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Jobs Item Dealer</a></li>
+  <li><a href="/rdoc/page/sc_script/kaho-maker-1.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 1</a></li>
+  <li><a href="/rdoc/page/sc_script/kaho-maker-2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 2</a></li>
+  <li><a href="/rdoc/page/sc_script/kaho-maker-3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 3</a></li>
+  <li><a href="/rdoc/page/sc_script/kaho-maker-4.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 4</a></li>
+  <li><a href="/rdoc/page/sc_script/lucky-9-game-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Lucky 9 Game NPC</a></li>
+  <li><a href="/rdoc/page/sc_script/monster-invasion-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Monster Invasion Script</a></li>
+  <li><a href="/rdoc/page/sc_script/mvp-voucher-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">MVP Voucher Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/odin-mask-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Odin Mask Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/pc-logout-event-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">PC Logout Event Script</a></li>
+  <li><a href="/rdoc/page/sc_script/prontera-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Prontera HG Quest</a></li>
+  <li><a href="/rdoc/page/sc_script/rune-skill-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rune Skill Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/shadow-item-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Shadow Item Trader</a></li>
+  <li><a href="/rdoc/page/sc_script/stats-seller.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Stats Seller</a></li>
 `;
 
 // Append the Show Case Script list at the Sidenav
@@ -856,3 +855,12 @@ function initAllSlideshows() {
   });
 }
 window.onload = initAllSlideshows;
+
+
+const videos = document.querySelectorAll('video');
+videos.forEach(video => {
+  // Disable right-click on each video element
+  video.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+});
