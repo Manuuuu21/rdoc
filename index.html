@@ -73,14 +73,36 @@
 
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
                 <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Introduction to rAthena Scripting</h2>
-
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    The rAthena scripting language serves as a comprehensive reference manual for all available scripting commands and functions within the rAthena emulation project. It is designed for users who possess at least a foundational understanding of programming concepts, rather than serving as a basic programming tutorial. This documentation aims to provide a detailed overview of the tools available for implementing custom functionalities, emphasizing that a clear grasp of general programming principles will greatly aid in its comprehension and practical application.
-                </p>
                 <p class="text-gray-700 leading-relaxed">
                     Ever wondered how those custom NPCs, quests, and unique events come to life in rAthena? Well, it all boils down to the powerful rAthena scripting language! Think of it as your comprehensive toolkit, packed with commands and functions designed to bring your server ideas to reality. Now, this isn't your typical 'learn to code from scratch' tutorial. Instead, it's a detailed reference manual, perfect for anyone who already has a good grasp of programming basics and is eager to explore the specific tools rAthena offers. If you've got a vision for your server, this documentation is your go-to resource for understanding how to make it happen. Trust me, a solid foundation in general programming will make navigating this manual a breeze! ✨
                 </p>
             </div>
+            <hr/>
+            
+            <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is RID and GID?</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                In rAthena scripting, RID and GID are important identifiers used to refer to game entities.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <b>RID</b> stands for Requesting ID which also refering to the player. It is the unique account identification number of a character that triggers a script's execution. When a script is invoked by a character (e.g., by clicking an NPC, walking into an OnTouch zone, or using an item), the RID of that character is automatically attached to the running script.
+            </p>
+            <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                <li>Most scripting commands and functions that interact with a specific character (like storing variables, sending messages to the client, or modifying character data) require an RID.</li>
+                <li>Scripts triggered without a specific character (e.g., floating scripts, timers, or clock-based activations) will not have an RID attached. In such cases, commands like attachrid can be used to explicitly associate a character with the script, or playerattached can be used to check if a player is currently linked.</li>
+            </ul>
+
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <b>GID</b> stands for Game ID. This is a unique identifier for various game objects, including monsters, NPCs, or even a character's account ID. It's primarily used for mob control commands and newer skill implementations.
+            </p>
+            <ul class="list-disc space-y-1 text-gray-700 mb-4 pl-5">
+                <li>For monsters, the GID is obtained when the monster is spawned (e.g., via mobspawn).</li>
+                <li>For characters, the GID can also refer to their account ID.</li>
+                <li>You can view the GID of a mob, NPC, or character by right-clicking them as a GM-sprited character.</li>
+                <li>Commands like getpetinfo, getmercinfo, gethominfo, and geteleminfo can retrieve GIDs for specific entity types.</li>
+            </ul>
+
+
+
             <hr/><br/>
             <h2 class="text-xl font-semibold mb-4 text-gray-800">📚 Setting Up the Script to Run</h2>
             <p class="text-gray-700 leading-relaxed mb-4">

@@ -452,118 +452,115 @@ ace.define("ace/mode/rathena", ["require", "exports", "ace/lib/oop", "ace/mode/t
 	exports.Mode = Mode;
 });
 
-
 // Map to store Ace Editor instances, associating the pre_container element with its editor
-        const aceEditors = new Map();
+const aceEditors = new Map();
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Mobile menu toggle
-            const menuToggle = document.getElementById('menu-toggle');
-            const sidebar = document.getElementById('sidebar');
+document.addEventListener('DOMContentLoaded', () => {
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
 
-            if (menuToggle && sidebar) {
-                menuToggle.addEventListener('click', () => {
-                    // Toggle the 'hidden' class to show/hide the sidebar
-                    sidebar.classList.toggle('hidden');
-                });
-            }
-
-            // Initialize Ace Editor for each code block
-            const preContainers = document.querySelectorAll('.pre_container');
-
-            preContainers.forEach((container, index) => {
-                const originalPre = container.querySelector('pre');
-                if (originalPre) {
-                    // Create a unique ID for the Ace Editor div
-                    const editorId = `ace-editor-${index}`;
-                    const editorDiv = document.createElement('div');
-                    editorDiv.id = editorId;
-                    editorDiv.className = 'ace-editor-instance';
-
-                    // Get the content from the original <pre> tag
-                    const codeContent = originalPre.textContent.trim();
-
-                    // Replace the original <pre> with the new <div> that will host Ace Editor
-                    originalPre.parentNode.replaceChild(editorDiv, originalPre);
-
-                    // Initialize Ace Editor
-                    const editor = ace.edit(editorId);
-                    editor.setTheme("ace/theme/monokai"); // Set Monokai theme
-                    editor.session.setMode("ace/mode/rathena"); // Set mode for rAthena scripts
-                    editor.setValue(codeContent, -1); // Set the content and move cursor to start
-                    editor.setReadOnly(true); // Make the editor read-only
-                    editor.getSession().setUseSoftTabs(false);
-                    editor.setShowPrintMargin(false); // Hide the vertical print margin line
-
-                    // Disable active line highlighting and hide the cursor for "only scrollable" behavior
-                    editor.setHighlightActiveLine(false);
-                    editor.setHighlightGutterLine(false); // Also disable gutter line highlighting
-                    editor.setOption('cursorStyle', 'hidden'); // Hide the cursor
-
-                    // Store the editor instance in the map, using the pre_container as the key
-                    aceEditors.set(container, editor);
-                    editor.renderer.setScrollMargin(0, 10, 0, 0);
-                }
-            });
-
-            // Copy button functionality
-            const copyButtons = document.querySelectorAll('.copy-button');
-
-            copyButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Find the closest parent .pre_container
-                    const container = button.closest('.pre_container');
-                    if (container) {
-                        // Retrieve the Ace Editor instance associated with this container
-                        const editor = aceEditors.get(container);
-                        if (editor) {
-                            const textToCopy = editor.getValue(); // Get content directly from Ace Editor
-
-                            // Create a temporary textarea to perform the copy operation
-                            const textarea = document.createElement('textarea');
-                            textarea.value = textToCopy;
-                            document.body.appendChild(textarea);
-
-                            // Select the text
-                            textarea.select();
-                            textarea.setSelectionRange(0, textarea.value.length); // For mobile devices
-
-                            try {
-                                // Execute the copy command
-                                const successful = document.execCommand('copy');
-                                const msg = successful ? 'Copied!' : 'Failed to copy.';
-                                console.log('Copy command was ' + msg);
-
-                                // Provide visual feedback to the user
-                                const originalText = button.textContent;
-                                button.textContent = 'Copied!';
-                                setTimeout(() => {
-                                    button.textContent = originalText;
-                                }, 2000); // Revert button text after 2 seconds
-
-                            } catch (err) {
-                                console.error('Oops, unable to copy', err);
-                                // Fallback for browsers that don't support execCommand or when it fails
-                                const originalText = button.textContent;
-                                button.textContent = 'Error!';
-                                setTimeout(() => {
-                                    button.textContent = originalText;
-                                }, 2000);
-                            } finally {
-                                // Clean up: remove the temporary textarea
-                                document.body.removeChild(textarea);
-                            }
-                        } else {
-                            console.error('Ace Editor instance not found for this container.');
-                        }
-                    } else {
-                        console.error('No .pre_container found for this copy button.');
-                    }
-                });
-            });
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', () => {
+            // Toggle the 'hidden' class to show/hide the sidebar
+            sidebar.classList.toggle('hidden');
         });
+    }
 
+    // Initialize Ace Editor for each code block
+    const preContainers = document.querySelectorAll('.pre_container');
 
+    preContainers.forEach((container, index) => {
+        const originalPre = container.querySelector('pre');
+        if (originalPre) {
+            // Create a unique ID for the Ace Editor div
+            const editorId = `ace-editor-${index}`;
+            const editorDiv = document.createElement('div');
+            editorDiv.id = editorId;
+            editorDiv.className = 'ace-editor-instance';
+
+            // Get the content from the original <pre> tag
+            const codeContent = originalPre.textContent.trim();
+
+            // Replace the original <pre> with the new <div> that will host Ace Editor
+            originalPre.parentNode.replaceChild(editorDiv, originalPre);
+
+            // Initialize Ace Editor
+            const editor = ace.edit(editorId);
+            editor.setTheme("ace/theme/monokai"); // Set Monokai theme
+            editor.session.setMode("ace/mode/rathena"); // Set mode for rAthena scripts
+            editor.setValue(codeContent, -1); // Set the content and move cursor to start
+            editor.setReadOnly(true); // Make the editor read-only
+            editor.getSession().setUseSoftTabs(false);
+            editor.setShowPrintMargin(false); // Hide the vertical print margin line
+
+            // Disable active line highlighting and hide the cursor for "only scrollable" behavior
+            editor.setHighlightActiveLine(false);
+            editor.setHighlightGutterLine(false); // Also disable gutter line highlighting
+            editor.setOption('cursorStyle', 'hidden'); // Hide the cursor
+
+            // Store the editor instance in the map, using the pre_container as the key
+            aceEditors.set(container, editor);
+            editor.renderer.setScrollMargin(0, 10, 0, 0);
+        }
+    });
+
+    // Copy button functionality
+    const copyButtons = document.querySelectorAll('.copy-button');
+
+    copyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Find the closest parent .pre_container
+            const container = button.closest('.pre_container');
+            if (container) {
+                // Retrieve the Ace Editor instance associated with this container
+                const editor = aceEditors.get(container);
+                if (editor) {
+                    const textToCopy = editor.getValue(); // Get content directly from Ace Editor
+
+                    // Create a temporary textarea to perform the copy operation
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    document.body.appendChild(textarea);
+
+                    // Select the text
+                    textarea.select();
+                    textarea.setSelectionRange(0, textarea.value.length); // For mobile devices
+
+                    try {
+                        // Execute the copy command
+                        const successful = document.execCommand('copy');
+                        const msg = successful ? 'Copied!' : 'Failed to copy.';
+                        console.log('Copy command was ' + msg);
+
+                        // Provide visual feedback to the user
+                        const originalText = button.textContent;
+                        button.textContent = 'Copied!';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                        }, 2000); // Revert button text after 2 seconds
+
+                    } catch (err) {
+                        console.error('Oops, unable to copy', err);
+                        // Fallback for browsers that don't support execCommand or when it fails
+                        const originalText = button.textContent;
+                        button.textContent = 'Error!';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                        }, 2000);
+                    } finally {
+                        // Clean up: remove the temporary textarea
+                        document.body.removeChild(textarea);
+                    }
+                } else {
+                    console.error('Ace Editor instance not found for this container.');
+                }
+            } else {
+                console.error('No .pre_container found for this copy button.');
+            }
+        });
+    });
+});
 
 // Get references to the DOM elements
 const openModalBtn = document.getElementById('openModalBtn');
@@ -582,10 +579,14 @@ const mainTopicList = `
   <li><a href="/rdoc/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
   <li><a href="/rdoc/page/floating-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Floating NPC Script</a></li>
   <li><a href="/rdoc/page/load-reloadnpcfile-unloadnpcfile.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">@load, @reloadnpcfile, @unloadnpcfile</a></li>
+  <li><a href="/rdoc/page/label.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">NPC Label</a></li>
   <li><a href="/rdoc/page/function-callfunc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">function, callfunc</a></li>
   <li><a href="/rdoc/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
+  <li><a href="/rdoc/page/close2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">close2</a></li>
+  <li><a href="/rdoc/page/input.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">input</a></li>
   <li><a href="/rdoc/page/variables.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Variables</a></li>
   <li><a href="/rdoc/page/set-setarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">set and setarray</a></li>
+  <li><a href="/rdoc/page/setd-getd.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setd, getd</a></li>
   <li><a href="/rdoc/page/string.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">String</a></li>
   <li><a href="/rdoc/page/comments.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Comments</a></li>
   <li><a href="/rdoc/page/operators.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Operators</a></li>
@@ -593,6 +594,9 @@ const mainTopicList = `
   <li><a href="/rdoc/page/warp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warp</a></li>
   <li><a href="/rdoc/page/shop-itemshop-cashshop-pointshop-marketshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">shop, itemshop, cashshop, pointshop, marketshop</a></li>
   <li><a href="/rdoc/page/callshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">callshop</a></li>
+  <li><a href="/rdoc/page/select-prompt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">select(), prompt()</a></li>
+  <li><a href="/rdoc/page/menu.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">menu</a></li>
+  <li><a href="/rdoc/page/goto.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">goto</a></li>
 `;
 
 // Append the Show Case Script list at the Sidenav
