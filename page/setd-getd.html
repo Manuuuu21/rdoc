@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">setd, getd</h2>
+                <!-- Introduction Paragraph -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+            The <code>setd</code> command functions similarly to the <code>set</code> command, but with a key difference: it allows you to specify the variable name as a string. This means you can construct the variable name dynamically at runtime, which is particularly useful for managing variables in a more flexible and programmatic way. 
+        </p>
+
+        <!-- Header: Purpose of setd -->
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of setd 🎯</h3>
+        <!-- Paragraph: Primary purpose introduction -->
+        <p class="text-gray-700 leading-relaxed mb-4">
+            The primary purpose of <code>setd</code> is to enable dynamic variable manipulation. This is invaluable when you need to:
+        </p>
+        <!-- Unordered List: Purposes -->
+        <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+            <li>Create or modify variables whose names are not fixed but depend on other data (e.g., player input, loop counters, or data retrieved from databases).</li>
+            <li>Access and modify elements of an array using a dynamically constructed index.</li>
+            <li>Implement more complex data structures or algorithms where variable names need to be generated on the fly.</li>
+        </ul>
+        <hr/>
+        <!-- Header: Syntax of setd -->
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of setd 📝</h3>
+        <!-- Paragraph: Syntax introduction -->
+        <p class="text-gray-700 leading-relaxed mb-4">
+            The syntax for the <code>setd</code> command is:
+        </p>
+        <!-- Code block for syntax -->
+        <p class="text-gray-700 leading-relaxed mb-4">
+            <code>setd "&lt;variable name>",&lt;value>{,&lt;char_id>};</code>
+        </p>
+        <!-- Header: Syntax Parameter Explanation -->
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 📖</h3>
+        <!-- Paragraphs explaining syntax components -->
+        <p class="text-gray-700 leading-relaxed mb-4">
+            <code>"&lt;variable name>"</code>: This is a string expression that evaluates to the full name of the variable you want to set. This string must include the correct variable prefix (e.g., <code>.</code>, <code>@</code>, <code>$</code>, <code>$@</code>, <code>#</code>, <code>##</code>, <code>'</code>) and postfix (<code>$</code>) if applicable.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            <code>&lt;value></code>: This is the value or expression that the variable will be set to. It can be a number, a string, or the result of another expression.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            <code>{,&lt;char_id>}</code>: This is an optional parameter. If provided, it specifies the character ID for whom the variable should be set. This is only applicable for character-bound or account-bound variables (e.g., <code>@</code>, <code>#</code>, <code>##</code>). The target character must be online for this to work.
+        </p>
+       
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= SetdExample
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the use of the 'setd' command for dynamic variable setting.
+//============================================================
+prontera,152,219,4&#9;script&#9;SetdExample&#9;670,{
+    mes "[Setd NPC]";
+    mes "Let's dynamically set some variables!";
+    next;
+
+    // Example 1: Setting a temporary character string variable dynamically
+    setd "@myDynamicVar$", "Hello World!";
+    mes "The value of @myDynamicVar$ is: " + @myDynamicVar$;
+    next;
+
+    // Example 2: Constructing a variable name using concatenation
+    .@baseName$ = "playerData";
+    .@index = 1;
+    setd ".@" + .@baseName$ + "[" + .@index + "]", 12345;
+    mes "The value of .@playerData[1] is: " + .@playerData[1];
+    next;
+
+    // Example 3: Setting an NPC variable dynamically
+    setd ".npcStatus$", "Active";
+    mes "The NPC's status is: " + .npcStatus$;
+    next;
+
+    // Example 4: Corrected dynamic assignment for a global temporary variable
+    setd "$@globalDynamicNum", 500; // Corrected line
+    mes "The value of $@globalDynamicNum is: " + $@globalDynamicNum;
+    next;
+
+    mes "All dynamic variables have been set and displayed!";
+    close;
+}
+</pre>
+</div>
+                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <!-- Unordered List: Script demonstrations (Setd) -->
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>The script demonstrates the setd command's ability to set variable values dynamically, where the variable's name is provided as a string.</li>
+                    <li>Shows how to directly assign a string value ("Hello World!") to a temporary character variable (@myDynamicVar$) by specifying its name as a string literal.</li>
+                    <li>Illustrates constructing a variable name using string concatenation (".@" + .@baseName$ + "[" + .@index + "]") to dynamically target an array element (.@playerData[1]) and assign it a numeric value.</li>
+                    <li>Demonstrates setting an NPC-scoped string variable (.npcStatus$) to "Active" using its string name.</li>
+                    <li>Correctly uses setd to assign a numeric value (500) to a global temporary variable ($@globalDynamicNum) by directly providing its string name. This highlights the proper usage of setd when the variable name is known as a string.</li>
+                </ul>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <video autoplay loop muted playsinline width="100%" height="auto">
+                    <source src="img/setd_vid_00.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
+                <br/><hr/>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is getd? 🤔</h3>
+                <!-- Paragraph: Description of getd -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getd</code> function in rAthena scripting is used to return a reference to a variable whose name can be constructed dynamically. This means you can build the variable's name as a string during script execution and then access or modify that variable.
+                </p>
+
+                <!-- Header: How to use getd? -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">How to use getd? 🛠️</h3>
+                <!-- Paragraph: Primary purpose introduction -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of <code>getd</code> is to enable dynamic variable manipulation. Instead of hardcoding variable names, you can create them on the fly, which is particularly useful for:
+                </p>
+                <!-- Unordered List: Purposes -->
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>Accessing variables based on user input or game state.</li>
+                    <li>Iterating through a series of similarly named variables.</li>
+                    <li>Creating flexible and reusable script functions.</li>
+                </ul>
+                <hr/>
+                <!-- Header: Syntax of getd -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getd 📝</h3>
+                <!-- Paragraph: Syntax introduction -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The syntax for <code>getd</code> is as follows:
+                </p>
+                <!-- Code block for syntax -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>getd("&lt;variable name>")</code>
+                </p>
+                <!-- Header: Syntax Parameter Explanation -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 📋</h3>
+                <!-- Paragraphs explaining syntax components -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>"&lt;variable name>"</code>: This is a string expression that represents the full name of the variable you want to reference. This string can be a literal variable name (e.g., <code>".@myVar$"</code>) or a dynamically constructed string (e.g., <code>".@" + .@varName$ + "123$"</code>).
+                </p>
+                
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Getd_Example
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the usage of the 'getd' command for dynamic
+//= variable access and manipulation.
+//============================================================
+prontera,152,219,4&#9;script&#9;Getd_NPC&#9;669,{
+    mes "Hello! I can show you how 'getd' works.";
+    next;
+
+    // --- Example 1: Setting a variable dynamically ---
+    mes "First, I'll set a variable named '.@dynamicVar$' to 'Hello World!' using getd.";
+    setd ".@dynamicVar$", "Hello World!";
+    mes "The value of .@dynamicVar$ is: " + .@dynamicVar$;
+    next;
+
+    // --- Example 2: Accessing a variable dynamically ---
+    mes "Now, let's try to access a variable dynamically.";
+    mes "I will create a variable name from parts.";
+    .@prefix$ = ".@";
+    .@baseName$ = "item";
+    .@suffix$ = "Count";
+    .@fullVarName$ = .@prefix$ + .@baseName$ + .@suffix$; // Constructs ".@itemCount"
+
+    set getd(.@fullVarName$), 123; // Sets .@itemCount to 123
+    mes "I set the variable named '" + .@fullVarName$ + "' to " + getd(.@fullVarName$) + ".";
+    next;
+
+    // --- Example 3: Dynamic array access ---
+    mes "'getd' is also useful for dynamic array access.";
+    setarray .@myArray[0], 10, 20, 30, 40, 50;
+    .@index = 2; // We want to access the 3rd element (index 2)
+
+    mes "The value of .@myArray[" + .@index + "] is: " + getd(".@myArray[" + .@index + "]");
+    next;
+
+    // --- Example 4: Using getd with setarray ---
+    mes "You can even use 'getd' with 'setarray' to dynamically target an array.";
+    setarray getd(".@newArray[0]"), 100, 200, 300;
+    mes "The first element of .@newArray is: " + .@newArray[0];
+    mes "The second element of .@newArray is: " + .@newArray[1];
+    mes "The third element of .@newArray is: " + .@newArray[2];
+    close;
+}
+</pre>
+</div>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>Setting a variable dynamically: It uses <code>setd</code> (which internally uses <code>getd</code>) to assign "Hello World!" to a variable named <code>.@dynamicVar$</code>. This shows how <code>getd</code> allows you to refer to a variable by its name as a string.</li>
+                    <li>Accessing a variable dynamically: It constructs a variable name (<code>.@itemCount</code>) by concatenating strings and then uses <code>set getd(.@fullVarName$), 123;</code> to assign a value to it. This highlights <code>getd</code>'s ability to resolve a string into a variable reference.</li>
+                    <li>Dynamic array access: The script shows how to access a specific element of an array (<code>.@myArray[2]</code>) by building its index as part of the string passed to <code>getd</code>. This is powerful for flexible data handling.</li>
+                    <li>Using <code>getd</code> with <code>setarray</code>: It demonstrates that <code>getd</code> can be used as the target for <code>setarray</code>, allowing you to dynamically specify which array to populate. In this case, it initializes <code>.@newArray</code>.</li>
+                    <li>In essence, <code>getd</code> provides a way to treat variable names as data, enabling more dynamic and flexible scripting logic.</li>
+                </ul>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <video autoplay loop muted playsinline width="100%" height="auto">
+                    <source src="img/getd_vid_00.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- Warp Command Content -->
+            <div id="warp" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">goto</h2>
+                <!-- Introduction Paragraph -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>goto</code> command in rAthena scripting is a control flow statement that allows you to jump directly to a specified label within the current script.
+                </p>
+                <!-- Header: What is goto? -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is goto? 🚀</h3>
+                <!-- Paragraph: Description of goto -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>goto</code> command is a basic control flow statement that unconditionally transfers program control to a specified label. When <code>goto</code> is executed, the script immediately jumps to the line marked with the target label and continues execution from there.
+                </p>
+
+                <!-- Header: Purpose of goto -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of goto 🎯</h3>
+                <!-- Paragraph: Primary purpose introduction -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of <code>goto</code> is to:
+                </p>
+                <!-- Unordered List: Purposes -->
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><b>Alter Flow</b>: Change the normal sequential execution flow of a script.</li>
+                    <li><b>Jump to Sections</b>: Directly move to a specific section of code identified by a label.</li>
+                </ul>
+                <!-- Paragraph: Disclaimer about goto usage -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    While <code>goto</code> can be used to alter script flow, it is generally discouraged in modern programming practices as it can lead to complex and hard-to-read 'spaghetti code'. Structured control flow statements like <code>if</code>, <code>else if</code>, <code>switch</code>, <code>for</code>, and <code>while</code> are usually preferred for better readability and maintainability.
+                </p>
+                <hr/>
+                <!-- Header: Syntax of goto -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of goto 📝</h3>
+                <!-- Paragraph: Syntax introduction -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The syntax for the <code>goto</code> command is straightforward:
+                </p>
+                <!-- Code block for syntax -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>goto &lt;label>;</code>
+                </p>
+                <!-- Paragraphs explaining syntax components -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Parameter Explanation:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>&lt;label></code>: The name of the label within the current script to which the execution should jump. Labels must be defined within the same script block.
+                </p>
+                <hr/>
+                <!-- Header: How to use goto -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">How to use goto 💡</h3>
+                <!-- Paragraph: Usage explanation -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    You define a label by placing its name followed by a colon (<code>:</code>) on a line by itself. When the <code>goto</code> command is encountered, the script searches for the specified label and resumes execution from that point. Any code between the <code>goto</code> command and the target label will be skipped.
+                </p>
+                
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Goto_Example_NPC
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the usage of the 'goto' command.
+//============================================================
+prontera,156,180,4&#9;script&#9;Goto_Example_NPC&#9;668,{
+    mes "Welcome! I will show you how 'goto' works.";
+    next;
+
+    mes "This is the first message.";
+    next;
+
+    // Using 'goto' to jump to a different section of the script
+    goto SkipSection;
+
+    mes "This message will be skipped because of 'goto'.";
+    next;
+
+SkipSection:
+    mes "This is the message after the 'goto' jump.";
+    next;
+
+    // Example of conditional goto
+    if (BaseLevel < 10) {
+        mes "Your Base Level is low. Let's go to the novice advice section.";
+        next;
+        goto NoviceAdvice;
+    } else {
+        mes "Your Base Level is good. No novice advice needed.";
+        next;
+        goto EndScript;
+    }
+
+NoviceAdvice:
+    mes "Remember to train hard and level up!";
+    next;
+
+EndScript:
+    mes "Script execution finished.";
+    close;
+
+OnInit:
+    // This label runs when the script is loaded.
+    end;
+}
+</pre>
+</div>
+                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <!-- Unordered List: Script demonstrations -->
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>An unconditional <code>goto</code> that skips a <code>mes</code> command.</li>
+                    <li>A conditional <code>goto</code> within an <code>if</code> statement, directing the player to different sections based on their <code>BaseLevel</code>.</li>
+                    <li>Labels (<code>SkipSection</code>, <code>NoviceAdvice</code>, <code>EndScript</code>) are used as jump targets for the <code>goto</code> command.</li>
+                </ul>
+
+
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <video autoplay loop muted playsinline width="100%" height="auto">
+                    <source src="img/goto_vid_00.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

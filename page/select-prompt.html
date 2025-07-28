@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- Warp Command Content -->
+            <div id="warp" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">select(), prompt()</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>select()</code> function is used to create a selectable menu for the invoking character, similar to the <code>menu</code> command, but it directly returns the selected option number.
+                </p>
+                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📚 Function Overview</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>select()</code> function is a convenient alternative to the menu command for simpler cases where you need to present options and get a direct numerical response, such as a yes/no question. It displays a dialog box with clickable options.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Here is the standard syntax:<br/>
+                    <code>select("&lt;option>"{,"&lt;option>",...})</code>
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Each <code>&lt;option></code> is a string that will be displayed as a clickable choice in the menu. Options can be grouped using a colon (:) as a separator, similar to the menu command.
+                </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Simple Selector
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the basic usage of the select() function.
+//============================================================
+payon,148,232,4&#9;script&#9;Simple Selector&#9;567,{
+    mes "[Simple Selector]";
+    mes "Hello there, adventurer!";
+    mes "Do you wish to proceed on your journey?";
+    next;
+
+    // Use select() to present options and get the player's choice.
+    // Option 1: "Yes", Option 2: "No" the "else" statement
+    .@choice = select("Yes:No");
+
+    if (.@choice == 1) {
+        mes "[Simple Selector]";
+        mes "Excellent! May your path be filled with glory!";
+    } else {
+        mes "[Simple Selector]";
+        mes "Understood. Take your time, the world awaits.";
+    }
+    close;
+}
+</pre>
+</div>
+                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This script defines a 'Simple Selector' NPC located in Payon. Its primary function is to greet the player, ask a yes/no question using the select() command, and then display message based on the player's choice.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <!-- First Slideshow -->
+                <div class="slideshow-container" data-slideshow="1">
+                  <div class="mySlides fade"><img src="img/select_01.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/select_02.jpg" style="width:100%"><div class="text"></div></div>
+                  <div class="mySlides fade"><img src="img/select_03.jpg" style="width:100%"><div class="text"></div></div>
+                  <a class="prev" data-action="prev">❮</a>
+                  <a class="next" data-action="next">❯</a>
+                </div>
+
+                <br/><hr/>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is prompt()?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>prompt()</code> function in rAthena scripting is a convenient alternative to the <code>menu()</code> command, primarily used for simpler selection scenarios where a complex label structure is not required. It allows you to present selectable options to the player and captures their choice. 'prompt' works almost the same as select, except that when a character clicks the Cancel button, this function will return 255 instead.
+                </p>
+
+                <!-- Header: Purpose of prompt() -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🤔 Purpose of prompt()</h3>
+                <!-- Unordered List: Purposes -->
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>Display a selectable menu to the invoking character.</li>
+                    <li>Return the numerical index of the option chosen by the player.</li>
+                    <li>Set the special temporary character variable <code>@menu</code> to the selected option's index.</li>
+                    <li>Distinguish itself from <code>select()</code> by returning <code>255</code> if the player clicks the 'Cancel' button, whereas <code>select()</code> would simply end the script or return <code>0</code> depending on context.</li>
+                </ul>
+
+                <!-- Header: Syntax of prompt() -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📜 Syntax of prompt()</h3>
+                <!-- Paragraph: Syntax introduction -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The syntax for <code>prompt()</code> is as follows:
+                </p>
+                <!-- Code block for syntax -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>prompt("&lt;option>"{,"&lt;option>",...})</code>
+                </p>
+
+                <!-- Header: Syntax Parameter Explanation -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">⚙️ Syntax Parameter Explanation</h3>
+                <!-- Paragraphs explaining syntax components -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>"&lt;option>"</code>: This is a string representing a selectable choice in the menu. You can provide multiple options, separated by commas.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>Options can be grouped using the colon (<code>:</code>) character. For example, <code>"Yes:No"</code> will display 'Yes' and 'No' as separate options, but if 'Yes' is selected, <code>@menu</code> will be <code>1</code>, and if 'No' is selected, <code>@menu</code> will be <code>2</code>.</li>
+                    <li>Empty strings as options will not be displayed, allowing for dynamic menu creation.</li>
+                </ul>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Prompt_Example
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the usage of the prompt() function.
+//============================================================
+payon,156,163,4&#9;script&#9;Prompt_NPC&#9;567,{
+    mes "Hello there! Do you enjoy rAthena scripting?";
+    .@choice = prompt("Yes:No");
+
+    if (.@choice == 1) {
+        mes "That's wonderful! I'm glad you enjoy it.";
+    } else if (.@choice == 2) {
+        mes "Oh, I see. Perhaps I can help make it more enjoyable for you!";
+    } else if (.@choice == 255) {
+        mes "You cancelled the conversation. Come back if you change your mind.";
+    }
+    close;
+}
+</pre>
+</div>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                <video autoplay loop muted playsinline width="100%" height="auto">
+                    <source src="img/prompt_vid_00.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
+
+
+            
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

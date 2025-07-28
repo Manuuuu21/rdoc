@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <!-- Warp Command Content -->
+            <div id="warp" class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">NPC Label</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    NPC Labels are used in scripting to define specific points in a script that can be jumped to or triggered under certain conditions. They are essential for controlling the flow of NPC (Non-Player Character) scripts, handling events, or organizing script logic.
+                </p>
+                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is a Label in rAthena?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    A label is a named marker in a script that allows you to direct the script's execution to a specific point. Labels are commonly used for:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><b>Event handling</b>: Triggering code when specific events occur (e.g., <code>OnNPCKillEvent</code>, <code>OnInit</code>)</li>
+                    <li><b>Script flow control</b>: Jumping to specific sections of the script using commands like <code>goto</code>.</li>
+                    <li><b>Event-driven NPC interactions</b>: Executing code when a player interacts with an NPC, kills a monster, or triggers other in-game events.</li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Labels are defined by a name followed by a colon (<code>:</code>) and are case-insensitive in rAthena (e.g., <code>OnInit</code> and <code>oninit</code> are treated the same).
+                </p>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    📝 Syntax. A label is written as:<br/>
+                    <code>LabelName: <br/>// Code here <br>end;</code>
+                </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+// OnInit: Triggered when scripts are loaded (server start, @reloadscript)
+OnInit:
+    announce "ServerEvents NPC: Scripts have been loaded!",bc_blue;
+    // You can also initialize timers here, e.g., initnpctimer;
+end;
+</pre>
+</div>
+                <hr/>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🚀 Script Commands That Utilize Labels</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Labels are essential for several control flow commands:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>goto &lt;label>;</code>: This command forces the script to immediately jump to the specified label, continuing execution from that point.</li>
+                    <li><code>menu "&lt;option_text>",&lt;target_label>{,...};</code>: This command presents a selectable menu to the player. When an option is chosen, the script jumps to its corresponding target_label.</li>
+                    <li><code>doevent "&lt;NPC object name>::&lt;event label>";</code>: This command starts a new execution thread in a specified NPC object at the given label. The original script continues to run concurrently.</li>
+                    <li><code>donpcevent "&lt;NPC object name>::&lt;event label>";</code>: Similar to doevent, but it invokes the event code within another NPC or NPCs. If the NPC name is omitted (::OnLabel), it invokes the event for all NPCs with that label.</li>
+                    <li><code>bindatcmd "&lt;command>","&lt;NPC object name>::&lt;event label>";</code>: This command links a custom atcommand to an NPC event label, causing the event to trigger when the atcommand is used.</li>
+                </ul>
+
+                <hr/>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">✨ Special Labels</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    rAthena also defines several special labels that are automatically triggered by specific server events or conditions:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>OnClock&lt;hour>&lt;minute>:</code> / <code>OnMinute&lt;minute>:</code> / <code>OnHour&lt;hour>:</code> / <code>On&lt;weekday>&lt;hour>&lt;minute>:</code> / <code>OnDay&lt;month>&lt;day>:</code>: These labels execute when the server clock reaches a specified time or date.</li>
+                    <li><code>OnInit:</code>: Executes every time scripts are loaded, including server startup or when <code>@reloadscript</code> is used.</li>
+                    <li><code>OnInterIfInit:</code>: Executes when the map server connects to a char server.</li>
+                    <li><code>OnInterIfInitOnce:</code>: Executes only once when the map server initially connects to a char server.</li>
+                    <li><code>OnAgitStart:</code> / <code>OnAgitEnd:</code> / <code>OnAgitInit:</code> (and their <code>2</code> and <code>3</code> variants for WoE SE/TE): Triggered by War of Emperium events.</li>
+                    <li><code>OnInstanceInit:</code>: Executes when an instance is created via <code>instance_create</code>.</li>
+                    <li><code>OnInstanceDestroy:</code>: Executes when an instance is destroyed.</li>
+                    <li><code>OnTouch:</code>: Triggers when a player walks into an NPC's defined trigger area (if no <code>OnTouch:</code> label is present, execution starts from the beginning of the NPC code).</li>
+                    <li><code>OnTouch_:</code>: Similar to <code>OnTouch</code>, but only runs one instance at a time.</li>
+                    <li><code>OnTouchNPC:</code>: Triggers when a monster walks into an NPC's defined trigger area.</li>
+                    <li><code>OnPCLoginEvent:</code> / <code>OnPCLogoutEvent:</code> / <code>OnPCBaseLvUpEvent:</code> / <code>OnPCJobLvUpEvent:</code> / <code>OnPCDieEvent:</code> / <code>OnPCKillEvent:</code> / <code>OnNPCKillEvent:</code> / <code>OnPCLoadMapEvent:</code>: Triggered by specific player-related events.</li>
+                    <li><code>OnWhisperGlobal:</code>: Triggers when a player whispers the NPC.</li>
+                    <li><code>OnNaviGenerate:</code>: Triggers when running the map-server-generator binary.</li>
+                    <li><code>On&lt;label name>:</code>: General special labels used with Mob scripts or commands that link to a mob/NPC event.</li>
+                </ul>
+
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Special Labels Example
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates various special labels and their triggers.
+//============================================================
+
+// Floating NPC for server-wide or general events
+-&#9;script&#9;ServerEvents&#9;-1,{
+
+    // OnInit: Triggered when scripts are loaded (server start, @reloadscript)
+OnInit:
+    announce "ServerEvents NPC: Scripts have been loaded!",bc_blue;
+    // You can also initialize timers here, e.g., initnpctimer;
+    end;
+
+    // OnClock: Triggered at a specific time (e.g., 00:00 server time)
+OnClock0000:
+    announce "ServerEvents NPC: It's midnight! A new day begins.",bc_yellow;
+    end;
+
+    // OnHour: Triggered at the start of a specific hour (e.g., 06:00 AM)
+OnHour06:
+    announce "ServerEvents NPC: Good morning! The sun is rising.",bc_green;
+    end;
+
+    // OnMinute: Triggered at a specific minute of every hour (e.g., at :30 past every hour)
+OnMinute30:
+    // This can be very spammy if not used carefully.
+    // announce "ServerEvents NPC: It's :30 past the hour!",bc_blue;
+    end;
+
+    // OnAgitStart: Triggered when War of Emperium (FE) starts
+OnAgitStart:
+    announce "ServerEvents NPC: War of Emperium has begun! Prepare for battle!",bc_woe;
+    end;
+
+    // OnAgitEnd: Triggered when War of Emperium (FE) ends
+OnAgitEnd:
+    announce "ServerEvents NPC: War of Emperium has ended. Good fight, everyone!",bc_woe;
+    end;
+
+    // OnInterIfInit: Triggered when map server connects to char server
+OnInterIfInit:
+    debugmes "ServerEvents NPC: Map server connected to char server.";
+    end;
+
+    // OnInterIfInitOnce: Triggered only once when map server initially connects to char server
+OnInterIfInitOnce:
+    debugmes "ServerEvents NPC: Initial connection to char server established.";
+    end;
+
+    // OnPCLoginEvent: Triggered when a player logs in
+OnPCLoginEvent:
+    announce "ServerEvents NPC: Welcome, " + strcharinfo(0) + "!",bc_self;
+    end;
+
+    // OnPCLogoutEvent: Triggered when a player logs out
+OnPCLogoutEvent:
+    debugmes "ServerEvents NPC: " + strcharinfo(0) + " has logged out.";
+    end;
+
+    // OnPCBaseLvUpEvent: Triggered when a player's Base Level increases
+OnPCBaseLvUpEvent:
+    announce "ServerEvents NPC: Congratulations, " + strcharinfo(0) + ", on reaching Base Level " + BaseLevel + "!",bc_blue|bc_self;
+    end;
+
+    // OnPCJobLvUpEvent: Triggered when a player's Job Level increases
+OnPCJobLvUpEvent:
+    announce "ServerEvents NPC: Well done, " + strcharinfo(0) + ", on reaching Job Level " + JobLevel + "!",bc_blue|bc_self;
+    end;
+
+    // OnPCDieEvent: Triggered when a player dies
+OnPCDieEvent:
+    announce "ServerEvents NPC: " + strcharinfo(0) + " has fallen in battle!",bc_red|bc_self;
+    end;
+
+    // OnPCKillEvent: Triggered when a player kills another player
+OnPCKillEvent:
+    announce "ServerEvents NPC: " + strcharinfo(0) + " has defeated " + rid2name(killedrid) + "!",bc_red;
+    end;
+
+    // OnNPCKillEvent: Triggered when a player kills a monster without a specific event label
+OnNPCKillEvent:
+    announce "ServerEvents NPC: " + strcharinfo(0) + " killed a " + getmonsterinfo(killedrid,MOB_NAME) + ".",bc_blue;
+    end;
+
+    // OnWhisperGlobal: Triggered when a player whispers this NPC
+OnWhisperGlobal:
+    mes "ServerEvents NPC: You whispered: " + @whispervar0$;
+    close;
+    end;
+}
+
+// Standard NPC for direct player interaction and touch events
+prontera,150,185,4&#9;script&#9;InteractionNPC&#9;767,{
+    mes "Hello! Click me or walk near me to see different interactions.";
+    close;
+
+    // OnTouch: Triggered when a player walks into the NPC's trigger area (if defined)
+    // This NPC is defined with a default trigger area (4 cells in each direction around 150,185)
+OnTouch:
+    mes "InteractionNPC: You touched my trigger area!";
+    close;
+    end;
+
+    // OnTouchNPC: Triggered when a monster walks into the NPC's trigger area
+OnTouchNPC:
+    // For this to work, the NPC needs a trigger area defined (e.g., prontera,150,185,4 script InteractionNPC 767,5,5,{...})
+    // The 'getattachedrid()' in this context would return the GID of the monster.
+    // announce "InteractionNPC: A monster touched me! GID: " + getattachedrid(),bc_blue;
+    end;
+}
+</pre>
+</div>
+                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This rAthena script serves as a comprehensive demonstration of various special labels and NPC interaction types, featuring a floating ServerEvents NPC that manages server-wide and player-specific events such as script loading, time-based triggers, War of Emperium phases, and player login/logout/level-up/kill events, while also including a standard InteractionNPC positioned in Prontera that handles direct player clicks and area-based triggers for both players and monsters, showcasing different ways NPCs can react to in-game occurrences without direct interaction.
+                </p>
+
+
+
+            
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

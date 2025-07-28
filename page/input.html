@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 200px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">input</h2>
+                <!-- Introduction Paragraph -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>input</code> command in rAthena scripting is used to prompt a player to enter a value, which can be either a number or a string. This is particularly useful for creating interactive NPCs where player input is required.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🤔 Purpose of input</h3>
+                <!-- Paragraph: Description of input purpose -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of the <code>input</code> command is to allow players to provide data to a script. This data can be a numerical value (e.g., for a guessing game, quantity input) or a text string (e.g., for entering a name, a password, or a specific phrase). It creates an input box on the client's screen, pausing the script until the player enters a value and confirms it.
+                </p>
+
+                <!-- Header: Syntax of input -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📜 Syntax of input</h3>
+                <!-- Paragraph: Syntax introduction -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The basic syntax for the <code>input</code> command is:
+                </p>
+                <!-- Code block for syntax -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>input(&lt;variable>{,&lt;min>{,&lt;max>}})</code>
+                </p>
+
+                <!-- Header: Syntax Parameter Explanation -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">⚙️ Syntax Parameter Explanation</h3>
+                <!-- Paragraphs explaining syntax components -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>&lt;variable></code>: This is the variable where the player's input will be stored.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>If you use an integer variable (e.g., <code>.@num</code>), the input box will only allow numerical input.</li>
+                    <li>If you use a string variable (e.g., <code>.@str$</code>), the input box will allow text input.</li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>{,&lt;min>}</code>: (Optional) This parameter sets the minimum allowed value for numerical input or the minimum length for string input. If the input is below this, a warning is displayed, and the script terminates.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>{,&lt;max>}</code>: (Optional) This parameter sets the maximum allowed value for numerical input or the maximum length for string input. If the input is above this, a warning is displayed, and the script terminates.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    By default, negative numbers are not allowed for numerical input to prevent exploits in poorly written scripts. The default <code>min</code> and <code>max</code> values can be configured in <code>conf/script_athena.conf</code>.
+                </p>
+       
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Input_Example
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the use of the 'input' command for both numerical
+//= and string input, including min/max constraints.
+//============================================================
+prontera,152,219,4&#9;script&#9;Input NPC&#9;670,{
+    mes "Hello, adventurer! I'm here to test your input skills.";
+    next;
+
+    mes "First, let's try a number. Guess a number between 1 and 10.";
+    next;
+
+    input .@guess,1,10; // Player inputs a number between 1 and 10
+
+    if (.@guess == 7) {
+        mes "Well done! You guessed the correct number: " + .@guess + "!";
+    } else {
+        mes "Sorry, that's not the number I was thinking of. You entered: " + .@guess + ".";
+    }
+    next;
+
+    mes "Now, let's try some text. Please type 'rAthena' (case-sensitive).";
+    next;
+
+    input .@text_input$,1,10; // Player inputs a string with length between 1 and 10
+
+    if (.@text_input$ == "rAthena") {
+        mes "Excellent! You typed it correctly: " + .@text_input$ + ".";
+    } else {
+        mes "Oops! You typed: '" + .@text_input$ + "'. Please try again next time.";
+    }
+    next;
+
+    mes "That's all for today. Farewell!";
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        This sample script demonstrates two main uses of the <code>input</code> command:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>Numerical Input: The NPC first asks the player to guess a number between 1 and 10. The <code>input .@guess,1,10;</code> line ensures that only a number within this range can be entered. The script then checks if the guess is correct (7 in this case) and provides feedback.</li>
+                        <li>String Input: Next, the NPC prompts the player to type the word 'rAthena'. The <code>input .@text_input$,1,10;</code> line restricts the input to a string between 1 and 10 characters long. The script then verifies if the entered string matches 'rAthena' exactly (case-sensitive) and responds accordingly.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/input_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
