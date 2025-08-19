@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">&lt;URL>, &lt;QUEST>, &lt;MSG>, &lt;TIPBOX></h2>
+                <!-- Introduction Paragraph -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The tags <code>&lt;URL></code>, <code>&lt;QUEST></code>, <code>&lt;MSG></code>, and <code>&lt;TIPBOX></code> are special HTML-like tags used within the <code>mes</code> command to display interactive elements in the client's dialogue window. They allow for linking to external websites, quests, internal messages, and tip boxes, respectively.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🌐 &lt;URL> Tag</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>&lt;URL></code> tag is used to create a clickable link to an external website directly within an NPC dialogue. When a player clicks on this link, their default web browser will open to the specified URL.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><strong>Purpose:</strong> To direct players to external resources such as forums, wikis, or event pages.</li>
+                    <li><strong>Syntax:</strong> <pre class="inline bg-gray-100 p-1 rounded-md text-sm font-mono"><code>&lt;URL>Display Name&lt;INFO>http://www.example.com/&lt;/INFO>&lt;/URL></code></pre></li>
+                    <li><strong>Parameters:</strong>
+                        <ul class="list-circle list-inside ml-4 space-y-1">
+                            <li><code>Display Name</code>: The text that will be displayed as the clickable link in the dialogue.</li>
+                            <li><code>http://www.example.com/</code>: The full URL of the website to open.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <hr/>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📜 &lt;QUEST> Tag</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>&lt;QUEST></code> tag allows you to create a clickable link to a specific quest within the game's quest log. Clicking this link will open the player's quest window and navigate to the details of the specified quest ID.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><strong>Purpose:</strong> To guide players to relevant quests, provide quest hints, or confirm quest objectives.</li>
+                    <li><strong>Syntax:</strong> <pre class="inline bg-gray-100 p-1 rounded-md text-sm font-mono"><code>&lt;QUEST>Quest Display Name&lt;INFO>Quest ID&lt;/INFO>&lt;/QUEST></code></pre></li>
+                    <li><strong>Parameters:</strong>
+                        <ul class="list-circle list-inside ml-4 space-y-1">
+                            <li><code>Quest Display Name</code>: The text displayed as the clickable quest link.</li>
+                            <li><code>Quest ID</code>: The numeric ID of the quest as defined in the server's quest database.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <hr/>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">💬 &lt;MSG> Tag</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>&lt;MSG></code> tag is used to display a message from the client's internal <code>msgstringtable.txt</code> file (or its equivalent in newer clients). This allows for displaying predefined client-side messages without hardcoding them directly into the script.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><strong>Purpose:</strong> To utilize client-side localized messages, often for system-generated or common dialogue phrases.</li>
+                    <li><strong>Syntax:</strong> <pre class="inline bg-gray-100 p-1 rounded-md text-sm font-mono"><code>&lt;MSG>Message ID&lt;/MSG></code></pre></li>
+                    <li><strong>Parameters:</strong>
+                        <ul class="list-circle list-inside ml-4 space-y-1">
+                            <li><code>Message ID</code>: The numeric ID corresponding to an entry in the client's <code>msgstringtable.txt</code>.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <hr/>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">💡 &lt;TIPBOX> Tag</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>&lt;TIPBOX></code> tag displays a small, informational tip box on the client's screen. This is typically used for short, contextual hints or explanations.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><strong>Purpose:</strong> To provide quick tips or additional information to the player without interrupting the main dialogue flow.</li>
+                    <li><strong>Syntax:</strong> <pre class="inline bg-gray-100 p-1 rounded-md text-sm font-mono"><code>&lt;TIPBOX>Display Name&lt;INFO>Tip ID&lt;/INFO>&lt;/TIPBOX></code></pre></li>
+                    <li><strong>Parameters:</strong>
+                        <ul class="list-circle list-inside ml-4 space-y-1">
+                            <li><code>Display Name</code>: The text that will be displayed as the clickable trigger for the tip box.</li>
+                            <li><code>Tip ID</code>: The numeric ID of the tip to display. The content of the tip is defined client-side.</li>
+                        </ul>
+                    </li>
+                </ul>
+       
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Interactive_NPC
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the usage of URL, QUEST, MSG, and TIPBOX tags.
+//============================================================
+prontera,156,180,4&#9;script&#9;Interactive NPC&#9;803,{
+    mes "Welcome! I can show you some interactive features.";
+    next;
+    mes "Visit our official website: &lt;URL>rAthena.org&lt;INFO>http://rathena.org/&lt;/INFO>&lt;/URL> for more info.";
+    next;
+    mes "Check out your first quest: &lt;QUEST>Novice Quest&lt;INFO>1001&lt;/INFO>&lt;/QUEST>.";
+    next;
+    mes "Here's a common message: &lt;MSG>1&lt;/MSG>.";
+    next;
+    mes "Need a hint? Click here: &lt;TIPBOX>Basic Tip&lt;INFO>1&lt;/INFO>&lt;/TIPBOX>.";
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>The <code>Interactive NPC</code> is placed in Prontera and serves as a demonstration for these interactive tags.</li>
+                        <li>The first <code>mes</code> command uses the <code>&lt;URL></code> tag to create a clickable link to "rAthena.org", which will open the specified URL in the player's web browser.</li>
+                        <li>The second <code>mes</code> command uses the <code>&lt;QUEST></code> tag to create a clickable link named "Novice Quest" that, when clicked, will open the client's quest log to quest ID 1001.</li>
+                        <li>The third <code>mes</code> command uses the <code>&lt;MSG></code> tag to display a message corresponding to message ID 1 from the client's <code>msgstringtable.txt</code>.</li>
+                        <li>The fourth <code>mes</code> command uses the <code>&lt;TIPBOX></code> tag to create a clickable text "Basic Tip" that, when clicked, will display a tip box associated with tip ID 1.</li>
+                        <li>This script effectively showcases how to embed various interactive elements directly within NPC dialogue lines using these specialized tags.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/url-quest-msg-tipbox_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.<br/>
+            Contact me: 
+            <a href="mailto:manuelsintos21@gmail.com" style="color:lightblue">manuelsintos21@gmail.com</a>
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

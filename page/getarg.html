@@ -17,7 +17,7 @@
     <style>
         /* Styling for the Ace Editor container */
         .ace-editor-instance {
-            min-height: 200px; /* Default height for Ace editor */
+            min-height: 250px; /* Default height for Ace editor */
             max-height: 250px; /* Max height, Ace will add scrollbar */
             width: 100%;
             border-radius: 0.5rem; /* Match pre_container border-radius */
@@ -27,7 +27,6 @@
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
-
     <!-- Header -->
     <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
         <div class="container mx-auto flex justify-between items-center">
@@ -75,47 +74,45 @@
                 <br/><hr/><br/>
                 
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
-                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">input</h2>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getarg</h2>
                 <!-- Introduction Paragraph -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The <code>input</code> command in rAthena scripting is used to prompt a player to enter a value, which can be either a number or a string. This is particularly useful for creating interactive NPCs where player input is required.
+                    The <code>getarg</code> function in rAthena scripting is used to retrieve arguments that are passed to a function or subroutine when it is called using the <code>callfunc</code> or <code>callsub</code> commands. It allows you to make your functions or subroutines dynamic, performing different actions based on the values provided during the call.
                 </p>
 
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🤔 Purpose of input</h3>
-                <!-- Paragraph: Description of input purpose -->
+                <!-- Header: How to use getarg? -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">How to use getarg? 📝</h3>
+                <!-- Paragraph: Usage explanation -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The primary purpose of the <code>input</code> command is to allow players to provide data to a script. This data can be a numerical value (e.g., for a guessing game, quantity input) or a text string (e.g., for entering a name, a password, or a specific phrase). It creates an input box on the client's screen, pausing the script until the player enters a value and confirms it.
+                    You use <code>getarg</code> within the body of a function or subroutine to access the values that were supplied as arguments. The arguments are indexed starting from 0, meaning the first argument passed is <code>getarg(0)</code>, the second is <code>getarg(1)</code>, and so on.
                 </p>
 
-                <!-- Header: Syntax of input -->
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📜 Syntax of input</h3>
+                <!-- Header: Purpose of getarg? -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of getarg? 🎯</h3>
+                <!-- Paragraph: Primary purpose introduction -->
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of <code>getarg</code> is to enable reusability and flexibility in your scripts. Instead of writing separate blocks of code for similar tasks that only differ by a few values, you can write a single function/subroutine and pass those differing values as arguments. This makes your scripts more organized, efficient, and easier to maintain.
+                </p>
+
+                <!-- Header: Syntax of getarg? -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getarg? 📜</h3>
                 <!-- Paragraph: Syntax introduction -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The basic syntax for the <code>input</code> command is:
+                    The syntax for <code>getarg</code> is as follows:
                 </p>
                 <!-- Code block for syntax -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>input(&lt;variable>{,&lt;min>{,&lt;max>}})</code>
+                    <code>getarg(&lt;index>{,&lt;default_value>})</code>
                 </p>
 
-                <!-- Header: Syntax Parameter Explanation -->
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">⚙️ Syntax Parameter Explanation</h3>
+                <!-- Header: Syntax Parameter Explain. -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explain. 📖</h3>
                 <!-- Paragraphs explaining syntax components -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>&lt;variable></code>: This is the variable where the player's input will be stored.
-                </p>
-                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                    <li>If you use an integer variable (e.g., <code>.@num</code>), the input box will only allow numerical input.</li>
-                    <li>If you use a string variable (e.g., <code>.@str$</code>), the input box will allow text input.</li>
-                </ul>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>{,&lt;min>}</code>: (Optional) This parameter sets the minimum allowed value for numerical input or the minimum length for string input. If the input is below this, a warning is displayed, and the script terminates.
+                    <code>&lt;index></code>: This is a numerical value representing the position of the argument you want to retrieve. The indexing starts from 0 (the first argument).
                 </p>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>{,&lt;max>}</code>: (Optional) This parameter sets the maximum allowed value for numerical input or the maximum length for string input. If the input is above this, a warning is displayed, and the script terminates.
-                </p>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    By default, negative numbers are not allowed for numerical input to prevent exploits in poorly written scripts. The default <code>min</code> and <code>max</code> values can be configured in <code>conf/script_athena.conf</code>.
+                    <code>{,&lt;default_value>}</code>: This is an optional parameter. If the argument at the specified <code>&lt;index></code> was not provided when the function/subroutine was called, <code>getarg</code> will return this <code>&lt;default_value></code> instead of terminating the script with an error. If <code>&lt;default_value></code> is omitted and the argument is not found, the script will terminate.
                 </p>
        
 
@@ -123,56 +120,67 @@
 <button class="copy-button">Copy</button>
 <pre>
 //===== rAthena Script =======================================
-//= Input_Example
+//= Argument_Example
 //===== By: rAthena AI Assistant ============================
-//= Demonstrates the use of the 'input' command for both numerical
-//= and string input, including min/max constraints.
+//= Demonstrates the use of getarg with callfunc.
 //============================================================
-prontera,152,219,4&#9;script&#9;Input NPC&#9;670,{
-    mes "Hello, adventurer! I'm here to test your input skills.";
+prontera,152,219,4&#9;script&#9;Argument_NPC&#9;707,{
+    mes "Hello! I can perform calculations for you.";
     next;
 
-    mes "First, let's try a number. Guess a number between 1 and 10.";
+    // Example 1: Adding two numbers
+    mes "Let's add two numbers.";
+    input .@num1;
+    input .@num2;
+    .@result = callfunc("CalculateSum", .@num1, .@num2);
+    mes "The sum of " + .@num1 + " and " + .@num2 + " is " + .@result + ".";
     next;
 
-    input .@guess,1,10; // Player inputs a number between 1 and 10
-
-    if (.@guess == 7) {
-        mes "Well done! You guessed the correct number: " + .@guess + "!";
-    } else {
-        mes "Sorry, that's not the number I was thinking of. You entered: " + .@guess + ".";
-    }
-    next;
-
-    mes "Now, let's try some text. Please type 'rAthena' (case-sensitive).";
-    next;
-
-    input .@text_input$,1,10; // Player inputs a string with length between 1 and 10
-
-    if (.@text_input$ == "rAthena") {
-        mes "Excellent! You typed it correctly: " + .@text_input$ + ".";
-    } else {
-        mes "Oops! You typed: '" + .@text_input$ + "'. Please try again next time.";
-    }
-    next;
-
-    mes "That's all for today. Farewell!";
+    // Example 2: Multiplying two numbers with a default value for the second argument
+    mes "Now, let's multiply. If you only give one number, I'll multiply it by 5.";
+    input .@factor1;
+    .@product = callfunc("CalculateProduct", .@factor1);
+    
+    mes "The product is " + .@product + ".";
     close;
+}
+
+//===== rAthena Script =======================================
+//= CalculateSum
+//===== By: rAthena AI Assistant ============================
+//= Function to calculate the sum of two arguments.
+//============================================================
+function&#9;script&#9;CalculateSum    {
+    .@val1 = getarg(0);
+    .@val2 = getarg(1);
+    return .@val1 + .@val2;
+}
+
+//===== rAthena Script =======================================
+//= CalculateProduct
+//===== By: rAthena AI Assistant ============================
+//= Function to calculate the product of two arguments, with a default.
+//============================================================
+function&#9;script&#9;CalculateProduct    {
+    .@val1 = getarg(0);
+    .@val2 = getarg(1, 5); // Default value of 5 if second argument is not provided
+    return .@val1 * .@val2;
 }
 </pre>
 </div>
                     <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
                     <p class="text-gray-700 leading-relaxed mb-4">
-                        This sample script demonstrates two main uses of the <code>input</code> command:
+                        The <code>Argument_NPC</code> script interacts with the player, allowing them to perform two types of calculations by calling separate functions: <code>CalculateSum</code> and <code>CalculateProduct</code>.
                     </p>
                     <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                        <li>Numerical Input: The NPC first asks the player to guess a number between 1 and 10. The <code>input .@guess,1,10;</code> line ensures that only a number within this range can be entered. The script then checks if the guess is correct (7 in this case) and provides feedback.</li>
-                        <li>String Input: Next, the NPC prompts the player to type the word 'rAthena'. The <code>input .@text_input$,1,10;</code> line restricts the input to a string between 1 and 10 characters long. The script then verifies if the entered string matches 'rAthena' exactly (case-sensitive) and responds accordingly.</li>
+                        <li>For the sum calculation, the script prompts the player for two numbers. These numbers are then passed as arguments to the <code>CalculateSum</code> function. Inside <code>CalculateSum</code>, <code>getarg(0)</code> and <code>getarg(1)</code> retrieve these values, add them, and return the sum.</li>
+                        <li>For the multiplication, the script now directly prompts for a single number. This number is passed as the first argument to the <code>CalculateProduct</code> function. Since no second argument is explicitly provided in the <code>callfunc</code> command, the <code>CalculateProduct</code> function will utilize the default value of 5 (defined by <code>getarg(1, 5)</code>) for the second factor, multiplying the player's input by 5.</li>
+                        <li>This demonstrates how <code>getarg</code> enables functions to be flexible, either accepting all provided arguments or falling back to default values when arguments are omitted, promoting code reusability.</li>
                     </ul>
 
                     <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
                     <video autoplay loop muted playsinline width="100%" height="auto">
-                        <source src="img/input_vid_00.mp4" type="video/mp4" />
+                        <source src="img/getarg_vid_00.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
 

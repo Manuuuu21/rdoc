@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+
+                <!-- CHANGE THE CONTENT HERE -->
+
+
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getargcount</h2>
+                <!-- Introduction Paragraph -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Understanding getargcount() 📚</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            <code>getargcount()</code> is a function used in rAthena scripting to determine the number of arguments passed to a script function (defined with <code>function</code>) or a subroutine (called with <code>callsub</code>). It's particularly useful when you design flexible functions that can accept a variable number of inputs.
+        </p>
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of getargcount() 💡</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            The primary purpose of <code>getargcount()</code> is to allow your script to dynamically adapt to the number of arguments it receives. This is essential for creating reusable and versatile functions or subroutines that can handle different scenarios without needing separate definitions for each argument count.
+        </p>
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getargcount() 📝</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            The syntax for <code>getargcount()</code> is straightforward as it takes no parameters:
+            <code>getargcount()</code>
+        </p>
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation ⚙️</h3>
+        <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+            <li>This function does not require any parameters. It directly returns an integer representing the count of arguments passed to the currently executing function or subroutine.</li>
+        </ul>
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Sample Code of using getargcount() 💻</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Let's look at an example where an NPC calls a function, passing a different number of arguments each time, and the function uses <code>getargcount()</code> to process them.
+        </p>
+       
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= ArgumentCounterNPC
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the use of getargcount() and getarg()
+//= to handle variable arguments in a function.
+//============================================================
+ayothaya,214,180,5&#9;script&#9;ArgumentCounterNPC&#9;895,{
+    mes "Hello! I can count arguments.";
+    next;
+
+    // Call the function with different numbers of arguments
+    mes "Calling 'MyFunction' with 0 arguments:";
+    callfunc "MyFunction";
+    next;
+
+    mes "Calling 'MyFunction' with 2 arguments (10, 'Hello'):";
+    callfunc "MyFunction", 10, "Hello";
+    next;
+
+    mes "Calling 'MyFunction' with 4 arguments (1, 2, 3, 4):";
+    callfunc "MyFunction", 1, 2, 3, 4;
+    next;
+
+    mes "That's all for now!";
+    close;
+}
+
+//===== rAthena Script =======================================
+//= MyFunction
+//===== By: rAthena AI Assistant ============================
+//= A reusable function to demonstrate argument counting.
+//============================================================
+function&#9;script&#9;MyFunction&#9;{
+    .@count = getargcount();
+
+    mes "I received " + .@count + " arguments.";
+
+    if (.@count > 0) {
+        mes "Here they are:";
+        for (.@i = 0; .@i < .@count; .@i++) {
+            mes "Argument " + (.@i + 1) + ": " + getarg(.@i);
+        }
+    }
+    return;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        The <code>Argument_NPC</code> script interacts with the player, allowing them to perform two types of calculations by calling separate functions: <code>CalculateSum</code> and <code>CalculateProduct</code>.
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>The script defines two parts: <code>ArgumentCounterNPC</code> (the main NPC) and <code>MyFunction</code> (a reusable function).</li>
+                        <li>The <code>ArgumentCounterNPC</code> calls <code>MyFunction</code> three times, each time passing a different number of arguments (0, 2, and 4).</li>
+                        <li>Inside <code>MyFunction</code>, <code>getargcount()</code> is used to retrieve the total number of arguments passed during that specific call, storing it in the <code>.@count</code> variable.</li>
+                        <li>An <code>if</code> statement checks if <code>.@count</code> is greater than 0. If it is, a <code>for</code> loop iterates from 0 up to (but not including) <code>.@count</code>.</li>
+                        <li>Within the loop, <code>getarg(.@i)</code> is used to access each argument by its index (starting from 0), and its value is displayed.</li>
+                        <li>This demonstrates how <code>getargcount()</code> allows <code>MyFunction</code> to dynamically process any number of arguments it receives, making it highly flexible.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/getargcount_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+
+
+
+            <!-- END OF CHANGE THE CONTENT HERE -->
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

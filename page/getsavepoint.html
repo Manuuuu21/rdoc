@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+
+                <!-- CHANGE THE CONTENT HERE -->
+
+
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getsavepoint()</h2>
+                <!-- Introduction Paragraph -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📜 What is getsavepoint?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getsavepoint</code> is a function that retrieves specific information about the invoking character's currently set save point. This is the location where a character respawns after death or when using a Butterfly Wing.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🛠️ How to Use and Purpose</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of <code>getsavepoint</code> is to access the map name, X-coordinate, and Y-coordinate of a player's save point. This is particularly useful in scripts where you might need to check a player's home location or create custom teleportation services that can send them back to their save point without using the standard <code>warp "SavePoint",0,0;</code> command.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">⌨️ Syntax</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The syntax for the command is as follows:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>getsavepoint(&lt;information type&gt;{,&lt;char_id&gt;})</code>
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📋 Parameter Explanation</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>&lt;information type&gt;</code>: This is a required numerical value that determines what piece of information you want to retrieve.
+                        <ul class="list-[circle] list-inside mt-1 space-y-1">
+                            <li><code>0</code>: Returns the map name as a string (e.g., "prontera").</li>
+                            <li><code>1</code>: Returns the X-coordinate as a number.</li>
+                            <li><code>2</code>: Returns the Y-coordinate as a number.</li>
+                        </ul>
+                    </li>
+                    <li><code>{,&lt;char_id&gt;}</code>: This is an optional parameter. If you provide a character's ID, the function will retrieve the save point information for that specific character instead of the one interacting with the NPC.</li>
+                </ul>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Save Point Checker
+//===== By: rAthena AI Assistant ============================
+//= This NPC will check and inform the player of their
+//= current save point location.
+//============================================================
+prontera,155,185,5&#9;script&#9;Save Point Checker&#9;914,{
+    mes "[Save Point Checker]";
+    mes "Hello there, adventurer!";
+    mes "Would you like me to check where your current save point is?";
+    next;
+
+    if (select("Yes, please!":"No, thank you.") == 2) {
+        mes "[Save Point Checker]";
+        mes "Alright, come back if you change your mind.";
+        close;
+    }
+
+    // Retrieve the save point information into variables
+    .@map$ = getsavepoint(0);
+    .@mapX = getsavepoint(1);
+    .@mapY = getsavepoint(2);
+
+    mes "[Save Point Checker]";
+    mes "Let me see...";
+    mes "Your save point is set at:^0000FF " + .@map$ + " (" + .@mapX + "," + .@mapY + ")^000000.";
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>The NPC greets the player and asks if they want to know their save point location.</li>
+                        <li>A <code>select</code> menu provides the player with a "Yes" or "No" option. If the player chooses "No," the script ends.</li>
+                        <li>If the player chooses "Yes," the script proceeds to call the <code>getsavepoint</code> function three times:
+                            <ul class="list-[circle] list-inside mt-1 space-y-1">
+                                <li><code>getsavepoint(0)</code> retrieves the map name and stores it in the temporary string variable <code>.@map$</code>.</li>
+                                <li><code>getsavepoint(1)</code> retrieves the X-coordinate and stores it in the temporary integer variable <code>.@mapX</code>.</li>
+                                <li><code>getsavepoint(2)</code> retrieves the Y-coordinate and stores it in the temporary integer variable <code>.@mapY</code>.</li>
+                            </ul>
+                        </li>
+                        <li>Finally, the NPC uses the <code>mes</code> command to display the stored information to the player in a formatted message, showing the map name and coordinates in blue text for emphasis.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/getsavepoint_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+            <!-- END OF CHANGE THE CONTENT HERE -->
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
     <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
     <style>
         /* Styling for the Ace Editor container */
         .ace-editor-instance {
@@ -70,6 +71,10 @@
 
             <!-- Warp Command Content -->
             <div id="warp" class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+                
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
                 <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">select(), prompt()</h2>
                 <p class="text-gray-700 leading-relaxed mb-4">
@@ -85,7 +90,7 @@
                     <code>select("&lt;option>"{,"&lt;option>",...})</code>
                 </p>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    Each <code>&lt;option></code> is a string that will be displayed as a clickable choice in the menu. Options can be grouped using a colon (:) as a separator, similar to the menu command.
+                    Each <code>&lt;option></code> is a string that will be displayed as a clickable choice in the menu. Options can be grouped using a colon (<code>:</code>) as a separator, similar to the menu command.
                 </p>
 
 <div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
@@ -210,7 +215,9 @@ payon,156,163,4&#9;script&#9;Prompt_NPC&#9;567,{
     <!-- Footer -->
     <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
         <div class="container mx-auto text-center text-sm">
-            &copy; 2025 Manuel G. Sintos. All rights reserved.
+            &copy; 2025 Manuel G. Sintos. All rights reserved.<br/>
+            Contact me: 
+            <a href="mailto:manuelsintos21@gmail.com" style="color:lightblue">manuelsintos21@gmail.com</a>
         </div>
     </footer>
 

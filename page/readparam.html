@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+
+                <!-- CHANGE THE CONTENT HERE -->
+
+
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">readparam()</h2>
+                <!-- Introduction Paragraph -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is readparam? 🤔</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                The <code>readparam</code> function in rAthena scripting is used to retrieve specific statistical information about a character. It can return various stats for the invoking character or a specified player.
+            </p>
+
+            <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">How to use readparam? 📝</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                You use <code>readparam</code> by calling it with a parameter number (or a constant representing a stat) to specify which piece of information you want to retrieve. Optionally, you can specify a character's name or ID to get information about another player.
+            </p>
+
+            <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of readparam? 🎯</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                The primary purpose of <code>readparam</code> is to allow scripts to access and utilize character statistics for various in-game functionalities. This includes checking player levels, HP/SP, zeny, and other attributes to create dynamic interactions, quest requirements, or conditional dialogues. While many of these stats are also available as direct variables (e.g., <code>Zeny</code>, <code>BaseLevel</code>), <code>readparam</code> offers a more generalized way to access them, especially when querying other characters.
+            </p>
+
+            <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of readparam? 📜</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                <li><code>readparam(&lt;parameter number&gt;{,"&lt;character name&gt;"})</code></li>
+                <li><code>readparam(&lt;parameter number&gt;{,&lt;char_id&gt;})</code></li>
+            </ul>
+
+            <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+            <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                <li><strong>&lt;parameter number&gt;</strong>: This is a numerical ID or a predefined constant representing the specific stat or parameter you want to retrieve. The rAthena documentation lists many common constants such as <code>StatusPoint</code>, <code>BaseLevel</code>, <code>SkillPoint</code>, <code>Class</code>, <code>Upper</code>, <code>Zeny</code>, <code>Sex</code>, <code>Weight</code>, <code>MaxWeight</code>, <code>JobLevel</code>, <code>BaseExp</code>, <code>JobExp</code>, <code>NextBaseExp</code>, <code>NextJobExp</code>, <code>Hp</code>, <code>MaxHp</code>, <code>Sp</code>, <code>MaxSp</code>, <code>BaseJob</code>, <code>Karma</code>, <code>Manner</code>, <code>bVit</code>, <code>bDex</code>, <code>bAgi</code>, <code>bStr</code>, <code>bInt</code>, <code>bLuk</code>, <code>Ap</code>, <code>MaxAp</code>.</li>
+                <li><strong>"&lt;character name&gt;" (Optional)</strong>: A string representing the name of the character whose information you want to retrieve. If omitted, the function will return information about the character currently attached to the script.</li>
+                <li><strong>&lt;char_id&gt; (Optional)</strong>: An integer representing the character ID of the player whose information you want to retrieve. This serves the same purpose as "&lt;character name&gt;" but uses the character's unique ID.</li>
+            </ul>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= StatChecker
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the usage of the 'readparam' function to retrieve
+//= and display various character statistics.
+//============================================================
+splendide,194,145,5&#9;script&#9;StatChecker&#9;905,{
+    mes "^FF0000[Stat Checker NPC]^000000";
+    mes "Hello, " + strcharinfo(0) + "!";
+    mes "I can tell you some interesting facts about yourself.";
+    next;
+
+    mes "^FF0000[Your Basic Stats]^000000";
+    mes "Base Level: " + readparam(BaseLevel);
+    mes "Job Level: " + readparam(JobLevel);
+    mes "Current HP: " + readparam(Hp) + " / " + readparam(MaxHp);
+    mes "Current SP: " + readparam(Sp) + " / " + readparam(MaxSp);
+    mes "Zeny: " + readparam(Zeny);
+    mes "Weight: " + readparam(Weight) + " / " + readparam(MaxWeight);
+    next;
+
+    mes "^FF0000[Your Attributes]^000000";
+    mes "STR: " + readparam(bStr);
+    mes "AGI: " + readparam(bAgi);
+    mes "VIT: " + readparam(bVit);
+    mes "INT: " + readparam(bInt);
+    mes "DEX: " + readparam(bDex);
+    mes "LUK: " + readparam(bLuk);
+    next;
+
+    mes "^FF0000[Other Information]^000000";
+    mes "Your Class ID: " + readparam(Class);
+    mes "Your Gender (0=Female, 1=Male): " + readparam(Sex);
+    mes "Your Upper Class Type (0=Normal, 1=Advanced, 2=Baby): " + readparam(Upper);
+    next;
+
+    mes "I hope this information was helpful!";
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        This script defines an NPC named 'StatChecker' located in Prontera at coordinates 150,150. When a player interacts with this NPC, it initiates a dialogue that provides various statistics about the player. The script uses the <code>readparam</code> function extensively to fetch these details:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>It first greets the player by name using <code>strcharinfo(0)</code>.</li>
+                        <li>It then displays basic character information such as <code>BaseLevel</code>, <code>JobLevel</code>, current and maximum <code>Hp</code> and <code>Sp</code>, <code>Zeny</code>, and <code>Weight</code> using <code>readparam</code> with the corresponding constants.</li>
+                        <li>Next, it retrieves and shows the player's core attributes: <code>bStr</code>, <code>bAgi</code>, <code>bVit</code>, <code>bInt</code>, <code>bDex</code>, and <code>bLuk</code>.</li>
+                        <li>Finally, it provides additional details like the player's <code>Class</code> ID, <code>Sex</code>, and <code>Upper</code> class type.</li>
+                        <li>The <code>next;</code> command is used to paginate the dialogue, allowing the player to read through the information in sections.</li>
+                        <li>The <code>close;</code> command ends the NPC dialogue.</li>
+                    </ul>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        This script effectively demonstrates how <code>readparam</code> can be used to access a wide range of character data directly within a script, enabling personalized and informative NPC interactions.
+                    </p>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/readparam_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+
+
+
+            <!-- END OF CHANGE THE CONTENT HERE -->
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

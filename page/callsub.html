@@ -17,7 +17,7 @@
     <style>
         /* Styling for the Ace Editor container */
         .ace-editor-instance {
-            min-height: 200px; /* Default height for Ace editor */
+            min-height: 250px; /* Default height for Ace editor */
             max-height: 250px; /* Max height, Ace will add scrollbar */
             width: 100%;
             border-radius: 0.5rem; /* Match pre_container border-radius */
@@ -75,47 +75,55 @@
                 <br/><hr/><br/>
                 
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
-                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">input</h2>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">callsub</h2>
                 <!-- Introduction Paragraph -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The <code>input</code> command in rAthena scripting is used to prompt a player to enter a value, which can be either a number or a string. This is particularly useful for creating interactive NPCs where player input is required.
+                    The <code>callsub</code> command in rAthena scripting is used to execute a subroutine within the <em>current</em> script. It allows you to reuse blocks of code multiple times without duplicating them, making your scripts more organized and efficient.
                 </p>
 
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🤔 Purpose of input</h3>
-                <!-- Paragraph: Description of input purpose -->
+                <!-- Header: Purpose of callsub -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of <code>callsub</code> 🎯</h3>
+                <!-- Paragraph: Description of callsub purpose -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The primary purpose of the <code>input</code> command is to allow players to provide data to a script. This data can be a numerical value (e.g., for a guessing game, quantity input) or a text string (e.g., for entering a name, a password, or a specific phrase). It creates an input box on the client's screen, pausing the script until the player enters a value and confirms it.
+                    The primary purpose of <code>callsub</code> is to enable code reusability within a single script. When you have a specific set of actions that need to be performed multiple times at different points in your script, you can define these actions under a label and then <code>callsub</code> to that label. This helps in:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>Reducing script size and redundancy.</li>
+                    <li>Improving readability and maintainability.</li>
+                    <li>Allowing for modular script design within a single NPC.</li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Unlike <code>callfunc</code>, which calls a separate NPC function, <code>callsub</code> keeps the execution flow within the same NPC script instance.
                 </p>
 
-                <!-- Header: Syntax of input -->
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📜 Syntax of input</h3>
+                <!-- Header: Syntax of callsub -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of <code>callsub</code> 📝</h3>
                 <!-- Paragraph: Syntax introduction -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The basic syntax for the <code>input</code> command is:
+                    The basic syntax for the <code>callsub</code> command is:
                 </p>
                 <!-- Code block for syntax -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>input(&lt;variable>{,&lt;min>{,&lt;max>}})</code>
+                    <code>callsub &lt;label>{,&lt;argument>,...&lt;argument>};</code>
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Or, in its function form:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>callsub(&lt;label>{,&lt;argument>,...&lt;argument>})</code>
                 </p>
 
                 <!-- Header: Syntax Parameter Explanation -->
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">⚙️ Syntax Parameter Explanation</h3>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 📖</h3>
                 <!-- Paragraphs explaining syntax components -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>&lt;variable></code>: This is the variable where the player's input will be stored.
-                </p>
-                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                    <li>If you use an integer variable (e.g., <code>.@num</code>), the input box will only allow numerical input.</li>
-                    <li>If you use a string variable (e.g., <code>.@str$</code>), the input box will allow text input.</li>
-                </ul>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>{,&lt;min>}</code>: (Optional) This parameter sets the minimum allowed value for numerical input or the minimum length for string input. If the input is below this, a warning is displayed, and the script terminates.
+                    <code>&lt;label></code>: This is the name of the label within the current script where the subroutine begins. Do <em>not</em> use quotes around the label name.
                 </p>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>{,&lt;max>}</code>: (Optional) This parameter sets the maximum allowed value for numerical input or the maximum length for string input. If the input is above this, a warning is displayed, and the script terminates.
+                    <code>{,&lt;argument>,...&lt;argument>}</code>: These are optional parameters that you can pass to the subroutine. These arguments can be numbers, strings, or variables. Inside the subroutine, these arguments can be retrieved using the <code>getarg()</code> function, where <code>getarg(0)</code> refers to the first argument, <code>getarg(1)</code> to the second, and so on.
                 </p>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    By default, negative numbers are not allowed for numerical input to prevent exploits in poorly written scripts. The default <code>min</code> and <code>max</code> values can be configured in <code>conf/script_athena.conf</code>.
+                    After the subroutine finishes its execution, it should use the <code>return</code> command to transfer control back to the point where <code>callsub</code> was originally invoked.
                 </p>
        
 
@@ -123,56 +131,71 @@
 <button class="copy-button">Copy</button>
 <pre>
 //===== rAthena Script =======================================
-//= Input_Example
+//= ZenyChecker NPC
 //===== By: rAthena AI Assistant ============================
-//= Demonstrates the use of the 'input' command for both numerical
-//= and string input, including min/max constraints.
+//= Demonstrates the use of callsub for Zeny management.
 //============================================================
-prontera,152,219,4&#9;script&#9;Input NPC&#9;670,{
-    mes "Hello, adventurer! I'm here to test your input skills.";
+prontera,152,219,4&#9;script&#9;ZenyChecker&#9;701,{
+    mes "Hello! I can help you with some transactions.";
     next;
 
-    mes "First, let's try a number. Guess a number between 1 and 10.";
-    next;
+    // Transaction 1: Buy a Red Potion for 50 Zeny
+    callsub S_ProcessTransaction, 50, 501, 1; // Cost: 50 Zeny, Item ID: 501 (Red Potion), Amount: 1
 
-    input .@guess,1,10; // Player inputs a number between 1 and 10
-
-    if (.@guess == 7) {
-        mes "Well done! You guessed the correct number: " + .@guess + "!";
+    if (@transaction_success) {
+        mes "You successfully bought a Red Potion!";
     } else {
-        mes "Sorry, that's not the number I was thinking of. You entered: " + .@guess + ".";
+        mes "You don't have enough Zeny for a Red Potion.";
     }
     next;
 
-    mes "Now, let's try some text. Please type 'rAthena' (case-sensitive).";
-    next;
+    // Transaction 2: Buy a Blue Potion for 100 Zeny
+    callsub S_ProcessTransaction, 100, 505, 1; // Cost: 100 Zeny, Item ID: 505 (Blue Potion), Amount: 1
 
-    input .@text_input$,1,10; // Player inputs a string with length between 1 and 10
-
-    if (.@text_input$ == "rAthena") {
-        mes "Excellent! You typed it correctly: " + .@text_input$ + ".";
+    if (@transaction_success) {
+        mes "You successfully bought a Blue Potion!";
     } else {
-        mes "Oops! You typed: '" + .@text_input$ + "'. Please try again next time.";
+        mes "You don't have enough Zeny for a Blue Potion.";
     }
-    next;
-
-    mes "That's all for today. Farewell!";
     close;
+
+
+S_ProcessTransaction:
+    // Arguments:
+    // getarg(0): Zeny cost
+    // getarg(1): Item ID
+    // getarg(2): Item amount
+
+    .@cost = getarg(0);
+    .@item_id = getarg(1);
+    .@item_amount = getarg(2);
+
+    @transaction_success = 0; // Initialize success flag
+
+    if (Zeny >= .@cost) {
+        Zeny -= .@cost;
+        getitem .@item_id, .@item_amount;
+        @transaction_success = 1;
+    }
+    return;
 }
 </pre>
 </div>
                     <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
                     <p class="text-gray-700 leading-relaxed mb-4">
-                        This sample script demonstrates two main uses of the <code>input</code> command:
+                        The NPC <code>ZenyChecker</code> has a main script that initiates two separate transactions.
                     </p>
                     <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                        <li>Numerical Input: The NPC first asks the player to guess a number between 1 and 10. The <code>input .@guess,1,10;</code> line ensures that only a number within this range can be entered. The script then checks if the guess is correct (7 in this case) and provides feedback.</li>
-                        <li>String Input: Next, the NPC prompts the player to type the word 'rAthena'. The <code>input .@text_input$,1,10;</code> line restricts the input to a string between 1 and 10 characters long. The script then verifies if the entered string matches 'rAthena' exactly (case-sensitive) and responds accordingly.</li>
+                        <li>Each transaction calls the <code>S_ProcessTransaction</code> subroutine using <code>callsub</code>.</li>
+                        <li>The <code>S_ProcessTransaction</code> subroutine takes three arguments: the <code>Zeny</code> cost, the <code>item ID</code>, and the <code>item amount</code>.</li>
+                        <li>Inside <code>S_ProcessTransaction</code>, it checks if the player has enough <code>Zeny</code>. If so, it deducts the <code>Zeny</code> and gives the item, setting the <code>@transaction_success</code> temporary variable to <code>1</code>. Otherwise, <code>@transaction_success</code> remains <code>0</code>.</li>
+                        <li>After the subroutine completes, control returns to the main script, which then checks the <code>@transaction_success</code> flag to determine the appropriate message to display to the player.</li>
+                        <li>This demonstrates how <code>callsub</code> allows the <code>Zeny</code> and item handling logic to be centralized in one subroutine, avoiding repetition.</li>
                     </ul>
 
                     <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
                     <video autoplay loop muted playsinline width="100%" height="auto">
-                        <source src="img/input_vid_00.mp4" type="video/mp4" />
+                        <source src="img/callsub_vid_00.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
 

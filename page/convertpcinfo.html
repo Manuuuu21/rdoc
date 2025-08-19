@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+
+                <!-- CHANGE THE CONTENT HERE -->
+
+
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">convertpcinfo()</h2>
+                <!-- Introduction Paragraph -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🤔 What is convertpcinfo?</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            The <code>convertpcinfo</code> function is a utility function in rAthena scripting that allows you to retrieve specific information about a character, given their character ID, account ID, or player name. It acts as a converter, transforming one type of player identifier into another piece of information.
+        </p>
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🎯 Purpose of convertpcinfo?</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            The primary purpose of <code>convertpcinfo</code> is to obtain various details about a player, such as their name, character ID, or account ID, when you only have one of these identifiers. This is particularly useful when you need to cross-reference player data or perform actions that require a specific type of ID or name.
+        </p>
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📝 Syntax of convertpcinfo?</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            The <code>convertpcinfo</code> function has the following syntax:
+            <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                <li><code>convertpcinfo(&lt;char_id&gt;,&lt;type&gt;)</code></li>
+                <li><code>convertpcinfo(&lt;account_id&gt;,&lt;type&gt;)</code></li>
+                <li><code>convertpcinfo(&lt;player_name&gt;,&lt;type&gt;)</code></li>
+            </ul>
+        </p>
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📋 Syntax Parameter Explanation:</h3>
+        <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+            <li><code>&lt;char_id&gt;</code>, <code>&lt;account_id&gt;</code>, or <code>&lt;player_name&gt;</code>: This is the identifier of the character you want to query. You can provide either the character's unique ID, their account ID, or their exact player name (as a string).</li>
+            <li><code>&lt;type&gt;</code>: This parameter determines what specific information about the character will be returned. It accepts the following constants:
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-5">
+                    <li><code>CPC_NAME</code>: Returns the character's name (as a string).</li>
+                    <li><code>CPC_CHAR</code>: Returns the character's ID (as a number).</li>
+                    <li><code>CPC_ACCOUNT</code>: Returns the account ID associated with the character (as a number).</li>
+                </ul>
+            </li>
+        </ul>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            If the character is not found (or not online) when requesting information, <code>CPC_NAME</code> will return an empty string, and other types will return <code>0</code>.
+        </p>
+        <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">💡 How to Use convertpcinfo?</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            To use <code>convertpcinfo</code>, you simply call the function with the character's identifier and the type of information you wish to retrieve. The returned value can then be stored in a variable or used directly in expressions.
+        </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= PlayerInfoConverter
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the use of convertpcinfo to get player data.
+//============================================================
+splendide,194,145,5&#9;script&#9;PlayerInfoConverter&#9;903,{
+    mes "Hello, adventurer! I can convert player information for you.";
+    mes "";
+    mes "Please enter the name of a player you want to look up:";
+    input .@target_name$;
+
+    // Attempt to get the character ID from the provided name
+    .@char_id = convertpcinfo(.@target_name$, CPC_CHAR);
+
+    if (.@char_id == 0) {
+        mes "Sorry, I couldn't find an online player named '" + .@target_name$ + "'.";
+    } else {
+        mes "Found player: " + .@target_name$ + ".";
+        mes "";
+        mes "--- Converted Information ---";
+        mes "Character ID: " + .@char_id + ".";
+        mes "Account ID: " + convertpcinfo(.@char_id, CPC_ACCOUNT) + ".";
+        mes "Character Name (from ID): " + convertpcinfo(.@char_id, CPC_NAME) + ".";
+        mes "";
+        mes "--- Using Account ID to get info ---";
+        .@account_id = convertpcinfo(.@char_id, CPC_ACCOUNT);
+        mes "Character Name (from Account ID): " + convertpcinfo(.@account_id, CPC_NAME) + ".";
+        mes "Character ID (from Account ID): " + convertpcinfo(.@account_id, CPC_CHAR) + ".";
+    }
+
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>The script first prompts the player to input a target player's name using <code>input .@target_name$;</code>.</li>
+                        <li>It then attempts to convert this player name into a character ID using <code>convertpcinfo(.@target_name$, CPC_CHAR)</code>. If the player is not found or offline, this will return <code>0</code>.</li>
+                        <li>An <code>if</code> statement checks if a valid character ID was retrieved.</li>
+                        <li>If the character is found, the script proceeds to display various pieces of information:</li>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-5">
+                            <li>It directly shows the retrieved character ID.</li>
+                            <li>It uses <code>convertpcinfo(.@char_id, CPC_ACCOUNT)</code> to get the account ID from the character ID.</li>
+                            <li>It uses <code>convertpcinfo(.@char_id, CPC_NAME)</code> to re-confirm the character's name using their character ID.</li>
+                        </ul>
+                        <li>Finally, it demonstrates retrieving the character name and character ID by starting with the <code>account_id</code> using <code>convertpcinfo(.@account_id, CPC_NAME)</code> and <code>convertpcinfo(.@account_id, CPC_CHAR)</code>.</li>
+                        <li>If the player is not found, a corresponding message is displayed.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/convertpcinfo_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+
+
+
+            <!-- END OF CHANGE THE CONTENT HERE -->
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

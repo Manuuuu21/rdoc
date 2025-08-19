@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+
+                <!-- CHANGE THE CONTENT HERE -->
+
+
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getlook()</h2>
+                <!-- Introduction Paragraph -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">The `getlook` Function in rAthena Scripting</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getlook</code> function in rAthena scripting is used to retrieve information about a character's current visual appearance.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">✨ What is getlook?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getlook</code> function returns the numerical value for a specified visual aspect of the invoking character. If a <code>char_id</code> is provided, it returns the look value for that specific player.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🎯 Purpose of getlook</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of <code>getlook</code> is to allow scripts to behave differently based on a character's appearance. For example, you can create an NPC that interacts uniquely with players wearing a specific hair color or headgear.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📝 Syntax of getlook</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The syntax for <code>getlook</code> is as follows:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>getlook(&lt;type&gt;{,&lt;char_id&gt;})</code>
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">⚙️ Syntax Parameter Explanation</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>&lt;type&gt;</code>: This parameter specifies which aspect of the character's appearance you want to retrieve. It can be a number or a constant defined in <code>src/map/script_constants.hpp</code>. Valid look types include:
+                        <ul class="list-[circle] list-inside mt-1 space-y-1">
+                            <li><code>LOOK_BASE</code> - Base sprite</li>
+                            <li><code>LOOK_HAIR</code> - Hairstyle</li>
+                            <li><code>LOOK_WEAPON</code> - Weapon</li>
+                            <li><code>LOOK_HEAD_BOTTOM</code> - Lower Headgear</li>
+                            <li><code>LOOK_HEAD_TOP</code> - Upper Headgear</li>
+                            <li><code>LOOK_HEAD_MID</code> - Middle Headgear</li>
+                            <li><code>LOOK_HAIR_COLOR</code> - Hair color</li>
+                            <li><code>LOOK_CLOTHES_COLOR</code> - Clothes color</li>
+                            <li><code>LOOK_SHIELD</code> - Shield</li>
+                            <li><code>LOOK_SHOES</code> - Shoes</li>
+                            <li><code>LOOK_BODY2</code> - Body style</li>
+                        </ul>
+                    </li>
+                    <li><code>{,&lt;char_id&gt;}</code>: This is an optional parameter. If provided, the function will return the look value for the character identified by this ID. If omitted, it defaults to the invoking character.</li>
+                </ul>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">💡 How to use getlook</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    You use <code>getlook</code> by calling it with the desired look type. The function will return an integer representing the current value for that look type. You can then use this value in conditional statements or store it in a variable.
+                </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= AppearanceChecker
+//===== By: rAthena AI Assistant ============================
+//= Checks a player's hair color and responds accordingly.
+//============================================================
+prontera,156,180,4&#9;script&#9;AppearanceChecker#MAIN&#9;912,{
+    mes "Hello, adventurer! I can tell you something about your appearance.";
+    next;
+
+    .@hairColor = getlook(LOOK_HAIR_COLOR);
+
+    if (.@hairColor == 0) {
+        mes "Your hair color is the default. It suits you!";
+    } else if (.@hairColor == 1) {
+        mes "Ah, a lovely shade of red! Very striking.";
+    } else if (.@hairColor == 2) {
+        mes "Is that a vibrant green? How unique!";
+    } else {
+        mes "Your hair color is quite interesting, but I don't have a special comment for it.";
+    }
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        This sample script, named <code>AppearanceChecker</code>. When a player interacts with it:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>The NPC greets the player.</li>
+                        <li>It then uses <code>getlook(LOOK_HAIR_COLOR)</code> to retrieve the player's current hair color ID and stores it in the temporary NPC variable <code>.@hairColor</code>.</li>
+                        <li>A series of <code>if-else if</code> statements check the value of <code>.@hairColor</code>:
+                            <ul class="list-[circle] list-inside mt-1 space-y-1">
+                                <li>If the hair color is <code>0</code> (typically black/default), a specific message is displayed.</li>
+                                <li>If it's <code>1</code> (often red), another message appears.</li>
+                                <li>If it's <code>2</code> (often green), a different message is shown.</li>
+                                <li>For any other hair color, a general comment is made.</li>
+                            </ul>
+                        </li>
+                        <li>Finally, the dialogue closes.</li>
+                    </ul>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        This demonstrates how <code>getlook</code> can be used to create dynamic NPC interactions based on a player's visual attributes.
+                    </p>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/getlook_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+            <!-- END OF CHANGE THE CONTENT HERE -->
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+
+                <!-- CHANGE THE CONTENT HERE -->
+
+
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getarraysize()</h2>
+                <!-- Introduction Paragraph -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is getarraysize?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  The <code>getarraysize</code> function is used to determine the highest index of an array that contains a non-zero or non-empty string value. It essentially tells you how many 'filled' elements are in an array, starting from index 0.
+                </p>
+
+                <!-- Purpose of getarraysize -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of getarraysize</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  The primary purpose of <code>getarraysize</code> is to help you iterate through arrays efficiently. When you have an array that might not be fully populated, or whose size changes dynamically, <code>getarraysize</code> allows you to know the effective number of elements that hold meaningful data. This is crucial for loops (like <code>for</code> loops) to avoid processing empty or zero-valued elements at the end of an array, which might lead to unexpected behavior or errors if not handled properly.
+                </p>
+
+                <!-- Syntax of getarraysize -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getarraysize</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  The syntax for <code>getarraysize</code> is straightforward:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                  <li><code>getarraysize(&lt;array name>)</code></li>
+                </ul>
+
+                <!-- Syntax Parameter Explanation -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                  <li><code>&lt;array name></code>: This is the name of the array variable you want to check. It can be any valid array type (e.g., <code>.@array</code>, <code>@array$</code>, <code>$@array</code>).</li>
+                </ul>
+
+                <!-- How to use getarraysize -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">How to use getarraysize</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  You typically use <code>getarraysize</code> when you need to know the current logical size of an array, especially before looping through its elements. It's important to note that it counts elements up to the highest index that has a non-zero (for integer arrays) or non-empty string (for string arrays) value. Any trailing zeros or empty strings are not counted towards the size.
+                </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= GetArraySize_Example
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the usage of the getarraysize function.
+//============================================================
+prontera,156,180,4&#9;script&#9;GetArraySize NPC&#9;907,{
+    mes "Hello! I can show you how 'getarraysize' works.";
+    next;
+
+    // --- Example 1: Integer Array ---
+    mes "First, let's look at an integer array.";
+    setarray .@numbers[0], 10, 20, 30, 0, 50, 0, 0;
+    .@size_numbers = getarraysize(.@numbers);
+    mes "The array '.@numbers' contains: ";
+    for (.@i = 0; .@i < getarraysize(.@numbers); .@i++) {
+        mes "  Element " + .@i + ": " + .@numbers[.@i];
+    }
+    mes "The 'getarraysize' for '.@numbers' is: " + .@size_numbers + ".";
+    mes "Notice that trailing zeros are not counted.";
+    next;
+
+    // --- Example 2: String Array ---
+    mes "Now, let's see a string array.";
+    setarray .@names$[0], "Alice", "Bob", "", "Charlie", "", "";
+    .@size_names = getarraysize(.@names$);
+    mes "The array '.@names$' contains: ";
+    for (.@i = 0; .@i < getarraysize(.@names$); .@i++) {
+        mes "  Element " + .@i + ": " + .@names$[.@i];
+    }
+    mes "The 'getarraysize' for '.@names$' is: " + .@size_names + ".";
+    mes "Notice that trailing empty strings are not counted.";
+    next;
+
+    // --- Example 3: Dynamic Array Size ---
+    mes "Finally, an example where the array size changes.";
+    setarray .@dynamic_array[0], 1, 2, 3;
+    .@current_size = getarraysize(.@dynamic_array);
+    mes "Initial size of '.@dynamic_array': " + .@current_size + ".";
+    next;
+
+    set .@dynamic_array[5], 10; // Set an element at a higher index
+    .@new_size = getarraysize(.@dynamic_array);
+    mes "After setting element at index 5, new size: " + .@new_size + ".";
+    mes "Elements between index 2 and 5 are now 0.";
+    for (.@i = 0; .@i < getarraysize(.@dynamic_array); .@i++) {
+        mes "  Element " + .@i + ": " + .@dynamic_array[.@i];
+    }
+    next;
+
+    cleararray .@dynamic_array[0], 0, getarraysize(.@dynamic_array); // Clear the array
+    .@cleared_size = getarraysize(.@dynamic_array);
+    mes "After clearing the array, size: " + .@cleared_size + ".";
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                      The script defines an NPC that demonstrates <code>getarraysize</code> with different array types.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                      <strong>Example 1 (Integer Array):</strong> An integer array <code>.@numbers</code> is initialized with some values, including trailing zeros. <code>getarraysize(.@numbers)</code> correctly returns 5 because the highest non-zero element is at index 4 (value 50), and <code>getarraysize</code> returns the count of elements up to and including that highest non-zero index.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                      <strong>Example 2 (String Array):</strong> A string array <code>.@names$</code> is initialized with some names and trailing empty strings. <code>getarraysize(.@names$)</code> returns 4 because the highest non-empty string is at index 3 (value "Charlie").
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                      <strong>Example 3 (Dynamic Array Size):</strong> This part shows how <code>getarraysize</code> adapts when an element is set at a higher index. Initially, the array has 3 elements. When <code>.@dynamic_array[5]</code> is set, <code>getarraysize</code> updates to 6, reflecting that elements up to index 5 are now considered part of the array, even if intermediate elements are 0. Finally, <code>cleararray</code> is used to reset the array, and <code>getarraysize</code> correctly reports 0.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                      This demonstrates that <code>getarraysize</code> is useful for determining the effective bounds of an array, especially when dealing with sparse arrays or dynamically growing data structures.
+                    </p>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/getarraysize_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+            <!-- END OF CHANGE THE CONTENT HERE -->
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

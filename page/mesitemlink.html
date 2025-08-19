@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">mesitemlink, &lt;ITEM&gt;&lt;INFO&gt;</h2>
+                <!-- Introduction Paragraph -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is mesitemlink?</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>mesitemlink</code> command is used to generate a clickable item link string within NPC dialogue messages. This allows players to view item descriptions directly from the chat window.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">✨ Purpose of mesitemlink</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of <code>mesitemlink</code> is to enhance player interaction within NPC dialogues by making item names clickable. When a player clicks on an item link generated by this command, it opens the item's description window in the game client, providing immediate information about the item without needing to search for it in the inventory or database.
+                </p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📝 Syntax of mesitemlink</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The syntax for the <code>mesitemlink</code> command is as follows:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4"><code>mesitemlink(&lt;item_id>{,&lt;use_brackets>{,&lt;display_name>}});
+            mesitemlink("&lt;item_name>"{,&lt;use_brackets>{,&lt;display_name>}});</code></p>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🔍 Syntax Parameter Explanation</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>&lt;item_id></code> or <code>"&lt;item_name>"</code>: This is the mandatory parameter that specifies the item to link. You can use either the item's database ID number or its English name (enclosed in double quotes).</li>
+                    <li><code>&lt;use_brackets></code>: This is an optional boolean parameter (<code>true</code> or <code>false</code>).
+                        <ul  class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li>If set to <code>true</code> (default), the item link will be displayed surrounded by square brackets (e.g., <code>[Red Potion]</code>).</li>
+                            <li>If set to <code>false</code>, the brackets will be omitted (e.g., <code>Red Potion</code>).</li>
+                        </ul>
+                    </li>
+                    <li><code>"&lt;display_name>"</code>: This is an optional string parameter.
+                        <ul class="list-circle list-inside ml-4 space-y-1">
+                            <li>If provided, this custom name will be displayed as the clickable text for the item link instead of the item's default name from the database. This is useful for shortening long names or providing context.</li>
+                        </ul>
+                    </li>
+                </ul>
+       
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= ItemLink_NPC
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the usage of the mesitemlink command.
+//============================================================
+prontera,156,180,4&#9;script&#9;ItemLink NPC&#9;867,{
+    mes "Hello adventurer! I can show you some interesting items.";
+    next;
+    mes "Have you ever used a " + mesitemlink(501) + "?";
+    mes "Or perhaps a " + mesitemlink("Blue Potion", false) + "?";
+    mes "This is a custom link for a " + mesitemlink(1201, true, "Shiny Knife") + ".";
+    next;
+    mes "Click on the item names to see their descriptions!";
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>The NPC named <code>ItemLink NPC</code> is placed in Prontera at coordinates 150,150.</li>
+                        <li>When a player interacts with the NPC, it displays a series of messages.</li>
+                        <li>The first <code>mes</code> command demonstrates linking a <code>Red Potion</code> (item ID 501) using its default display name and with brackets (default behavior).</li>
+                        <li>The second <code>mes</code> command links a <code>Blue Potion</code> (using its English name) but explicitly sets <code>use_brackets</code> to <code>false</code>, so it appears without brackets.</li>
+                        <li>The third <code>mes</code> command links a <code>Knife</code> (item ID 1201) but provides a custom display name, "Shiny Knife", which will be shown as the clickable text.</li>
+                        <li>This script effectively showcases how to present clickable item links in NPC dialogues, allowing players to easily access item information.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/mesitemlink_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+
+                    <br/><hr/>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is &lt;ITEM&gt;&lt;INFO&gt;? 🤔</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        The <code>&lt;ITEM&gt;&lt;INFO&gt;</code> tag is an HTML-like syntax used within <code>mes</code> commands in rAthena scripts to create clickable item links in NPC dialogue windows. When a player clicks on such a link, it typically opens a preview window for the specified item, displaying its description and stats.
+                    </p>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of &lt;ITEM&gt;&lt;INFO&gt; 🎯</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        The primary purpose of <code>&lt;ITEM&gt;&lt;INFO&gt;</code> is to allow script developers to embed interactive item references directly into NPC conversations. This enhances the player experience by providing immediate access to item information without needing to manually search for the item or open an inventory. It's particularly useful for quest NPCs, shopkeepers, or informational NPCs that need to refer to specific items.
+                    </p>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of &lt;ITEM&gt;&lt;INFO&gt; 📝</h3>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        The syntax for using <code>&lt;ITEM&gt;&lt;INFO&gt;</code> is as follows:
+                        <code>&lt;ITEM&gt;Display Name&lt;INFO&gt;Item ID&lt;/INFO&gt;&lt;/ITEM&gt;</code>
+                    </p>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 📖</h3>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li><code>Display Name</code>: This is the text that will be visible and clickable in the NPC dialogue window. It's what the player sees as the item link.</li>
+                        <li><code>Item ID</code>: This is the numerical ID of the item as defined in the server's item database (e.g., <code>db/item_db.yml</code>). This ID tells the client which item's information to display when the link is clicked.</li>
+                    </ul>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        <b>Note:</b> In older client versions (prior to 2015), the tag name was <code>&lt;ITEMLINK&gt;</code> instead of <code>&lt;ITEM&gt;</code>. rAthena introduced the <code>mesitemlink</code> command to handle this compatibility automatically, which is the recommended way to create item links now.
+                    </p>
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= ItemLink_NPC
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates the usage of &lt;ITEM>&lt;INFO> for item links.
+//============================================================
+prontera,156,180,4&#9;script&#9;ItemLink_NPC&#9;767,{
+    mes "Hello, adventurer! I can tell you about some useful items.";
+    mes "For example, have you ever used a &lt;ITEM&gt;Red Potion&lt;INFO&gt;501&lt;/INFO&gt;&lt;/ITEM&gt;?";
+    mes "It's a basic healing item. Or perhaps a &lt;ITEM&gt;Butterfly Wing&lt;INFO&gt;602&lt;/INFO&gt;&lt;/ITEM&gt; for quick travel?";
+    mes "You can click on the item names to see their details.";
+    close;
+}
+</pre>
+</div>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li>The script defines an NPC named <code>ItemLink_NPC</code> at splendide coordinates 194,145.</li>
+                        <li>When a player interacts with this NPC, it displays a series of messages using the <code>mes</code> command.</li>
+                        <li>Within these messages, the <code>&lt;ITEM&gt;Display Name&lt;INFO&gt;Item ID&lt;/INFO&gt;&lt;/ITEM&gt;</code> syntax is used to create clickable links for "Red Potion" (Item ID 501) and "Butterfly Wing" (Item ID 602).</li>
+                        <li>When a player clicks on "Red Potion" or "Butterfly Wing" in the NPC dialogue, their respective item information windows will pop up on the client.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/mesitemlink_vid_01.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

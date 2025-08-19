@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px; /* Default height for Ace editor */
+            max-height: 250px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+
+                <!-- CHANGE THE CONTENT HERE -->
+
+
+                <!-- IMPORTANT NOTE: the Title should be the same as List -->
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getelementofarray()</h2>
+                <!-- Introduction Paragraph -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is getelementofarray? 📚</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <b>getelementofarray</b> function retrieves the value of an element from a given array at a specified index. Essentially, it's a way to access individual values stored within an array.
+                </p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">How to use getelementofarray? 🛠️</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    You use <b>getelementofarray</b> by providing the array name and the index of the element you wish to retrieve. It's equivalent to directly using the array syntax like <code>array_name[index]</code>.
+                </p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of getelementofarray? 🎯</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The primary purpose of <b>getelementofarray</b> is to access specific values stored in arrays. While direct array indexing (<code>array_name[index]</code>) is the common and internally converted method, <b>getelementofarray</b> is particularly useful when passing arrays to functions or accessing arrays belonging to other NPCs, as it allows for dynamic referencing of array elements.
+                </p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getelementofarray? 📝</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>getelementofarray(&lt;array name&gt;,&lt;index&gt;)</code></li>
+                </ul>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explain 🧩</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>&lt;array name&gt;</code>: This is the name of the array from which you want to retrieve an element. It can be any valid rAthena array variable (e.g., <code>.@myArray</code>, <code>@myStringArray$</code>).</li>
+                    <li><code>&lt;index&gt;</code>: This is the numerical index of the element you want to access within the array. Array indexing in rAthena starts from <code>0</code>.</li>
+                </ul>
+                
+
+<div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+<button class="copy-button">Copy</button>
+<pre>
+//===== rAthena Script =======================================
+//= Get Element of Array Sample
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates how to use the getelementofarray function.
+//============================================================
+prontera,156,180,4&#9;script&#9;ArrayAccessor&#9;908,{
+    // Declare a temporary character array to store numbers
+    setarray @numbers[0], 10, 20, 30, 40, 50;
+
+    // Retrieve elements using direct indexing (common method)
+    mes "Using direct indexing:";
+    mes "First element: " + @numbers[0];
+    mes "Third element: " + @numbers[2];
+    next;
+
+    // Retrieve elements using getelementofarray
+    mes "Using getelementofarray:";
+    mes "Second element: " + getelementofarray(@numbers, 1);
+    mes "Fifth element: " + getelementofarray(@numbers, 4);
+    next;
+
+    // Demonstrate dynamic access (e.g., in a loop or function)
+    .@index = 3;
+    mes "Element at dynamic index " + .@index + ": " + getelementofarray(@numbers, .@index);
+    close;
+}
+</pre>
+</div>
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                        <li><b>Array Initialization</b>: It first declares a temporary character array named <code>@numbers</code> and initializes it with five integer values: 10, 20, 30, 40, and 50.</li>
+                        <li><b>Direct Indexing Demonstration</b>: It then shows how to access array elements using the standard direct indexing method (e.g., <code>@numbers[0]</code>). This is the most common way to access array elements.</li>
+                        <li><b>getelementofarray Demonstration</b>: Next, it explicitly uses the <b>getelementofarray</b> function to retrieve elements. For instance, <code>getelementofarray(@numbers, 1)</code> retrieves the element at index 1 (which is the second element, 20).</li>
+                        <li><b>Dynamic Access</b>: Finally, it illustrates a scenario where <b>getelementofarray</b> is particularly useful: accessing an element using a variable as the index. This is common in loops or when the index is determined dynamically during script execution.</li>
+                    </ul>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        This script effectively demonstrates that while direct indexing is often used, <b>getelementofarray</b> provides an alternative, especially when dynamic array access or passing arrays to functions is required.
+                    </p>
+
+                    <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
+                    <video autoplay loop muted playsinline width="100%" height="auto">
+                        <source src="img/getelemarray_vid_00.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+            <!-- END OF CHANGE THE CONTENT HERE -->
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

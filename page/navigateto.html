@@ -17,7 +17,7 @@
     <style>
         /* Styling for the Ace Editor container */
         .ace-editor-instance {
-            min-height: 200px; /* Default height for Ace editor */
+            min-height: 250px; /* Default height for Ace editor */
             max-height: 250px; /* Max height, Ace will add scrollbar */
             width: 100%;
             border-radius: 0.5rem; /* Match pre_container border-radius */
@@ -73,106 +73,94 @@
                 <!-- Ad container -->
                 <div id="custom_ad_container"></div>
                 <br/><hr/><br/>
-                
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
-                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">input</h2>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">navigateto</h2>
                 <!-- Introduction Paragraph -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The <code>input</code> command in rAthena scripting is used to prompt a player to enter a value, which can be either a number or a string. This is particularly useful for creating interactive NPCs where player input is required.
+                    The <code>navigateto</code> command in rAthena scripting is used to generate a navigation path for a character on the client-side. It helps players find their way to a specified map location or even a monster.
                 </p>
 
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🤔 Purpose of input</h3>
-                <!-- Paragraph: Description of input purpose -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🧭 Purpose of navigateto</h3>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The primary purpose of the <code>input</code> command is to allow players to provide data to a script. This data can be a numerical value (e.g., for a guessing game, quantity input) or a text string (e.g., for entering a name, a password, or a specific phrase). It creates an input box on the client's screen, pausing the script until the player enters a value and confirms it.
+                    The primary purpose of <code>navigateto</code> is to provide in-game navigation assistance to players. It can guide them to quest objectives, specific NPCs, or even monster spawns, enhancing the player experience by reducing the time spent searching for locations.
                 </p>
 
-                <!-- Header: Syntax of input -->
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📜 Syntax of input</h3>
-                <!-- Paragraph: Syntax introduction -->
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">📝 Syntax of navigateto</h3>
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    The basic syntax for the <code>input</code> command is:
+                    The syntax for the <code>navigateto</code> command is as follows:
                 </p>
-                <!-- Code block for syntax -->
                 <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>input(&lt;variable>{,&lt;min>{,&lt;max>}})</code>
+                    <code>navigateto("&lt;map>"{,&lt;x>,&lt;y>,&lt;flag>,&lt;hide_window>,&lt;monster_id>,&lt;char_id>});</code>
                 </p>
 
-                <!-- Header: Syntax Parameter Explanation -->
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">⚙️ Syntax Parameter Explanation</h3>
-                <!-- Paragraphs explaining syntax components -->
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>&lt;variable></code>: This is the variable where the player's input will be stored.
-                </p>
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">🔍 Syntax Parameter Explanation</h3>
                 <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                    <li>If you use an integer variable (e.g., <code>.@num</code>), the input box will only allow numerical input.</li>
-                    <li>If you use a string variable (e.g., <code>.@str$</code>), the input box will allow text input.</li>
+                    <li><code>&lt;map></code>: The name of the destination map. This is a string.</li>
+                    <li><code>&lt;x></code>: The X-coordinate on the destination map.</li>
+                    <li><code>&lt;y></code>: The Y-coordinate on the destination map.</li>
+                    <li><code>&lt;flag></code>: Specifies how the client will calculate the route. Valid flags are:
+                        <ul class="list-disc space-y-1 text-gray-700 mt-1 pl-8">
+                            <li><code>NAV_NONE</code>: No services.</li>
+                            <li><code>NAV_AIRSHIP_ONLY</code>: Airship only.</li>
+                            <li><code>NAV_SCROLL_ONLY</code>: Scroll only.</li>
+                            <li><code>NAV_AIRSHIP_AND_SCROLL</code>: Airship and Scroll.</li>
+                            <li><code>NAV_KAFRA_ONLY</code>: Kafra only.</li>
+                            <li><code>NAV_KAFRA_AND_AIRSHIP</code>: Kafra and Airship (default if omitted).</li>
+                            <li><code>NAV_KAFRA_AND_SCROLL</code>: Kafra and Scroll.</li>
+                            <li><code>NAV_ALL</code>: All services.</li>
+                        </ul>
+                    </li>
+                    <li><code>&lt;hide_window></code>: Specifies whether to display (0) or hide (1) the navigation window. By default, the window is hidden (1).</li>
+                    <li><code>&lt;monster_id></code>: The ID of a monster to navigate to. This is used in combination with a map name to tell the navigation system that the player has reached the desired mob.</li>
+                    <li><code>&lt;char_id></code>: The character ID of the player for whom the navigation will be generated. If omitted, it defaults to the attached character.</li>
                 </ul>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>{,&lt;min>}</code>: (Optional) This parameter sets the minimum allowed value for numerical input or the minimum length for string input. If the input is below this, a warning is displayed, and the script terminates.
-                </p>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    <code>{,&lt;max>}</code>: (Optional) This parameter sets the maximum allowed value for numerical input or the maximum length for string input. If the input is above this, a warning is displayed, and the script terminates.
-                </p>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    By default, negative numbers are not allowed for numerical input to prevent exploits in poorly written scripts. The default <code>min</code> and <code>max</code> values can be configured in <code>conf/script_athena.conf</code>.
-                </p>
        
 
 <div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
 <button class="copy-button">Copy</button>
 <pre>
 //===== rAthena Script =======================================
-//= Input_Example
+//= Navigation Guide
 //===== By: rAthena AI Assistant ============================
-//= Demonstrates the use of the 'input' command for both numerical
-//= and string input, including min/max constraints.
+//= Guides the player to a specific location or monster.
 //============================================================
-prontera,152,219,4&#9;script&#9;Input NPC&#9;670,{
-    mes "Hello, adventurer! I'm here to test your input skills.";
+prontera,156,180,4&#9;script&#9;Navigation Guide&#9;67,{
+    mes "Hello, adventurer! Where would you like to go?";
     next;
 
-    mes "First, let's try a number. Guess a number between 1 and 10.";
-    next;
+    menu "Go to Izlude (120,120)",L_Izlude,"Find a Poring",L_Poring,"Cancel",L_Cancel;
 
-    input .@guess,1,10; // Player inputs a number between 1 and 10
+L_Izlude:
+    mes "Alright, I will show you the way to Izlude.";
+    close2;
+    // Navigate to Izlude map at coordinates 120,120, using Kafra and Airship services, and hide the navigation window.
+    navigateto("izlude",120,120,NAV_KAFRA_AND_AIRSHIP,1);
+    end;
 
-    if (.@guess == 7) {
-        mes "Well done! You guessed the correct number: " + .@guess + "!";
-    } else {
-        mes "Sorry, that's not the number I was thinking of. You entered: " + .@guess + ".";
-    }
-    next;
+L_Poring:
+    mes "Let's find a Poring for you!";
+    close2;
+    // Navigate to a Poring (monster ID 1002) on the Prontera map at random coordinates, showing the navigation window.
+    navigateto("prt_fild08",0,0,NAV_ALL,0,1002);
+    end;
 
-    mes "Now, let's try some text. Please type 'rAthena' (case-sensitive).";
-    next;
-
-    input .@text_input$,1,10; // Player inputs a string with length between 1 and 10
-
-    if (.@text_input$ == "rAthena") {
-        mes "Excellent! You typed it correctly: " + .@text_input$ + ".";
-    } else {
-        mes "Oops! You typed: '" + .@text_input$ + "'. Please try again next time.";
-    }
-    next;
-
-    mes "That's all for today. Farewell!";
+L_Cancel:
+    mes "Understood. Come back anytime!";
     close;
 }
 </pre>
 </div>
                     <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
-                    <p class="text-gray-700 leading-relaxed mb-4">
-                        This sample script demonstrates two main uses of the <code>input</code> command:
-                    </p>
                     <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
-                        <li>Numerical Input: The NPC first asks the player to guess a number between 1 and 10. The <code>input .@guess,1,10;</code> line ensures that only a number within this range can be entered. The script then checks if the guess is correct (7 in this case) and provides feedback.</li>
-                        <li>String Input: Next, the NPC prompts the player to type the word 'rAthena'. The <code>input .@text_input$,1,10;</code> line restricts the input to a string between 1 and 10 characters long. The script then verifies if the entered string matches 'rAthena' exactly (case-sensitive) and responds accordingly.</li>
+                        <li>The NPC offers the player two navigation options: going to a specific location (Izlude) or finding a monster (Poring).</li>
+                        <li>If the player chooses "Go to Izlude", the <code>navigateto</code> command is used with the map name "izlude", coordinates 120,120, <code>NAV_KAFRA_AND_AIRSHIP</code> flag (allowing navigation via Kafra and Airship), and <code>1</code> to hide the navigation window after activation.</li>
+                        <li>If the player chooses "Find a Poring", the <code>navigateto</code> command is used with the map name "prt_fild08", coordinates 0,0 (for a random spawn location), <code>NAV_ALL</code> flag (allowing all services), <code>0</code> to show the navigation window, and <code>1002</code> as the <code>monster_id</code> for Poring.</li>
+                        <li>The <code>close2</code> command is used before <code>navigateto</code> to close the NPC dialogue window while allowing the script to continue and the navigation to activate.</li>
                     </ul>
 
                     <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">This would look like this:</h3>
                     <video autoplay loop muted playsinline width="100%" height="auto">
-                        <source src="img/input_vid_00.mp4" type="video/mp4" />
+                        <source src="img/navigateto_vid_00.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
 
