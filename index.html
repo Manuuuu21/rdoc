@@ -9,10 +9,11 @@
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <!-- Ace Editor CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
     <link href="index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
     <style>
         /* Styling for the Ace Editor container */
         .ace-editor-instance {
@@ -70,14 +71,16 @@
         <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
             <!-- Introduction Content -->
             <div id="introduction" class="content-section mb-8">
-
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
                 <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Introduction to rAthena Scripting</h2>
                 <p class="text-gray-700 leading-relaxed">
                     Ever wondered how those custom NPCs, quests, and unique events come to life in rAthena? Well, it all boils down to the powerful rAthena scripting language! Think of it as your comprehensive toolkit, packed with commands and functions designed to bring your server ideas to reality. Now, this isn't your typical 'learn to code from scratch' tutorial. Instead, it's a detailed reference manual, perfect for anyone who already has a good grasp of programming basics and is eager to explore the specific tools rAthena offers. If you've got a vision for your server, this documentation is your go-to resource for understanding how to make it happen. Trust me, a solid foundation in general programming will make navigating this manual a breeze! ✨
                 </p>
-            </div>
-            <hr/>
+                
+            <br/><hr/>
             
             <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is RID and GID?</h3>
             <p class="text-gray-700 leading-relaxed mb-4">
@@ -185,11 +188,7 @@ npc: npc/custom/mytestnpc.txt</pre>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
-        <div class="container mx-auto text-center text-sm">
-            &copy; 2025 Manuel G. Sintos. All rights reserved.
-        </div>
-    </footer>
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
 
     <script src="rathena_highlight_rules.js"></script>
 </body>

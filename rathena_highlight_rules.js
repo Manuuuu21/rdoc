@@ -8,7 +8,7 @@ const supportFunctionKeywords = [
 	"getitemscript","getitemtype","getstoragelist","getcartlist","getmailitem","sendmail","openbuyingstore","openitemshop","opensellstore","addtoselllist",
 	"bindatcmditem","binditem","setitemscript","bounditem","refine","unrefine","enchant","additemoption","removeitemoption","setrandomoption","itemskill",
 	"getitemamount","getchariditem","getitemrate","getgroupitemrate", "getarraysize", "getitembound2", "getitembound3", "getitembound4", "isequipped",
-	"rentitem", "getmonsterinfo", "playerattached",
+	"rentitem", "getmonsterinfo", "playerattached", "getlook",
 	// Original npcInteractionKeywords
 	"mes", "next", "clear", "close", "close2", "close3", "menu", "select", "prompt", "emotion", "dispbottom", "message",
 	// Original mapCommands
@@ -383,9 +383,9 @@ const keywords = [
 	...supportFunctionKeywords, 
 	...controlFlowKeywords, 
 	...constantLibraryKeywords,
-	...variableLanguageKeywords, // Add base names of special vars
-	...inventoryVarNames, // Add prefixed special array names
-	...inventoryVarNames, // Add prefixed special global array names
+	...variableLanguageKeywords, 
+	...inventoryVarNames, 
+	...inventoryVarNames, 
 	...constantLanguageKeywords
 ];
 
@@ -419,7 +419,7 @@ ace.define("ace/mode/rathena_highlight_rules", ["require", "exports", "ace/lib/o
         { token: "keyword.control", regex: "\\bOn\\w+:" },// Labels like OnMyLabel:
         { token: "keyword.control", regex: "(?<![@\\w\\.])\\b(?:" + controlFlowKeywords.join("|") + ")\\b" },
         { token: "support.function", regex: "(?<![@\\w\\.])\\b(?:" + supportFunctionKeywords.join("|") + ")\\b" },
-        { token: "variable.parameter", regex: "(?<![@\\w\\.])\\b(?:" + constantLibraryKeywords.join("|") + ")\\b" }, // Using constant.library for map names, item IDs etc.
+        { token: "variable.parameter", regex: "(?<![@\\w\\.])\\b(?:" + constantLibraryKeywords.join("|") + ")\\b" }, 
         { token: "variable.language", regex: "(?<![@\\w\\.])\\b(?:" + variableLanguageKeywords.join("|") + ")\\b" },
         { token: "variable.language", regex: "(@(?:" + inventoryVarNames.join("|") + "))\\b" },
         { token: "constant.language", regex: "(?<![@\\w\\.])\\b(?:" + constantLanguageKeywords.join("|") + ")\\b" },
@@ -581,6 +581,9 @@ const mainTopicList = `
   <li><a href="/rdoc/page/load-reloadnpcfile-unloadnpcfile.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">@load, @reloadnpcfile, @unloadnpcfile</a></li>
   <li><a href="/rdoc/page/label.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">NPC Label</a></li>
   <li><a href="/rdoc/page/function-callfunc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">function, callfunc</a></li>
+  <li><a href="/rdoc/page/callsub.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">callsub</a></li>
+  <li><a href="/rdoc/page/getarg.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getarg</a></li>
+  <li><a href="/rdoc/page/getargcount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getargcount</a></li>
   <li><a href="/rdoc/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
   <li><a href="/rdoc/page/close2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">close2</a></li>
   <li><a href="/rdoc/page/input.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">input</a></li>
@@ -597,6 +600,21 @@ const mainTopicList = `
   <li><a href="/rdoc/page/select-prompt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">select(), prompt()</a></li>
   <li><a href="/rdoc/page/menu.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">menu</a></li>
   <li><a href="/rdoc/page/goto.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">goto</a></li>
+  <li><a href="/rdoc/page/navigateto.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">navigateto</a></li>
+  <li><a href="/rdoc/page/mesitemlink.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mesitemlink, &lt;ITEM&gt;&lt;INFO&gt;</a></li>
+  <li><a href="/rdoc/page/url-quest-msg-tipbox.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">&lt;URL>, &lt;QUEST>, &lt;MSG>, &lt;TIPBOX></a></li>
+  <li><a href="/rdoc/page/freeloop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">freeloop()</a></li>
+
+  <li><a href="/rdoc/page/strcharinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strcharinfo()</a></li>
+  <li><a href="/rdoc/page/convertpcinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">convertpcinfo()</a></li>
+  <li><a href="/rdoc/page/strnpcinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strnpcinfo()</a></li>
+  <li><a href="/rdoc/page/readparam.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">readparam()</a></li>
+  <li><a href="/rdoc/page/getarraysize.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getarraysize()</a></li>
+  <li><a href="/rdoc/page/getelementofarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getelementofarray()</a></li>
+  <li><a href="/rdoc/page/getcharid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getcharid()</a></li>
+  <li><a href="/rdoc/page/getnpcid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnpcid()</a></li>
+  <li><a href="/rdoc/page/getlook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getlook()</a></li>
+  <li><a href="/rdoc/page/getsavepoint.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getsavepoint()</a></li>
 `;
 
 // Append the Show Case Script list at the Sidenav
@@ -604,15 +622,16 @@ document.getElementById("rathena-topic-list").innerHTML = mainTopicList;
 
 const title = document.getElementById("rathena-topic-title").textContent.trim().toLowerCase();
 const links = document.querySelectorAll("#rathena-topic-list li a");
+
 links.forEach((a, index) => {
   const li = a.parentElement;
   li.id = `topic-${index + 1}`;
 
-  const linkText = a.textContent.trim().toLowerCase();
-  if (title.includes(linkText)) {
+  const TitlelinkText = a.textContent.trim().toLowerCase();
+
+  if (title === TitlelinkText) { // exact match, no partial match
     a.classList.add("active");
 
-    // Lock body scroll just in case (optional, but avoids jump)
     const scrollX = window.scrollX;
     const scrollY = window.scrollY;
 
@@ -622,10 +641,8 @@ links.forEach((a, index) => {
         block: "center",
         inline: "nearest"
       });
-
-      // Restore body scroll position
       window.scrollTo(scrollX, scrollY);
-    }, 50);
+    }, 20);
   }
 });
 
@@ -702,8 +719,8 @@ showCaselistItems.forEach((a, index) => {
   const li = a.parentElement;
   li.id = `showcase-${index + 1}`;
 
-  const linkText = a.textContent.trim().toLowerCase();
-  if (title.includes(linkText)) {
+  const SClinkText = a.textContent.trim().toLowerCase();
+  if (title === SClinkText) { // exact match, no partial match
     a.classList.add("active");
 
     // Prevent body scroll jump
@@ -719,7 +736,7 @@ showCaselistItems.forEach((a, index) => {
 
       // Restore original body scroll position
       window.scrollTo(scrollX, scrollY);
-    }, 50);
+    }, 20);
   }
 });
 
@@ -867,4 +884,37 @@ videos.forEach(video => {
   video.addEventListener('contextmenu', function (e) {
     e.preventDefault();
   });
+});
+
+document.getElementById("custom_ad_container").innerHTML = `
+	<a id="custom_ad1" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank"><img src="/rdoc/page/img/rte_ad.png" width="100%" style="height:auto"></a>
+  <a id="custom_ad2" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank" style="display:none;"><img src="/rdoc/page/img/rte_ad2.png" width="100%" style="height:auto"></a>
+`;
+
+let showFirst = true;
+setInterval(() => {
+  document.getElementById("custom_ad1").style.display = showFirst ? "none" : "block";
+  document.getElementById("custom_ad2").style.display = showFirst ? "block" : "none";
+
+  document.getElementById("footer_custom_ad1").style.display = showFirst ? "none" : "block";
+  document.getElementById("footer_custom_ad2").style.display = showFirst ? "block" : "none";
+  showFirst = !showFirst;
+}, 5000);
+
+// Footer content
+document.getElementsByTagName("footer")[0].innerHTML = `
+	<div class="container mx-auto text-center text-sm">
+	    &copy; 2025 Manuel G. Sintos. All rights reserved.<br/>
+	    Posting ragnarok ads here? Contact me: <a href="mailto:manuelsintos21@gmail.com" style="color:lightblue">manuelsintos21@gmail.com</a><br/>
+			Join to our Discord Server: <a href="https://discord.com/invite/QpEkCN3uJ6" style="color:lightblue">Discord Server</a>
+	</div>
+`;
+
+const sections = document.querySelectorAll('.content-section');
+sections.forEach(section => {
+  section.insertAdjacentHTML('beforeend', `
+    <br/><hr/><br/>
+    <a id="footer_custom_ad1" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank"><img src="/rdoc/page/img/rte_ad2.png" width="100%" style="height:auto"></a>
+    <a id="footer_custom_ad2" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank" style="display:none;"><img src="/rdoc/page/img/rte_ad.png" width="100%" style="height:auto"></a>
+  `);
 });
