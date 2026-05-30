@@ -634,15 +634,7 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getgmlevel.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgmlevel()</a></li>
   <li><a href="/rdoc/page/getgroupid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgroupid()</a></li>
   <li><a href="/rdoc/page/gettimetick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimetick()</a></li>
-	<li><a href="/rdoc/page/gettime.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettime()</a></li>
-  <li><a href="/rdoc/page/gettimestr.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimestr()</a></li>
-  <li><a href="/rdoc/page/getusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getusers()</a></li>
-  <li><a href="/rdoc/page/getmapusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapusers()</a></li>
-  <li><a href="/rdoc/page/getareausers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getareausers()</a></li>
-  <li><a href="/rdoc/page/getunits.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunits, getmapunits, getareaunits</a></li>
-
-
-
+	
 `;
 
 // Append the Show Case Script list at the Sidenav
