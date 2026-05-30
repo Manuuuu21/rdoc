@@ -597,6 +597,15 @@ const mainTopicList = `
   <li><a href="/rdoc/page/checkweight.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkweight()</a></li>
   <li><a href="/rdoc/page/basicskillcheck.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">basicskillcheck()</a></li>
   <li><a href="/rdoc/page/checkoption-setoption.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkoption, setoption</a></li>
+	<li><a href="/rdoc/page/setcart-checkcart.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setcart(), checkcart()</a></li>
+  <li><a href="/rdoc/page/setfalcon-checkfalcon.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setfalcon(), checkfalcon()</a></li>
+  <li><a href="/rdoc/page/setriding-checkriding.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setriding(), checkriding()</a></li>
+  <li><a href="/rdoc/page/setdragon-checkdragon.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setdragon(), checkdragon()</a></li>
+  <li><a href="/rdoc/page/setmadogear-checkmadogear.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmadogear(), checkmadogear()</a></li>
+  <li><a href="/rdoc/page/setmounting-ismounting.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmounting(), ismounting()</a></li>
+  <li><a href="/rdoc/page/checkwug.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkwug()</a></li>
+  <li><a href="/rdoc/page/checkvending.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkvending()</a></li>
+
 
 `;
 
