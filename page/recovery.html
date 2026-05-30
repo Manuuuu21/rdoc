@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - recovery()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">recovery()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is recovery? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>recovery()</code> command fully restores the HP and SP of selected groups of characters (or even the entire server), while also reviving any fallen/dead player characters.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This command is incredibly robust and is the standard way to heal/revive all active players after PvP guild castle sieges (WoE), upon completing instances/raids, or during live GM community events.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of recovery 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>recovery &lt;type&gt;{,&lt;option&gt;,&lt;revive_flag&gt;{,"&lt;map name&gt;"}};</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Target Types (&lt;type&gt;) 🎯</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Targets Selected</th>
+                                <th class="py-2 px-4 border-b">Expected Option Value</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b"><code>0</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Single Individual Player</td>
+                                <td class="py-2 px-4 border-b font-sans">Character database ID (Defaults to invoking player)</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b"><code>1</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Entire Party Members</td>
+                                <td class="py-2 px-4 border-b font-sans">Party ID number (Defaults to invoking party)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b"><code>2</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Entire Guild Members</td>
+                                <td class="py-2 px-4 border-b font-sans">Guild ID number (Defaults to invoking guild)</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b"><code>3</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Map Zone population</td>
+                                <td class="py-2 px-4 border-b font-sans">Target Map Name as string (e.g. <code>"prontera"</code>)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b"><code>4</code></td>
+                                <td class="py-2 px-4 border-b font-sans">All active server players</td>
+                                <td class="py-2 px-4 border-b font-sans">None (Uses <code>revive_flag</code> directly)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Revive Flags (&lt;revive_flag&gt;) ⚙️</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Flag</th>
+                                <th class="py-2 px-4 border-b">Action Executed</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b"><code>1</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Revive dead players AND fully heal all matches (HP and SP). <b>[Default]</b></td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b"><code>2</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Heal only living match players. Completely ignores dead players!</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b"><code>4</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Revive dead character targets and heal them, but ignore living targets entirely!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= Ultimate Resurrection & Recovery Service
+//= Demonstrates multiple recovery target and flag operations
+//============================================================
+prontera,150,160,4&#9;script&#9;Resurrector Master&#9;99,{
+    mes "^0000FF[Guild Priest]^000000";
+    mes "Greetings. I can revive or restore whole structures instantly.";
+    next;
+    
+    set .@sel, select("Revive Guild on Morocc Map:Fully Heal party members on Morocc only:Resurrect ALL servers-side dead:Cancel");
+    
+    if (.@sel == 1) {
+        set .@guild, getcharid(2);
+        if (.@guild == 0) {
+            mes "Error: You are not inside a Guild list!";
+            close;
+        }
+        // Recover option 2 (Guild), target guild ID, flag 1 (Revive and Heal) on map "morocc"
+        recovery 2, .@guild, 1, "morocc";
+        dispbottom "Guild recovery lines broadcasted on Morocc map!";
+    } 
+    else if (.@sel == 2) {
+        set .@party, getcharid(1);
+        if (.@party == 0) {
+            mes "Error: You are not inside a Party list!";
+            close;
+        }
+        // Recover option 1 (Party), target party ID, flag 2 (Heal living only) on map "morocc"
+        recovery 1, .@party, 2, "morocc";
+        dispbottom "Party healing buffers loaded on Morocc map!";
+    } 
+    else if (.@sel == 3) {
+        // Recover option 4 (All), flag 4 (Dead only) 
+        recovery 4, 4;
+        dispbottom "Server-side global resurrect sequence executed!";
+    }
+    
+    mes "^0000FF[Guild Priest]^000000";
+    mes "Restorations completed!";
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>On line 18, <code>recovery 2, .@guild, 1, "morocc"</code> revives and heals all guild members of the specified guild ID, filtered down to only those currently situated on map <code>morocc</code>.</li>
+                            <li>On line 28, <code>recovery 1, .@party, 2, "morocc"</code> heals living party members on <code>morocc</code> while skipping dead party members.</li>
+                            <li>On line 33, <code>recovery 4, 4</code> executes a server-wide target sequence, reviving every single dead player on the shard.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

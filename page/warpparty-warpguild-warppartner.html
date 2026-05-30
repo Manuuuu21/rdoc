@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - warpparty, warpguild, warppartner</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">warpparty, warpguild, warppartner</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What are warpparty, warpguild, & warppartner? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    These three cooperative teleportation commands allow script writers to instantly warp whole player groups (Parties, Guilds, or Marriage Partners) to specified maps and coordinates simultaneously.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntaxes 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>warpparty("&lt;to_mapname&gt;",&lt;x&gt;,&lt;y&gt;,&lt;party_id&gt;,{"&lt;from_mapname&gt;"{,&lt;range x&gt;,&lt;range y&gt;}});</code></li>
+                    <li><code>warpguild("&lt;to_mapname&gt;",&lt;x&gt;,&lt;y&gt;,&lt;guild_id&gt;);</code></li>
+                    <li><code>warppartner("&lt;to_mapname&gt;",&lt;x&gt;,&lt;y&gt;);</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;to_mapname&gt;"</code></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">The destination map name. Supports special values described below.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;x&gt;, &lt;y&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Coordinates on the destination map. Setting these to <code>0,0</code> teleports players to random coordinate cells.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;party_id&gt; / &lt;guild_id&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The unique database identification number of the party or guild to teleport. Retrieve using <code>getcharid(1)</code> for party or <code>getcharid(2)</code> for guild.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;from_mapname&gt;"</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">Filters selected members: only party members situated on this source map will be warped.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;range x&gt;, &lt;range y&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Enables coordinate randomization around <code>(x,y)</code> by adding/subtracting a random offset.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Special Map Identifiers 📍</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Special Keyword</th>
+                                <th class="py-2 px-4 border-b">Effect/Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b"><code>"Random"</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Warp each target randomly on their **current** map (simulates using a fly wing independently).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b"><code>"SavePointAll"</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Warp all targets back to their respective personal save coordinates.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b"><code>"SavePoint"</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Warp all targets directly to the save point of the current invoking/attached character.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b"><code>"Leader"</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Warp all members to the party leader's current position (only works for <code>warpparty</code> if the leader is online on the same map-server).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b"><code>"RandomAll"</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Warp all members to the **same** random coordinates in their current map.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= Instant Group Warper Master
+//= Demonstrates warpparty, warpguild and warppartner
+//============================================================
+prontera,155,150,4&#9;script&#9;Alliance Teleporter&#9;99,{
+    mes "^0000FF[Alliance Teleporter]^000000";
+    mes "Greetings! I can teleport your entire party, guild, or your beloved partner!";
+    next;
+    
+    set .@menu_sel, select("Warp Party (Morroc):Warp Guild (Geffen):Warp Spouse (My Position):Quit");
+    
+    if (.@menu_sel == 1) {
+        set .@party, getcharid(1);
+        if (.@party == 0) {
+            mes "Error: You are not currently in a party!";
+            close;
+        }
+        warpparty "morocc", 150, 150, .@party;
+    } 
+    else if (.@menu_sel == 2) {
+        set .@guild, getcharid(2);
+        if (.@guild == 0) {
+            mes "Error: You are not currently in a guild!";
+            close;
+        }
+        warpguild "geffen", 100, 100, .@guild;
+    } 
+    else if (.@menu_sel == 3) {
+        // Fetch current coordinates of active player to warp spouse there
+        getmapxy .@map$, .@x, .@y, 0;
+        if (warppartner(.@map$, .@x, .@y)) {
+            dispbottom "Spouse teleport sequence initiated!";
+        } else {
+            mes "Error: Your spouse is currently offline or you are not married!";
+            close;
+        }
+    }
+    
+    mes "^0000FF[Alliance Teleporter]^000000";
+    mes "Teleport completes! Farewell!";
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>On line 16, the command <code>warpparty</code> grabs the player's party ID and teleports all active party members directly to <code>morocc</code>.</li>
+                            <li>On line 24, <code>warpguild</code> teleports all guild members directly of the invoking player's guild ID to <code>geffen</code>.</li>
+                            <li>On line 29, <code>warppartner</code> attempts to dynamically locate and pull the marital spouse over to the active player's exact coordinates.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
