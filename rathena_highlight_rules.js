@@ -1,85 +1,48 @@
+/* This keywords is the Data we can use for rathena syntax highlights and custom autocomplete */
 // Blue highlight - General commands and functions
 const supportFunctionKeywords = [
-	// Original itemKeywords
-	"getitem","getitem2","getitem3","getitembound","getnameditem","getpartyinventory","getitemgroup","getitemgroupbound","getitemrandom",
-	"getitemlink","delitem","delitem2","clearitem","clearpartyinventory","getinventorylist","countitem","checkweight","checkitem","checkworn",
-	"countwornitem","hasitem","hasdropitem","getequipid","getequipname","getequipweaponlv","getequiprefinerycnt","getequipisenable","getequipisequiped",
-	"getequipoption","getequiprandomoption","getequipcardid","getequipitemid","equip","unequip","getiteminfo","getitemname","getitemslots","getitemlook",
-	"getitemscript","getitemtype","getstoragelist","getcartlist","getmailitem","sendmail","openbuyingstore","openitemshop","opensellstore","addtoselllist",
-	"bindatcmditem","binditem","setitemscript","bounditem","refine","unrefine","enchant","additemoption","removeitemoption","setrandomoption","itemskill",
-	"getitemamount","getchariditem","getitemrate","getgroupitemrate", "getarraysize", "getitembound2", "getitembound3", "getitembound4", "isequipped",
-	"rentitem", "getmonsterinfo", "playerattached", "getlook",
-	// Original npcInteractionKeywords
-	"mes", "next", "clear", "close", "close2", "close3", "menu", "select", "prompt", "emotion", "dispbottom", "message",
-	// Original mapCommands
-	"pvpon", "pvpoff", "navigateto", "mapflag", "warpwaitingpc", "shop", "itemshop", "buyingstore",
-	"pointshop", "marketshop", "cashshop", "soundeffect", "soundeffectall", "mapid2name", "removemapflag", "setmapflag",
-	"callshop", "pcblockmove", "sleep", "sleep2", "progressbar", "warp", "mapwarp",
-	"attachrid", "mapannounce", "killmonsterall", "getmapusers", "enablenpc", "disablenpc",
-	// Original otherBlueKeywords (some might be recategorized)
-	"rand", "delwaitingroom", "waitingroom", "getfreecell", "unitwarp", "unitskillusepos", "unittalk", "cutin", "announce", "initnpctimer", "stopnpctimer",
-	"npctalk", "unitwalk", "bindatcmd", "atcommand", "getcharid", "bonus", "bonus2", "bonus3", "bonus4", "bonus5", "autobonus", "autobonus2", "autobonus3",
-	"statusup2", "specialeffect2", "specialeffect", "percentheal", "sc_start", "getnpcid", "duplicate", "readparam", "gettimetick", "getgroupid", 
-	"getmapxy", "getskilllv", "checkoption", "checkfalcon", "setcart", "setfalcon", "setriding", "setdragon", "setmadogear", "query_sql", "mobcount", "monster", "showscript", "strnpcinfo", "strcharinfo",
-	"getstrlen", "checkvending", "checkchatting", "escape_sql", "input", "getbattleflag", "debugmes", "freeloop", "roclass", "eaclass", "setlook",
-	"jobname", "addtimer", "mercenary_create", "mercenary_delete", "mercenary_heal", "mercenary_sc_start", "mercenary_get_calls",
-	"mercenary_set_calls", "mercenary_get_faith", "mercenary_set_faith", "getmercinfo", "party_create", "party_destroy", "party_addmember",
-	"party_delmember", "party_changeleader", "party_changeoption", "openstorage", "openstorage2", "openmail", "mail", "openauction", "guildopenstorage", "guildopenstorage_log",
-	"guild_has_permission", "guildchangegm", "guildgetexp", "guildskill", "resetlvl", "resetstatus", "resetskill", "resetfeel", "resethate",
-	"sc_start2", "sc_start4", "sc_end", "sc_end_class", "getstatus", "skilleffect", "npcskilleffect", "removespecialeffect", "removespecialeffect2", "statusup", "traitstatusup", "traitstatusup2",
-	"bonus_script", "bonus_script_clear", "skill", "addtoskill", "nude", "sit", "stand", "disguise", "undisguise", "transform", "active_transform",
-	"marriage", "wedding", "divorce", "adopt", "pcfollow", "pcstopfollow", "unitblockskill", "errormes", "logmes", "globalmes", "viewpoint",
-	"misceffect", "playBGM", "playBGMall", "charcommand", "unbindatcmd", "useatcmd", "camerainfo", "day", "night", "defpattern",
-	"activatepset", "deactivatepset", "deletepset", "pow", "sqrt", "distance", "min", "minimum", "max", "maximum", "round", "ceil", "floor", "md5", "query_logsql",
-	"setiteminfo", "atoi", "axtoi", "strtol", "compare", "strcmp", "charisalpha", "charat", "setchar", "insertchar", "delchar", "strtoupper",
-	"strtolower", "charisupper", "charislower", "substr", "explode", "implode", "sprintf", "sscanf", "strpos", "replacestr", "countstr",
-	"preg_match", "setfont", "showdigit", "setcell", "setwall", "delwall", "readbook", "open_roulette", "opendressroom", "hateffect",
-	"getrandomoptinfo", "getequiprandomoption", "clan_join", "clan_leave", "geteleminfo", "channel_create", "channel_setopt", "channel_getopt",
-	"channel_setcolor", "channel_setpass", "channel_setgroup", "channel_setgroup2", "channel_chat", "channel_ban", "channel_unban",
-	"channel_kick", "channel_delete", "achievementadd", "achievementremove", "achievementinfo", "achievementcomplete", "achievementexists",
-	"achievementupdate", "areamonster", "areamobuseskill", "killmonster", "strmobinfo", "clone", "summon", "addmonsterdrop", "delmonsterdrop",
-	"mob_setidleevent", "hideonnpc", "hideoffnpc", "unloadnpc", "cloakonnpc", "cloakoffnpc", "isnpccloaked", "doevent", "donpcevent", "cmdothernpc", "chatmes", "setnpcdisplay",
-	"deltimer", "addtimercount", "startnpctimer", "setnpctimer", "getnpctimer", "attachnpctimer", "detachnpctimer", "awake", "progressbar_npc",
-	"unitwalkto", "unitattack", "unitkill", "unitstopattack", "unitstopwalk", "unitskilluseid", "unitexists", "getunittype", "getunitname",
-	"setunitname", "setunittitle", "getunittitle", "getunitdata", "setunitdata", "npcskill", "instance_create", "instance_destroy", "instance_enter",
-	"instance_npcname", "instance_mapname", "instance_id", "instance_warpall", "instance_announce", "instance_check_party", "instance_check_guild",
-	"instance_check_clan", "instance_info", "instance_live_info", "getvariableofinstance", "questinfo", "questinfo_refresh", "setquest", "completequest",
-	"erasequest", "changequest", "checkquest", "isbegin_quest", "showevent", "waitingroom2bg_single", "waitingroom2bg", "bg_create", "bg_join",
-	"bg_team_setxy", "bg_reserve", "bg_unbook", "bg_desert", "bg_warp", "bg_monster", "bg_monster_set_team", "bg_leave", "bg_destroy",
-	"areapercentheal", "bg_get_data", "bg_getareausers", "bg_updatescore", "bg_info", "bpet", "birthpet", "pet", "catchpet", "makepet", "getpetinfo",
-	"petskillbonus", "petrecovery", "petloot", "petskillsupport", "petskillattack", "petskillattack2", "homevolution", "morphembryo",
-	"hommutate", "checkhomcall", "gethominfo", "homshuffle", "addhomintimacy", "getguildname", "getpartymember", "getguildmember", "getguildmaster",
-	"getguildmasterid", "is_guild_leader", "getcastlename", "getcastledata", "setcastledata", "getgdskilllv", "requestguildinfo", "getmapguildusers",
-	"maprespawnguildid", "agitstart", "agitend", "agitstart2", "agitend2", "agitstart3", "agitend3", "gvgon", "gvgoff", "gvgon3", "gvgoff3", "flagemblem", "guardian", "guardianinfo",
-	"getguildalliance", "getskilllist", "skillpointcount", "getscrate", "checkweight2", "checkoption1", "checkoption2", "setoption",
-	"checkcart", "checkfalcon", "checkriding", "checkdragon", "checkmadogear", "checkmounting", "checkwug", "checkidle", "checkidlehom", "checkidlemer",
-	"agitcheck2", "agitcheck3", "isnight", "isday", "checkre", "isequippedcnt", "checkequipedcard", "jobcanentermap", "checkcell", "checkwall",
-	"getequipuniqueid", "getbrokenid", "getequipisenableref", "getequiparmorlv", "getequippercentrefinery", "getequiprefinecost",
-	"getareadropitem", "getequipcardcnt", "cardscnt", "getrefine", "getitemslots", "getequipcardid", "mergeitem", "mergeitem2",
-	"getequiptradability", "identifyall", "getenchantgrade", "convertpcinfo", "getchildid", "getmotherid", "getfatherid", "ispartneron", "getpartnerid",
-	"getcharip", "vip_status", "vip_time", "addspiritball", "delspiritball", "countspiritball", "ignoretimeout",
-	"rentitem2", "rentitem3", "makeitem", "makeitem2", "makeitem3", "cleanarea", "cleanmap", "searchitem",
-	"cartdelitem", "storagedelitem", "guildstoragedelitem", "delitem3", "cartdelitem2", "storagedelitem2", "guildstoragedelitem2",
-	"cartcountitem", "storagecountitem", "guildstoragecountitem", "countitem2", "countitem3", "cartcountitem2", "storagecountitem2",
-	"guildstoragecountitem2", "rentalcountitem", "rentalcountitem2", "rentalcountitem3", "countbound", "groupranditem", "getrandgroupitem",
-	"getgroupitem", "enable_items", "disable_items", "consumeitem", "produce", "cooking", "makerune", "successremovecards",
-	"failedremovecards", "repair", "repairall", "successrefitem", "failedrefitem", "downrefitem", "delequip", "breakequip", "autoequip",
-	"searchstores", "enable_command", "disable_command",
-	"getpartyleader", "is_party_leader"
+  "achievementadd", "achievementcomplete", "achievementexists", "achievementinfo", "achievementremove", "achievementupdate", "activatepset", "active_transform", "addhomintimacy", "additemoption", "addmonsterdrop", "addspiritball", "addtimer", "addtimercount", "addtoselllist", "addtoskill", "adopt", "agitcheck2", "agitcheck3", "agitend",
+  "agitend2", "agitend3", "agitstart", "agitstart2", "agitstart3", "announce", "areamobuseskill", "areamonster", "areapercentheal", "atcommand", "attachnpctimer", "attachrid", "atoi", "autobonus", "autobonus2", "autobonus3", "autoequip", "awake", "axtoi", "bg_create",
+  "bg_desert", "bg_destroy", "bg_get_data", "bg_getareausers", "bg_info", "bg_join", "bg_leave", "bg_monster", "bg_monster_set_team", "bg_reserve", "bg_team_setxy", "bg_unbook", "bg_updatescore", "bg_warp", "bindatcmd", "bindatcmditem", "binditem", "birthpet", "bonus", "bonus2",
+  "bonus3", "bonus4", "bonus5", "bonus_script", "bonus_script_clear", "bounditem", "bpet", "breakequip", "buyingstore", "callshop", "camerainfo", "cardscnt", "cartcountitem", "cartcountitem2", "cartdelitem", "cartdelitem2", "cashshop", "catchpet", "ceil", "channel_ban",
+  "channel_chat", "channel_create", "channel_delete", "channel_getopt", "channel_kick", "channel_setcolor", "channel_setgroup", "channel_setgroup2", "channel_setpass", "channel_setopt", "channel_unban", "charat", "charcommand", "charisalpha", "charislower", "charisupper", "changequest", "chatmes", "checkcart", "checkcell",
+  "checkchatting", "checkdragon", "checkequipedcard", "checkfalcon", "checkhomcall", "checkidle", "checkidlehom", "checkidlemer", "checkitem", "checkmadogear", "checkmounting", "checkoption", "checkoption1", "checkoption2", "checkquest", "checkre", "checkriding", "checkwall", "checkweight", "checkweight2",
+  "checkworn", "checkwug", "clan_join", "clan_leave", "cleanarea", "cleanmap", "clear", "clearitem", "clearpartyinventory", "clone", "cloakonnpc", "cloakoffnpc", "close", "close2", "close3", "cmdothernpc", "compare", "completequest", "consumeitem", "convertpcinfo",
+  "cooking", "countbound", "countitem", "countitem2", "countitem3", "countspiritball", "countstr", "countwornitem", "cutin", "day", "deactivatepset", "debugmes", "defpattern", "delchar", "delequip", "deletepset", "delitem", "delitem2", "delitem3", "delmonsterdrop",
+  "delspiritball", "deltimer", "delwaitingroom", "detachrid", "detachnpctimer", "disable_command", "disable_items", "disablenpc", "disguise", "dispbottom", "distance", "divorce", "doevent", "donpcevent", "downrefitem", "duplicate", "eaclass", "emotion", "enable_command", "enable_items", "enablenpc",
+  "enchant", "equip", "erasequest", "errormes", "escape_sql", "explode", "failedrefitem", "failedremovecards", "flagemblem", "floor", "freeloop", "getarraysize", "getareadropitem", "getbattleflag", "getbrokenid", "getcartlist", "getcastledata", "getcastlename", "getcharid", "getchariditem",
+  "getcharip", "getchildid", "geteleminfo", "getequiparmorlv", "getequipcardcnt", "getequipcardid", "getequipid", "getequipisenable", "getequipisenableref", "getequipisequiped", "getequipname", "getequipoption", "getequippercentrefinery", "getequiprandomoption", "getequiprefinecost", "getequiprefinerycnt", "getequiptradability", "getequipuniqueid", "getequipweaponlv", "getfatherid",
+  "getfreecell", "getgdskilllv", "getgroupid", "getgroupitem", "getgroupitemrate", "getguildalliance", "getguildmaster", "getguildmasterid", "getguildmember", "getguildname", "gethominfo", "getinventorylist", "getitem", "getitem2", "getitem3", "getitemamount", "getitembound", "getitembound2", "getitembound3", "getitembound4",
+  "getitemgroup", "getitemgroupbound", "getiteminfo", "getitemlink", "getitemlook", "getitemname", "getitemrandom", "getitemrate", "getitemscript", "getitemslots", "getitemtype", "getlook", "getmailitem", "getmapguildusers", "getmapusers", "getmapxy", "getmercinfo", "getmonsterinfo", "getmotherid", "getnameditem",
+  "getnpcid", "getnpctimer", "getpartnerid", "getpartyleader", "getpartymember", "getpartyinventory", "getpetinfo", "getrandgroupitem", "getrandomoptinfo", "getrefine", "getscrate", "getskilllist", "getskilllv", "getstoragelist", "getstrlen", "gettimetick", "getunitdata", "getunitname", "getunittitle", "getunittype",
+  "getvariableofinstance", "globalmes", "groupranditem", "guardian", "guardianinfo", "guild_has_permission", "guildchangegm", "guildgetexp", "guildopenstorage", "guildopenstorage_log", "guildskill", "guildstoragecountitem", "guildstoragecountitem2", "guildstoragedelitem", "guildstoragedelitem2", "gvgoff", "gvgoff3", "gvgon", "gvgon3", "hasdropitem",
+  "hasitem", "hateffect", "hideoffnpc", "hideonnpc", "homevolution", "hommutate", "homshuffle", "identifyall", "ignoretimeout", "implode", "initnpctimer", "input", "insertchar", "instance_announce", "instance_check_clan", "instance_check_guild", "instance_check_party", "instance_create", "instance_destroy", "instance_enter",
+  "instance_id", "instance_info", "instance_live_info", "instance_mapname", "instance_npcname", "instance_warpall", "is_guild_leader", "is_party_leader", "isbegin_quest", "isday", "isequipped", "isequippedcnt", "isnight", "isnpccloaked", "ispartneron", "itemshop", "itemskill", "jobcanentermap", "jobname", "killmonster",
+  "killmonsterall", "logmes", "mail", "makeitem", "makeitem2", "makeitem3", "makepet", "makerune", "mapannounce", "mapflag", "mapid2name", "maprespawnguildid", "mapwarp", "marriage", "max", "maximum", "md5", "menu", "mercenary_create", "mercenary_delete",
+  "mercenary_get_calls", "mercenary_get_faith", "mercenary_heal", "mercenary_sc_start", "mercenary_set_calls", "mercenary_set_faith", "mergeitem", "mergeitem2", "mes", "message", "min", "minimum", "misceffect", "mob_setidleevent", "mobcount", "monster", "morphembryo", "navigateto", "next", "night",
+  "npcskill", "npcskilleffect", "npctalk", "nude", "open_roulette", "openauction", "openbuyingstore", "opendressroom", "openitemshop", "openmail", "opensellstore", "openstorage", "openstorage2", "party_addmember", "party_changeleader", "party_changeoption", "party_create", "party_delmember", "party_destroy", "pcblockmove",
+  "pcfollow", "pcstopfollow", "percentheal", "pet", "petloot", "petrecovery", "petskillattack", "petskillattack2", "petskillbonus", "petskillsupport", "playBGM", "playBGMall", "playerattached", "pointshop", "pow", "preg_match", "produce", "progressbar", "progressbar_npc", "prompt",
+  "pvpoff", "pvpon", "query_logsql", "query_sql", "questinfo", "questinfo_refresh", "rand", "readbook", "readparam", "refine", "removespecialeffect", "removespecialeffect2", "rentalcountitem", "rentalcountitem2", "rentalcountitem3", "rentitem", "rentitem2", "rentitem3", "repair", "repairall",
+  "replacestr", "requestguildinfo", "resetfeel", "resethate", "resetlvl", "resetskill", "resetstatus", "roclass", "round", "sc_end", "sc_end_class", "sc_start", "sc_start2", "sc_start4", "searchitem", "searchstores", "select", "sendmail", "setcart", "setcastledata",
+  "setcell", "setchar", "setdragon", "setfalcon", "setfont", "setiteminfo", "setitemscript", "setlook", "setmadogear", "setmapflag", "setnpcdisplay", "setnpctimer", "setoption", "setquest", "setrandomoption", "setriding", "setunitdata", "setunitname", "setunittitle", "setwall",
+  "showdigit", "showevent", "showscript", "sit", "skill", "skilleffect", "skillpointcount", "sleep", "sleep2", "soundeffect", "soundeffectall", "specialeffect", "specialeffect2", "sprintf", "sqrt", "sscanf", "stand", "statusup", "statusup2", "stopnpctimer",
+  "storagecountitem", "storagecountitem2", "storagedelitem", "storagedelitem2", "strcmp", "strcharinfo", "strmobinfo", "strnpcinfo", "strpos", "strtol", "strtolower", "strtoupper", "substr", "successrefitem", "successremovecards", "summon", "traitstatusup", "traitstatusup2", "transform", "unbindatcmd",
+  "unequip", "unitattack", "unitblockskill", "unitexists", "unitkill", "unitskilluseid", "unitskillusepos", "unitstopattack", "unitstopwalk", "unittalk", "unitwalk", "unitwalkto", "unitwarp", "unloadnpc", "unrefine", "useatcmd", "viewpoint", "vip_status", "vip_time", "waitingroom",
+  "waitingroom2bg", "waitingroom2bg_single", "warp", "warpwaitingpc", "wedding", "heal", "isloggedin", "getstatus", "getareaunits", "isdead", "removemapflag","startnpctimer","changecharsex","warpparty","itemheal",
 ];
 
 // Red highlight - Control flow and declarations
 const controlFlowKeywords = [
   "if", "else", "switch", "case", "default", "while", "do", "for", "break", "continue",
-  "end", "script", "goto", "return", "callfunc", "callsub", "function" // 'function' keyword for declaration
+  "end", "script", "goto", "return", "callfunc", "callsub", "function" 
 ];
 
 // Orange highlight - Named constants and parameters
 const constantLibraryKeywords = [
   // Original equipmentLocConstant
-	"EQI_HEAD_LOW", "EQI_HEAD_MID", "EQI_HEAD_TOP", "EQI_ARMOR", "EQI_HAND_L", "EQI_HAND_R", "EQI_GARMENT", "EQI_SHOES", "EQI_ACC_L", "EQI_ACC_R", 
-	"EQI_COSTUME_HEAD_TOP", "EQI_COSTUME_HEAD_MID", "EQI_COSTUME_HEAD_LOW", "EQI_COSTUME_GARMENT", "EQI_COSTUME_ROBE", "EQI_SHADOW_ARMOR", 
-	"EQI_SHADOW_WEAPON", "EQI_SHADOW_SHIELD", "EQI_SHADOW_SHOES", "EQI_SHADOW_ACC_R", "EQI_SHADOW_ACC_L", "EQI_COMPOUND_ON", "EQI_AMMO",
+  "EQI_HEAD_LOW", "EQI_HEAD_MID", "EQI_HEAD_TOP", "EQI_ARMOR", "EQI_HAND_L", "EQI_HAND_R", "EQI_GARMENT", "EQI_SHOES", "EQI_ACC_L", "EQI_ACC_R", 
+  "EQI_COSTUME_HEAD_TOP", "EQI_COSTUME_HEAD_MID", "EQI_COSTUME_HEAD_LOW", "EQI_COSTUME_GARMENT", "EQI_COSTUME_ROBE", "EQI_SHADOW_ARMOR", 
+  "EQI_SHADOW_WEAPON", "EQI_SHADOW_SHIELD", "EQI_SHADOW_SHOES", "EQI_SHADOW_ACC_R", "EQI_SHADOW_ACC_L", "EQI_COMPOUND_ON", "EQI_AMMO",
   // Original emotionConstants
   "ET_SURPRISE", "ET_QUESTION", "ET_DELIGHT", "ET_THROB", "ET_SWEAT", "ET_AHA", "ET_FRET", "ET_ANGER", "ET_MONEY", "ET_THINK",
   "ET_SCISSOR", "ET_ROCK", "ET_WRAP", "ET_FLAG", "ET_BIGTHROB", "ET_THANKS", "ET_KEK", "ET_SORRY", "ET_SMILE", "ET_PROFUSELY_SWEAT",
@@ -94,7 +57,7 @@ const constantLibraryKeywords = [
   "RDMOPT_VAR_STRAMOUNT", "RDMOPT_VAR_AGIAMOUNT", "RDMOPT_VAR_VITAMOUNT", "RDMOPT_VAR_INTAMOUNT", "RDMOPT_VAR_DEXAMOUNT", "RDMOPT_VAR_LUKAMOUNT",
   // Original boundVars
   "BOUND_CHAR", "BOUND_ACCOUNT", "BOUND_GUILD", "BOUND_PARTY", "LOOK_BASE", "LOOK_HAIR", "LOOK_WEAPON", "LOOK_HEAD_BOTTOM", "LOOK_HEAD_TOP", 
-	"LOOK_HEAD_MID", "LOOK_HAIR_COLOR", "LOOK_CLOTHES_COLOR", "LOOK_SHIELD", "LOOK_SHOES", "LOOK_BODY2",
+  "LOOK_HEAD_MID", "LOOK_HAIR_COLOR", "LOOK_CLOTHES_COLOR", "LOOK_SHIELD", "LOOK_SHOES", "LOOK_BODY2",
   // Original broadcastTargets
   "bc_all", "bc_map", "bc_self", "bc_area", "self", "SELF", "area", "AREA", "bc_pc", "bc_npc", "bc_yellow", "bc_blue", "bc_woe",
   // Original mapNames
@@ -109,7 +72,7 @@ const constantLibraryKeywords = [
   "pay_fild05","pay_fild06","pay_fild07","pay_dun00","pay_dun01","pay_dun02","pay_dun03","pay_dun04",
   "alberta", "izlude","izlude_in","iz_dun00","iz_dun01","iz_dun02","iz_dun03","iz_dun04","iz_dun05",
   "aldebaran","aldeba_in","alde_alche","alde_gld","alde_dun01","alde_dun02","alde_dun03","alde_dun04","c_tower1","c_tower2","c_tower3","c_tower4","alde_tt02","alde_tt03", 
-  "xmas","xmas_in","xmas_fild01","xmas_dun01","xmas_dun02", 
+  "xmas","xmas_in","xmas_fild01","xmas_dun01","xmas_dun02","pvp_n_1-2",
   "comodo","cmd_in01","cmd_in02","cmd_fild01","cmd_fild02","cmd_fild03","cmd_fild04","cmd_fild05","cmd_fild06","cmd_fild07",
   "cmd_fild08","cmd_fild09","beach_dun","beach_dun2","beach_dun3", 
   "yuno","yuno_in01","yuno_in02","yuno_in03","yuno_in04","yuno_fild01","yuno_fild02","yuno_fild03","yuno_fild04","yuno_fild05",
@@ -117,7 +80,7 @@ const constantLibraryKeywords = [
   "amatsu","ama_in01","ama_fild01","ama_dun01","ama_dun02","ama_dun03", 
   "gonryun","gon_in","gon_fild01","gon_dun01","gon_dun02","gon_dun03",
   "umbala","um_in","um_fild01","um_fild02","um_fild03","um_fild04","um_dun01","um_dun02", 
-  "niflheim","nif_fild01","nif_fild02",
+  "niflheim","nif_fild01","nif_fild02","quiz_01",
   "louyang", "lou_in01", "lou_in02", "lou_fild01", "lou_dun01", "lou_dun02", "lou_dun03", 
   "ayothaya", "ayo_in01", "ayo_fild01", "ayo_fild02", "ayo_dun01", "ayo_dun02", 
   "jawaii", "jawaii_in01", 
@@ -131,14 +94,16 @@ const constantLibraryKeywords = [
   "new_1-1", "new_1-2", "turbo_room", "moc_ruins", "thor_camp", "ecl_in01", "kame_house",
   // Original mapflagConstant
   "mf_restricted", "mf_noskill", "mf_novending", "mf_nocommand", "mf_nomemo", "mf_noteleport", "mf_nowarp", "mf_nosave", "mf_nobranch",
-	"mf_nopenalty", "mf_nozenypenalty", "mf_pvp","mf_gvg", "mf_battleground", "mf_nightenabled", "mf_snow","mf_fog", "mf_sakura", "mf_leaves",
-	"mf_rain", "mf_clouds", "mf_fireworks", "mf_skill_damage", "mf_skill_duration", "mf_loadevent", "mf_instakill", "MF_RESTRICTED",
+  "mf_nopenalty", "mf_nozenypenalty", "mf_pvp","mf_gvg", "mf_battleground", "mf_nightenabled", "mf_snow","mf_fog", "mf_sakura", "mf_leaves",
+  "mf_rain", "mf_clouds", "mf_fireworks", "mf_skill_damage", "mf_skill_duration", "mf_loadevent", "mf_instakill", "MF_RESTRICTED",
+  "mf_nodrop","mf_nomobloot","mf_nomvploot","mf_nowarpto",
   // Original optionsConstant
   "Option_Nothing","Option_Sight","Option_Hide","Option_Cloak","Option_Falcon","Option_Riding","Option_Invisible",
-	"Option_Orcish","Option_Wedding","Option_Chasewalk","Option_Flying","Option_Xmas","Option_Transform","Option_Summer",
-	"Option_Dragon1","Option_Wug","Option_Wugrider","Option_Madogear","Option_Dragon2","Option_Dragon3","Option_Dragon4",
-	"Option_Dragon5","Option_Hanbok","Option_Oktoberfest","Option_Dragon","Option_Costume",
+  "Option_Orcish","Option_Wedding","Option_Chasewalk","Option_Flying","Option_Xmas","Option_Transform","Option_Summer",
+  "Option_Dragon1","Option_Wug","Option_Wugrider","Option_Madogear","Option_Dragon2","Option_Dragon3","Option_Dragon4",
+  "Option_Dragon5","Option_Hanbok","Option_Oktoberfest","Option_Dragon","Option_Costume",
   // Other constants from documentation
+  "MD_CANATTACK","MD_AGGRESSIVE","MD_CANMOVE","MD_SKILL","MD_ANGRY","MD_LOOTER",
   "ITEMINFO_BUY", "ITEMINFO_SELL", "ITEMINFO_TYPE", "ITEMINFO_MAXCHANCE", "ITEMINFO_GENDER", "ITEMINFO_LOCATIONS", "ITEMINFO_WEIGHT", "ITEMINFO_ATTACK",
   "ITEMINFO_DEFENSE", "ITEMINFO_RANGE", "ITEMINFO_SLOT", "ITEMINFO_VIEW", "ITEMINFO_EQUIPLEVELMIN", "ITEMINFO_WEAPONLEVEL", "ITEMINFO_ALIASNAME",
   "ITEMINFO_EQUIPLEVELMAX", "ITEMINFO_MAGICATTACK", "ITEMINFO_ID", "ITEMINFO_AEGISNAME", "ITEMINFO_ARMORLEVEL", "ITEMINFO_SUBTYPE",
@@ -187,14 +152,24 @@ const constantLibraryKeywords = [
   "ROA_ID", "ROA_VALUE", "ROA_PARAM",
   "MADO_ROBOT", "MADO_SUIT",
   "PET_CATCH_UNIVERSAL", "PET_CATCH_UNIVERSAL_ITEM",
-  "INFINITE_TICK",
+  "INFINITE_TICK", "CPC_NAME", "CPC_CHAR", "CPC_ACCOUNT",
   "HAT_EF_BLIND", "HAT_EF_TALK", "HAT_EF_WATER", "HAT_EF_FIRE", "HAT_EF_STUN", "HAT_EF_SLEEP", "HAT_EF_CURSE", "HAT_EF_SILENCE", "HAT_EF_CONFUSION",
   "HAT_EF_POISON", "HAT_EF_PETRIFY", "HAT_EF_FREEZE", "HAT_EF_UP", "HAT_EF_DOWN", "HAT_EF_TALK2", "HAT_EF_MAX",
   // Unit Parameters (UMOB_*, UHOM_*, etc.) - These are very numerous and specific.
-  // Adding a few common examples, but a full list might be too extensive for manual maintenance here
-  // and might be better suited for a more dynamic system if possible.
   // For now, just add the prefixes as a general rule or a few key ones.
-  "UMOB_LEVEL", "UMOB_HP", "UMOB_MAXHP", "UHOM_LEVEL", "UNPC_LEVEL",
+  "UMOB_SIZE", "UMOB_LEVEL", "UMOB_HP", "UMOB_MAXHP", "UMOB_MASTERAID", "UMOB_MAPID", "UMOB_X", "UMOB_Y", "UMOB_SPEED", "UMOB_MODE", "UMOB_AI", "UMOB_SCOPTION", "UMOB_SEX", "UMOB_CLASS", "UMOB_HAIRSTYLE", "UMOB_HAIRCOLOR", "UMOB_HEADBOTTOM", "UMOB_HEADMIDDLE", "UMOB_HEADTOP", "UMOB_CLOTHCOLOR",
+  "UMOB_SHIELD", "UMOB_WEAPON", "UMOB_LOOKDIR", "UMOB_CANMOVETICK", "UMOB_STR", "UMOB_AGI", "UMOB_VIT", "UMOB_INT", "UMOB_DEX", "UMOB_LUK", "UMOB_SLAVECPYMSTRMD", "UMOB_DMGIMMUNE", "UMOB_ATKRANGE", "UMOB_ATKMIN", "UMOB_ATKMAX", "UMOB_MATKMIN", "UMOB_MATKMAX", "UMOB_DEF", "UMOB_MDEF", "UMOB_HIT",
+  "UMOB_FLEE", "UMOB_PDODGE", "UMOB_CRIT", "UMOB_RACE", "UMOB_ELETYPE", "UMOB_ELELEVEL", "UMOB_AMOTION", "UMOB_ADELAY", "UMOB_DMOTION", "UMOB_TARGETID", "UMOB_ROBE", "UMOB_BODY2", "UMOB_GROUP_ID", "UMOB_IGNORE_CELL_STACK_LIMIT", "UMOB_RES", "UMOB_MRES", "UMOB_DAMAGETAKEN", "UHOM_SIZE", "UHOM_LEVEL", "UHOM_HP",
+  "UHOM_MAXHP", "UHOM_SP", "UHOM_MAXSP", "UHOM_MASTERCID", "UHOM_MAPID", "UHOM_X", "UHOM_Y", "UHOM_HUNGER", "UHOM_INTIMACY", "UHOM_SPEED", "UHOM_LOOKDIR", "UHOM_CANMOVETICK", "UHOM_STR", "UHOM_AGI", "UHOM_VIT", "UHOM_INT", "UHOM_DEX", "UHOM_LUK", "UHOM_DMGIMMUNE", "UHOM_ATKRANGE",
+  "UHOM_ATKMIN", "UHOM_ATKMAX", "UHOM_MATKMIN", "UHOM_MATKMAX", "UHOM_DEF", "UHOM_MDEF", "UHOM_HIT", "UHOM_FLEE", "UHOM_PDODGE", "UHOM_CRIT", "UHOM_RACE", "UHOM_ELETYPE", "UHOM_ELELEVEL", "UHOM_AMOTION", "UHOM_ADELAY", "UHOM_DMOTION", "UHOM_TARGETID", "UHOM_GROUP_ID", "UPET_SIZE", "UPET_LEVEL",
+  "UPET_HP", "UPET_MAXHP", "UPET_MASTERAID", "UPET_MAPID", "UPET_X", "UPET_Y", "UPET_HUNGER", "UPET_INTIMACY", "UPET_SPEED", "UPET_LOOKDIR", "UPET_CANMOVETICK", "UPET_STR", "UPET_AGI", "UPET_VIT", "UPET_INT", "UPET_DEX", "UPET_LUK", "UPET_DMGIMMUNE", "UPET_ATKRANGE", "UPET_ATKMIN",
+  "UPET_ATKMAX", "UPET_MATKMIN", "UPET_MATKMAX", "UPET_DEF", "UPET_MDEF", "UPET_HIT", "UPET_FLEE", "UPET_PDODGE", "UPET_CRIT", "UPET_RACE", "UPET_ELETYPE", "UPET_ELELEVEL", "UPET_AMOTION", "UPET_ADELAY", "UPET_DMOTION", "UPET_GROUP_ID", "UMER_SIZE", "UMER_HP", "UMER_MAXHP", "UMER_MASTERCID",
+  "UMER_MAPID", "UMER_X", "UMER_Y", "UMER_KILLCOUNT", "UMER_LIFETIME", "UMER_SPEED", "UMER_LOOKDIR", "UMER_CANMOVETICK", "UMER_STR", "UMER_AGI", "UMER_VIT", "UMER_INT", "UMER_DEX", "UMER_LUK", "UMER_DMGIMMUNE", "UMER_ATKRANGE", "UMER_ATKMIN", "UMER_ATKMAX", "UMER_MATKMIN", "UMER_MATKMAX",
+  "UMER_DEF", "UMER_MDEF", "UMER_HIT", "UMER_FLEE", "UMER_PDODGE", "UMER_CRIT", "UMER_RACE", "UMER_ELETYPE", "UMER_ELELEVEL", "UMER_AMOTION", "UMER_ADELAY", "UMER_DMOTION", "UMER_TARGETID", "UMER_GROUP_ID", "UELE_SIZE", "UELE_HP", "UELE_MAXHP", "UELE_SP", "UELE_MAXSP", "UELE_MASTERCID",
+  "UELE_MAPID", "UELE_X", "UELE_Y", "UELE_LIFETIME", "UELE_MODE", "UELE_SPEED", "UELE_LOOKDIR", "UELE_CANMOVETICK", "UELE_STR", "UELE_AGI", "UELE_VIT", "UELE_INT", "UELE_DEX", "UELE_LUK", "UELE_DMGIMMUNE", "UELE_ATKRANGE", "UELE_ATKMIN", "UELE_ATKMAX", "UELE_MATKMIN", "UELE_MATKMAX",
+  "UELE_DEF", "UELE_MDEF", "UELE_HIT", "UELE_FLEE", "UELE_PDODGE", "UELE_CRIT", "UELE_RACE", "UELE_ELETYPE", "UELE_ELELEVEL", "UELE_AMOTION", "UELE_ADELAY", "UELE_DMOTION", "UELE_TARGETID", "UELE_GROUP_ID", "UNPC_LEVEL", "UNPC_HP", "UNPC_MAXHP", "UNPC_MAPID", "UNPC_X", "UNPC_Y",
+  "UNPC_LOOKDIR", "UNPC_STR", "UNPC_AGI", "UNPC_VIT", "UNPC_INT", "UNPC_DEX", "UNPC_LUK", "UNPC_PLUSALLSTAT", "UNPC_DMGIMMUNE", "UNPC_ATKRANGE", "UNPC_ATKMIN", "UNPC_ATKMAX", "UNPC_MATKMIN", "UNPC_MATKMAX", "UNPC_DEF", "UNPC_MDEF", "UNPC_HIT", "UNPC_FLEE", "UNPC_PDODGE", "UNPC_CRIT",
+  "UNPC_RACE", "UNPC_ELETYPE", "UNPC_ELELEVEL", "UNPC_AMOTION", "UNPC_ADELAY", "UNPC_DMOTION", "UNPC_SEX", "UNPC_CLASS", "UNPC_HAIRSTYLE", "UNPC_HAIRCOLOR", "UNPC_HEADBOTTOM", "UNPC_HEADMIDDLE", "UNPC_HEADTOP", "UNPC_CLOTHCOLOR", "UNPC_SHIELD", "UNPC_WEAPON", "UNPC_ROBE", "UNPC_BODY2", "UNPC_DEADSIT", "UNPC_GROUP_ID",
   // Script constants from src/map/script_constants.hpp
   "MAX_LEVEL", "MAX_STORAGE", "MAX_INVENTORY", "MAX_CART", "MAX_ZENY", "MAX_PARTY", "MAX_GUILD", "MAX_GUILDLEVEL",
   "MAX_GUILD_STORAGE", "MAX_BG_MEMBERS", "MAX_CHAT_USERS", "VIP_SCRIPT", "MIN_STORAGE",
@@ -208,8 +183,8 @@ const constantLibraryKeywords = [
   "ELEM_CLASS", "ELEM_NAME", "ELEM_LIFETIME", "ELEM_MODE", "ELEM_LEVEL",
   // BC Type
   "bc_all", "bc_map", "bc_self", "bc_area", "self", "SELF", "area", "AREA",
-	"bc_pc", "bc_npc", "bc_yellow", "bc_blue", "bc_woe",
-	// Start of SC_ constants
+  "bc_pc", "bc_npc", "bc_yellow", "bc_blue", "bc_woe",
+  // Start of SC_ constants
   "SC_STONE", "SC_FREEZE", "SC_STUN", "SC_SLEEP", "SC_POISON", "SC_CURSE", "SC_SILENCE", "SC_CONFUSION",
   "SC_BLIND", "SC_BLEEDING", "SC_DPOISON", "SC_PROVOKE", "SC_ENDURE", "SC_TWOHANDQUICKEN", "SC_CONCENTRATE",
   "SC_HIDING", "SC_CLOAKING", "SC_ENCPOISON", "SC_POISONREACT", "SC_QUAGMIRE", "SC_ANGELUS", "SC_BLESSING",
@@ -325,47 +300,75 @@ const constantLibraryKeywords = [
   "SC_WEAPONBREAKER", "SC_POWERUP", "SC_AGIUP", "SC_BATH_FOAM_A", "SC_BATH_FOAM_B", "SC_BATH_FOAM_C",
   "SC_BUCHEDENOEL", "SC_EP16_DEF", "SC_STR_SCROLL", "SC_INT_SCROLL", "SC_CONTENTS_1", "SC_CONTENTS_2",
   "SC_CONTENTS_3", "SC_CONTENTS_4", "SC_CONTENTS_5", "SC_CONTENTS_6", "SC_CONTENTS_7", "SC_CONTENTS_8",
-  "SC_CONTENTS_9", "SC_CONTENTS_10"
+  "SC_CONTENTS_9", "SC_CONTENTS_10",
+
+  // Jobs Constant
+  "EA_NOVICE", "Job_Novice", "EA_SWORDMAN", "Job_Swordman", "EA_MAGE", "Job_Mage", "EA_ARCHER", "Job_Archer", "EA_ACOLYTE", "Job_Acolyte", "EA_MERCHANT", "Job_Merchant", "EA_THIEF", "Job_Thief", "EA_KNIGHT", "Job_Knight", "EA_PRIEST", "Job_Priest", "EA_WIZARD", "Job_Wizard", "EA_BLACKSMITH", "Job_Blacksmith", "EA_HUNTER", "Job_Hunter", "EA_ASSASSIN", "Job_Assassin", 
+  "EA_CRUSADER", "Job_Crusader", "EA_MONK", "Job_Monk", "EA_SAGE", "Job_Sage", "EA_ALCHEMIST", "Job_Alchemist", "EA_BARD", "Job_Bard", "EA_DANCER", "Job_Dancer", "EA_KNIGHT2", "Job_Knight2", "EA_CRUSADER2", "Job_Crusader2", "EA_ROGUE", "Job_Rogue", "EA_HIGH_NOVICE", "Job_Novice_High", "EA_HIGH_SWORDMAN", "Job_Swordman_High", "EA_HIGH_MAGE", "Job_Mage_High", "EA_HIGH_ARCHER", 
+  "Job_Archer_High", "EA_HIGH_ACOLYTE", "Job_Acolyte_High", "EA_HIGH_MERCHANT", "Job_Merchant_High", "EA_HIGH_THIEF", "Job_Thief_High", "EA_LORD_KNIGHT", "Job_Lord_Knight", "EA_HIGH_PRIEST", "Job_High_Priest", "EA_HIGH_WIZARD", "Job_High_Wizard", "EA_WHITESMITH", "Job_Whitesmith", "EA_SNIPER", "Job_Sniper", "EA_ASSASSIN_CROSS", "Job_Assassin_Cross", "EA_PALADIN", "Job_Paladin", "EA_CHAMPION", 
+  "Job_Champion", "EA_PROFESSOR", "Job_Professor", "EA_CREATOR", "Job_Creator", "EA_CLOWN", "Job_Clown", "EA_GYPSY", "Job_Gypsy", "EA_LORD_KNIGHT2", "Job_Lord_Knight2", "EA_PALADIN2", "Job_Paladin2", "EA_STALKER", "Job_Stalker", "EA_RUNE_KNIGHT", "Job_Rune_Knight", "EA_WARLOCK", "Job_Warlock", "EA_RANGER", "Job_Ranger", "EA_ARCH_BISHOP", "Job_Arch_Bishop", "EA_MECHANIC", "Job_Mechanic", "EA_GUILLOTINE_CROSS", 
+  "Job_Guillotine_Cross", "EA_ROYAL_GUARD", "Job_Royal_Guard", "EA_SORCERER", "Job_Sorcerer", "EA_MINSTREL", "Job_Minstrel", "EA_WANDERER", "Job_Wanderer", "EA_SURA", "Job_Sura", "EA_GENETIC", "Job_Genetic", "EA_SHADOW_CHASER", "Job_Shadow_Chaser", "EA_RUNE_KNIGHT2", "Job_Rune_Knight2", "EA_ROYAL_GUARD2", "Job_Royal_Guard2", "EA_MECHANIC2", "Job_Mechanic2", "EA_RUNE_KNIGHT_T", "Job_Rune_Knight_T", "EA_WARLOCK_T", 
+  "Job_Warlock_T", "EA_RANGER_T", "Job_Ranger_T", "EA_ARCH_BISHOP_T", "Job_Arch_Bishop_T", "EA_MECHANIC_T", "Job_Mechanic_T", "EA_GUILLOTINE_CROSS_T", "Job_Guillotine_Cross_T", "EA_ROYAL_GUARD_T", "Job_Royal_Guard_T", "EA_SORCERER_T", "Job_Sorcerer_T", "EA_MINSTREL_T", "Job_Minstrel_T", "EA_WANDERER_T", "Job_Wanderer_T", "EA_SURA_T", "Job_Sura_T", "EA_GENETIC_T", "Job_Genetic_T", "EA_SHADOW_CHASER_T", "Job_Shadow_Chaser_T", 
+  "EA_RUNE_KNIGHT_T2", "Job_Rune_Knight_T2", "EA_ROYAL_GUARD_T2", "Job_Royal_Guard_T2", "EA_MECHANIC_T2", "Job_Mechanic_T2", "EA_DRAGON_KNIGHT", "Job_Dragon_Knight", "EA_MEISTER", "Job_Meister", "EA_SHADOW_CROSS", "Job_Shadow_Cross", "EA_ARCH_MAGE", "Job_Arch_Mage", "EA_CARDINAL", "Job_Cardinal", "EA_WINDHAWK", "Job_Windhawk", "EA_IMPERIAL_GUARD", "Job_Imperial_Guard", "EA_BIOLO", "Job_Biolo", "EA_ABYSS_CHASER", "Job_Abyss_Chaser", 
+  "EA_ELEMENTAL_MASTER", "Job_Elemental_Master", "EA_INQUISITOR", "Job_Inquisitor", "EA_TROUBADOUR", "Job_Troubadour", "EA_TROUVERE", "Job_Trouvere", "EA_DRAGON_KNIGHT2", "Job_Dragon_Knight2", "EA_IMPERIAL_GUARD2", "Job_Imperial_Guard2", "EA_MEISTER2", "Job_Meister2", "EA_SUPER_NOVICE", "Job_Super_Novice", "EA_SUPER_NOVICE_E", "Job_Super_Novice_E", "EA_GUNSLINGER", "Job_Gunslinger", "EA_NINJA", "Job_Ninja", "EA_TAEKWON", "Job_Taekwon", 
+  "EA_STAR_GLADIATOR", "Job_Star_Gladiator", "EA_SOUL_LINKER", "Job_Soul_Linker", "EA_REBELLION", "Job_Rebellion", "EA_KAGEROU", "Job_Kagerou", "EA_OBORO", "Job_Oboro", "EA_STAR_EMPEROR", "Job_Star_Emperor", "EA_SOUL_REAPER", "Job_Soul_Reaper", "EA_NIGHT_WATCH", "Job_Night_Watch", "EA_SHINKIRO", "Job_Shinkiro", "EA_SHIRANUI", "Job_Shiranui", "EA_SKY_METEOR", "Job_Sky_Meteor", "EA_SOUL_ASCETIC", "Job_Soul_Ascetic", "EA_HYPER_NOVICE", 
+  "Job_Hyper_Novice", "EA_SPIRIT_HANDLER", "Job_Spirit_Handler", "EA_SUMMONER", "Job_Summoner", "EA_BABY", "Job_Baby", "EA_BABY_SWORDMAN", "Job_Baby_Swordman", "EA_BABY_MAGE", "Job_Baby_Mage", "EA_BABY_ARCHER", "Job_Baby_Archer", "EA_BABY_ACOLYTE", "Job_Baby_Acolyte", "EA_BABY_MERCHANT", "Job_Baby_Merchant", "EA_BABY_THIEF", "Job_Baby_Thief", "EA_BABY_KNIGHT", "Job_Baby_Knight", "EA_BABY_PRIEST", "Job_Baby_Priest", "EA_BABY_WIZARD", 
+  "Job_Baby_Wizard", "EA_BABY_BLACKSMITH", "Job_Baby_Blacksmith", "EA_BABY_HUNTER", "Job_Baby_Hunter", "EA_BABY_ASSASSIN", "Job_Baby_Assassin", "EA_BABY_CRUSADER", "Job_Baby_Crusader", "EA_BABY_MONK", "Job_Baby_Monk", "EA_BABY_SAGE", "Job_Baby_Sage", "EA_BABY_ROGUE", "Job_Baby_Rogue", "EA_BABY_ALCHEMIST", "Job_Baby_Alchemist", "EA_BABY_BARD", "Job_Baby_Bard", "EA_BABY_DANCER", "Job_Baby_Dancer", "EA_BABY_RUNE_KNIGHT", "Job_Baby_Rune_Knight", 
+  "EA_BABY_WARLOCK", "Job_Baby_Warlock", "EA_BABY_RANGER", "Job_Baby_Ranger", "EA_BABY_ARCH_BISHOP", "Job_Baby_Arch_Bishop", "EA_BABY_MECHANIC", "Job_Baby_Mechanic", "EA_BABY_GUILLOTINE_CROSS", "Job_Baby_Guillotine_Cross", "EA_BABY_ROYAL_GUARD", "Job_Baby_Royal_Guard", "EA_BABY_SORCERER", "Job_Baby_Sorcerer", "EA_BABY_MINSTREL", "Job_Baby_Minstrel", "EA_BABY_WANDERER", "Job_Baby_Wanderer", "EA_BABY_SURA", "Job_Baby_Sura", "EA_BABY_GENETIC", 
+  "Job_Baby_Genetic", "EA_BABY_SHADOW_CHASER", "Job_Baby_Shadow_Chaser", "EA_BABY_SUPER_NOVICE", "Job_Baby_Super_Novice", "EA_BABY_SUPER_NOVICE_E", "Job_Baby_Super_Novice_E", "EA_BABY_GUNSLINGER", "Job_Baby_Gunslinger", "EA_BABY_NINJA", "Job_Baby_Ninja", "EA_BABY_TAEKWON", "Job_Baby_Taekwon", "EA_BABY_STAR_GLADIATOR", "Job_Baby_Star_Gladiator", "EA_BABY_SOUL_LINKER", "Job_Baby_Soul_Linker", "EA_BABY_REBELLION", "Job_Baby_Rebellion", "EA_BABY_KAGEROU", 
+  "Job_Baby_Kagerou", "EA_BABY_OBORO", "Job_Baby_Oboro", "EA_BABY_STAR_EMPEROR", "Job_Baby_Star_Emperor", "EA_BABY_SOUL_REAPER", "Job_Baby_Soul_REaper", "EA_BABY_SUMMONER", "Job_Baby_Summoner",
+  // EFFECT CONSTANT
+  "EF_HIT1", "EF_HIT2", "EF_HIT3", "EF_HIT4", "EF_HIT5", "EF_HIT6", "EF_ENTRY", "EF_EXIT", "EF_WARP", "EF_ENHANCE", "EF_COIN", "EF_ENDURE", "EF_BEGINSPELL", "EF_GLASSWALL", "EF_HEALSP", "EF_SOULSTRIKE", "EF_BASH_ALT", "EF_MAGNUMBREAK", "EF_STEAL", "EF_HIDING",
+  "EF_PATTACK", "EF_DETOXICATION", "EF_SIGHT", "EF_STONECURSE", "EF_FIREBALL", "EF_FIREWALL", "EF_ICEARROW", "EF_FROSTDIVER", "EF_FROSTDIVER2", "EF_LIGHTBOLT", "EF_THUNDERSTORM", "EF_FIREARROW", "EF_NAPALMBEAT", "EF_RUWACH", "EF_TELEPORTATION", "EF_READYPORTAL", "EF_PORTAL", "EF_INCAGILITY", "EF_DECAGILITY", "EF_AQUA",
+  "EF_SIGNUM", "EF_ANGELUS", "EF_BLESSING", "EF_INCAGIDEX", "EF_SMOKE", "EF_FIREFLY", "EF_SANDWIND", "EF_TORCH", "EF_SPRAYPOND", "EF_FIREHIT", "EF_FIRESPLASHHIT", "EF_COLDHIT", "EF_WINDHIT", "EF_POISONHIT", "EF_BEGINSPELL2", "EF_BEGINSPELL3", "EF_BEGINSPELL4", "EF_BEGINSPELL5", "EF_BEGINSPELL6", "EF_BEGINSPELL7",
+  "EF_LOCKON", "EF_WARPZONE", "EF_SIGHTRASHER", "EF_BARRIER", "EF_ARROWSHOT", "EF_INVENOM", "EF_CURE", "EF_PROVOKE", "EF_MVP", "EF_SKIDTRAP", "EF_BRANDISHSPEAR", "EF_CONE", "EF_SPHERE", "EF_BOWLINGBASH", "EF_ICEWALL", "EF_GLORIA", "EF_MAGNIFICAT", "EF_RESURRECTION", "EF_RECOVERY", "EF_EARTHSPIKE",
+  "EF_SPEARBMR", "EF_PIERCE", "EF_TURNUNDEAD", "EF_SANCTUARY", "EF_IMPOSITIO", "EF_LEXAETERNA", "EF_ASPERSIO", "EF_LEXDIVINA", "EF_SUFFRAGIUM", "EF_STORMGUST", "EF_LORD", "EF_BENEDICTIO", "EF_METEORSTORM", "EF_YUFITEL", "EF_YUFITELHIT", "EF_QUAGMIRE", "EF_FIREPILLAR", "EF_FIREPILLARBOMB", "EF_HASTEUP", "EF_FLASHER",
+  "EF_REMOVETRAP", "EF_REPAIRWEAPON", "EF_CRASHEARTH", "EF_PERFECTION", "EF_MAXPOWER", "EF_BLASTMINE", "EF_BLASTMINEBOMB", "EF_CLAYMORE", "EF_FREEZING", "EF_BUBBLE", "EF_GASPUSH", "EF_SPRINGTRAP", "EF_KYRIE", "EF_MAGNUS", "EF_BOTTOM", "EF_BLITZBEAT", "EF_WATERBALL", "EF_WATERBALL2", "EF_FIREIVY", "EF_DETECTING",
+  "EF_CLOAKING", "EF_SONICBLOW", "EF_SONICBLOWHIT", "EF_GRIMTOOTH", "EF_VENOMDUST", "EF_ENCHANTPOISON", "EF_POISONREACT", "EF_POISONREACT2", "EF_OVERTHRUST", "EF_SPLASHER", "EF_TWOHANDQUICKEN", "EF_AUTOCOUNTER", "EF_GRIMTOOTHATK", "EF_FREEZE", "EF_FREEZED", "EF_ICECRASH", "EF_SLOWPOISON", "EF_BOTTOM2", "EF_FIREPILLARON", "EF_SANDMAN",
+  "EF_REVIVE", "EF_PNEUMA", "EF_HEAVENSDRIVE", "EF_SONICBLOW2", "EF_BRANDISH2", "EF_SHOCKWAVE", "EF_SHOCKWAVEHIT", "EF_EARTHHIT", "EF_PIERCESELF", "EF_BOWLINGSELF", "EF_SPEARSTABSELF", "EF_SPEARBMRSELF", "EF_HOLYHIT", "EF_CONCENTRATION", "EF_REFINEOK", "EF_REFINEFAIL", "EF_JOBCHANGE", "EF_LVUP", "EF_JOBLVUP", "EF_TOPRANK",
+  "EF_PARTY", "EF_RAIN", "EF_SNOW", "EF_SAKURA", "EF_STATUS_STATE", "EF_BANJJAKII", "EF_MAKEBLUR", "EF_TAMINGSUCCESS", "EF_TAMINGFAILED", "EF_ENERGYCOAT", "EF_CARTREVOLUTION", "EF_VENOMDUST2", "EF_CHANGEDARK", "EF_CHANGEFIRE", "EF_CHANGECOLD", "EF_CHANGEWIND", "EF_CHANGEFLAME", "EF_CHANGEEARTH", "EF_CHAINGEHOLY", "EF_CHANGEPOISON",
+  "EF_HITDARK", "EF_MENTALBREAK", "EF_MAGICALATTHIT", "EF_SUI_EXPLOSION", "EF_DARKATTACK", "EF_SUICIDE", "EF_COMBOATTACK1", "EF_COMBOATTACK2", "EF_COMBOATTACK3", "EF_COMBOATTACK4", "EF_COMBOATTACK5", "EF_GUIDEDATTACK", "EF_POISONATTACK", "EF_SILENCEATTACK", "EF_STUNATTACK", "EF_PETRIFYATTACK", "EF_CURSEATTACK", "EF_SLEEPATTACK", "EF_TELEKHIT", "EF_PONG",
+  "EF_LEVEL99", "EF_LEVEL99_2", "EF_LEVEL99_3", "EF_GUMGANG", "EF_POTION1","EF_INCREASEAGI","EF_HEAL2",
 ];
 
 // Green highlight - Variables and variable manipulation
 const variableLanguageKeywords = [
-	// Original varHolderKeywords
-	"set", "killedrid", "setarray", "copyarray", "cleararray", "setd", "getd", "getvar", "getvariableofnpc", "getelementofarray", // Added from commands
-	// Original specialVarKeywords
-	"Zeny", "Hp", "MaxHp", "Sp", "MaxSp", "StatusPoint", "SkillPoint", "BaseLevel",
-	"JobLevel", "BaseExp", "JobExp", "NextBaseExp", "NextJobExp", "Weight", "MaxWeight",
-	"Sex", "Class", "Upper", "BaseClass", "BaseJob", "Karma", "Manner", "Ap", "MaxAp",
-	// Original inventoryVar as prefixed vars - rule will handle prefix
-	"getarg", "getargcount", "strcharinfo", "strnpcinfo", "readparam", "getarraysize",
-	"bStr", "bAgi", "bVit", "bInt", "bDex", "bLuk", "bPow", "bSta", "bWis", "bSpl", "bCon", "bCrt" // base stats and traits
+  // Original varHolderKeywords
+  "set", "killedrid", "setarray", "copyarray", "cleararray", "setd", "getd", "getvar", "getvariableofnpc", "getelementofarray", // Added from commands
+  // Original specialVarKeywords
+  "Zeny", "Hp", "MaxHp", "Sp", "MaxSp", "StatusPoint", "SkillPoint", "BaseLevel",
+  "JobLevel", "BaseExp", "JobExp", "NextBaseExp", "NextJobExp", "Weight", "MaxWeight",
+  "Sex", "Class", "Upper", "BaseClass", "BaseJob", "Karma", "Manner", "Ap", "MaxAp",
+  // Original inventoryVar as prefixed vars - rule will handle prefix
+  "getarg", "getargcount", "strcharinfo", "strnpcinfo", "readparam", "getarraysize",
+  "bStr", "bAgi", "bVit", "bInt", "bDex", "bLuk", "bPow", "bSta", "bWis", "bSpl", "bCon", "bCrt" // base stats and traits
 ];
 
 const inventoryVarNames = [ // Just the names, prefix handled by regex
-	"inventorylist_id", "inventorylist_idx", "inventorylist_amount", "inventorylist_equip", "inventorylist_refine", 
-	"inventorylist_identify", "inventorylist_attribute", "inventorylist_card1", "inventorylist_card2", "inventorylist_card3", 
-	"inventorylist_card4", "inventorylist_expire", "inventorylist_bound", "inventorylist_enchantgrade", "inventorylist_count", 
-	"inventorylist_option_id1", "inventorylist_option_value1", "inventorylist_option_parameter1", "inventorylist_option_id2", 
-	"inventorylist_option_value2", "inventorylist_option_parameter2", "inventorylist_option_id3", "inventorylist_option_value3", 
-	"inventorylist_option_parameter3", "inventorylist_option_id4", "inventorylist_option_value4", "inventorylist_option_parameter4", 
-	"inventorylist_option_id5", "inventorylist_option_value5", "inventorylist_option_parameter5", "inventorylist_tradable", "inventorylist_favorite",
-	// from getpartymember / getguildmember
-	"partymembername", "partymembercid", "partymemberaid", "partymembercount",
-	"guildmembername", "guildmembercid", "guildmemberaid", "guildmembercount",
-	// from getmobdrops
-	"MobDrop_item", "MobDrop_rate", "MobDrop_nosteal", "MobDrop_randomopt", "MobDrop_count",
-	// from getskilllist
-	"skilllist_id", "skilllist_lv", "skilllist_flag", "skilllist_count",
-	// from warpwaitingpc
-	"warpwaitingpc", "warpwaitingpcnum",
-	// from bg_get_data
-	"arenamembers", "arenamemberscount",
-	// from countbound
-	"bound_items", "bound_amount",
-	// from getwaitingroomusers
-	"waitingroom_users", "waitingroom_usercount",
-	// from @atcmd_
-	"atcmd_command", "atcmd_parameters", "atcmd_numparameters"
+  "inventorylist_id", "inventorylist_idx", "inventorylist_amount", "inventorylist_equip", "inventorylist_refine", 
+  "inventorylist_identify", "inventorylist_attribute", "inventorylist_card1", "inventorylist_card2", "inventorylist_card3", 
+  "inventorylist_card4", "inventorylist_expire", "inventorylist_bound", "inventorylist_enchantgrade", "inventorylist_count", 
+  "inventorylist_option_id1", "inventorylist_option_value1", "inventorylist_option_parameter1", "inventorylist_option_id2", 
+  "inventorylist_option_value2", "inventorylist_option_parameter2", "inventorylist_option_id3", "inventorylist_option_value3", 
+  "inventorylist_option_parameter3", "inventorylist_option_id4", "inventorylist_option_value4", "inventorylist_option_parameter4", 
+  "inventorylist_option_id5", "inventorylist_option_value5", "inventorylist_option_parameter5", "inventorylist_tradable", "inventorylist_favorite",
+  // from getpartymember / getguildmember
+  "partymembername", "partymembercid", "partymemberaid", "partymembercount",
+  "guildmembername", "guildmembercid", "guildmemberaid", "guildmembercount",
+  // from getmobdrops
+  "MobDrop_item", "MobDrop_rate", "MobDrop_nosteal", "MobDrop_randomopt", "MobDrop_count",
+  // from getskilllist
+  "skilllist_id", "skilllist_lv", "skilllist_flag", "skilllist_count",
+  // from warpwaitingpc
+  "warpwaitingpc", "warpwaitingpcnum",
+  // from bg_get_data
+  "arenamembers", "arenamemberscount",
+  // from countbound
+  "bound_items", "bound_amount",
+  // from getwaitingroomusers
+  "waitingroom_users", "waitingroom_usercount",
+  // from @atcmd_
+  "atcmd_command", "atcmd_parameters", "atcmd_numparameters"
 ];
 
 // Violet Highlight - Language constants
@@ -380,13 +383,12 @@ const operators = [
 
 /* Declare the keywords here and to RathenaHighlightRules to display on autocomplete except operators */
 const keywords = [
-	...supportFunctionKeywords, 
-	...controlFlowKeywords, 
-	...constantLibraryKeywords,
-	...variableLanguageKeywords, 
-	...inventoryVarNames, 
-	...inventoryVarNames, 
-	...constantLanguageKeywords
+  ...supportFunctionKeywords, 
+  ...controlFlowKeywords, 
+  ...constantLibraryKeywords,
+  ...variableLanguageKeywords, // Add base names of special vars
+  ...inventoryVarNames, // Add prefixed special global array names
+  ...constantLanguageKeywords
 ];
 
 const langTools = ace.require("ace/ext/language_tools");
@@ -404,39 +406,49 @@ const customCompleter = {
   }
 };
 langTools.setCompleters([customCompleter]); // Initially set only custom completer
-
+document.getElementById("toggleLocalCompletion").addEventListener("change", function () {
+  if (this.checked) {
+    langTools.setCompleters([customCompleter, langTools.textCompleter]);
+  } 
+  else {
+    langTools.setCompleters([customCompleter]);
+  }
+});
 
 ace.define("ace/mode/rathena_highlight_rules", ["require", "exports", "ace/lib/oop", "ace/mode/text_highlight_rules"], function(require, exports) {
-	const oop = require("ace/lib/oop");
-	const TextHighlightRules = require("ace/mode/text_highlight_rules").TextHighlightRules;
-	const RathenaHighlightRules = function () {
+  const oop = require("ace/lib/oop");
+  const TextHighlightRules = require("ace/mode/text_highlight_rules").TextHighlightRules;
+  const RathenaHighlightRules = function () {
     const createKeywordMapper = this.createKeywordMapper;
-		this.$rules = {
-		  start: [
-		  	{ token: "comment.line", regex: "//.*$" },
-		    { token: "comment.block.start", regex: "/\\*", next: "comment" },
+    this.$rules = {
+      start: [
+        { token: "comment.line", regex: "//.*$" },
+        { token: "comment.block.start", regex: "/\\*", next: "comment" },
         { token: "string", regex: '".*?"' },
-        { token: "keyword.control", regex: "\\bOn\\w+:" },// Labels like OnMyLabel:
+        { token: ["text", "keyword.operator", "keyword.operator"], regex: "^([ \\t]*)([a-zA-Z_][a-zA-Z0-9_]*)(:)" },
         { token: "keyword.control", regex: "(?<![@\\w\\.])\\b(?:" + controlFlowKeywords.join("|") + ")\\b" },
         { token: "support.function", regex: "(?<![@\\w\\.])\\b(?:" + supportFunctionKeywords.join("|") + ")\\b" },
-        { token: "variable.parameter", regex: "(?<![@\\w\\.])\\b(?:" + constantLibraryKeywords.join("|") + ")\\b" }, 
+        { token: "variable.parameter", regex: "(?<![@\\w\\.])\\b(?:" + constantLibraryKeywords.join("|") + ")\\b" }, // Using constant.library for map names, item IDs etc.
         { token: "variable.language", regex: "(?<![@\\w\\.])\\b(?:" + variableLanguageKeywords.join("|") + ")\\b" },
         { token: "variable.language", regex: "(@(?:" + inventoryVarNames.join("|") + "))\\b" },
         { token: "constant.language", regex: "(?<![@\\w\\.])\\b(?:" + constantLanguageKeywords.join("|") + ")\\b" },
-    		{ token: "constant.numeric", regex: "\\b\\d+\\b" },
-    		{ token: "keyword.operator", regex: new RegExp("(?:" + operators.join("|") + ")") },
+        { token: "constant.numeric", regex: "\\b\\d+\\b" },
+        { token: "keyword.operator", regex: new RegExp("(?:" + operators.join("|") + ")") },
         // { token: "variable.other", regex: "\\b\\w+\\b" } // General variable rule color green
-		  ],
-		  comment: [
-		    { token: "comment.block.end", regex: "\\*/", next: "start" },
-		    { defaultToken: "comment.block" }
-		  ]
-		};
+        // Function names like player()
+        { token: "support.function", regex: "\\b[a-zA-Z_][a-zA-Z0-9_]*(?=\\()" },
+        { token: "keyword.control", regex: "(?<=\\b(?:goto|callsub)[ \\t]*\\(?[ \\t]*|,[ \\t]*)[a-zA-Z_][a-zA-Z0-9_]*\\b(?=[ \\t]*(?:,|;|\\)|))" },
+      ],
+      comment: [
+        { token: "comment.block.end", regex: "\\*/", next: "start" },
+        { defaultToken: "comment.block" }
+      ]
+    };
         this.normalizeRules();
-	};
+  };
 
-	oop.inherits(RathenaHighlightRules, TextHighlightRules);
-	exports.RathenaHighlightRules = RathenaHighlightRules;
+  oop.inherits(RathenaHighlightRules, TextHighlightRules);
+  exports.RathenaHighlightRules = RathenaHighlightRules;
 });
 
 ace.define("ace/mode/rathena", ["require", "exports", "ace/lib/oop", "ace/mode/text", "ace/mode/rathena_highlight_rules", "ace/mode/behaviour/cstyle"], function (require, exports) {
@@ -622,6 +634,14 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getgmlevel.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgmlevel()</a></li>
   <li><a href="/rdoc/page/getgroupid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgroupid()</a></li>
   <li><a href="/rdoc/page/gettimetick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimetick()</a></li>
+	<li><a href="/rdoc/page/gettime.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettime()</a></li>
+  <li><a href="/rdoc/page/gettimestr.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimestr()</a></li>
+  <li><a href="/rdoc/page/getusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getusers()</a></li>
+  <li><a href="/rdoc/page/getmapusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapusers()</a></li>
+  <li><a href="/rdoc/page/getareausers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getareausers()</a></li>
+  <li><a href="/rdoc/page/getunits.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunits, getmapunits, getareaunits</a></li>
+
+
 
 `;
 
