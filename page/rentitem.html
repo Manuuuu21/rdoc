@@ -160,6 +160,30 @@ prontera,150,150,4&#9;script&#9;Trial Officer&#9;99,{
                         </ul>
                     </div>
                 </div>
+                <!-- Example 2: More advanced rentitem -->
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 2: Advanced rentitem4</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= Temporary Advanced Gear
+//============================================================
+setarray .@opts, 4700; // Option
+setarray .@vals, 10;   // Value
+setarray .@prms, 0;    // Para
+
+// ID 1410 (Gungnir), Time 1800s, Ident 1, Refine 10, Broken 0, Cards 0... Grade B
+rentitem4 1410, 1800, 1, 10, 0, 0,0,0,0, ENCHANTGRADE_B, .@opts, .@vals, .@prms;
+                        </pre>
+                    </div>
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>Uses <code>rentitem4</code> to dynamically create a temporary rental item with advanced stats, enchant grade B, and random options for 30 minutes.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     </main>

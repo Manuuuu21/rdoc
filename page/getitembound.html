@@ -155,6 +155,30 @@ prontera,150,150,4&#9;script&#9;Prize Giver&#9;99,{
                         </ul>
                     </div>
                 </div>
+                <!-- Example 2: More advanced getitembound -->
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 2: Advanced getitembound4</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= Personal Gear Enchanter
+//============================================================
+// ID 1101 (Sword), Amt 1, Ident 1, Refine 5, Broken 0, Slots 0,0,0,0, Bound_Char, Grade A
+setarray .@opts, 4700;
+setarray .@vals, 20;
+setarray .@prms, 0;
+
+getitembound4 1101, 1, 1, 5, 0, 0,0,0,0, Bound_Char, ENCHANTGRADE_A, .@opts, .@vals, .@prms;
+                        </pre>
+                    </div>
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>Creates a totally character-bound (<code>Bound_Char</code>) item with random options and Enchant Grade A via <code>getitembound4</code>.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
