@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - gettime()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">gettime()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is gettime? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>gettime()</code> function retrieves specified numeric information about the current system time from the server operating system.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    By passing a designated time format constant, you can check specific hours, months, years, or retrieve the current date formatted directly as an integer. This is the defacto standard for scheduling specific happy hour events, day-of-the-week dungeons, and daily reset mechanics.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of gettime? 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>gettime(&lt;type&gt;)</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4">
+                    <table class="min-w-full bg-white border border-gray-200 text-sm">
+                        <thead>
+                            <tr class="bg-gray-100 font-sans text-gray-700">
+                                <th class="py-2 px-4 border-b text-left font-semibold">Constant Name</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold">Return Value Class</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_SECOND</code></td>
+                                <td class="py-2 px-4 border-b">0 - 59</td>
+                                <td class="py-2 px-4 border-b font-sans">Current second within the active minute.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_MINUTE</code></td>
+                                <td class="py-2 px-4 border-b">0 - 59</td>
+                                <td class="py-2 px-4 border-b font-sans">Current minute within the active hour.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_HOUR</code></td>
+                                <td class="py-2 px-4 border-b">0 - 23</td>
+                                <td class="py-2 px-4 border-b font-sans">Current hour in 24-hour format.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_DAYOFWEEK</code></td>
+                                <td class="py-2 px-4 border-b">0 - 6</td>
+                                <td class="py-2 px-4 border-b font-sans">Day of the week. Predefined constants are: <code>SUNDAY</code> (0), <code>MONDAY</code> (1), <code>TUESDAY</code> (2), <code>WEDNESDAY</code> (3), <code>THURSDAY</code> (4), <code>FRIDAY</code> (5), and <code>SATURDAY</code> (6).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_DAYOFMONTH</code></td>
+                                <td class="py-2 px-4 border-b">1 - 31</td>
+                                <td class="py-2 px-4 border-b font-sans">Active day number within the month.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_MONTH</code></td>
+                                <td class="py-2 px-4 border-b">1 - 12</td>
+                                <td class="py-2 px-4 border-b font-sans">Month of the year. Predefined constants are: <code>JANUARY</code> (1) through <code>DECEMBER</code> (12).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_YEAR</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Full four-digit numerical year (e.g. <code>2026</code>).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_DAYOFYEAR</code></td>
+                                <td class="py-2 px-4 border-b">1 - 366</td>
+                                <td class="py-2 px-4 border-b font-sans">Day number out of the full year.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>DT_YYYYMMDD</code></td>
+                                <td class="py-2 px-4 border-b">Integer (YYYYMMDD)</td>
+                                <td class="py-2 px-4 border-b font-sans">Combines numerical elements into a unified integer (e.g., May 30, 2026 becomes <code>20260530</code>). Perfect for tracking absolute daily rollover deadlines.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values ↩️</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>Returns the corresponding **integer** value mapped to the supplied constant.</li>
+                    <li>Returns **<code>-1</code>** if an invalid type format parameter is provided.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Weekly Dungeon Guard Happy-Hour Gatekeeper
+//===== By: rAthena AI Assistant ============================
+//= Showcases gettime() to restrict access and unlock buffs
+//============================================================
+prontera,164,188,4&#9;script&#9;Happy Hour Guard&#9;803,{
+    mes "^0000FF[Happy Hour Guard]^000000";
+    mes "Greetings, warrior! I coordinate the happy-hour training chambers.";
+    
+    // Check if current day of the week is Saturday (6) or Sunday (0)
+    set .@day, gettime(DT_DAYOFWEEK);
+    if (.@day == SATURDAY || .@day == SUNDAY) {
+        mes "Aha! We are in the middle of our ^00FF00Weekend Double EXP Bonus^000000 event!";
+        next;
+    } else {
+        // Happy hours are scheduled from 18:00 (6 PM) to 20:00 (8 PM) on weekdays
+        set .@hour, gettime(DT_HOUR);
+        if (.@hour >= 18 && .@hour < 20) {
+            mes "Congratulations! You have arrived during the weekday Happy Hour!";
+            next;
+        } else {
+            mes "The happy training gate has not opened yet.";
+            mes "Weekday Training hours: ^FF000018:00 - 20:00 (6 PM - 8 PM)^000000.";
+            mes "Your system clock reads: ^0055FF" + .@hour + ":" + sprintf("%02d", gettime(DT_MINUTE)) + "^000000.";
+            close;
+        }
+    }
+
+    mes "^0000FF[Happy Hour Guard]^000000";
+    mes "Let's teleport you inside now! Go claim your exp glories!";
+    next;
+    warp "pvp_n_01", 100, 100;
+    end;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The Guard NPC utilizes robust calendar calculations:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>The function <code>gettime(DT_DAYOFWEEK)</code> queries the current weekday and evaluates it against standard global constants (<code>SATURDAY</code> / <code>SUNDAY</code>).</li>
+                    <li>If it's a weekday, <code>gettime(DT_HOUR)</code> verifies if the server's local clock hour falls within 18:00 and 19:59.</li>
+                    <li>This enables dynamic systems without complex backend background loops, optimizing thread utilization on the emulator.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

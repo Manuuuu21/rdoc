@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - getareausers()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getareausers()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is getareausers? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getareausers()</code> function retrieves the total count of connected characters currently standing inside a bounding box rectangle formed by the coordinates <code>(x1, y1)</code> and <code>(x2, y2)</code> on the specified map name.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This function is extremely valuable on map designs that package multiple distinct building interiors or separate merchant shops onto a single master file coordinate layout (such as the standard <code>*_in</code> interior files). Standard map-wide queries would return inaccurate false positives from adjacent, isolated shop zones; <code>getareausers()</code> focuses precisely on the requested zone.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getareausers? 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>getareausers("&lt;map name&gt;", &lt;x1&gt;, &lt;y1&gt;, &lt;x2&gt;, &lt;y2&gt;)</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700">
+                                <th class="py-2 px-4 border-b text-left font-semibold">Parameter</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold">Type</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-sans font-medium"><code>"&lt;map name&gt;"</code></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">The string designating the target map coordinate registry (e.g. <code>"prontera_in"</code>).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;x1&gt;</code>, <code>&lt;y1&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The exact starting coordinate corner (bottom-left corner of the target rectangle).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;x2&gt;</code>, <code>&lt;y2&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The exact ending coordinate corner (top-right corner of the target rectangle).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Value ↩️</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>Returns an **integer** detailing the player head-count currently located within the configured boundary zone.</li>
+                    <li>Returns **<code>0</code>** if there are no player structures there, or if the specified coordinate bounds or map key are configured incorrectly.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Restricted VIP Lounge Cabin Doorman NPC
+//===== By: rAthena AI Assistant ============================
+//= Showcases getareausers() inside multi-interior spaces
+//============================================================
+prontera_in,15,40,4&#9;script&#9;VIP Lounge Attendant&#9;909,{
+    // We are situated inside 'prontera_in'.
+    // The VIP Lounge is a private rectangle partitioned from coordinate 10,35 to 20,45.
+    // Let's verify how many elites are inside the cabin.
+    set .@active_elites, getareausers("prontera_in", 10, 35, 20, 45);
+
+    mes "^0000FF[Lounge Attendant]^000000";
+    mes "Greetings! Let me inspect the cabin's booking threshold.";
+    mes "This private cabin is limited to ^00FF005 players^000000 simultaneously.";
+    next;
+
+    mes "^0000FF[Lounge Attendant]^000000";
+    mes "Active occupants inside the lounge zone: ^0055FF" + .@active_elites + " / 5^000000.";
+    next;
+
+    if (.@active_elites >= 5) {
+        mes "^0000FF[Lounge Attendant]^000000";
+        mes "Oh dear! The lounge room is currently packed with VIP patrons.";
+        mes "Please wait a moment until someone vacates the cabin area.";
+        close;
+    }
+
+    mes "^0000FF[Lounge Attendant]^000000";
+    mes "Would you like me to open the velvet rope and let you in?";
+    next;
+
+    if (select("Yes, please!:No thanks") == 1) {
+        warp "prontera_in", 15, 38; // Teleport player directly inside the target zone
+        end;
+    }
+
+    mes "^0000FF[Lounge Attendant]^000000";
+    mes "Understood. Have a peaceful stay!";
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The Attendant NPC implements surgical density targeting:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>The command <code>getareausers("prontera_in", 10, 35, 20, 45)</code> isolates the coordinates of VIP chamber specifically on line 7, ignoring players occupying other adjacent spaces on <code>"prontera_in"</code>.</li>
+                    <li>This keeps our custom system mechanics perfectly bounded, cleanly eliminating overflow check bugs standard with standard map-wide scripts.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

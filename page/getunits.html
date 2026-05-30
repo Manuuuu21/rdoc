@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - getunits() / getmapunits() / getareaunits()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getunits, getmapunits, getareaunits</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What are the get*units commands? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getunits()</code>, <code>getmapunits()</code>, and <code>getareaunits()</code> suite of functions allows script creators to count active entities of specific types within distinct scopes. 
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4 font-normal">
+                    Even more powerfully, these functions can automatically populate a <strong>target script array with the GIDs (Integer Game IDs) or Names (Strings)</strong> of all matched units, permitting high-fidelity scripting iteration over current players, NPCs, or spawned monsters!
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getunits and family? 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>getunits(&lt;type&gt;{, &lt;array_variable&gt;[&lt;first value&gt;]})</code></li>
+                    <li><code>getmapunits(&lt;type&gt;, "&lt;map name&gt;"{, &lt;array_variable&gt;[&lt;first value&gt;]})</code></li>
+                    <li><code>getareaunits(&lt;type&gt;, "&lt;map name&gt;", &lt;x1&gt;, &lt;y1&gt;, &lt;x2&gt;, &lt;y2&gt;{, &lt;array_variable&gt;[&lt;first value&gt;]})</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-1 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b text-left">Parameter</th>
+                                <th class="py-2 px-4 border-b text-left">Type</th>
+                                <th class="py-2 px-4 border-b text-left">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>&lt;type&gt;</code></td>
+                                <td class="py-2 px-4 border-b font-mono">Constant</td>
+                                <td class="py-2 px-4 border-b">The entity family class constant to query. Standard constants are listed in the table below.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>"&lt;map name&gt;"</code></td>
+                                <td class="py-2 px-4 border-b font-mono">String</td>
+                                <td class="py-2 px-4 border-b">The layout key of the target map (e.g. <code>"prontera"</code>).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>&lt;x1&gt;, &lt;y1&gt;, &lt;x2&gt;, &lt;y2&gt;</code></td>
+                                <td class="py-2 px-4 border-b font-mono">Integer</td>
+                                <td class="py-2 px-4 border-b">Coordinates outlining target rectangular query boundaries.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>&lt;array_variable&gt;[&lt;first value&gt;]</code> <span class="text-gray-400">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b font-mono">Array Variable</td>
+                                <td class="py-2 px-4 border-b">
+                                    A target variable array reference mapping to list matches.
+                                    <ul class="list-disc list-inside mt-1 pl-2 font-sans space-y-1 text-xs">
+                                        <li>Passing a **String Array** (e.g. <code>.@names$[0]</code>) fills the array with **Display Names**.</li>
+                                        <li>Passing an **Integer Array** (e.g. <code>.@gids[0]</code>) fills the array with internal **GIDs (Game IDs)**.</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-1 text-gray-800 mt-4">Target Type Constants (&lt;type&gt;) 🎯</h3>
+                <div class="overflow-x-auto my-4 text-sm font-mono">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b text-left">Constant</th>
+                                <th class="py-2 px-4 border-b text-left">Entity Mapped</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_PC</code></td>
+                                <td class="py-2 px-4 border-b">Player Character objects</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_MOB</code></td>
+                                <td class="py-2 px-4 border-b">Monster / Mob structures</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_PET</code></td>
+                                <td class="py-2 px-4 border-b">Active player Pet structures</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_HOM</code></td>
+                                <td class="py-2 px-4 border-b">Active homunculus characters</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_MER</code></td>
+                                <td class="py-2 px-4 border-b">Active mercenary characters</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_NPC</code></td>
+                                <td class="py-2 px-4 border-b">Active NPC configurations</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_ELEM</code></td>
+                                <td class="py-2 px-4 border-b">Summoned Elemental units</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values ↩️</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>Returns an **integer** detailing the overall headcount of matching objects successfully scanned.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-3 text-gray-800 mt-4">Example 1: Using getunits for Player Rosters 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Global Player Broadcaster:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Roster Reader NPC
+//============================================================
+prontera,164,185,4&#9;script&#9;Imperial Scanner&#9;909,{
+    mes "^0000FF[Imperial Scanner]^000000";
+    mes "Scanning server data...";
+    next;
+
+    // Grab the players count and build a string array of the names
+    set .@num, getunits(BL_PC, .@names$[0]);
+
+    mes "^0000FF[Imperial Scanner]^000000";
+    mes "The total number of Players connected globally is: ^00FF00" + .@num + "^000000.";
+    mes "Roster detail list:";
+    next;
+
+    // Enable freeloop if arrays might become extremely large (prevents CPU lock errors)
+    freeloop(1);
+    for (set .@i, 0; .@i < getarraysize(.@names$); set .@i, .@i + 1) {
+        mes "Player " + (.@i + 1) + ": ^0055FF" + .@names$[.@i] + "^000000";
+    }
+    freeloop(0);
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-3 text-gray-800 mt-4">Example 2: Using getmapunits to Count Local NPCs 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Prontera NPC Auditor:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= NPC Directory Auditor
+//============================================================
+prontera,160,185,4&#9;script&#9;In-Town Inspector&#9;909,{
+    mes "^0000FF[In-Town Inspector]^000000";
+    mes "Would you like me to audit all active NPCs loaded within Prontera?";
+    next;
+
+    if (select("Yes, run audit:No thanks") == 2) {
+        close;
+    }
+
+    // Get the local NPC count in Prontera and construct names roster
+    set .@count, getmapunits(BL_NPC, "prontera", .@npc_names$[0]);
+
+    mes "^0000FF[In-Town Inspector]^000000";
+    mes "Found ^00FF00" + .@count + "^000000 active script units in Prontera town boundaries.";
+    next;
+
+    freeloop(1);
+    for (set .@i, 0; .@i < getarraysize(.@npc_names$); set .@i, .@i + 1) {
+        mes "Active NPC " + (.@i + 1) + ": [^0055FF" + .@npc_names$[.@i] + "^000000]";
+    }
+    freeloop(0);
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-3 text-gray-800 mt-4">Example 3: Using getareaunits to Track Monsters 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Target Mob Hunter:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Target Mob Area Sweeper
+//============================================================
+prontera,155,185,4&#9;script&#9;Coliseum Janitor&#9;909,{
+    mes "^0000FF[Coliseum Janitor]^000000";
+    mes "Hmm, let me check the coliseum arena pit coordinates.";
+    next;
+
+    // Query active monsters inside a designated coordinate box (154,186 to 159,182) on 'prontera'
+    // Fills an integer array with unique GIDs of matching monsters
+    set .@mobs_found, getareaunits(BL_MOB, "prontera", 154, 186, 159, 182, .@gids[0]);
+
+    mes "^0000FF[Coliseum Janitor]^000000";
+    mes "Total monsters found in coordinate box: ^FF0000" + .@mobs_found + "^000000.";
+    next;
+
+    if (.@mobs_found <= 0) {
+        mes "The coordinate sector is thoroughly swept. Clear and safe!";
+        close;
+    }
+
+    mes "Spawns registered GID list:";
+    freeloop(1);
+    for (set .@i, 0; .@i < getarraysize(.@gids); set .@i, .@i + 1) {
+        mes "Active Monster Gid: ^0055FF" + .@gids[.@i] + "^000000";
+    }
+    freeloop(0);
+    close;
+}
+                    </pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
