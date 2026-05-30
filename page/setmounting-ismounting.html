@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - setmounting & ismounting</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 280px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">setmounting(), ismounting()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is setmounting and ismounting? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>setmounting()</code> command toggles global Cash Shop Mount Board states on a player. The accompanying <code>ismounting()</code> function returns whether the player is currently riding these specialized cash shop boards.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Unlike standard animal mounts tied to specific job classes (namely PecoPeco, Warg, Dragon, or Madogear), Cash Shop mounts can be boarded by any class character. However, **the command will strictly fail** if the character is currently riding class-specific mounts. It is critical to dismount those class mounts first.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Specifications 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>setmounting {&lt;char_id&gt;};</code></li>
+                    <li><code>ismounting({&lt;char_id&gt;});</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4 font-sans">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;char_id&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The character ID. If supplied, targets that specific player instead of the currently attached one.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values ↩️</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4 font-normal">
+                    <li><strong><code>setmounting</code></strong>: Returns **<code>1</code>** if the mount toggle was successful, and **<code>0</code>** if blocked or failed.</li>
+                    <li><strong><code>ismounting</code></strong>: Returns **<code>1</code>** if riding a cash shop board mount, and **<code>0</code>** if on foot.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Cash Board Rental Depot
+//= Demonstrates ismounting() and setmounting() with safety checks
+//============================================================
+prontera,160,210,4	script	Board Handler	105,{
+    mes "^0000FF[Board Handler]^000000";
+    mes "Greetings! Ready to board our custom military cash mounts?";
+    mes "Our standard models are available to any class of warrior!";
+    next;
+
+    if (ismounting()) {
+        mes "^0000FF[Board Handler]^000000";
+        mes "Active cash board detected. Power off board?";
+        next;
+        if (select("Power off board:Keep riding") == 1) {
+            setmounting; // Toggles cash mount off
+            mes "^0000FF[Board Handler]^000000";
+            mes "Board powered down successfully! See you around.";
+        }
+        close;
+    }
+
+    // Safety verify: Lacking animal class mounts first
+    if (checkriding() || checkdragon() || checkmadogear() || checkwug()) {
+        mes "^0000FF[Board Handler]^000000";
+        mes "Transit blocked! You must dismount class-specific beasts first.";
+        close;
+    }
+
+    mes "^0000FF[Board Handler]^000000";
+    mes "Assign an experimental board now?";
+    next;
+
+    if (select("Ignite Board:Walk away") == 1) {
+        if (setmounting()) {
+            mes "^0000FF[Board Handler]^000000";
+            mes "Board active! Stay safe on the road.";
+        } else {
+            mes "Error: Deployment rejected. Contact server admin.";
+        }
+    }
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The Board Handler manages board assignments:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>On line 11, we call <code>ismounting()</code> to check if they have a cash board equipped.</li>
+                    <li>We perform safety reviews on line 22, checking <code>checkriding()</code>, <code>checkdragon()</code>, <code>checkmadogear()</code>, and <code>checkwug()</code> to avoid client side conflicts.</li>
+                    <li>Calling <code>setmounting</code> on line 32 triggers the board's deployment and returns status checks dynamically.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

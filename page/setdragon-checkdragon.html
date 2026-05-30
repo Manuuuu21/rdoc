@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - setdragon & checkdragon</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 280px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">setdragon(), checkdragon()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is setdragon and checkdragon? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>setdragon()</code> command assigns or clears dragon mounts from the invoking character, with specific color support. The companion <code>checkdragon()</code> function returns whether they are currently riding a Dragon.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Usage of <code>setdragon</code> is tightly guarded by the script engine. The targeted character must strictly belong to the **Rune Knight class line** and must possess the passive skill <strong>"Dragon Training" (RK_DRAGONTRAINING)</strong> in their skill manifest, or else the command will fail and return <code>0</code>.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Specifications 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>setdragon {&lt;color&gt;{, &lt;char_id&gt;}};</code></li>
+                    <li><code>checkdragon({&lt;char_id&gt;});</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Available Dragon Colors 🎨</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Color Number</th>
+                                <th class="py-2 px-4 border-b">Dragon Appearance</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr><td class="py-2 px-4 border-b"><code>1</code></td><td class="py-2 px-4 border-b font-sans text-green-700 font-semibold">Green Dragon (default)</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>2</code></td><td class="py-2 px-4 border-b font-sans text-amber-700 font-semibold">Brown Dragon</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>3</code></td><td class="py-2 px-4 border-b font-sans text-gray-500 font-semibold">Gray Dragon</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>4</code></td><td class="py-2 px-4 border-b font-sans text-blue-700 font-semibold">Blue Dragon</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>5</code></td><td class="py-2 px-4 border-b font-sans text-red-700 font-semibold">Red Dragon</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values ↩️</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4 font-normal">
+                    <li><strong><code>setdragon</code></strong>: Returns **<code>1</code>** if successful, and **<code>0</code>** if failed (e.g. invalid class or lacking training skills).</li>
+                    <li><strong><code>checkdragon</code></strong>: Returns **<code>1</code>** if riding a dragon, and **<code>0</code>** otherwise.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Runeburg Dragon Stable Coordinator
+//= Showcases checkdragon() and setdragon() with color options
+//============================================================
+prontera,165,195,4	script	Dragon Stable Warden	103,{
+    mes "^0000FF[Stable Warden]^000000";
+    mes "Greetings Lord Knight! Ready to saddle our dragons?";
+    next;
+
+    if (checkdragon()) {
+        mes "^0000FF[Stable Warden]^000000";
+        mes "You have a massive dragon deployed already. Dismount?";
+        next;
+        if (select("Dismount safely:Keep writing") == 1) {
+            setdragon 0; // Dismount dragon
+            mes "^0000FF[Stable Warden]^000000";
+            mes "Your dragon walks back into its cell.";
+        }
+        close;
+    }
+
+    if (getskilllv("RK_DRAGONTRAINING") &lt; 1) {
+        mes "^0000FF[Stable Warden]^000000";
+        mes "You lack Dragon Training mastery (RK_DRAGONTRAINING) to tame beasts.";
+        close;
+    }
+
+    mes "^0000FF[Stable Warden]^000000";
+    mes "Select your desired military dragon color class:";
+    next;
+
+    set .@color, select("Green Crested (Type 1):Sand Brown (Type 2):Obsidian Gray (Type 3):Sapphire Blue (Type 4):Crimson Red (Type 5)");
+    
+    // Attempt dragon mount sequence
+    if (setdragon(.@color)) {
+        mes "^0000FF[Stable Warden]^000000";
+        mes "Taming successful! Ride tall on your colored companion.";
+    } else {
+        mes "^0000FF[Stable Warden]^000000";
+        mes "Critical error: Dragon taming rejected. Check class constraints.";
+    }
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The Warden handles elite mounts safely:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>On line 11, we call <code>checkdragon()</code> to avoid taming duplicates.</li>
+                    <li>If checked as active, calling <code>setdragon 0</code> dismounts the dragon safely.</li>
+                    <li>We evaluate the requisite Third-class Knight skill <code>RK_DRAGONTRAINING</code> on line 22.</li>
+                    <li>We prompt for a color choice and verify success directly, as shown in the <code>setdragon(.@color)</code> logic on line 32.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
