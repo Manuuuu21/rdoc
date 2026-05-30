@@ -345,8 +345,7 @@ const keywords = [
 	...supportFunctionKeywords, 
 	...controlFlowKeywords, 
 	...constantLibraryKeywords,
-	...variableLanguageKeywords, 
-	...inventoryVarNames, 
+	...variableLanguageKeywords,
 	...inventoryVarNames, 
 	...constantLanguageKeywords
 ];
@@ -576,6 +575,8 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getnpcid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnpcid()</a></li>
   <li><a href="/rdoc/page/getlook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getlook()</a></li>
   <li><a href="/rdoc/page/getsavepoint.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getsavepoint()</a></li>
+  
+
   <li><a href="/rdoc/page/getequipid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipid()</a></li>
   <li><a href="/rdoc/page/getequiprefinerycnt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiprefinerycnt()</a></li>
   <li><a href="/rdoc/page/getinventorylist.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getinventorylist()</a></li>
@@ -590,6 +591,13 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getmapusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapusers()</a></li>
   <li><a href="/rdoc/page/getareausers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getareausers()</a></li>
   <li><a href="/rdoc/page/getunits.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunits, getmapunits, getareaunits</a></li>
+	<li><a href="/rdoc/page/playerattached.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">playerattached()</a></li>
+  <li><a href="/rdoc/page/getattachedrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getattachedrid()</a></li>
+  <li><a href="/rdoc/page/isloggedin.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isloggedin()</a></li>
+  <li><a href="/rdoc/page/checkweight.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkweight()</a></li>
+  <li><a href="/rdoc/page/basicskillcheck.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">basicskillcheck()</a></li>
+  <li><a href="/rdoc/page/checkoption-setoption.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkoption, setoption</a></li>
+
 `;
 
 // Append the Show Case Script list at the Sidenav
