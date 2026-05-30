@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - checkweight()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 280px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">checkweight()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is checkweight? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>checkweight()</code> suite of functions determines if the invoking player character has enough carrying capacity (unoccupied weight limit) to hold a specified list of items and their quantities.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    It is an absolute best practice in rAthena scripting to invoke <code>checkweight()</code> or <code>checkweight2()</code> before distributing items using <code>getitem</code>. If items are given to an overloaded player, the items may be dropped on the ground or be permanently lost under older server configurations, producing extremely poor user experiences and potential player complaints.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of checkweight? 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>checkweight(&lt;item id&gt;, &lt;amount&gt;{, &lt;item id&gt;, &lt;amount&gt;, ...})</code></li>
+                    <li><code>checkweight("&lt;item name&gt;", &lt;amount&gt;{, "&lt;item name&gt;", &lt;amount&gt;, ...})</code></li>
+                    <li><code>checkweight2(&lt;id_array&gt;, &lt;amount_array&gt;)</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Signature</th>
+                                <th class="py-2 px-4 border-b">Variable Types</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>checkweight(...)</code></td>
+                                <td class="py-2 px-4 border-b">Integer / String, Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Standard mode. Accepts alternating listing of item IDs (or database names) and quantities. Supports checking multiple unique items in a single call.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>checkweight2(...)</code></td>
+                                <td class="py-2 px-4 border-b">Integer Array, Integer Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Array mode. Perfect when evaluating a dynamic shopping cart or script rewards stored in arrays. Accepts two arrays of equal size.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values ↩️</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>Returns **<code>1</code>** if the player can carry the combined weight of all specified items without exceeding their limit.</li>
+                    <li>Returns **<code>0</code>** if adding these items would overload the character's inventory space or weight capacities.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Secure Item Exchanger & Rewarder
+//= Showcases checkweight() and checkweight2()
+//============================================================
+prontera,165,185,4	script	Supply Clerk	103,{
+    mes "^0000FF[Supply Clerk]^000000";
+    mes "Hello warrior! I dispense quest packages.";
+    mes "Would you like our classic package, or our heavy bulk array?";
+    next;
+
+    select("Classic Pack (Apples & Potions)", "Bulk Reward (Array Pack)");
+    next;
+
+    if (@menu == 1) {
+        // Checking weight for specific items: 10 Apples (ID: 512) and 5 Red Potions (ID: 501)
+        if (!checkweight(512, 10, 501, 5)) {
+            mes "^0000FF[Supply Clerk]^000000";
+            mes "Error! Your bags are too heavy to hold these supplies.";
+            close;
+        }
+
+        getitem 512, 10;
+        getitem 501, 5;
+        mes "Classic Pack distributed successfully!";
+        close;
+    } else {
+        // Defining bulk rewards arrays
+        setarray .@items[0], 512, 513, 514;   // Apple, Banana, Grape
+        setarray .@amounts[0], 50, 50, 50;   // 50 of each
+
+        // Call checkweight2 to safely check the entire list
+        if (!checkweight2(.@items, .@amounts)) {
+            mes "^0000FF[Supply Clerk]^000000";
+            mes "Error! This massive bulk package is too heavy for you.";
+            close;
+        }
+
+        for (set .@i, 0; .@i &lt; getarraysize(.@items); set .@i, .@i + 1) {
+            getitem .@items[.@i], .@amounts[.@i];
+        }
+        mes "Bulk package distributed securely!";
+        close;
+    }
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The Supply Clerk coordinates safe reward handoffs:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>On line 14, standard <code>checkweight()</code> performs an aggregate evaluation of 10 Apples and 5 Red Potions against the player's available weight budget.</li>
+                    <li>Inside the bulk reward branch on line 30, we declare two separate parallel arrays for items (<code>.@items</code>) and their corresponding stacks (<code>.@amounts</code>).</li>
+                    <li>Calling <code>checkweight2(.@items, .@amounts)</code> on line 34 processes the combined list weight in a single optimized engine execution, ensuring standard players never end up stranded with a partial loot claim.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

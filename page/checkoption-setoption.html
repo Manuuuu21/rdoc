@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - checkoption & setoption</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 280px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">checkoption, setoption</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What are options? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    In rAthena, character <strong>"Options"</strong> represent bit-masked flag collections that store active status conditions, temporary graphic properties, mounts, visual outfits, and non-permanent character statuses of a yes/no structure.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>checkoption</code> family checks these flags on a player, while <code>setoption</code> toggles them on or off. Note that while there are three distinct checker methods mapping separate client-side registers, only the first register can be actively written to using <code>setoption</code>.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Specifications 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>checkoption(&lt;option number&gt;{, &lt;char_id&gt;})</code></li>
+                    <li><code>checkoption1(&lt;option number&gt;{, &lt;char_id&gt;})</code></li>
+                    <li><code>checkoption2(&lt;option number&gt;{, &lt;char_id&gt;})</code></li>
+                    <li><code>setoption &lt;option number&gt;{, &lt;flag&gt;{, &lt;char_id&gt;}};</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Option register values 🧩</h3>
+                
+                <h4 class="text-lg font-semibold text-gray-800 mb-2 mt-4">1. Main Options (checkoption / setoption Register)</h4>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Value (Bitmask)</th>
+                                <th class="py-2 px-4 border-b">Status / Visual Condition Map</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr><td class="py-2 px-4 border-b"><code>0x1</code></td><td class="py-2 px-4 border-b font-sans">Sight spell in effect</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x2</code></td><td class="py-2 px-4 border-b font-sans">Hide in effect</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x4</code></td><td class="py-2 px-4 border-b font-sans">Cloaking in effect</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x8</code></td><td class="py-2 px-4 border-b font-sans">Merchant Cart type 1 active</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x10</code></td><td class="py-2 px-4 border-b font-sans">Hunter Falcon accompanying player</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x20</code></td><td class="py-2 px-4 border-b font-sans">Peco Peco mount active (Knight/Crusader)</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x40</code></td><td class="py-2 px-4 border-b font-sans">GM Perfect Invisible hiding flag</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x80</code></td><td class="py-2 px-4 border-b font-sans">Merchant Cart type 2 active</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x100</code></td><td class="py-2 px-4 border-b font-sans">Merchant Cart type 3 active</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x200</code></td><td class="py-2 px-4 border-b font-sans">Merchant Cart type 4 active</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x400</code></td><td class="py-2 px-4 border-b font-sans">Merchant Cart type 5 active</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x800</code></td><td class="py-2 px-4 border-b font-sans">Orc Head status visual active</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x1000</code></td><td class="py-2 px-4 border-b font-sans">Wearing Wedding Tuxedo/Wedding dress sprite</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x2000</code></td><td class="py-2 px-4 border-b font-sans">Ruwach spell in effect</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x4000</code></td><td class="py-2 px-4 border-b font-sans">Chasewalk active (Stalker/Shadow Chaser)</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x8000</code></td><td class="py-2 px-4 border-b font-sans">Flying mount or Christmas suit visual status</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x10000</code></td><td class="py-2 px-4 border-b font-sans">Sighttrasher active status</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x100000</code></td><td class="py-2 px-4 border-b font-sans">Ranger Warg accompanying player</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x200000</code></td><td class="py-2 px-4 border-b font-sans">Riding a Ranger Warg</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-800 mb-2 mt-4">2. Status Options 1 (checkoption1 Register)</h4>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <p class="text-gray-700 leading-relaxed mb-2 font-sans italic">Note: These states do not operate as standard bitmasks; checkoption1 will return the exact state ID currently active.</p>
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Value (Constant ID)</th>
+                                <th class="py-2 px-4 border-b">State Mapping</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr><td class="py-2 px-4 border-b"><code>1</code></td><td class="py-2 px-4 border-b font-sans">Petrified (fully rigid stone state)</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>2</code></td><td class="py-2 px-4 border-b font-sans">Frozen (encased in ice)</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>3</code></td><td class="py-2 px-4 border-b font-sans">Stunned (stars circling head)</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>4</code></td><td class="py-2 px-4 border-b font-sans">Sleeping status active</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>6</code></td><td class="py-2 px-4 border-b font-sans">Petrifying (transitional phase - character can still walk)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-800 mb-2 mt-4">3. Status Options 2 (checkoption2 Register)</h4>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Value (Bitmask)</th>
+                                <th class="py-2 px-4 border-b">State Mapping</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr><td class="py-2 px-4 border-b"><code>0x1</code></td><td class="py-2 px-4 border-b font-sans">Standard Poisoned status active</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x2</code></td><td class="py-2 px-4 border-b font-sans">Cursed status active</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x4</code></td><td class="py-2 px-4 border-b font-sans">Silenced status active</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x8</code></td><td class="py-2 px-4 border-b font-sans">Signum Crucis active (plays continuous sound effect)</td></tr>
+                            <tr><td class="py-2 px-4 border-b"><code>0x10</code></td><td class="py-2 px-4 border-b font-sans">Blinded status active</td></tr>
+                            <tr class="bg-gray-50"><td class="py-2 px-4 border-b"><code>0x80</code></td><td class="py-2 px-4 border-b font-sans">Deadly poisoned (Guillotine Cross venom)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values ↩️</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>Returns **<code>1</code>** if at least one of the queried bitmask flag conditions is currently set and active.</li>
+                    <li>Returns **<code>0</code>** if none of the target option conditions are in effect.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Wedding Chapel Coordination NPC
+//= Showcases setoption to apply wedding sprite and checks frozen
+//============================================================
+prontera,165,190,4	script	Bridal Coordinator	105,{
+    mes "^0000FF[Bridal Coordinator]^000000";
+    mes "Ah! Welcome to the chapel grounds.";
+    mes "Before proceeding, please dress for the occasion.";
+    next;
+
+    select("Equip Formal Gown/Tuxedo", "Remove Gown/Tuxedo", "Check if Stunned or Frozen");
+    next;
+
+    if (@menu == 1) {
+        // Toggle the visual option for wedding sprite on (0x1000)
+        setoption 0x1000, 1;
+        mes "Tada! You look stunningly formal.";
+        close;
+    } else if (@menu == 2) {
+        // Toggle the wedding sprite off (0x1000)
+        setoption 0x1000, 0;
+        mes "Wedding sprite successfully cleared.";
+        close;
+    } else {
+        // Check for specific disabling options.
+        // checkoption1(2) matches standard Frozen, checkoption1(3) matches Stunned
+        if (checkoption1(2) || checkoption1(3)) {
+            mes "Error! You are currently incapacitated and cannot walk down the aisle.";
+            close;
+        }
+
+        mes "All conditions are clear! You are fully alert and ready.";
+        close;
+    }
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The Bridal Coordinator executes precise visual toggles and status lookups:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>On line 15, we call <code>setoption 0x1000, 1</code> to write a main option mask flag, enabling the client to immediately draw the player character wearing their wedding sprites.</li>
+                    <li>On line 20, passing <code>setoption 0x1000, 0</code> clears the bit, returning the rendering queue to standard gear models.</li>
+                    <li>In the third branch starting on line 24, we use <code>checkoption1(2)</code> and <code>checkoption1(3)</code> to make sure they are not stunned or frozen, preventing game-state exploits inside specific wedding ceremony triggers.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

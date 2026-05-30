@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - basicskillcheck()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 280px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">basicskillcheck()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is basicskillcheck? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>basicskillcheck()</code> function queries and returns the active status of the configuration setting <strong><code>basic_skill_check</code></strong> inside the map server configuration files (specifically <code>conf/battle/battle_athena.conf</code> or equivalent).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    On classic rAthena setups, the <code>basic_skill_check</code> restriction is enabled by default. This mandates that Novice characters must train and level up their **Basic Skill** (NV_BASIC) to specific thresholds to unlock basic mechanical behaviors (such as sitting, trade requests, using emotes, opening chatrooms, or forming parties). When building tutorials, starter academies, or custom UI dashboards, scripts can check this option to selectively guide users or waive prerequisite prompts dynamically.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of basicskillcheck? 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>basicskillcheck()</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values ↩️</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>Returns **<code>1</code>** if <code>basic_skill_check</code> is active and enabled on the server.</li>
+                    <li>Returns **<code>0</code>** if disabled, meaning novice characters possess full mechanical privileges from level 1.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Novice Academy Instructor
+//= Showcases basicskillcheck() to adjust instructions dynamically
+//============================================================
+new_1-1,53,111,4	script	Academy Guide	104,{
+    mes "^0000FF[Academy Guide]^000000";
+    mes "Greetings, fresh recruit! I will guide you through your first steps.";
+    next;
+
+    // Check if the server requires Basic Skill training
+    if (basicskillcheck()) {
+        set .@basic_level, getskilllv("NV_BASIC");
+        
+        if (.@basic_level &lt; 9) {
+            mes "^0000FF[Academy Guide]^000000";
+            mes "Take note: this server runs under ^FF0000Basic Skill Training rules^000000.";
+            mes "You currently have Level " + .@basic_level + " Basic Skill.";
+            mes "You must reach **Level 9** to unlock trading, vending, and party systems.";
+            mes "Please defeat some training dummies to allocate skill points!";
+            close;
+        }
+    }
+
+    mes "^0000FF[Academy Guide]^000000";
+    mes "Splendid! You have full access to our global logistics.";
+    mes "Would you like me to transport you to the town square?";
+    next;
+    
+    if (select("Yes, please! : No, I will explore more") == 1) {
+        warp "prontera", 156, 191;
+    }
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The Academy Guide adjusts recruit instructions according to active server conditions:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>On line 11, we call <code>basicskillcheck()</code> to evaluate server configurations.</li>
+                    <li>If it checks out as active (1), we retrieve the player's actual skill levels with <code>getskilllv("NV_BASIC")</code> on line 12.</li>
+                    <li>If they are low (less than Level 9), the NPC outlines exact skill requirements to prevent players from wandering into towns confused about why trading or emoting is locked.</li>
+                    <li>If the server configuration has <code>basic_skill_check</code> toggled off (0), the entire block is ignored, ensuring a seamless experience for custom high-rate servers!</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
