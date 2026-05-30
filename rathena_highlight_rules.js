@@ -629,6 +629,14 @@ const mainTopicList = `
   <li><a href="/rdoc/page/classchange.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">classchange()</a></li>
   <li><a href="/rdoc/page/changesex.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changesex()</a></li>
   <li><a href="/rdoc/page/changecharsex.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changecharsex()</a></li>
+  <li><a href="/rdoc/page/setlook-changelook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setlook, changelook</a></li>
+  <li><a href="/rdoc/page/pushpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pushpc</a></li>
+  <li><a href="/rdoc/page/kick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">kick</a></li>
+  <li><a href="/rdoc/page/jobcanentermap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobcanentermap</a></li>
+  <li><a href="/rdoc/page/getitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitem, getitem2, getitem3, getitem4</a></li>
+  <li><a href="/rdoc/page/getitembound.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitembound, getitembound2, getitembound3, getitembound4</a></li>
+  <li><a href="/rdoc/page/getnameditem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnameditem</a></li>
+  <li><a href="/rdoc/page/rentitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rentitem, rentitem2, rentitem3, rentitem4</a></li>
 
 `;
 
