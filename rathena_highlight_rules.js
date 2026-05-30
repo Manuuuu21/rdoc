@@ -617,6 +617,11 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getequipid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipid()</a></li>
   <li><a href="/rdoc/page/getequiprefinerycnt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiprefinerycnt()</a></li>
   <li><a href="/rdoc/page/getinventorylist.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getinventorylist()</a></li>
+  <li><a href="/rdoc/page/getmapxy.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapxy()</a></li>
+  <li><a href="/rdoc/page/mapid2name.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mapid2name()</a></li>
+  <li><a href="/rdoc/page/getgmlevel.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgmlevel()</a></li>
+  <li><a href="/rdoc/page/getgroupid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgroupid()</a></li>
+  <li><a href="/rdoc/page/gettimetick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimetick()</a></li>
 
 `;
 
