@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - setcart & checkcart</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 280px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">setcart(), checkcart()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is setcart and checkcart? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>setcart()</code> command awards or removes a cargo pushcart from the target player character. The accompanying <code>checkcart()</code> function checks if the player holds a cart of any visual style.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Ordinarily, characters require the Merchant class passive skill <strong>"Pushcart" (MC_PUSHCART)</strong> to hold a cart, but utilizing <code>setcart</code> from a script will manually mount the specified style on any class character successfully. Keep in mind that for standard gameplay compatibility, it is best to check class suitability or item requirements beforehand.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Specifications 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>setcart {&lt;type&gt;{, &lt;char_id&gt;}};</code></li>
+                    <li><code>checkcart({&lt;char_id&gt;});</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4 font-sans">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;type&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The style index of the cart (usually <code>1</code> to <code>5</code>). Specifying <code>0</code> completely removes the current pushcart.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;char_id&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The character ID. If supplied, targets that specific player instead of the currently attached one.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values (checkcart) ↩️</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>Returns **<code>1</code>** if the character currently has any style of cart equipped.</li>
+                    <li>Returns **<code>0</code>** if they do not possess a cart.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Merchant Cart Rental Station
+//= Showcases checkcart() and setcart() with style indexes
+//============================================================
+prontera,160,180,4	script	Cart Rental Agent	100,{
+    mes "^0000FF[Cart Agent]^000000";
+    mes "Hello merchant! Need some extra mobile space?";
+    mes "For a small fee, I can rent you a customized heavy cargo pushcart.";
+    next;
+
+    if (checkcart()) {
+        mes "^0000FF[Cart Agent]^000000";
+        mes "Wait a second, you already have an active cart equipped!";
+        next;
+        if (select("Keep active cart:Return equipped cart") == 2) {
+            setcart 0; // Removes equipped cart
+            mes "^0000FF[Cart Agent]^000000";
+            mes "Cart returned successfully! See you next time.";
+        }
+        close;
+    }
+
+    // Check MC_PUSHCART skill level
+    if (getskilllv("MC_PUSHCART") &lt; 1) {
+        mes "^0000FF[Cart Agent]^000000";
+        mes "Sorry, you lack Pushcart training (MC_PUSHCART) to handle our gear.";
+        close;
+    }
+
+    mes "^0000FF[Cart Agent]^000000";
+    mes "Choose your desired visual cart design index:";
+    next;
+
+    set .@style, select("Classic Wood Cart (Type 1):Iron Reinforced Cart (Type 2):Guild Cargo Cart (Type 3)");
+    
+    setcart .@style; // Assigns selected cart index
+    mes "^0000FF[Cart Agent]^000000";
+    mes "Enjoy your heavy Cargo Cart style index: " + .@style + "!";
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The Rental Agent manages player cargo options safely:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4 font-normal">
+                    <li>On line 11, we call <code>checkcart()</code> to see if they already hold a cart.</li>
+                    <li>If they do, selecting "Return equipped cart" invokes <code>setcart 0</code> on line 15 to remove the cart dynamically.</li>
+                    <li>We call <code>getskilllv("MC_PUSHCART")</code> on line 22 to verify class capability.</li>
+                    <li>If compliant, we read the selected style and execute <code>setcart .@style</code> on line 31 to equip the new model instantly.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
