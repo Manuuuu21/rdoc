@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - getmapxy()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getmapxy()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is getmapxy? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getmapxy()</code> function is used to locate a specific game object (such as a Player, NPC, or Pet) in the game world. It retrieves the entity's current map name, X-coordinate, and Y-coordinate, then assigns those values directly to the variables passed in as arguments.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This function is incredibly powerful for tracking system mechanics, player-versus-player locating skills, target trackers, and interactive system NPCs that find hidden components.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getmapxy? 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 font-mono text-sm sm:text-base">
+                    <li><code>getmapxy(&lt;variable for map name&gt;, &lt;variable for x&gt;, &lt;variable for y&gt;{, &lt;type&gt;, "&lt;search value&gt;"})</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4">
+                    <table class="min-w-full bg-white border border-gray-200 text-sm">
+                        <thead>
+                            <tr class="bg-gray-100 font-sans text-gray-700">
+                                <th class="py-2 px-4 border-b text-left font-semibold">Parameter</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold">Type</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>&lt;variable for map name&gt;</code></td>
+                                <td class="py-2 px-4 border-b font-mono">String Variable</td>
+                                <td class="py-2 px-4 border-b font-sans">The string variable (e.g. <code>.@mapname$</code>) that will receive the name of the map.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>&lt;variable for x&gt;</code></td>
+                                <td class="py-2 px-4 border-b font-mono">Integer Variable</td>
+                                <td class="py-2 px-4 border-b font-sans">The integer variable (e.g. <code>.@mapx</code>) that will receive the X coordinate.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>&lt;variable for y&gt;</code></td>
+                                <td class="py-2 px-4 border-b font-mono">Integer Variable</td>
+                                <td class="py-2 px-4 border-b font-sans">The integer variable (e.g. <code>.@mapy</code>) that will receive the Y coordinate.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>&lt;type&gt;</code> <span class="text-gray-400">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b font-mono">Constant</td>
+                                <td class="py-2 px-4 border-b font-sans">The category of entity to locate. Defaults to <code>BL_PC</code> if omitted. Common constant targets are defined below.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono font-medium"><code>&lt;search value&gt;</code> <span class="text-gray-400">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b font-mono">String</td>
+                                <td class="py-2 px-4 border-b font-sans">The name of the character, NPC, or pet to search for (required for finding non-player target systems).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Target Type Constants (&lt;type&gt;) 🎯</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The following rAthena constants can be supplied in the fourth parameter to qualify the type of object to locate:
+                </p>
+                <div class="overflow-x-auto my-4 text-sm font-mono">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700">
+                                <th class="py-2 px-4 border-b text-left font-semibold">Constant Name</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold">Target Entity Type</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold">Requirement</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_PC</code></td>
+                                <td class="py-2 px-4 border-b">Player Character (Default)</td>
+                                <td class="py-2 px-4 border-b">If search value is omitted, finds the invoking player. Otherwise, searches for the player named in search value.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_NPC</code></td>
+                                <td class="py-2 px-4 border-b">NPC Object</td>
+                                <td class="py-2 px-4 border-b">Requires <code>&lt;search value&gt;</code> specifying the unique identity/display name of the target NPC (even if disabled via <code class="text-xs">disablenpc</code>).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-bold text-blue-700"><code>BL_PET</code></td>
+                                <td class="py-2 px-4 border-b">Active Pet</td>
+                                <td class="py-2 px-4 border-b">Finds the active pet belonging to the player.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Values ↩️</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4">
+                    <li>Returns <strong><code>0</code></strong> if the entity search was successful, and coordinate assignments succeeded.</li>
+                    <li>Returns <strong><code>-1</code></strong> if the search failed (e.g. player is offline, target NPC does not exist) or if parameters passed are not valid writable variables.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Hide-and-Seek NPC Tracking System
+//===== By: rAthena AI Assistant ============================
+//= Showcases getmapxy() to find players and target NPCs
+//============================================================
+prontera,164,299,3&#9;script&#9;Nyah&#9;730,{
+    mes "^0000FF[Nyah]^000000";
+    mes "Greetings! I am looking for my sister 'Meh' somewhere in the world.";
+    mes "Let me try to locate her coordinates using my magical device.";
+    next;
+
+    // Search for an NPC named "Meh" of type BL_NPC
+    if (getmapxy(.@mapname$, .@mapx, .@mapy, BL_NPC, "Meh") != 0) {
+        mes "^0000FF[Nyah]^000000";
+        mes "Oh no! My radar can't seem to find Meh anywhere in the kingdom!";
+        close;
+    }
+
+    mes "^0000FF[Nyah]^000000";
+    mes "Ah, I found her! My radar says she is stationed here:";
+    mes "Map: ^00FF00" + .@mapname$ + "^000000";
+    mes "Coordinates: ^FF0000X: " + .@mapx + ", Y: " + .@mapy + "^000000";
+    next;
+
+    mes "^0000FF[Nyah]^000000";
+    mes "Would you like to be teleported directly to her locations?";
+    next;
+
+    if (select("Yes, warp me!:No thanks") == 1) {
+        warp .@mapname$, .@mapx, .@mapy;
+        end;
+    }
+
+    mes "^0000FF[Nyah]^000000";
+    mes "No problem! Let me know if you change your mind.";
+    close;
+}
+
+// Target NPC positioned elsewhere
+morroc,120,85,3&#9;script&#9;Meh&#9;730,{
+    mes "^0000FF[Meh]^000000";
+    mes "Ah, I love the sandy breeze of Morroc town center.";
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This search NPC illustrates clean variable assigning conventions via <code>getmapxy()</code>:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4">
+                    <li>The command <code>getmapxy(.@mapname$, .@mapx, .@mapy, BL_NPC, "Meh")</code> initiates a system lookup for the NPC tagged "Meh".</li>
+                    <li>If "Meh" is running on the world server, the variables are populated as strings and integers cleanly, returning 0.</li>
+                    <li>If it fails, a feedback warning is cleanly presented, ensuring scripts don't attempt to execute a blank warp instruction.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
