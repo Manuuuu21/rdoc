@@ -204,7 +204,7 @@ prontera,164,185,4&#9;script&#9;Imperial Scanner&#9;909,{
 
     // Enable freeloop if arrays might become extremely large (prevents CPU lock errors)
     freeloop(1);
-    for (set .@i, 0; .@i < getarraysize(.@names$); set .@i, .@i + 1) {
+    for (set .@i, 0; .@i &lt; getarraysize(.@names$); set .@i, .@i + 1) {
         mes "Player " + (.@i + 1) + ": ^0055FF" + .@names$[.@i] + "^000000";
     }
     freeloop(0);
@@ -240,7 +240,7 @@ prontera,160,185,4&#9;script&#9;In-Town Inspector&#9;909,{
     next;
 
     freeloop(1);
-    for (set .@i, 0; .@i < getarraysize(.@npc_names$); set .@i, .@i + 1) {
+    for (set .@i, 0; .@i &lt; getarraysize(.@npc_names$); set .@i, .@i + 1) {
         mes "Active NPC " + (.@i + 1) + ": [^0055FF" + .@npc_names$[.@i] + "^000000]";
     }
     freeloop(0);
@@ -272,14 +272,14 @@ prontera,155,185,4&#9;script&#9;Coliseum Janitor&#9;909,{
     mes "Total monsters found in coordinate box: ^FF0000" + .@mobs_found + "^000000.";
     next;
 
-    if (.@mobs_found <= 0) {
+    if (.@mobs_found &lt;= 0) {
         mes "The coordinate sector is thoroughly swept. Clear and safe!";
         close;
     }
 
     mes "Spawns registered GID list:";
     freeloop(1);
-    for (set .@i, 0; .@i < getarraysize(.@gids); set .@i, .@i + 1) {
+    for (set .@i, 0; .@i &lt; getarraysize(.@gids); set .@i, .@i + 1) {
         mes "Active Monster Gid: ^0055FF" + .@gids[.@i] + "^000000";
     }
     freeloop(0);

@@ -177,7 +177,7 @@ prontera,164,188,4&#9;script&#9;Happy Hour Guard&#9;803,{
     } else {
         // Happy hours are scheduled from 18:00 (6 PM) to 20:00 (8 PM) on weekdays
         set .@hour, gettime(DT_HOUR);
-        if (.@hour >= 18 && .@hour < 20) {
+        if (.@hour >= 18 && .@hour &lt; 20) {
             mes "Congratulations! You have arrived during the weekday Happy Hour!";
             next;
         } else {

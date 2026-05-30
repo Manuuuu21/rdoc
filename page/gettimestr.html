@@ -217,7 +217,7 @@ prontera,164,180,4&#9;script&#9;VIP Desk Manager&#9;909,{
     mes "^0055FF" + .@now_str$ + "^000000";
     next;
 
-    if (.@vip_expiry_tick <= 0) {
+    if (.@vip_expiry_tick &lt;= 0) {
         mes "^0000FF[VIP Desk Manager]^000000";
         mes "It appears you do not have any active VIP subscription at the moment.";
         mes "Would you like me to register your account?";
