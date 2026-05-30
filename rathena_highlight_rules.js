@@ -617,7 +617,7 @@ const mainTopicList = `
   <li><a href="/rdoc/page/areawarp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">areawarp()</a></li>
   <li><a href="/rdoc/page/warpparty-warpguild-warppartner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warpparty(), warpguild(), warppartner()</a></li>
   <li><a href="/rdoc/page/savepoint-save.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">savepoint(), save()</a></li>
-  <li><a href="/rdoc/page/heal-percentheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">heal(), percentheal()</a></li>
+  <li><a href="/rdoc/page/heal-percentheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">heal, percentheal</a></li>
   <li><a href="/rdoc/page/healap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">healap()</a></li>
   <li><a href="/rdoc/page/itemheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">itemheal()</a></li>
   <li><a href="/rdoc/page/recovery.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">recovery()</a></li>
