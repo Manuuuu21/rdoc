@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - setlook, changelook</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">setlook, changelook</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What are setlook and changelook? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>setlook</code> and <code>changelook</code> commands alter the visual look data for a target character. They are mainly used to customize hair styles, palette custom hair/clothing colors, and handle weapon/shield appearances.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <strong>Critical distinction:</strong>
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4 text-sm">
+                    <li><code>setlook</code> saves the changes permanently in the character database, remaining active when logging out/in.</li>
+                    <li><code>changelook</code> modifies the presentation client-side only (temporary) and does NOT persist across database reloads, teleports, or relogs.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>setlook &lt;look type&gt;,&lt;look value&gt;{,&lt;char_id&gt;};</code></li>
+                    <li><code>changelook &lt;look type&gt;,&lt;look value&gt;{,&lt;char_id&gt;};</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Look Type Constants 🎯</h3>
+                <p class="text-gray-700 mb-2 text-sm">Below is the complete catalog of valid look types available for utilization:</p>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
+                    <table class="min-w-full text-sm font-mono text-gray-700">
+                        <thead>
+                            <tr class="border-b border-gray-300">
+                                <th class="text-left py-2 font-semibold">Look Type</th>
+                                <th class="text-left py-2 font-semibold">Value / Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr><td class="py-1">LOOK_BASE</td><td class="py-1">Base character sprite.</td></tr>
+                            <tr><td class="py-1">LOOK_HAIR</td><td class="py-1">Active hairstyle configuration index.</td></tr>
+                            <tr><td class="py-1">LOOK_WEAPON</td><td class="py-1">Equipped weapon rendering type.</td></tr>
+                            <tr><td class="py-1">LOOK_HEAD_BOTTOM</td><td class="py-1">Bottom position headgear appearance.</td></tr>
+                            <tr><td class="py-1">LOOK_HEAD_TOP</td><td class="py-1">Top position headgear appearance.</td></tr>
+                            <tr><td class="py-1">LOOK_HEAD_MID</td><td class="py-1">Mid position headgear appearance.</td></tr>
+                            <tr><td class="py-1">LOOK_HAIR_COLOR</td><td class="py-1">Color pallet mapped hair styling.</td></tr>
+                            <tr><td class="py-1">LOOK_CLOTHES_COLOR</td><td class="py-1">Color pallet mapped clothing dyes.</td></tr>
+                            <tr><td class="py-1">LOOK_SHIELD</td><td class="py-1">Shield visualization index.</td></tr>
+                            <tr><td class="py-1">LOOK_SHOES</td><td class="py-1">Shoes look indexes (kept for compatibility with Gravity Client).</td></tr>
+                            <tr><td class="py-1">LOOK_BODY2</td><td class="py-1">Advanced body visual styling setup.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="text-red-600 font-semibold mb-4 text-xs">
+                    ⚠️ Note: Only look configurations for hairstyle, hair color, and clothing colors are natively stored/reloaded by the rAthena character database tables.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Examples 💡</h3>
+
+                <!-- Example 1 -->
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 1: Styling Permanent Dye NPC</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= Perfect Hair Dye NPC
+//============================================================
+prontera,150,150,4&#9;script&#9;Hair Colorist&#9;99,{
+    mes "^0000FF[Stylist]^000000";
+    mes "Hello! Want to paint your hair blue?";
+    next;
+    
+    if (select("Yes, make me blue!:No thanks") == 2) {
+        mes "^0000FF[Stylist]^000000";
+        mes "Fine! Come back whenever you wish to upgrade.";
+        close;
+    }
+    
+    // Set LOOK_HAIR_COLOR to palette 12 permanently
+    setlook LOOK_HAIR_COLOR, 12;
+    mes "^0000FF[Stylist]^000000";
+    mes "All set! Look at yourself in the mirror!";
+    close;
+}
+                        </pre>
+                    </div>
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>The command <code>setlook LOOK_HAIR_COLOR, 12</code> alters the hair color of the invoking player using palette 12 and registers it in the database.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Example 2 -->
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 2: Temporary Costume Disguise</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= Hologram Disguiser
+//============================================================
+prontera,170,150,4&#9;script&#9;Tech Hologram&#9;99,{
+    mes "^0000FF[Hologram]^000000";
+    mes "I can temporarily dye your outfit black for local fun.";
+    next;
+    
+    // Apply changelook for LOOK_CLOTHES_COLOR with target palette index 5
+    changelook LOOK_CLOTHES_COLOR, 5;
+    
+    mes "^0000FF[Hologram]^000000";
+    mes "You are wearing a temporary disguise! It will reset upon client map re-warp.";
+    close;
+}
+                        </pre>
+                    </div>
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>The command <code>changelook LOOK_CLOTHES_COLOR, 5</code> switches the clothing texture presentation of the current slot to dye 5. The change is client-only and resets upon teleport or map change.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

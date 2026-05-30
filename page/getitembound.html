@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - getitembound, getitembound2, getitembound3, getitembound4</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getitembound, getitembound2, getitembound3, getitembound4</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What does Bounding do? 🛡️ 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getitembound</code> command functions identically to the standard <code>getitem</code> commands family, except the created items will be strictly <strong>bound</strong> to the target character according to the specified bound type.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Bounded items automatically acquire non-tradeable, non-mailable, non-auctionable protective locks and in specific styles can't even be placed inside general server storage chests.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Bound Types constants ⚙️</h3>
+                <p class="text-gray-700 mb-2 text-xs">These valid bound type constants are mapped within the script constants catalog:</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 text-xs font-mono bg-gray-50 p-4 rounded-md border border-gray-100">
+                    <li><strong>Bound_Account (1):</strong> Account Bound. Shareable across characters of the same login account via Koffry/Storage, but not tradable.</li>
+                    <li><strong>Bound_Guild (2):</strong> Guild Bound. Lock associated with active Guild status.</li>
+                    <li><strong>Bound_Party (3):</strong> Party Bound. Lock linked to Party status.</li>
+                    <li><strong>Bound_Char (4):</strong> Character Bound. Absolute personal lock; cannot be stored or traded; locked to the character slot alone.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Specifications 📜</h3>
+                
+                <!-- getitembound -->
+                <div class="mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-1">1. getitembound (Standard Bound)</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 font-mono text-xs bg-gray-50 p-2 rounded-md border border-gray-100">
+                        <li><code>getitembound &lt;item id&gt;,&lt;amount&gt;,&lt;bound type&gt;{,&lt;account ID&gt;};</code></li>
+                        <li><code>getitembound "&lt;item name&gt;",&lt;amount&gt;,&lt;bound type&gt;{,&lt;account ID&gt;};</code></li>
+                    </ul>
+                </div>
+
+                <!-- getitembound2 -->
+                <div class="mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-1">2. getitembound2 (Advanced Bound)</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 font-mono text-xs bg-gray-50 p-2 rounded-md border border-gray-100">
+                        <li><code>getitembound2 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;,&lt;bound type&gt;{,&lt;account ID&gt;};</code></li>
+                    </ul>
+                </div>
+
+                <!-- getitembound3 -->
+                <div class="mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-1">3. getitembound3 (Random Option Bound)</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 font-mono text-xs bg-gray-50 p-2 rounded-md border border-gray-100">
+                        <li><code>getitembound3 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;,&lt;bound type&gt;,&lt;RandomIDArray&gt;,&lt;RandomValueArray&gt;,&lt;RandomParamArray&gt;{,&lt;account ID&gt;};</code></li>
+                    </ul>
+                </div>
+
+                <!-- getitembound4 -->
+                <div class="mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-1">4. getitembound4 (Enchant Grade Bound)</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 font-mono text-xs bg-gray-50 p-2 rounded-md border border-gray-100">
+                        <li><code>getitembound4 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;,&lt;bound type&gt;,&lt;grade&gt;,&lt;RandomIDArray&gt;,&lt;RandomValueArray&gt;,&lt;RandomParamArray&gt;{,&lt;account ID&gt;};</code></li>
+                    </ul>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= Guild Event reward distributor
+//============================================================
+prontera,150,150,4&#9;script&#9;Prize Giver&#9;99,{
+    mes "^0000FF[Guild Recruiter]^000000";
+    mes "Hello! Since you completed our challenge, here is your prize!";
+    next;
+    
+    // Give 1 customized Elven Bow (ID: 1718) as Account Bound item (Bound_Account)
+    getitembound 1718, 1, Bound_Account;
+    
+    mes "^0000FF[Guild Recruiter]^000000";
+    mes "It is bound on your account securely so you cannot trade or lose it.";
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>On line 9, <code>getitembound 1718, 1, Bound_Account</code> distributes 1 account-bound Elven Bow, preventing drops or player-to-player transfers.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
