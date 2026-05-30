@@ -615,6 +615,9 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getlook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getlook()</a></li>
   <li><a href="/rdoc/page/getsavepoint.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getsavepoint()</a></li>
   <li><a href="/rdoc/page/getequipid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipid()</a></li>
+  <li><a href="/rdoc/page/getequiprefinerycnt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiprefinerycnt()</a></li>
+  <li><a href="/rdoc/page/getinventorylist.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getinventorylist()</a></li>
+
 `;
 
 // Append the Show Case Script list at the Sidenav
