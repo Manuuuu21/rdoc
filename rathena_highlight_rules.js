@@ -27,7 +27,7 @@ const supportFunctionKeywords = [
   "showdigit", "showevent", "showscript", "sit", "skill", "skilleffect", "skillpointcount", "sleep", "sleep2", "soundeffect", "soundeffectall", "specialeffect", "specialeffect2", "sprintf", "sqrt", "sscanf", "stand", "statusup", "statusup2", "stopnpctimer",
   "storagecountitem", "storagecountitem2", "storagedelitem", "storagedelitem2", "strcmp", "strcharinfo", "strmobinfo", "strnpcinfo", "strpos", "strtol", "strtolower", "strtoupper", "substr", "successrefitem", "successremovecards", "summon", "traitstatusup", "traitstatusup2", "transform", "unbindatcmd",
   "unequip", "unitattack", "unitblockskill", "unitexists", "unitkill", "unitskilluseid", "unitskillusepos", "unitstopattack", "unitstopwalk", "unittalk", "unitwalk", "unitwalkto", "unitwarp", "unloadnpc", "unrefine", "useatcmd", "viewpoint", "vip_status", "vip_time", "waitingroom",
-  "waitingroom2bg", "waitingroom2bg_single", "warp", "warpwaitingpc", "wedding", "heal", "isloggedin", "getstatus", "getareaunits", "isdead", "removemapflag","startnpctimer","changecharsex","warpparty","itemheal", "getgmlevel", "rid2name", "addrid",
+  "waitingroom2bg", "waitingroom2bg_single", "warp", "warpwaitingpc", "wedding", "heal", "isloggedin", "getstatus", "getareaunits", "isdead", "removemapflag","startnpctimer","changecharsex","warpparty","itemheal", "getgmlevel", "rid2name", "addrid", "areawarp",
 ];
 
 // Red highlight - Control flow and declarations
@@ -613,6 +613,14 @@ const mainTopicList = `
   <li><a href="/rdoc/page/rid2name.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rid2name()</a></li>
   <li><a href="/rdoc/page/message.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">message()</a></li>
   <li><a href="/rdoc/page/dispbottom.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">dispbottom()</a></li>
+	<li><a href="/rdoc/page/showscript.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">showscript()</a></li>
+  <li><a href="/rdoc/page/areawarp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">areawarp()</a></li>
+  <li><a href="/rdoc/page/warpparty-warpguild-warppartner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warpparty(), warpguild(), warppartner()</a></li>
+  <li><a href="/rdoc/page/savepoint-save.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">savepoint(), save()</a></li>
+  <li><a href="/rdoc/page/heal-percentheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">heal(), percentheal()</a></li>
+  <li><a href="/rdoc/page/healap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">healap()</a></li>
+  <li><a href="/rdoc/page/itemheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">itemheal()</a></li>
+  <li><a href="/rdoc/page/recovery.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">recovery()</a></li>
 
 `;
 
