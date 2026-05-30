@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - eaclass()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/rdoc/page/img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">eaclass()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is eaclass()? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>eaclass()</code> function evaluates and returns the specific encoded eA (eathena) job-number bitmask mapping corresponding to a given class.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The eA job-number represents a standardized bitmask notation. Unlike standard Ragnarok job IDs (which can be scattered and non-sequential), the eA job system leverages bitmask flag constants. This makes checking character characteristics (such as whether a class is reborn, uses a baby sprite, or belongs to a specific base tree like swordsman) extremely intuitive with binary bitwise operators (<code>&amp;</code>).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If no parameters are passed, the eA job-number of the invoking character is returned by default. It returns <code>-1</code> if the specified class doesn't mapped to an eA equivalent.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of eaclass() 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>eaclass({&lt;job number&gt;, &lt;char_id&gt;})</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Constants & Mappings ⚙️</h3>
+                <p class="text-gray-700 leading-relaxed mb-2 text-sm">
+                    Key bitwise constants used to query the returned value (details can be found within the <code>docs/ea_job_system.txt</code> file):
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 text-xs font-mono bg-gray-50 p-4 rounded-md border border-gray-100">
+                    <li><strong>EAJ_BASEMASK (0xFFF):</strong> Extracts the core base class (novice, swordsman, mage, etc.)</li>
+                    <li><strong>EAJL_UPPER (0x4000):</strong> Flag check for Reborn/High/Transcendence classes</li>
+                    <li><strong>EAJL_BABY (0x8000):</strong> Flag check for Baby level character classes</li>
+                    <li><strong>EAJ_UPPERMASK (0x3FFF):</strong> Mask filters out the reborn status, grouping base, job-1, and job-2 types cleanly.</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+prontera,150,150,4&#9;script&#9;eA Class Checker&#9;99,{
+    mes "^0000FF[eA Classifier]^000000";
+    
+    // Retrieve the eA job bitmask of the player
+    set .@eac, eaclass();
+    
+    // Check if the base job under the mask belongs to Swordsman (EAJ_SWORDMAN)
+    if ((.@eac & EAJ_BASEMASK) == EAJ_SWORDMAN) {
+        mes "Your core fundamental class lineage is Swordsman!";
+    }
+    
+    // Check reborn status flag EAJL_UPPER
+    if (.@eac & EAJL_UPPER) {
+        mes "You have unlocked the powerful Reborn/Transcendence class features!";
+    }
+    
+    // Check upper mask grouping (will be true for Swordsman, High Swordsman, Baby Swordsman)
+    if ((.@eac & EAJ_UPPERMASK) == EAJ_SWORDMAN) {
+        mes "You belong under the broader Swordsman developmental umbrella.";
+    }
+    
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>On line 5, <code>eaclass()</code> extracts the custom binary bitmask mapping of the calling player.</li>
+                            <li>On line 8, <code>(.@eac & EAJ_BASEMASK) == EAJ_SWORDMAN</code> performs a bitwise AND operation to isolate the base job type and compare it.</li>
+                            <li>On line 13, <code>.@eac & EAJL_UPPER</code> checks if the high-tier reborn bit is set in the player's class bitmask.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
