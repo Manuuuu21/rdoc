@@ -27,7 +27,7 @@ const supportFunctionKeywords = [
   "showdigit", "showevent", "showscript", "sit", "skill", "skilleffect", "skillpointcount", "sleep", "sleep2", "soundeffect", "soundeffectall", "specialeffect", "specialeffect2", "sprintf", "sqrt", "sscanf", "stand", "statusup", "statusup2", "stopnpctimer",
   "storagecountitem", "storagecountitem2", "storagedelitem", "storagedelitem2", "strcmp", "strcharinfo", "strmobinfo", "strnpcinfo", "strpos", "strtol", "strtolower", "strtoupper", "substr", "successrefitem", "successremovecards", "summon", "traitstatusup", "traitstatusup2", "transform", "unbindatcmd",
   "unequip", "unitattack", "unitblockskill", "unitexists", "unitkill", "unitskilluseid", "unitskillusepos", "unitstopattack", "unitstopwalk", "unittalk", "unitwalk", "unitwalkto", "unitwarp", "unloadnpc", "unrefine", "useatcmd", "viewpoint", "vip_status", "vip_time", "waitingroom",
-  "waitingroom2bg", "waitingroom2bg_single", "warp", "warpwaitingpc", "wedding", "heal", "isloggedin", "getstatus", "getareaunits", "isdead", "removemapflag","startnpctimer","changecharsex","warpparty","itemheal", "getgmlevel",
+  "waitingroom2bg", "waitingroom2bg_single", "warp", "warpwaitingpc", "wedding", "heal", "isloggedin", "getstatus", "getareaunits", "isdead", "removemapflag","startnpctimer","changecharsex","warpparty","itemheal", "getgmlevel", "rid2name", "addrid",
 ];
 
 // Red highlight - Control flow and declarations
@@ -605,7 +605,14 @@ const mainTopicList = `
   <li><a href="/rdoc/page/setmounting-ismounting.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmounting(), ismounting()</a></li>
   <li><a href="/rdoc/page/checkwug.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkwug()</a></li>
   <li><a href="/rdoc/page/checkvending.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkvending()</a></li>
-
+	<li><a href="/rdoc/page/checkidle.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkidle()</a></li>
+  <li><a href="/rdoc/page/isequipped.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isequipped()</a></li>
+  <li><a href="/rdoc/page/checkequipedcard.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkequipedcard()</a></li>
+  <li><a href="/rdoc/page/attachrid-detachrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">attachrid, detachrid</a></li>
+  <li><a href="/rdoc/page/addrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addrid()</a></li>
+  <li><a href="/rdoc/page/rid2name.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rid2name()</a></li>
+  <li><a href="/rdoc/page/message.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">message()</a></li>
+  <li><a href="/rdoc/page/dispbottom.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">dispbottom()</a></li>
 
 `;
 
