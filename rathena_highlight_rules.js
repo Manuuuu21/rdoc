@@ -604,7 +604,6 @@ const mainTopicList = `
   <li><a href="/rdoc/page/mesitemlink.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mesitemlink, &lt;ITEM&gt;&lt;INFO&gt;</a></li>
   <li><a href="/rdoc/page/url-quest-msg-tipbox.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">&lt;URL>, &lt;QUEST>, &lt;MSG>, &lt;TIPBOX></a></li>
   <li><a href="/rdoc/page/freeloop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">freeloop()</a></li>
-
   <li><a href="/rdoc/page/strcharinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strcharinfo()</a></li>
   <li><a href="/rdoc/page/convertpcinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">convertpcinfo()</a></li>
   <li><a href="/rdoc/page/strnpcinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strnpcinfo()</a></li>
@@ -615,6 +614,7 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getnpcid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnpcid()</a></li>
   <li><a href="/rdoc/page/getlook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getlook()</a></li>
   <li><a href="/rdoc/page/getsavepoint.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getsavepoint()</a></li>
+  <li><a href="/rdoc/page/getequipid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipid()</a></li>
 `;
 
 // Append the Show Case Script list at the Sidenav
