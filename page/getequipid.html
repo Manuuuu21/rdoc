@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - getequipid()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getequipid()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is getequipid? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getequipid()</code> function in rAthena scripting is used to obtain the <strong>Item ID (item_id)</strong> of the equipment currently worn by the player in a specific equipment slot. If no item is equipped in the specified slot, the function returns <code>-1</code>.
+                </p>
+                <hr class="my-6 border-gray-200" />
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose of getequipid? 🎯</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This function is essential for creating NPCs or scripts that scan the player's current gear. Common applications include:
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4">
+                    <li><strong>Equipment Refiners:</strong> Identifying exactly which shield or weapon is currently held in order to safely upgrade it.</li>
+                    <li><strong>Item Requirement Checks:</strong> Checking if a player has a specific set item or gear equipped before triggering a custom quest event or granting passage into a zone.</li>
+                    <li><strong>Card and Option Checkers:</strong> Combining this with index functions to look into equipped item cards, slots, or custom weapon properties.</li>
+                    <li><strong>Transmutation or Trade NPCs:</strong> Consuming or swapping and visual-checking the active item in a specific slot.</li>
+                </ul>
+                <hr class="my-6 border-gray-200" />
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getequipid? 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>getequipid({&lt;equipment slot&gt;{,&lt;char_id&gt;}})</code></li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This function returns the item ID of the item slot that calls the script on the invoking character or the specified equipment slot. If nothing is equipped there, it returns <code>-1</code>.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Equipment Slot Constants 🧩</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Below is the official list of valid equipment slot constants (and their respective numerical values) as defined in the rAthena source code:
+                </p>
+
+                <div class="overflow-x-auto my-4">
+                    <table class="min-w-full bg-white border border-gray-200 font-sans">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Constant</th>
+                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Value</th>
+                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Equipment Type / Location</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm text-gray-600">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_COMPOUND_ON</code></td>
+                                <td class="py-2 px-4 border-b font-mono">-1</td>
+                                <td class="py-2 px-4 border-b">Item slot that calls this script (In context of item script) - exclusive to getequipid</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_ACC_L</code></td>
+                                <td class="py-2 px-4 border-b font-mono">0</td>
+                                <td class="py-2 px-4 border-b">Accessory 1 (Left)</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_ACC_R</code></td>
+                                <td class="py-2 px-4 border-b font-mono">1</td>
+                                <td class="py-2 px-4 border-b">Accessory 2 (Right)</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_SHOES</code></td>
+                                <td class="py-2 px-4 border-b font-mono">2</td>
+                                <td class="py-2 px-4 border-b">Footgear (shoes, boots)</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_GARMENT</code></td>
+                                <td class="py-2 px-4 border-b font-mono">3</td>
+                                <td class="py-2 px-4 border-b">Garment (mufflers, hoods, manteaux)</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_HEAD_LOW</code></td>
+                                <td class="py-2 px-4 border-b font-mono">4</td>
+                                <td class="py-2 px-4 border-b">Lower Headgear (beards, some masks)</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_HEAD_MID</code></td>
+                                <td class="py-2 px-4 border-b font-mono">5</td>
+                                <td class="py-2 px-4 border-b">Middle Headgear (masks, glasses)</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_HEAD_TOP</code></td>
+                                <td class="py-2 px-4 border-b font-mono">6</td>
+                                <td class="py-2 px-4 border-b">Upper Headgear</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_ARMOR</code></td>
+                                <td class="py-2 px-4 border-b font-mono">7</td>
+                                <td class="py-2 px-4 border-b">Armor (jackets, robes)</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_HAND_L</code></td>
+                                <td class="py-2 px-4 border-b font-mono">8</td>
+                                <td class="py-2 px-4 border-b">Left hand (weapons, shields)</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_HAND_R</code></td>
+                                <td class="py-2 px-4 border-b font-mono">9</td>
+                                <td class="py-2 px-4 border-b">Right hand (weapons)</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_COSTUME_HEAD_TOP</code></td>
+                                <td class="py-2 px-4 border-b font-mono">10</td>
+                                <td class="py-2 px-4 border-b">Upper Costume Headgear</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_COSTUME_HEAD_MID</code></td>
+                                <td class="py-2 px-4 border-b font-mono">11</td>
+                                <td class="py-2 px-4 border-b">Middle Costume Headgear</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_COSTUME_HEAD_LOW</code></td>
+                                <td class="py-2 px-4 border-b font-mono">12</td>
+                                <td class="py-2 px-4 border-b">Lower Costume Headgear</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_COSTUME_GARMENT</code></td>
+                                <td class="py-2 px-4 border-b font-mono">13</td>
+                                <td class="py-2 px-4 border-b">Costume Garment</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_AMMO</code></td>
+                                <td class="py-2 px-4 border-b font-mono">14</td>
+                                <td class="py-2 px-4 border-b">Arrow/Ammunition</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_SHADOW_ARMOR</code></td>
+                                <td class="py-2 px-4 border-b font-mono">15</td>
+                                <td class="py-2 px-4 border-b">Shadow Armor</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_SHADOW_WEAPON</code></td>
+                                <td class="py-2 px-4 border-b font-mono">16</td>
+                                <td class="py-2 px-4 border-b">Shadow Weapon</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_SHADOW_SHIELD</code></td>
+                                <td class="py-2 px-4 border-b font-mono">17</td>
+                                <td class="py-2 px-4 border-b">Shadow Shield</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_SHADOW_SHOES</code></td>
+                                <td class="py-2 px-4 border-b font-mono">18</td>
+                                <td class="py-2 px-4 border-b">Shadow Shoes</td>
+                             </tr>
+                             <tr>
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_SHADOW_ACC_R</code></td>
+                                <td class="py-2 px-4 border-b font-mono">19</td>
+                                <td class="py-2 px-4 border-b">Shadow Accessory 2</td>
+                             </tr>
+                             <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono"><code>EQI_SHADOW_ACC_L</code></td>
+                                <td class="py-2 px-4 border-b font-mono">20</td>
+                                <td class="py-2 px-4 border-b">Shadow Accessory 1</td>
+                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Notice that a few items occupy several equipment slots, and if the character is wearing such an item, <code>getequipid</code> will return its ID number for either slot.
+                </p>
+                <hr class="my-6 border-gray-200" />
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Weapon Refiner & Gear Checker NPC
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates getequipid() function to scan, refine, and
+//= grant unique bonuses based on active gear.
+//============================================================
+prontera,150,180,4&#9;script&#9;Gear Checker&#9;909,{
+    mes "^0000FF[Armor & Weapon Inspector]^000000";
+    mes "Hello! I am the legendary Gear Inspector.";
+    mes "I can check your current gear, identify your active weapon, or refine it.";
+    next;
+
+    switch(select("Identify Right Hand Weapon:Check Left Hand Shield:Refine Current Weapon:Exit")) {
+        case 1:
+            // Get item ID of Right Hand Equipment (Weapon)
+            set .@r_hand, getequipid(EQI_HAND_R);
+            if (.@r_hand == -1) {
+                mes "^0000FF[Armor & Weapon Inspector]^000000";
+                mes "You are unarmed! Please equip a weapon in your Right Hand first.";
+                close;
+            }
+            mes "^0000FF[Armor & Weapon Inspector]^000000";
+            mes "You are holding item ID: ^FF0000" + .@r_hand + "^000000";
+            mes "Item Name: ^00FF00" + getitemname(.@r_hand) + "^000000";
+            close;
+
+        case 2:
+            // Get item ID of Left Hand Equipment (Shield)
+            set .@l_hand, getequipid(EQI_HAND_L);
+            if (.@l_hand == -1) {
+                mes "^0000FF[Armor & Weapon Inspector]^000000";
+                mes "Your left hand holds nothing! No shield, no off-hand dagger.";
+                close;
+            }
+            mes "^0000FF[Armor & Weapon Inspector]^000000";
+            mes "Your left hand is holding item ID: ^FF0000" + .@l_hand + "^000000";
+            mes "Shield/Offhand Name: ^00FF00" + getitemname(.@l_hand) + "^000000";
+            close;
+
+        case 3:
+            set .@weapon_id, getequipid(EQI_HAND_R);
+            if (.@weapon_id == -1) {
+                mes "^0000FF[Armor & Weapon Inspector]^000000";
+                mes "You don't have an active weapon to refine.";
+                close;
+            }
+            mes "^0000FF[Armor & Weapon Inspector]^000000";
+            mes "Are you sure you want to upgrade your ^00FF00" + getitemname(.@weapon_id) + "^000000?";
+            next;
+            if (select("Yes, please!:No thanks") == 2) {
+                mes "^0000FF[Armor & Weapon Inspector]^000000";
+                mes "Come back when you are ready.";
+                close;
+            }
+            
+            // Execute the refine command on the weapon slot
+            successrefitem EQI_HAND_R;
+            mes "^0000FF[Armor & Weapon Inspector]^000000";
+            mes "Success! Your weapon has been refined!";
+            close;
+
+        case 4:
+            mes "^0000FF[Armor & Weapon Inspector]^000000";
+            mes "Safe travels, warrior!";
+            close;
+    }
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This example NPC demonstrates standard and highly useful design patterns utilizing the <code>getequipid()</code> function:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li>The function <code>getequipid(EQI_HAND_R)</code> is called to get the exact database ID number of the weapon held in the Right Hand.</li>
+                    <li>If the returned value is <code>-1</code>, the script knows the player has no weapon equipped and displays an instructional fallback message.</li>
+                    <li>If an item is equipped, the script prints both the ID and retrieves the actual translated item name using <code>getitemname()</code>.</li>
+                    <li>This enables scripts to safely run complex actions such as `successrefitem` or database lookups on specific slot coordinates.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
