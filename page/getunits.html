@@ -287,6 +287,47 @@ prontera,155,185,4&#9;script&#9;Coliseum Janitor&#9;909,{
 }
                     </pre>
                 </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-3 text-gray-800 mt-4">Understanding these Examples:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Each of the showcase scripts demonstrates a different level of targeting scope using the <code>get*units</code> suite of commands:
+                </p>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-1">🔍 Example 1: Global Player Auditing (getunits)</h4>
+                        <p class="text-gray-700 leading-relaxed pl-4 mb-2">
+                            The <strong>Imperial Scanner</strong> uses <code>getunits(BL_PC, .@names$[0])</code> to perform a global search of all connected player characters (<code>BL_PC</code>).
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 pl-8 text-sm">
+                            <li>It stores the total player count in the variable <code>.@num</code>.</li>
+                            <li>The string names of all online characters are dynamically written into the temporary string array <code>.@names$</code>.</li>
+                            <li>Because server populations can grow quite large, we safely bracket the print loop inside <code>freeloop(1)</code> to bypass the script execution limit and avoid CPU lock-ups.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-1">🏢 Example 2: Local Map Auditing (getmapunits)</h4>
+                        <p class="text-gray-700 leading-relaxed pl-4 mb-2">
+                            The <strong>In-Town Inspector</strong> is configured to sweep a specific map rather than the entire server, calling <code>getmapunits(BL_NPC, "prontera", .@npc_names$[0])</code>.
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 pl-8 text-sm">
+                            <li>The query filters for NPC objects specifically (<code>BL_NPC</code>) only inside the boundaries of <code>"prontera"</code>.</li>
+                            <li>It automatically fills <code>.@npc_names$</code> with the unique script names of every active NPC loaded there.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-1">🎯 Example 3: Precise Area Coordinate Auditing (getareaunits)</h4>
+                        <p class="text-gray-700 leading-relaxed pl-4 mb-2">
+                            The <strong>Coliseum Janitor</strong> performs pixel-perfect coordinate detection, sweeping a precise bounding rectangular area with <code>getareaunits(BL_MOB, "prontera", 154, 186, 159, 182, .@gids[0])</code>.
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 pl-8 text-sm">
+                            <li>Rather than counting all monsters on the entire map, it restricts search targets to the rectangle formed by corner coordinates <code>(154, 186)</code> and <code>(159, 182)</code>.</li>
+                            <li>It searches specifically for alive spawned monsters (<code>BL_MOB</code>).</li>
+                            <li>Because we supplied an integer array (<code>.@gids[0]</code>), the engine populates it with the active numeric Game IDs (GIDs) of the monsters rather than string names. This allows other commands to target those specific monsters subsequently.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
