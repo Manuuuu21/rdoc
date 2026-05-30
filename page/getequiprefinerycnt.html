@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - getequiprefinerycnt()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getequiprefinerycnt()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is getequiprefinerycnt? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getequiprefinerycnt()</code> function retrieves the current <strong>refinement level</strong> (the number of pluses, e.g. +4, +7, +10) of the item equipped in the specified equipment slot on the character.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If no item is equipped in the target equipment slot, or if the equipped item has not been refined at all, the function returns <code>0</code>.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getequiprefinerycnt? 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>getequiprefinerycnt(&lt;equipment slot&gt;{,&lt;char_id&gt;})</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <ul class="list-disc list-inside space-y-3 text-gray-700 mb-4 pl-4">
+                    <li>
+                        <strong><code>&lt;equipment slot&gt;</code>:</strong> The target slot constant to query. This must be a valid equipment location constant such as <code>EQI_HEAD_TOP</code>, <code>EQI_ARMOR</code>, <code>EQI_HAND_R</code>, etc. For a complete list of slot constants and their numerical values, refer to the <a href="/page/getequipid.html" class="text-blue-600 hover:underline inline-flex items-center font-semibold font-mono">getequipid()</a> documentation page.
+                    </li>
+                    <li>
+                        <strong><code>&lt;char_id&gt;</code> (Optional):</strong> The character ID of the player whose equipment you want to inspect. If omitted, the check defaults to the active character currently invoking the script.
+                    </li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Return Value ↩️</h3>
+                <div class="overflow-x-auto my-4">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-gray-100 font-sans">
+                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Equipped State</th>
+                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Refine Level</th>
+                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-700">Return Value</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm text-gray-600">
+                            <tr>
+                                <td class="py-2 px-4 border-b">No item is equipped in the specified slot</td>
+                                <td class="py-2 px-4 border-b font-mono">N/A</td>
+                                <td class="py-2 px-4 border-b font-mono"><code>0</code></td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b">An item is equipped, but was never refined</td>
+                                <td class="py-2 px-4 border-b font-mono">+0</td>
+                                <td class="py-2 px-4 border-b font-mono"><code>0</code></td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b">A refined item is equipped</td>
+                                <td class="py-2 px-4 border-b font-mono">+N (e.g. +7, +10)</td>
+                                <td class="py-2 px-4 border-b font-mono"><code>N</code> (e.g. 7, 10)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Purpose & Practical Uses 🎯</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This function is the primary gatekeeper when building custom blacksmithing and equipment upgrading systems in Ragnarok Online:
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 pl-4">
+                    <li><strong>Safety Limits:</strong> Prevent refining characters' gear past maximum server limits (e.g., stopping refines above <code>+10</code>).</li>
+                    <li><strong>Tiered Upgrade Costs:</strong> Scale the required refining materials or Zeny fees dynamically depending on the active plus value of the item.</li>
+                    <li><strong>Refinement Set Bonuses:</strong> Grant unique achievements, titles, or item bonuses if a character is wearing items to high refinement thresholds (e.g. <code>getequiprefinerycnt(EQI_ARMOR) >= 9</code>).</li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Elite Refiner & Upgrader NPC
+//===== By: rAthena AI Assistant ============================
+//= Demonstrates getequiprefinerycnt() to safely inspect
+//= and limit item refinement levels.
+//============================================================
+prontera,150,185,4&#9;script&#9;Elite Refiner&#9;909,{
+    mes "^0000FF[Elite Refiner]^000000";
+    mes "Greetings, challenger! I am the Elite Blacksmith.";
+    mes "I can safely upgrade your Upper Headgear, but only if it is below +10.";
+    next;
+
+    if (select("Examine Upper Headgear:Cancel") == 2) {
+        mes "^0000FF[Elite Refiner]^000000";
+        mes "Suit yourself! Come back when you wish to hone your power.";
+        close;
+    }
+
+    // Check if an item is equipped there
+    if (getequipid(EQI_HEAD_TOP) == -1) {
+        mes "^0000FF[Elite Refiner]^000000";
+        mes "Wait a second... you aren't wearing anything on your head!";
+        close;
+    }
+
+    // Obtain current refine count of the item
+    set .@refine_level, getequiprefinerycnt(EQI_HEAD_TOP);
+    mes "^0000FF[Elite Refiner]^000000";
+    mes "Excellent! Your ^00FF00" + getequipname(EQI_HEAD_TOP) + "^000000 is currently refined to ^FF0000+" + .@refine_level + "^000000.";
+    next;
+
+    // Reject if current refinement has hit maximum limit of 10
+    if (.@refine_level >= 10) {
+        mes "^0000FF[Elite Refiner]^000000";
+        mes "Wow! It is already perfected (+10 or higher). I cannot refine this any further!";
+        close;
+    }
+
+    mes "^0000FF[Elite Refiner]^000000";
+    mes "Would you like me to upgrade it right now for 5,000 Zeny?";
+    next;
+
+    if (select("Yes, refine it!:No thanks") == 2) {
+        mes "^0000FF[Elite Refiner]^000000";
+        mes "Perhaps another time.";
+        close;
+    }
+
+    if (Zeny &lt; 5000) {
+        mes "^0000FF[Elite Refiner]^000000";
+        mes "You do not have enough Zeny to cover the service fee.";
+        close;
+    }
+
+    set Zeny, Zeny - 5000;
+    
+    // Attempt refine action
+    successrefitem EQI_HEAD_TOP;
+    
+    mes "^0000FF[Elite Refiner]^000000";
+    mes "Clang! Clang! Clang!";
+    mes "Success! Your headgear is now ^00FF00+" + getequiprefinerycnt(EQI_HEAD_TOP) + "^000000!";
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This example Elite Refiner NPC illustrates highly optimal workflow conventions for refinement:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4">
+                    <li>The function <code>getequipid(EQI_HEAD_TOP)</code> is first checked to ensure the player actually has a helmet equipped in the Upper Headgear slot.</li>
+                    <li>We retrieve the current refinement level using <code>getequiprefinerycnt(EQI_HEAD_TOP)</code>.</li>
+                    <li>We apply conditional checking (<code>if (.@refine_level >= 10)</code>) to prevent the player from refining a perfected weapon or armor piece beyond the safe limit.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

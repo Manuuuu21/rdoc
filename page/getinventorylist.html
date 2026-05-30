@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - getinventorylist()</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="/page/img/icon.png" type="image/x-icon">
+    <style>
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 250px;
+            max-height: 250px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">getinventorylist()</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is getinventorylist? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>getinventorylist()</code> command is a powerful diagnostic and inventory-handling script utility. It populates a pre-defined set of temporary character-specific variables and arrays with a complete, detailed dump of everything the character currently holds in their inventory.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This command is incredibly useful for backing up, restoring, auditing, and cleaning player gear, or implementing item-specific search functions. No other command returns such a comprehensive dataset of cards, random modifiers, bounds, and refine metrics.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of getinventorylist? 📜</h3>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>getinventorylist({&lt;char_id&gt;});</code></li>
+                </ul>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If an optional <code>char_id</code> is supplied, the command queries and populates inventory data for that specific character (assuming they are currently online). If omitted, it defaults to the active character currently invoking the script.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Populated Array Variables 🧩</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    When executed, <code>getinventorylist()</code> returns no values directly. Instead, it dynamically instantiates the following temporary, integer-based scope arrays on the character:
+                </p>
+
+                <div class="overflow-x-auto my-4">
+                    <table class="min-w-full bg-white border border-gray-200 font-sans text-sm">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="py-2 px-4 border-b text-left font-semibold text-gray-700">Variable Array Name</th>
+                                <th class="py-2 px-4 border-b text-left font-semibold text-gray-700">Detailed Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_count</code></td>
+                                <td class="py-2 px-4 border-b">The total number of unique item stacks found in the inventory. Use this to bound your loops.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_id[]</code></td>
+                                <td class="py-2 px-4 border-b">The Item ID of each inventory item stack.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_idx[]</code></td>
+                                <td class="py-2 px-4 border-b">The exact inventory slot index of each item (crucial for exact deletion via <code class="font-mono text-xs">delitemidx</code>).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_amount[]</code></td>
+                                <td class="py-2 px-4 border-b">The stack amount of the item.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_equip[]</code></td>
+                                <td class="py-2 px-4 border-b">Indicates whether and where the item is equipped (using <code>EQP_*</code> constants). Returns <code>0</code> if unequipped.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_refine[]</code></td>
+                                <td class="py-2 px-4 border-b">Refinement value of the item.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_identify[]</code></td>
+                                <td class="py-2 px-4 border-b"><code>1</code> if the item has been identified, and <code>0</code> if unidentified.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_attribute[]</code></td>
+                                <td class="py-2 px-4 border-b"><code>1</code> if the item is broken (damaged), and <code>0</code> if intact.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_card1[] ... @inventorylist_card4[]</code></td>
+                                <td class="py-2 px-4 border-b">Four separate arrays storing IDs of slot-compounded cards, maker IDs (for custom weapons/items), or elemental details.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_expire[]</code></td>
+                                <td class="py-2 px-4 border-b">Unix timestamp of item expiration. Returns <code>0</code> if the item is permanent.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_bound[]</code></td>
+                                <td class="py-2 px-4 border-b">The bind type restriction status of the item (referencing <code>BOUND_*</code> constants).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_enchantgrade[]</code></td>
+                                <td class="py-2 px-4 border-b">Enchantment grade of the item.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_option_id1[] ... @inventorylist_option_id5[]</code></td>
+                                <td class="py-2 px-4 border-b">Ids representing random options/modifiers applied to the item.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_option_value1[] ... @inventorylist_option_value5[]</code></td>
+                                <td class="py-2 px-4 border-b">Values corresponding to respective random option slots.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_option_parameter1[] ... @inventorylist_option_parameter5[]</code></td>
+                                <td class="py-2 px-4 border-b">Parameters representing additional option factors.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_tradable</code></td>
+                                <td class="py-2 px-4 border-b">Returns <code>1</code> if the item is tradable, or <code>0</code> if restricted.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-mono text-blue-700"><code>@inventorylist_favorite</code></td>
+                                <td class="py-2 px-4 border-b">Returns <code>1</code> if the player marked the item as a favorite, otherwises <code>0</code>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-3 text-red-600 flex items-center gap-2 mt-4">
+                    ⚠️ Critical Loop Rule (Must Read!)
+                </h3>
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-md text-red-950 mb-6 leading-relaxed">
+                    <strong>Do NOT use <code>getarraysize()</code> to construct your loops over inventory lists.</strong>
+                    <br/>
+                    Temporary arrays instantiated by rAthena console scripts are <strong>not automatically cleared</strong> between distinct executions of the <code>getinventorylist()</code> command. If you previously fetched an inventory with 50 elements and now query one with 10 elements, the indices from 10 to 49 will still contain stale values!
+                    <br/>
+                    <em class="font-semibold block mt-2">Always base your counter limits exclusively on <code>@inventorylist_count</code>!</em>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                    <button class="copy-button">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Card & Unbinding Cleaner NPC
+//===== By: rAthena AI Assistant ============================
+//= Showcases getinventorylist() to cycle player inventories,
+//= counts Carded Items, and allows removal by index.
+//============================================================
+prontera,150,190,4&#9;script&#9;Inventory Cleaner&#9;909,{
+    mes "^0000FF[Inventory Cleaner]^000000";
+    mes "Greetings! I can extract card statistics from your inventory.";
+    mes "Let me run a diagnostic sweep of your items.";
+    next;
+
+    // 1. Refresh inventory array elements
+    getinventorylist();
+
+    set .@carded_count, 0;
+
+    // 2. Loop using @inventorylist_count (Never getarraysize!)
+    for (set .@i, 0; .@i &lt; @inventorylist_count; set .@i, .@i + 1) {
+        // Any value inside card1-card4 represents a card slot, custom maker, or element
+        if (@inventorylist_card1[.@i] != 0 || @inventorylist_card2[.@i] != 0 ||
+            @inventorylist_card3[.@i] != 0 || @inventorylist_card4[.@i] != 0) {
+            set .@carded_count, .@carded_count + 1;
+        }
+    }
+
+    mes "^0000FF[Inventory Cleaner]^000000";
+    mes "Sweep completed!";
+    mes "You are currently holding ^00FF00" + @inventorylist_count + "^000000 distinct items.";
+    mes "Out of those, ^FF0000" + .@carded_count + "^000000 items contain cards, enchants, or custom attributes.";
+    next;
+
+    mes "^0000FF[Inventory Cleaner]^000000";
+    mes "Would you like to review card slots or exit?";
+    if (select("Review Carded Items:Exit") == 2) {
+        mes "Safe travels!";
+        close;
+    }
+
+    // 3. Render a dynamic list of carded items
+    for (set .@i, 0; .@i &lt; @inventorylist_count; set .@i, .@i + 1) {
+        if (@inventorylist_card1[.@i] != 0) {
+            mes "^0055FFItem:^000000 " + getitemname(@inventorylist_id[.@i]) + " (Index: " + @inventorylist_idx[.@i] + ")";
+            mes " -> Embedded Card Slot 1 ID: " + @inventorylist_card1[.@i];
+        }
+    }
+    close;
+}
+                    </pre>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">In this script:</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The showcase clean-up script showcases correct, robust handling of temporary lists:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4 pl-4">
+                    <li>We invoke <code>getinventorylist()</code> which populates arrays like <code>@inventorylist_count</code> and <code>@inventorylist_id[]</code> in memory.</li>
+                    <li>We enforce the absolute gold rule of rAthena looping by using <code>set .@i, 0; .@i &lt; @inventorylist_count; set .@i, .@i + 1</code> instead of <code>getarraysize</code>, successfully bypassing potential side-effects from remaining stale data in previous checks.</li>
+                    <li>We safely verify custom item properties and look up indices matching carded or elemental configurations.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
