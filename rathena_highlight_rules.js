@@ -621,6 +621,14 @@ const mainTopicList = `
   <li><a href="/rdoc/page/healap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">healap()</a></li>
   <li><a href="/rdoc/page/itemheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">itemheal()</a></li>
   <li><a href="/rdoc/page/recovery.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">recovery()</a></li>
+  <li><a href="/rdoc/page/jobchange.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobchange</a></li>
+  <li><a href="/rdoc/page/jobname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobname()</a></li>
+  <li><a href="/rdoc/page/eaclass.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">eaclass()</a></li>
+  <li><a href="/rdoc/page/roclass.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">roclass()</a></li>
+  <li><a href="/rdoc/page/changebase.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changebase</a></li>
+  <li><a href="/rdoc/page/classchange.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">classchange()</a></li>
+  <li><a href="/rdoc/page/changesex.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changesex()</a></li>
+  <li><a href="/rdoc/page/changecharsex.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changecharsex()</a></li>
 
 `;
 
