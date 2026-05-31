@@ -662,7 +662,7 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getitembound.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitembound, getitembound2, getitembound3, getitembound4</a></li>
   <li><a href="/rdoc/page/getnameditem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnameditem</a></li>
   <li><a href="/rdoc/page/rentitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rentitem, rentitem2, rentitem3, rentitem4</a></li>
-
+  <li><a href="/rdoc/page/chatmes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">chatmes()</a></li>
 `;
 
 // Append the Show Case Script list at the Sidenav
