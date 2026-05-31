@@ -76,50 +76,42 @@
 
                 <hr class="my-6 border-gray-200" />
 
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax & Commands 📜</h3>
-                
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax 📜</h3>
                 <!-- getitem -->
-                <div class="mb-4">
-                    <h4 class="font-semibold text-gray-800 mb-1">1. getitem (Standard)</h4>
-                    <p class="text-xs text-gray-600 mb-1">Standard item delivery method using standard item DB parameters.</p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 font-mono text-xs bg-gray-50 p-2 rounded-md border border-gray-100">
-                        <li><code>getitem &lt;item id&gt;,&lt;amount&gt;{,&lt;account ID&gt;};</code></li>
-                        <li><code>getitem "&lt;item name&gt;",&lt;amount&gt;{,&lt;account ID&gt;};</code></li>
-                    </ul>
-                </div>
+                <h4 class="font-semibold text-gray-800 mb-1">1. getitem (Standard)</h4>
+                <p class="text-xs text-gray-600 mb-1">Standard item delivery method using standard item DB parameters.</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>getitem &lt;item id&gt;,&lt;amount&gt;{,&lt;account ID&gt;};</code></li>
+                    <li><code>getitem "&lt;item name&gt;",&lt;amount&gt;{,&lt;account ID&gt;};</code></li>
+                </ul>
 
                 <!-- getitem2 -->
-                <div class="mb-4">
-                    <h4 class="font-semibold text-gray-800 mb-1">2. getitem2 (Advanced Compound)</h4>
+                <h4 class="font-semibold text-gray-800 mb-1">2. getitem2 (Advanced Compound)</h4>
                     <p class="text-xs text-gray-600 mb-1">Grants weapons/armors pre-equipped with customize refine values, card slots, identification status, and attributes.</p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 font-mono text-xs bg-gray-50 p-2 rounded-md border border-gray-100">
-                        <li><code>getitem2 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;{,&lt;account ID&gt;};</code></li>
-                        <li><code>getitem2 "&lt;item name&gt;",&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;{,&lt;account ID&gt;};</code></li>
-                    </ul>
-                </div>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>getitem2 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;{,&lt;account ID&gt;};</code></li>
+                    <li><code>getitem2 "&lt;item name&gt;",&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;{,&lt;account ID&gt;};</code></li>
+                </ul>
 
                 <!-- getitem3 -->
-                <div class="mb-4">
-                    <h4 class="font-semibold text-gray-800 mb-1">3. getitem3 (Random Options Support)</h4>
-                    <p class="text-xs text-gray-600 mb-1">Advanced extension of getitem2 that adds customizable Item Random Options parameters mapping.</p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 font-mono text-xs bg-gray-50 p-2 rounded-md border border-gray-100">
-                        <li><code>getitem3 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;,&lt;RandomIDArray&gt;,&lt;RandomValueArray&gt;,&lt;RandomParamArray&gt;{,&lt;account ID&gt;};</code></li>
-                    </ul>
-                </div>
+                <h4 class="font-semibold text-gray-800 mb-1">3. getitem3 (Random Options Support)</h4>
+                <p class="text-xs text-gray-600 mb-1">Advanced extension of getitem2 that adds customizable Item Random Options parameters mapping.</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>getitem3 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;,&lt;RandomIDArray&gt;,&lt;RandomValueArray&gt;,&lt;RandomParamArray&gt;{,&lt;account ID&gt;};</code></li>
+                </ul>
 
                 <!-- getitem4 -->
-                <div class="mb-4">
-                    <h4 class="font-semibold text-gray-800 mb-1">4. getitem4 (Grade Support)</h4>
-                    <p class="text-xs text-gray-600 mb-1">The maximum grade system version adding custom ENCHANTGRADE settings on top of random item parameters.</p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 font-mono text-xs bg-gray-50 p-2 rounded-md border border-gray-100">
-                        <li><code>getitem4 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;,&lt;grade&gt;,&lt;RandomIDArray&gt;,&lt;RandomValueArray&gt;,&lt;RandomParamArray&gt;{,&lt;account ID&gt;};</code></li>
-                    </ul>
-                </div>
+                <h4 class="font-semibold text-gray-800 mb-1">4. getitem4 (Grade Support)</h4>
+                <p class="text-xs text-gray-600 mb-1">The maximum grade system version adding custom ENCHANTGRADE settings on top of random item parameters.</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 mb-4">
+                    <li><code>getitem4 &lt;item id&gt;,&lt;amount&gt;,&lt;identify&gt;,&lt;refine&gt;,&lt;attribute&gt;,&lt;card1&gt;,&lt;card2&gt;,&lt;card3&gt;,&lt;card4&gt;,&lt;grade&gt;,&lt;RandomIDArray&gt;,&lt;RandomValueArray&gt;,&lt;RandomParamArray&gt;{,&lt;account ID&gt;};</code></li>
+                </ul>
+
 
                 <hr class="my-6 border-gray-200" />
 
-                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Parameters explanation 🎯</h3>
-                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 text-xs font-mono">
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <ul class="list-disc list-inside space-y-3 text-gray-700 mb-4 pl-4">
                     <li><strong>identify:</strong> 1 = Identified, 0 = Unidentified (unappraised magnifying glass state)</li>
                     <li><strong>refine:</strong> The refine plus level. Will not exceed the server's defined maximum refine capability.</li>
                     <li><strong>attribute:</strong> 1 = Broken, 0 = Normal / Standard unbroken.</li>
@@ -135,22 +127,19 @@
                 <!-- Example 1 -->
                 <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
                     <div class="pre_container">
-                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 1: Classic getitem NPC</b></div>
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 1: Basic Reward NPC</b></div>
                         <button class="copy-button">Copy</button>
                         <pre>
 //===== rAthena Script =======================================
-//= Simple Gift Giver (getitem demonstration)
+//= Name: Basic Reward NPC
+//===== By: rAthena AI Assistant ============================
+//= Function: Demonstrates getitem
 //============================================================
-prontera,150,150,4&#9;script&#9;Gift Vendor&#9;99,{
-    mes "^0000FF[Gift Vendor]^000000";
-    mes "Greetings! Do you want an Apple?";
-    next;
-    
-    // Grant exactly 5 Apples (ID: 502) to the character
-    getitem 502, 5;
-    
-    mes "^0000FF[Gift Vendor]^000000";
-    mes "There you go, 5 Apples added to your inventory bag!";
+
+prontera,150,150,4&#9;script&#9;BasicRewardNPC&#9;767,{
+    mes "[Reward NPC]";
+    mes "Here is a simple gift for you.";
+    getitem 501, 5; // Gives 5 Red Potions
     close;
 }
                         </pre>
@@ -158,7 +147,7 @@ prontera,150,150,4&#9;script&#9;Gift Vendor&#9;99,{
                     <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
                         <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
                         <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
-                            <li>On line 9, <code>getitem 502, 5</code> adds 5 Apples (ID 502) directly to the attached character's bag without any compound socket values.</li>
+                            <li><code>getitem 501, 5</code> adds 5 Red Potions (ID 501) directly to the attached character's bag without any compound socket values.</li>
                         </ul>
                     </div>
                 </div>
@@ -166,22 +155,20 @@ prontera,150,150,4&#9;script&#9;Gift Vendor&#9;99,{
                 <!-- Example 2 -->
                 <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
                     <div class="pre_container">
-                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 2: Custom Weapons/Equipment using getitem2</b></div>
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 2: CustomItemNPC </b></div>
                         <button class="copy-button">Copy</button>
                         <pre>
 //===== rAthena Script =======================================
-//= Advanced Legendary Blacksmith NPC
+//= Name: Custom Item NPC
+//===== By: rAthena AI Assistant ============================
+//= Function: Demonstrates getitem2
 //============================================================
-prontera,155,150,4&#9;script&#9;Divine Smith&#9;99,{
-    mes "^0000FF[Blacksmith]^000000";
-    mes "Only champions deserve a customized sword!";
-    next;
-    
-    // Give 1 Sword (ID: 1101), Identified (1), Refine level (+7), Unbroken (0), Card 1 ID (4001 - Poring Card), empty card slots (0)
-    getitem2 1101, 1, 1, 7, 0, 4001, 0, 0, 0;
-    
-    mes "^0000FF[Blacksmith]^000000";
-    mes "Take this +7 Sword socketed with a Poring Card!";
+
+prontera,150,150,4&#9;script&#9;CustomItemNPC&#9;767,{
+    mes "[Custom NPC]";
+    mes "I have a special +5 Knife for you.";
+    // ID 1201 (Knife), Amount 1, Identified 1, Refine 5, Broken 0, Card1 4001 (Poring Card), Card2 0, Card3 0, Card4 0
+    getitem2 1201, 1, 1, 5, 0, 4001, 0, 0, 0;
     close;
 }
                         </pre>
@@ -189,7 +176,7 @@ prontera,155,150,4&#9;script&#9;Divine Smith&#9;99,{
                     <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
                         <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
                         <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
-                            <li>The <code>getitem2 1101, 1, 1, 7, 0, 4001, 0, 0, 0</code> command crafts a bespoke level 7 refined visual sword socketed with Poring Card (ID 4001) in card slot 1.</li>
+                            <li>The attached player will immediately receive one +5 Knife [3] that is already identified, in perfect condition (not broken), and has a Poring Card (ID 4001) pre-equipped in its first slot, while the other slots remain empty.</li>
                         </ul>
                     </div>
                 </div>
@@ -201,21 +188,43 @@ prontera,155,150,4&#9;script&#9;Divine Smith&#9;99,{
                         <button class="copy-button">Copy</button>
                         <pre>
 //===== rAthena Script =======================================
-//= Advanced Random Rewarder
+//= Name: Random Option NPC
+//===== By: rAthena AI Assistant ============================
+//= Function: Demonstrates getitem3
 //============================================================
-mes "Delivering top-tier random gear.";
-// ID 1201 (Knife), Amt 1, Ident 1, Refine 10, Broken 0, Cards 4001,0,0,0, Grade D
-// Array Variables for Random Options
-setarray .@opts, 4700, 4701; // Random Option IDs
-setarray .@vals, 10, 5;      // Option Values
-setarray .@prms, 0, 0;       // Parameters
-getitem4 1201, 1, 1, 10, 0, 4001,0,0,0, ENCHANTGRADE_D, .@opts, .@vals, .@prms;
+
+prontera,154,150,4&#9;script&#9;RandomOptionNPC&#9;767,{
+    mes "[Random NPC]";
+    mes "Here is a dagger with a random option.";
+    setarray .@opt_id[0], 1001; // Example Random Option ID
+    setarray .@opt_val[0], 5;
+    setarray .@opt_param[0], 0;
+    getitem3 1201, 1, 1, 0, 0, 0, 0, 0, 0, .@opt_id, .@opt_val, .@opt_param;
+    close;
+}
+
+//===== rAthena Script =======================================
+//= Name: Graded Item NPC
+//===== By: rAthena AI Assistant ============================
+//= Function: Demonstrates getitem4
+//============================================================
+
+prontera,156,150,4&#9;script&#9;GradedItemNPC&#9;767,{
+    mes "[Graded NPC]";
+    mes "Here is a high-grade dagger.";
+    setarray .@opt_id[0], 0;
+    setarray .@opt_val[0], 0;
+    setarray .@opt_param[0], 0;
+    // Grade A
+    getitem4 1201, 1, 1, 0, 0, 0, 0, 0, 0, ENCHANTGRADE_A, .@opt_id, .@opt_val, .@opt_param;
+    close;
+}
                         </pre>
                     </div>
                     <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
                         <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
                         <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
-                            <li><code>getitem4</code> is used to create an item with maximum customization: refine, cards, random options, and enchant grade D.</li>
+                            <li>In this script, two distinct NPCs are defined to demonstrate advanced item-creation commands in rAthena: the first NPC, RandomOptionNPC, utilizes the getitem3 command to award the player a Knife (1201) embedded with a specific random option (ID 1001, value 5, and parameter 0) defined via scope arrays, while the second NPC, GradedItemNPC, uses the getitem4 command to grant a Knife with an elite ENCHANTGRADE_A (Grade A) status while keeping its random option slots empty.</li>
                         </ul>
                     </div>
                 </div>
