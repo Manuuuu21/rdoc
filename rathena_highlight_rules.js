@@ -664,8 +664,7 @@ const mainTopicList = `
   <li><a href="/rdoc/page/rentitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rentitem, rentitem2, rentitem3, rentitem4</a></li>
   <li><a href="/rdoc/page/chatmes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">chatmes()</a></li>
   <li><a href="/rdoc/page/addtimer-deltimer-addtimercount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addtimer, deltimer, addtimercount</a></li>
-  <li><a href="/rdoc/page/initnpctimer-stopnpctimer-startnpctimer-setnpctimer-getnpctimer-attachnpctimer-detachnpctimer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer</a></li>
-`;
+  `;
 
 // Append the Show Case Script list at the Sidenav
 document.getElementById("rathena-topic-list").innerHTML = mainTopicList;
