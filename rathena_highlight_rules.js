@@ -318,14 +318,14 @@ const constantLibraryKeywords = [
 // Green highlight - Variables and variable manipulation
 const variableLanguageKeywords = [
 	// Original varHolderKeywords
-	"set", "killedrid", "setarray", "copyarray", "cleararray", "setd", "getd", "getvar", "getvariableofnpc", "getelementofarray", // Added from commands
+	"set", "killedrid", "setarray", "copyarray", "cleararray", "setd", "getd", "getvar", "getvariableofnpc", "getelementofarray", 
 	// Original specialVarKeywords
 	"Zeny", "Hp", "MaxHp", "Sp", "MaxSp", "StatusPoint", "SkillPoint", "BaseLevel",
 	"JobLevel", "BaseExp", "JobExp", "NextBaseExp", "NextJobExp", "Weight", "MaxWeight",
 	"Sex", "Class", "Upper", "BaseClass", "BaseJob", "Karma", "Manner", "Ap", "MaxAp",
 	// Original inventoryVar as prefixed vars - rule will handle prefix
 	"getarg", "getargcount", "strcharinfo", "strnpcinfo", "readparam", "getarraysize",
-	"bStr", "bAgi", "bVit", "bInt", "bDex", "bLuk", "bPow", "bSta", "bWis", "bSpl", "bCon", "bCrt" // base stats and traits
+	"bStr", "bAgi", "bVit", "bInt", "bDex", "bLuk", "bPow", "bSta", "bWis", "bSpl", "bCon", "bCrt" 
 ];
 
 const inventoryVarNames = [ // Just the names, prefix handled by regex
@@ -663,6 +663,8 @@ const mainTopicList = `
   <li><a href="/rdoc/page/getnameditem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnameditem</a></li>
   <li><a href="/rdoc/page/rentitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rentitem, rentitem2, rentitem3, rentitem4</a></li>
   <li><a href="/rdoc/page/chatmes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">chatmes()</a></li>
+  <li><a href="/rdoc/page/addtimer-deltimer-addtimercount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addtimer, deltimer, addtimercount</a></li>
+  <li><a href="/rdoc/page/initnpctimer-stopnpctimer-startnpctimer-setnpctimer-getnpctimer-attachnpctimer-detachnpctimer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer</a></li>
 `;
 
 // Append the Show Case Script list at the Sidenav
