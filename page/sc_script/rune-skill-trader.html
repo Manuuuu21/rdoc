@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rAthena Documentation</title>
+    <title>Rune Skill Trader - rAthena Documentation</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
@@ -73,9 +73,26 @@
             <div id="scripting" class="content-section mb-8">
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
                 <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Rune Skill Trader</h2>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    This is a Paragraph
-                </p>
+                <p class="text-gray-700 leading-relaxed mb-6">Rune Stone Trader is an NPC at Midgard Camp (mid_camp, 250, 239). After a short conversation with Marvin, it opens a Zeny shop containing nine Rune Stone item IDs, each listed at 50,000 Zeny in the supplied shop definition.</p>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">How this script works</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
+                    <li>The NPC displays its dialogue with <code>mes</code> and waits for the player to continue with <code>next</code>.</li>
+                    <li><code>callshop "Bokie_Shop",1</code> opens the shop’s buying interface.</li>
+                    <li>The separate <code>shop</code> declaration defines the stock using <code>itemID:price</code> pairs.</li>
+                    <li>The shop handles the purchase, while the NPC dialogue ends with <code>end</code>.</li>
+                </ol>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Configuration</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm text-left text-gray-700 border border-gray-200">
+                        <thead class="bg-gray-100"><tr><th scope="col" class="px-4 py-3">Setting</th><th scope="col" class="px-4 py-3">Current value</th><th scope="col" class="px-4 py-3">Explanation</th></tr></thead>
+                        <tbody><tr><td class="border-b px-4 py-3 align-top">NPC location</td><td class="border-b px-4 py-3 align-top"><code>mid_camp,250,239,3</code></td><td class="border-b px-4 py-3 align-top">Map, X coordinate, Y coordinate, and facing direction.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Shop name</td><td class="border-b px-4 py-3 align-top"><code>Bokie_Shop</code></td><td class="border-b px-4 py-3 align-top">Must match the name passed to callshop.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Stock item IDs</td><td class="border-b px-4 py-3 align-top"><code>12732, 12725–12731, 12733</code></td><td class="border-b px-4 py-3 align-top">The nine item IDs in the shop definition.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Listed unit price</td><td class="border-b px-4 py-3 align-top"><code>50000</code> Zeny</td><td class="border-b px-4 py-3 align-top">Change the price after each item’s colon to adjust its listed cost.</td></tr></tbody>
+                    </table>
+                </div>
+                <p class="text-gray-700 leading-relaxed mb-6"><strong>Customization:</strong> Add or remove <code>itemID:price</code> pairs in <code>Bokie_Shop</code> to change the inventory. Keep both the dialogue NPC and the shop declaration loaded so <code>callshop</code> can find its target.</p>
+
                 
 <div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
 <button class="copy-button">Copy</button>

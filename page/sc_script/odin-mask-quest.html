@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rAthena Documentation</title>
+    <title>Odin Mask Quest - rAthena Documentation</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
@@ -73,9 +73,29 @@
             <div id="scripting" class="content-section mb-8">
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
                 <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Odin Mask Quest</h2>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    This is a Paragraph
-                </p>
+                <p class="text-gray-700 leading-relaxed mb-6">The Odin Temple Scholar at Hugel (96, 231) crafts one Odin Mask (item 5483) in exchange for five configured materials. The NPC explains the quest, lists the required quantities using the server&#x27;s item names, and checks the player&#x27;s inventory before exchanging the items.</p>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">How this script works</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
+                    <li>The two requirement arrays pair each item ID with the quantity needed at the same array index.</li>
+                    <li>A loop displays the full material list using <code>getitemname</code>.</li>
+                    <li>When the player chooses to submit the materials, <code>countitem</code> checks every requirement. A missing material ends the exchange.</li>
+                    <li>If all requirements are met, another loop removes the materials with <code>delitem</code>, then <code>getitem</code> grants the Odin Mask.</li>
+                </ol>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Configuration</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm text-left text-gray-700 border border-gray-200">
+                        <thead class="bg-gray-100"><tr><th scope="col" class="px-4 py-3">Setting</th><th scope="col" class="px-4 py-3">Current value</th><th scope="col" class="px-4 py-3">Explanation</th></tr></thead>
+                        <tbody><tr><td class="border-b px-4 py-3 align-top">Material item ID</td><td class="border-b px-4 py-3 align-top">Required quantity</td><td class="border-b px-4 py-3 align-top">These values come from the two arrays in the script.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top"><code>7511</code></td><td class="border-b px-4 py-3 align-top">3,000</td><td class="border-b px-4 py-3 align-top">First material.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top"><code>2295</code></td><td class="border-b px-4 py-3 align-top">10</td><td class="border-b px-4 py-3 align-top">Second material.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top"><code>30343</code></td><td class="border-b px-4 py-3 align-top">70</td><td class="border-b px-4 py-3 align-top">Third material.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top"><code>30341</code></td><td class="border-b px-4 py-3 align-top">50</td><td class="border-b px-4 py-3 align-top">Fourth material.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top"><code>7615</code></td><td class="border-b px-4 py-3 align-top">100</td><td class="border-b px-4 py-3 align-top">Fifth material.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top"><code>@odinmaskItemID</code> / <code>@odinmaskItemAmount</code></td><td class="border-b px-4 py-3 align-top"><code>5483</code> / <code>1</code></td><td class="border-b px-4 py-3 align-top">Reward item and quantity.</td></tr></tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-600 leading-relaxed mb-6"><strong>Customization:</strong> Keep <code>.requiredItemID</code> and <code>.requiredItemAmount</code> aligned when editing the recipe. The displayed sample has no completion flag, so a player can repeat the exchange after collecting the materials again.</p>
+
                 
 <div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
 <button class="copy-button">Copy</button>

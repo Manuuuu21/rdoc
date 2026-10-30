@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rAthena Documentation</title>
+    <title>Hunting Board NPC - rAthena Documentation</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
@@ -73,9 +73,27 @@
             <div id="scripting" class="content-section mb-8">
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
                 <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Hunting Board NPC</h2>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    This is a Paragraph
-                </p>
+                <p class="text-gray-700 leading-relaxed mb-6">The Hunting Board NPC offers monster-hunting tasks through four boards in Prontera, with copies in Payon. Players choose a target, defeat the requested monsters, and return to a board to receive TCG Cards (item 7227). The board names describe suggested level ranges.</p>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">How this script works</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
+                    <li>When no quest is active, a menu sets the target monster ID, monster name, required kill count, and reward.</li>
+                    <li>The <code>@quest_active</code> flag and other <code>@quest_*</code> variables hold the player’s current task.</li>
+                    <li>Each <code>OnNPCKillEvent</code> handler compares <code>killedrid</code> with <code>@quest_mob_id</code>, increases the counter for a match, and displays progress with <code>dispbottom</code>.</li>
+                    <li>Talking to a board checks the counter. Once the target is met, <code>getitem</code> gives the reward and the script clears the quest variables.</li>
+                    <li>The <code>duplicate</code> declarations create the Payon copies using the corresponding Prontera boards.</li>
+                </ol>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Configuration</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm text-left text-gray-700 border border-gray-200">
+                        <thead class="bg-gray-100"><tr><th scope="col" class="px-4 py-3">Setting</th><th scope="col" class="px-4 py-3">Current value</th><th scope="col" class="px-4 py-3">Explanation</th></tr></thead>
+                        <tbody><tr><td class="border-b px-4 py-3 align-top"><code>@quest_mob_id</code></td><td class="border-b px-4 py-3 align-top">Set by each menu option</td><td class="border-b px-4 py-3 align-top">Monster ID used for the kill comparison.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top"><code>@quest_target</code></td><td class="border-b px-4 py-3 align-top">10, 15, 20, or 25; Queen Scaraba: 1</td><td class="border-b px-4 py-3 align-top">Kills required by the selected task.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top"><code>@quest_reward</code></td><td class="border-b px-4 py-3 align-top"><code>1</code></td><td class="border-b px-4 py-3 align-top">Number of TCG Cards awarded in the displayed sample.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Reward item</td><td class="border-b px-4 py-3 align-top"><code>7227</code></td><td class="border-b px-4 py-3 align-top">Item ID passed to getitem when the task is complete.</td></tr></tbody>
+                    </table>
+                </div>
+                <p class="text-gray-700 leading-relaxed mb-3"><strong>Example:</strong> Select the Poring task to set monster ID 1002, a target of 10 kills, and a reward of 1 TCG Card.</p><p class="text-sm text-gray-600 leading-relaxed mb-6"><strong>Current script behavior:</strong> The sample has no BaseLevel checks despite the board names. Its <code>@</code> quest variables are temporary. It also repeats the kill handler across the boards; use a single shared handler when adapting it to avoid counting the same kill more than once.</p>
+
                 
 <div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
 <button class="copy-button">Copy</button>

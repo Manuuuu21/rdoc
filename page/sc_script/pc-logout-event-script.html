@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rAthena Documentation</title>
+    <title>PC Logout Event Script - rAthena Documentation</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
@@ -73,9 +73,26 @@
             <div id="scripting" class="content-section mb-8">
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
                 <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">PC Logout Event Script</h2>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    This is a Paragraph
-                </p>
+                <p class="text-gray-700 leading-relaxed mb-6">LogoutHandler is a floating NPC that reacts when a player logs out. It checks the fishing flag stored at isFishing[getcharid(3)], clears that flag when it is set, and writes a message containing the character&#x27;s name to the server debug output.</p>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">How this script works</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
+                    <li>The floating NPC uses <code>-</code> instead of map coordinates, so it has no clickable NPC on a map.</li>
+                    <li><code>OnPCLogoutEvent</code> runs the handler for the departing player.</li>
+                    <li><code>getcharid(3)</code> supplies the account ID used as the array index in this sample.</li>
+                    <li>If the indexed value is nonzero, the script sets it to <code>0</code> and uses <code>debugmes</code> to record the logout.</li>
+                </ol>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Configuration</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm text-left text-gray-700 border border-gray-200">
+                        <thead class="bg-gray-100"><tr><th scope="col" class="px-4 py-3">Setting</th><th scope="col" class="px-4 py-3">Current value</th><th scope="col" class="px-4 py-3">Explanation</th></tr></thead>
+                        <tbody><tr><td class="border-b px-4 py-3 align-top">Event</td><td class="border-b px-4 py-3 align-top"><code>OnPCLogoutEvent</code></td><td class="border-b px-4 py-3 align-top">The entry point for logout handling.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Flag</td><td class="border-b px-4 py-3 align-top"><code>isFishing[getcharid(3)]</code></td><td class="border-b px-4 py-3 align-top">The fishing script must use the same variable and index for this check to find its state.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Reset value</td><td class="border-b px-4 py-3 align-top"><code>0</code></td><td class="border-b px-4 py-3 align-top">Marks the indexed fishing flag as inactive.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Log name</td><td class="border-b px-4 py-3 align-top"><code>strcharinfo(0)</code></td><td class="border-b px-4 py-3 align-top">The character name included in the debug message.</td></tr></tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-600 leading-relaxed mb-6"><strong>Integration:</strong> This handler only clears the flag shown above. It does not cancel timers or clear <code>@AutoFishing</code>. Match the cleanup to the variables used by the fishing system you are integrating.</p>
+
                 
 <div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
 <button class="copy-button">Copy</button>

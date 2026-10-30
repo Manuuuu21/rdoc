@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rAthena Documentation</title>
+    <title>Shadow Item Trader - rAthena Documentation</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
@@ -73,9 +73,26 @@
             <div id="scripting" class="content-section mb-8">
                 <!-- IMPORTANT NOTE: the Title should be the same as List -->
                 <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Shadow Item Trader</h2>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    This is a Paragraph
-                </p>
+                <p class="text-gray-700 leading-relaxed mb-6">Shadow Item Trader is an NPC at Prontera (164, 164) that opens a shop for Shadow equipment. Its itemshop definition uses item 7615 as the payment currency, with every listed piece priced at 10 units of that item.</p>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">How this script works</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
+                    <li>The player selects “Costume Shadow Item” from the NPC’s menu.</li>
+                    <li><code>callshop "cShadowItem",0</code> opens the matching item shop.</li>
+                    <li>The <code>itemshop</code> declaration specifies the currency item first, followed by the equipment IDs and their costs.</li>
+                    <li><code>OnInit</code> creates a “Shadow Item Trader” label above the NPC with <code>waitingroom</code>.</li>
+                </ol>
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Configuration</h3>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm text-left text-gray-700 border border-gray-200">
+                        <thead class="bg-gray-100"><tr><th scope="col" class="px-4 py-3">Setting</th><th scope="col" class="px-4 py-3">Current value</th><th scope="col" class="px-4 py-3">Explanation</th></tr></thead>
+                        <tbody><tr><td class="border-b px-4 py-3 align-top">NPC location</td><td class="border-b px-4 py-3 align-top"><code>prontera,164,164,3</code></td><td class="border-b px-4 py-3 align-top">Map, X coordinate, Y coordinate, and facing direction.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Shop name</td><td class="border-b px-4 py-3 align-top"><code>cShadowItem</code></td><td class="border-b px-4 py-3 align-top">Must match the shop referenced by callshop.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Currency item</td><td class="border-b px-4 py-3 align-top"><code>7615</code></td><td class="border-b px-4 py-3 align-top">The item consumed as payment by this item shop.</td></tr>
+<tr><td class="border-b px-4 py-3 align-top">Listed cost</td><td class="border-b px-4 py-3 align-top"><code>10</code> per piece</td><td class="border-b px-4 py-3 align-top">The number after the colon in each equipment entry.</td></tr></tbody>
+                    </table>
+                </div>
+                <p class="text-gray-700 leading-relaxed mb-6"><strong>Example:</strong> The entry <code>24243:10</code> lists item 24243 for 10 units of currency item 7615. Edit the currency ID or the individual item-and-cost pairs to change the exchange.</p>
+
                 
 <div class="pre_container"><div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
 <button class="copy-button">Copy</button>
