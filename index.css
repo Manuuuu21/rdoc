@@ -3,7 +3,77 @@ body {
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f0f2f5; /* Light gray background */
+    background-color: #b8cbd5;
+    isolation: isolate;
+}
+/* Prontera scenery and lights stay behind the readable documentation panels. */
+.prontera-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+.prontera-scenery {
+    position: absolute;
+    inset: -3%;
+    background: url('prontera-background.png') center center / cover no-repeat;
+}
+.prontera-breeze {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+.prontera-background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(31, 52, 70, .12);
+}
+.prontera-motes {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    --gutter: max(16px, calc((100vw - 1280px) / 2 + 16px));
+}
+.prontera-motes i {
+    position: absolute;
+    top: var(--top);
+    left: calc(var(--gutter) * var(--lane));
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: #fffbe3;
+    box-shadow: 0 0 7px 3px #ffe9aacc, 0 0 18px 6px #ffd87866;
+    opacity: 0;
+    animation: prontera-float var(--duration) ease-in-out var(--delay) infinite;
+}
+.prontera-motes i:nth-child(even) {
+    left: auto;
+    right: calc(var(--gutter) * var(--lane));
+}
+.prontera-motes.is-paused i {
+    animation-play-state: paused;
+}
+@keyframes prontera-float {
+    0% { transform: translate(0, 0); opacity: 0; }
+    15% { opacity: .9; }
+    50% { transform: translate(var(--dx), var(--dy)); opacity: .75; }
+    85% { opacity: .8; }
+    100% { transform: translate(var(--end-x), var(--end-y)); opacity: 0; }
+}
+@media (max-width: 800px) {
+    .prontera-motes { display: none; }
+    .prontera-motes i { animation: none; }
+}
+@media (max-width: 1100px) {
+    .prontera-breeze { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .prontera-breeze, .prontera-motes { display: none; }
+    .prontera-motes i { animation: none; }
 }
 /* Custom scrollbar for sidebar */
 .sidebar-scroll::-webkit-scrollbar {

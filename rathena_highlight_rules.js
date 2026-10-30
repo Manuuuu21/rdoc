@@ -595,6 +595,11 @@ modalContent.className = 'bg-white rounded-lg shadow-xl p-8 m-4 max-w-lg w-full 
 const _rdocScriptEl = document.currentScript || document.querySelector('script[src*="rathena_highlight_rules.js"]');
 const _rdocBase = _rdocScriptEl ? new URL('.', _rdocScriptEl.src).pathname.replace(/\/$/, '') : '/rdoc';
 
+// Share the same background on the home page, topics, and nested showcase pages.
+const backgroundScript = document.createElement('script');
+backgroundScript.src = `${_rdocBase}/background-breeze.js`;
+document.head.append(backgroundScript);
+
 const mainTopicList = `
 	<li><a href="/rdoc-main/index.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Introduction to rAthena Scripting</a></li>
   <li><a href="/rdoc-main/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
