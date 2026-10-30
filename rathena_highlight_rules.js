@@ -560,114 +560,549 @@ myModal.style.display = 'none'; // Initially hidden
 const modalContent = document.createElement('div');
 modalContent.className = 'bg-white rounded-lg shadow-xl p-8 m-4 max-w-lg w-full modal-content';
 
+const _rdocScriptEl = document.currentScript || document.querySelector('script[src*="rathena_highlight_rules.js"]');
+const _rdocBase = _rdocScriptEl ? new URL('.', _rdocScriptEl.src).pathname.replace(/\/$/, '') : '/rdoc';
+
 const mainTopicList = `
-	<li><a href="/rdoc/index.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Introduction to rAthena Scripting</a></li>
-  <li><a href="/rdoc/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
-  <li><a href="/rdoc/page/floating-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Floating NPC Script</a></li>
-  <li><a href="/rdoc/page/load-reloadnpcfile-unloadnpcfile.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">@load, @reloadnpcfile, @unloadnpcfile</a></li>
-  <li><a href="/rdoc/page/label.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">NPC Label</a></li>
-  <li><a href="/rdoc/page/function-callfunc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">function, callfunc</a></li>
-  <li><a href="/rdoc/page/callsub.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">callsub</a></li>
-  <li><a href="/rdoc/page/getarg.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getarg</a></li>
-  <li><a href="/rdoc/page/getargcount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getargcount</a></li>
-  <li><a href="/rdoc/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
-  <li><a href="/rdoc/page/close2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">close2</a></li>
-  <li><a href="/rdoc/page/input.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">input</a></li>
-  <li><a href="/rdoc/page/variables.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Variables</a></li>
-  <li><a href="/rdoc/page/set-setarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">set and setarray</a></li>
-  <li><a href="/rdoc/page/setd-getd.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setd, getd</a></li>
-  <li><a href="/rdoc/page/string.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">String</a></li>
-  <li><a href="/rdoc/page/comments.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Comments</a></li>
-  <li><a href="/rdoc/page/operators.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Operators</a></li>
-  <li><a href="/rdoc/page/monster.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">monster</a></li>
-  <li><a href="/rdoc/page/warp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warp</a></li>
-  <li><a href="/rdoc/page/shop-itemshop-cashshop-pointshop-marketshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">shop, itemshop, cashshop, pointshop, marketshop</a></li>
-  <li><a href="/rdoc/page/callshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">callshop</a></li>
-  <li><a href="/rdoc/page/select-prompt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">select(), prompt()</a></li>
-  <li><a href="/rdoc/page/menu.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">menu</a></li>
-  <li><a href="/rdoc/page/goto.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">goto</a></li>
-  <li><a href="/rdoc/page/navigateto.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">navigateto</a></li>
-  <li><a href="/rdoc/page/mesitemlink.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mesitemlink, &lt;ITEM&gt;&lt;INFO&gt;</a></li>
-  <li><a href="/rdoc/page/url-quest-msg-tipbox.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">&lt;URL>, &lt;QUEST>, &lt;MSG>, &lt;TIPBOX></a></li>
-  <li><a href="/rdoc/page/freeloop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">freeloop()</a></li>
-  <li><a href="/rdoc/page/strcharinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strcharinfo()</a></li>
-  <li><a href="/rdoc/page/convertpcinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">convertpcinfo()</a></li>
-  <li><a href="/rdoc/page/strnpcinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strnpcinfo()</a></li>
-  <li><a href="/rdoc/page/readparam.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">readparam()</a></li>
-  <li><a href="/rdoc/page/getarraysize.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getarraysize()</a></li>
-  <li><a href="/rdoc/page/getelementofarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getelementofarray()</a></li>
-  <li><a href="/rdoc/page/getcharid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getcharid()</a></li>
-  <li><a href="/rdoc/page/getnpcid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnpcid()</a></li>
-  <li><a href="/rdoc/page/getlook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getlook()</a></li>
-  <li><a href="/rdoc/page/getsavepoint.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getsavepoint()</a></li>
+	<li><a href="/rdoc-main/index.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Introduction to rAthena Scripting</a></li>
+  <li><a href="/rdoc-main/page/basic-npc-scripting-structure.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Basic NPC Scripting/Structure</a></li>
+  <li><a href="/rdoc-main/page/floating-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Floating NPC Script</a></li>
+  <li><a href="/rdoc-main/page/load-reloadnpcfile-unloadnpcfile.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">@load, @reloadnpcfile, @unloadnpcfile</a></li>
+  <li><a href="/rdoc-main/page/label.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">NPC Label</a></li>
+  <li><a href="/rdoc-main/page/function-callfunc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">function, callfunc</a></li>
+  <li><a href="/rdoc-main/page/callsub.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">callsub</a></li>
+  <li><a href="/rdoc-main/page/getarg.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getarg</a></li>
+  <li><a href="/rdoc-main/page/getargcount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getargcount</a></li>
+  <li><a href="/rdoc-main/page/mes-next-close.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mes, next, and close</a></li>
+  <li><a href="/rdoc-main/page/close2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">close2</a></li>
+  <li><a href="/rdoc-main/page/input.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">input</a></li>
+  <li><a href="/rdoc-main/page/variables.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Variables</a></li>
+  <li><a href="/rdoc-main/page/set-setarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">set and setarray</a></li>
+  <li><a href="/rdoc-main/page/setd-getd.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setd, getd</a></li>
+  <li><a href="/rdoc-main/page/string.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">String</a></li>
+  <li><a href="/rdoc-main/page/comments.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Comments</a></li>
+  <li><a href="/rdoc-main/page/operators.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Operators</a></li>
+  <li><a href="/rdoc-main/page/monster.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">monster</a></li>
+  <li><a href="/rdoc-main/page/warp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warp</a></li>
+  <li><a href="/rdoc-main/page/shop-itemshop-cashshop-pointshop-marketshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">shop, itemshop, cashshop, pointshop, marketshop</a></li>
+  <li><a href="/rdoc-main/page/callshop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">callshop</a></li>
+  <li><a href="/rdoc-main/page/select-prompt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">select(), prompt()</a></li>
+  <li><a href="/rdoc-main/page/menu.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">menu</a></li>
+  <li><a href="/rdoc-main/page/goto.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">goto</a></li>
+  <li><a href="/rdoc-main/page/navigateto.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">navigateto</a></li>
+  <li><a href="/rdoc-main/page/mesitemlink.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mesitemlink, &lt;ITEM&gt;&lt;INFO&gt;</a></li>
+  <li><a href="/rdoc-main/page/url-quest-msg-tipbox.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">&lt;URL>, &lt;QUEST>, &lt;MSG>, &lt;TIPBOX></a></li>
+  <li><a href="/rdoc-main/page/freeloop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">freeloop()</a></li>
+  <li><a href="/rdoc-main/page/strcharinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strcharinfo()</a></li>
+  <li><a href="/rdoc-main/page/convertpcinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">convertpcinfo()</a></li>
+  <li><a href="/rdoc-main/page/strnpcinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strnpcinfo()</a></li>
+  <li><a href="/rdoc-main/page/readparam.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">readparam()</a></li>
+  <li><a href="/rdoc-main/page/getarraysize.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getarraysize()</a></li>
+  <li><a href="/rdoc-main/page/getelementofarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getelementofarray()</a></li>
+  <li><a href="/rdoc-main/page/getcharid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getcharid()</a></li>
+  <li><a href="/rdoc-main/page/getnpcid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnpcid()</a></li>
+  <li><a href="/rdoc-main/page/getlook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getlook()</a></li>
+  <li><a href="/rdoc-main/page/getsavepoint.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getsavepoint()</a></li>
   
 
-  <li><a href="/rdoc/page/getequipid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipid()</a></li>
-  <li><a href="/rdoc/page/getequiprefinerycnt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiprefinerycnt()</a></li>
-  <li><a href="/rdoc/page/getinventorylist.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getinventorylist()</a></li>
-  <li><a href="/rdoc/page/getmapxy.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapxy()</a></li>
-  <li><a href="/rdoc/page/mapid2name.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mapid2name()</a></li>
-  <li><a href="/rdoc/page/getgmlevel.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgmlevel()</a></li>
-  <li><a href="/rdoc/page/getgroupid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgroupid()</a></li>
-  <li><a href="/rdoc/page/gettimetick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimetick()</a></li>
-	<li><a href="/rdoc/page/gettime.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettime()</a></li>
-  <li><a href="/rdoc/page/gettimestr.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimestr()</a></li>
-  <li><a href="/rdoc/page/getusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getusers()</a></li>
-  <li><a href="/rdoc/page/getmapusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapusers()</a></li>
-  <li><a href="/rdoc/page/getareausers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getareausers()</a></li>
-  <li><a href="/rdoc/page/getunits.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunits, getmapunits, getareaunits</a></li>
-	<li><a href="/rdoc/page/playerattached.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">playerattached()</a></li>
-  <li><a href="/rdoc/page/getattachedrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getattachedrid()</a></li>
-  <li><a href="/rdoc/page/isloggedin.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isloggedin()</a></li>
-  <li><a href="/rdoc/page/checkweight.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkweight()</a></li>
-  <li><a href="/rdoc/page/basicskillcheck.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">basicskillcheck()</a></li>
-  <li><a href="/rdoc/page/checkoption-setoption.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkoption, setoption</a></li>
-	<li><a href="/rdoc/page/setcart-checkcart.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setcart(), checkcart()</a></li>
-  <li><a href="/rdoc/page/setfalcon-checkfalcon.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setfalcon(), checkfalcon()</a></li>
-  <li><a href="/rdoc/page/setriding-checkriding.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setriding(), checkriding()</a></li>
-  <li><a href="/rdoc/page/setdragon-checkdragon.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setdragon(), checkdragon()</a></li>
-  <li><a href="/rdoc/page/setmadogear-checkmadogear.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmadogear(), checkmadogear()</a></li>
-  <li><a href="/rdoc/page/setmounting-ismounting.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmounting(), ismounting()</a></li>
-  <li><a href="/rdoc/page/checkwug.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkwug()</a></li>
-  <li><a href="/rdoc/page/checkvending.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkvending()</a></li>
-	<li><a href="/rdoc/page/checkidle.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkidle()</a></li>
-  <li><a href="/rdoc/page/isequipped.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isequipped()</a></li>
-  <li><a href="/rdoc/page/checkequipedcard.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkequipedcard()</a></li>
-  <li><a href="/rdoc/page/attachrid-detachrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">attachrid, detachrid</a></li>
-  <li><a href="/rdoc/page/addrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addrid()</a></li>
-  <li><a href="/rdoc/page/rid2name.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rid2name()</a></li>
-  <li><a href="/rdoc/page/message.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">message()</a></li>
-  <li><a href="/rdoc/page/dispbottom.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">dispbottom()</a></li>
-	<li><a href="/rdoc/page/showscript.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">showscript()</a></li>
-  <li><a href="/rdoc/page/areawarp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">areawarp()</a></li>
-  <li><a href="/rdoc/page/warpparty-warpguild-warppartner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warpparty(), warpguild(), warppartner()</a></li>
-  <li><a href="/rdoc/page/savepoint-save.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">savepoint(), save()</a></li>
-  <li><a href="/rdoc/page/heal-percentheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">heal, percentheal</a></li>
-  <li><a href="/rdoc/page/healap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">healap()</a></li>
-  <li><a href="/rdoc/page/itemheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">itemheal()</a></li>
-  <li><a href="/rdoc/page/recovery.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">recovery()</a></li>
-  <li><a href="/rdoc/page/jobchange.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobchange</a></li>
-  <li><a href="/rdoc/page/jobname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobname()</a></li>
-  <li><a href="/rdoc/page/eaclass.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">eaclass()</a></li>
-  <li><a href="/rdoc/page/roclass.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">roclass()</a></li>
-  <li><a href="/rdoc/page/changebase.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changebase</a></li>
-  <li><a href="/rdoc/page/classchange.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">classchange()</a></li>
-  <li><a href="/rdoc/page/changesex.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changesex()</a></li>
-  <li><a href="/rdoc/page/changecharsex.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changecharsex()</a></li>
-  <li><a href="/rdoc/page/setlook-changelook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setlook, changelook</a></li>
-  <li><a href="/rdoc/page/pushpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pushpc</a></li>
-  <li><a href="/rdoc/page/kick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">kick</a></li>
-  <li><a href="/rdoc/page/jobcanentermap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobcanentermap</a></li>
-  <li><a href="/rdoc/page/getitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitem, getitem2, getitem3, getitem4</a></li>
-  <li><a href="/rdoc/page/getitembound.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitembound, getitembound2, getitembound3, getitembound4</a></li>
-  <li><a href="/rdoc/page/getnameditem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnameditem</a></li>
-  <li><a href="/rdoc/page/rentitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rentitem, rentitem2, rentitem3, rentitem4</a></li>
-  <li><a href="/rdoc/page/chatmes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">chatmes()</a></li>
-  <li><a href="/rdoc/page/addtimer-deltimer-addtimercount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addtimer, deltimer, addtimercount</a></li>
+  <li><a href="/rdoc-main/page/getequipid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipid()</a></li>
+  <li><a href="/rdoc-main/page/getequiprefinerycnt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiprefinerycnt()</a></li>
+  <li><a href="/rdoc-main/page/getinventorylist.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getinventorylist()</a></li>
+  <li><a href="/rdoc-main/page/getmapxy.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapxy()</a></li>
+  <li><a href="/rdoc-main/page/mapid2name.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mapid2name()</a></li>
+  <li><a href="/rdoc-main/page/getgmlevel.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgmlevel()</a></li>
+  <li><a href="/rdoc-main/page/getgroupid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgroupid()</a></li>
+  <li><a href="/rdoc-main/page/gettimetick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimetick()</a></li>
+	<li><a href="/rdoc-main/page/gettime.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettime()</a></li>
+  <li><a href="/rdoc-main/page/gettimestr.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gettimestr()</a></li>
+  <li><a href="/rdoc-main/page/getusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getusers()</a></li>
+  <li><a href="/rdoc-main/page/getmapusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapusers()</a></li>
+  <li><a href="/rdoc-main/page/getareausers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getareausers()</a></li>
+  <li><a href="/rdoc-main/page/getunits.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunits, getmapunits, getareaunits</a></li>
+	<li><a href="/rdoc-main/page/playerattached.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">playerattached()</a></li>
+  <li><a href="/rdoc-main/page/getattachedrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getattachedrid()</a></li>
+  <li><a href="/rdoc-main/page/isloggedin.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isloggedin()</a></li>
+  <li><a href="/rdoc-main/page/checkweight.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkweight()</a></li>
+  <li><a href="/rdoc-main/page/basicskillcheck.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">basicskillcheck()</a></li>
+  <li><a href="/rdoc-main/page/checkoption-setoption.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkoption, setoption</a></li>
+	<li><a href="/rdoc-main/page/setcart-checkcart.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setcart(), checkcart()</a></li>
+  <li><a href="/rdoc-main/page/setfalcon-checkfalcon.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setfalcon(), checkfalcon()</a></li>
+  <li><a href="/rdoc-main/page/setriding-checkriding.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setriding(), checkriding()</a></li>
+  <li><a href="/rdoc-main/page/setdragon-checkdragon.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setdragon(), checkdragon()</a></li>
+  <li><a href="/rdoc-main/page/setmadogear-checkmadogear.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmadogear(), checkmadogear()</a></li>
+  <li><a href="/rdoc-main/page/setmounting-ismounting.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmounting(), ismounting()</a></li>
+  <li><a href="/rdoc-main/page/checkwug.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkwug()</a></li>
+  <li><a href="/rdoc-main/page/checkvending.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkvending()</a></li>
+	<li><a href="/rdoc-main/page/checkidle.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkidle()</a></li>
+  <li><a href="/rdoc-main/page/isequipped.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isequipped()</a></li>
+  <li><a href="/rdoc-main/page/checkequipedcard.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkequipedcard()</a></li>
+  <li><a href="/rdoc-main/page/attachrid-detachrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">attachrid, detachrid</a></li>
+  <li><a href="/rdoc-main/page/addrid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addrid()</a></li>
+  <li><a href="/rdoc-main/page/rid2name.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rid2name()</a></li>
+  <li><a href="/rdoc-main/page/message.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">message()</a></li>
+  <li><a href="/rdoc-main/page/dispbottom.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">dispbottom()</a></li>
+	<li><a href="/rdoc-main/page/showscript.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">showscript()</a></li>
+  <li><a href="/rdoc-main/page/areawarp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">areawarp()</a></li>
+  <li><a href="/rdoc-main/page/warpparty-warpguild-warppartner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warpparty(), warpguild(), warppartner()</a></li>
+  <li><a href="/rdoc-main/page/savepoint-save.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">savepoint(), save()</a></li>
+  <li><a href="/rdoc-main/page/heal-percentheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">heal, percentheal</a></li>
+  <li><a href="/rdoc-main/page/healap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">healap()</a></li>
+  <li><a href="/rdoc-main/page/itemheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">itemheal()</a></li>
+  <li><a href="/rdoc-main/page/recovery.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">recovery()</a></li>
+  <li><a href="/rdoc-main/page/jobchange.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobchange</a></li>
+  <li><a href="/rdoc-main/page/jobname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobname()</a></li>
+  <li><a href="/rdoc-main/page/eaclass.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">eaclass()</a></li>
+  <li><a href="/rdoc-main/page/roclass.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">roclass()</a></li>
+  <li><a href="/rdoc-main/page/changebase.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changebase</a></li>
+  <li><a href="/rdoc-main/page/classchange.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">classchange()</a></li>
+  <li><a href="/rdoc-main/page/changesex.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changesex()</a></li>
+  <li><a href="/rdoc-main/page/changecharsex.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changecharsex()</a></li>
+  <li><a href="/rdoc-main/page/setlook-changelook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setlook, changelook</a></li>
+  <li><a href="/rdoc-main/page/pushpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pushpc</a></li>
+  <li><a href="/rdoc-main/page/kick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">kick</a></li>
+  <li><a href="/rdoc-main/page/jobcanentermap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jobcanentermap</a></li>
+  <li><a href="/rdoc-main/page/getitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitem, getitem2, getitem3, getitem4</a></li>
+  <li><a href="/rdoc-main/page/getitembound.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitembound, getitembound2, getitembound3, getitembound4</a></li>
+  <li><a href="/rdoc-main/page/getnameditem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getnameditem</a></li>
+  <li><a href="/rdoc-main/page/rentitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rentitem, rentitem2, rentitem3, rentitem4</a></li>
+  <li><a href="/rdoc-main/page/chatmes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">chatmes()</a></li>
+  <li><a href="/rdoc-main/page/addtimer-deltimer-addtimercount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addtimer, deltimer, addtimercount</a></li>
+  <li><a href="/rdoc-main/page/clear.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">clear</a></li>
+  <li><a href="/rdoc-main/page/close3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">close3</a></li>
+  <li><a href="/rdoc-main/page/end.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">end</a></li>
+  <li><a href="/rdoc-main/page/getvariableofnpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getvariableofnpc()</a></li>
+  <li><a href="/rdoc-main/page/getvar.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getvar</a></li>
+  <li><a href="/rdoc-main/page/return.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">return</a></li>
+  <li><a href="/rdoc-main/page/is_function.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">is_function()</a></li>
+  <li><a href="/rdoc-main/page/if.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">if</a></li>
+  <li><a href="/rdoc-main/page/jump_zero.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">jump_zero</a></li>
+  <li><a href="/rdoc-main/page/switch.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">switch</a></li>
+  <li><a href="/rdoc-main/page/while.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">while</a></li>
+  <li><a href="/rdoc-main/page/for.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">for</a></li>
+  <li><a href="/rdoc-main/page/do.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">do</a></li>
+  <li><a href="/rdoc-main/page/cleararray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cleararray</a></li>
+  <li><a href="/rdoc-main/page/copyarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">copyarray</a></li>
+  <li><a href="/rdoc-main/page/deletearray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">deletearray</a></li>
+  <li><a href="/rdoc-main/page/inarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">inarray</a></li>
+  <li><a href="/rdoc-main/page/countinarray.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">countinarray</a></li>
+  <li><a href="/rdoc-main/page/getchildid-getmotherid-getfatherid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getchildid, getmotherid, getfatherid</a></li>
+  <li><a href="/rdoc-main/page/ispartneron.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">ispartneron()</a></li>
+  <li><a href="/rdoc-main/page/getpartnerid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getpartnerid()</a></li>
+  <li><a href="/rdoc-main/page/getcharip.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getcharip()</a></li>
+  <li><a href="/rdoc-main/page/vip_status.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">vip_status()</a></li>
+  <li><a href="/rdoc-main/page/vip_time.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">vip_time</a></li>
+  <li><a href="/rdoc-main/page/addspiritball.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addspiritball</a></li>
+  <li><a href="/rdoc-main/page/delspiritball.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">delspiritball</a></li>
+  <li><a href="/rdoc-main/page/countspiritball.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">countspiritball</a></li>
+  <li><a href="/rdoc-main/page/ignoretimeout.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">ignoretimeout</a></li>
+  <li><a href="/rdoc-main/page/getequipuniqueid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipuniqueid()</a></li>
+  <li><a href="/rdoc-main/page/getequipname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipname()</a></li>
+  <li><a href="/rdoc-main/page/getitemname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitemname()</a></li>
+  <li><a href="/rdoc-main/page/getbrokenid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getbrokenid()</a></li>
+  <li><a href="/rdoc-main/page/getequipisequiped.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipisequiped()</a></li>
+  <li><a href="/rdoc-main/page/getequipisenableref.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipisenableref()</a></li>
+  <li><a href="/rdoc-main/page/getequipweaponlv.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipweaponlv()</a></li>
+  <li><a href="/rdoc-main/page/getequiparmorlv.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiparmorlv()</a></li>
+  <li><a href="/rdoc-main/page/getequippercentrefinery.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequippercentrefinery()</a></li>
+  <li><a href="/rdoc-main/page/getequiprefinecost.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiprefinecost()</a></li>
+  <li><a href="/rdoc-main/page/getareadropitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getareadropitem()</a></li>
+  <li><a href="/rdoc-main/page/getequipcardcnt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipcardcnt()</a></li>
+  <li><a href="/rdoc-main/page/cardscnt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cardscnt()</a></li>
+  <li><a href="/rdoc-main/page/getrefine.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getrefine()</a></li>
+  <li><a href="/rdoc-main/page/getitemslots.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitemslots()</a></li>
+  <li><a href="/rdoc-main/page/getiteminfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getiteminfo()</a></li>
+  <li><a href="/rdoc-main/page/getequipcardid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequipcardid()</a></li>
+  <li><a href="/rdoc-main/page/mergeitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mergeitem, mergeitem2</a></li>
+  <li><a href="/rdoc-main/page/getequiptradability.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiptradability()</a></li>
+  <li><a href="/rdoc-main/page/identifyall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">identifyall()</a></li>
+  <li><a href="/rdoc-main/page/getenchantgrade.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getenchantgrade()</a></li>
+  <li><a href="/rdoc-main/page/getitempos.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getitempos()</a></li>
+  <li><a href="/rdoc-main/page/getguildname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getguildname()</a></li>
+  <li><a href="/rdoc-main/page/getguildmember.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getguildmember</a></li>
+  <li><a href="/rdoc-main/page/getguildmaster.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getguildmaster()</a></li>
+  <li><a href="/rdoc-main/page/getguildmasterid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getguildmasterid()</a></li>
+  <li><a href="/rdoc-main/page/getguildinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getguildinfo()</a></li>
+  <li><a href="/rdoc-main/page/is_guild_leader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">is_guild_leader()</a></li>
+  <li><a href="/rdoc-main/page/getcastlename.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getcastlename()</a></li>
+  <li><a href="/rdoc-main/page/getcastledata-setcastledata.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getcastledata, setcastledata</a></li>
+  <li><a href="/rdoc-main/page/getgdskilllv.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgdskilllv()</a></li>
+  <li><a href="/rdoc-main/page/requestguildinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">requestguildinfo</a></li>
+  <li><a href="/rdoc-main/page/getmapguildusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapguildusers()</a></li>
+  <li><a href="/rdoc-main/page/getskilllv.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getskilllv()</a></li>
+  <li><a href="/rdoc-main/page/getskilllist.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getskilllist()</a></li>
+  <li><a href="/rdoc-main/page/getrandmobid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getrandmobid()</a></li>
+  <li><a href="/rdoc-main/page/getmonsterinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmonsterinfo()</a></li>
+  <li><a href="/rdoc-main/page/getmobdrops.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmobdrops()</a></li>
+  <li><a href="/rdoc-main/page/skillpointcount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">skillpointcount()</a></li>
+  <li><a href="/rdoc-main/page/getscrate.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getscrate()</a></li>
+  <li><a href="/rdoc-main/page/checkchatting.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkchatting()</a></li>
+  <li><a href="/rdoc-main/page/agitcheck-agitcheck2-agitcheck3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">agitcheck, agitcheck2, agitcheck3</a></li>
+  <li><a href="/rdoc-main/page/isnight-isday.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isnight, isday</a></li>
+  <li><a href="/rdoc-main/page/checkre.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkre()</a></li>
+  <li><a href="/rdoc-main/page/getexp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getexp, getexp2</a></li>
+  <li><a href="/rdoc-main/page/getbaseexp_ratio.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getbaseexp_ratio()</a></li>
+  <li><a href="/rdoc-main/page/getjobexp_ratio.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getjobexp_ratio()</a></li>
+  <li><a href="/rdoc-main/page/recalculatestat.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">recalculatestat</a></li>
+  <li><a href="/rdoc-main/page/needed_status_point.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">needed_status_point()</a></li>
+  <li><a href="/rdoc-main/page/get_revision.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">get_revision()</a></li>
+  <li><a href="/rdoc-main/page/get_githash.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">get_githash()</a></li>
+  <li><a href="/rdoc-main/page/makeitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">makeitem, makeitem2, makeitem3, makeitem4</a></li>
+  <li><a href="/rdoc-main/page/cleanarea-cleanmap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cleanarea, cleanmap</a></li>
+  <li><a href="/rdoc-main/page/searchitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">searchitem</a></li>
+  <li><a href="/rdoc-main/page/delitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">delitem, delitem2, delitem3, delitem4</a></li>
+  <li><a href="/rdoc-main/page/cartdelitem-storagedelitem-guildstoragedelitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cartdelitem, storagedelitem, guildstoragedelitem, cartdelitem2, storagedelitem2, guildstoragedelitem2</a></li>
+  <li><a href="/rdoc-main/page/delitemidx.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">delitemidx</a></li>
+  <li><a href="/rdoc-main/page/countitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">countitem, countitem2, countitem3, countitem4</a></li>
+  <li><a href="/rdoc-main/page/cartcountitem-storagecountitem-guildstoragecountitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cartcountitem, storagecountitem, guildstoragecountitem, cartcountitem2, storagecountitem2, guildstoragecountitem2</a></li>
+  <li><a href="/rdoc-main/page/rentalcountitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rentalcountitem, rentalcountitem2, rentalcountitem3, rentalcountitem4</a></li>
+  <li><a href="/rdoc-main/page/countbound.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">countbound()</a></li>
+  <li><a href="/rdoc-main/page/groupranditem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">groupranditem</a></li>
+  <li><a href="/rdoc-main/page/getrandgroupitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getrandgroupitem</a></li>
+  <li><a href="/rdoc-main/page/getgroupitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getgroupitem</a></li>
+  <li><a href="/rdoc-main/page/enable_items-disable_items.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">enable_items, disable_items</a></li>
+  <li><a href="/rdoc-main/page/itemskill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">itemskill</a></li>
+  <li><a href="/rdoc-main/page/consumeitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">consumeitem</a></li>
+  <li><a href="/rdoc-main/page/produce.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">produce</a></li>
+  <li><a href="/rdoc-main/page/cooking.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cooking</a></li>
+  <li><a href="/rdoc-main/page/makerune.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">makerune</a></li>
+  <li><a href="/rdoc-main/page/successremovecards.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">successremovecards</a></li>
+  <li><a href="/rdoc-main/page/failedremovecards.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">failedremovecards</a></li>
+  <li><a href="/rdoc-main/page/repair.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">repair</a></li>
+  <li><a href="/rdoc-main/page/repairall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">repairall</a></li>
+  <li><a href="/rdoc-main/page/successrefitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">successrefitem</a></li>
+  <li><a href="/rdoc-main/page/failedrefitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">failedrefitem</a></li>
+  <li><a href="/rdoc-main/page/downrefitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">downrefitem</a></li>
+  <li><a href="/rdoc-main/page/unequip.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unequip</a></li>
+  <li><a href="/rdoc-main/page/delequip.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">delequip</a></li>
+  <li><a href="/rdoc-main/page/breakequip.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">breakequip</a></li>
+  <li><a href="/rdoc-main/page/clearitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">clearitem</a></li>
+  <li><a href="/rdoc-main/page/equip-autoequip.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">equip, autoequip</a></li>
+  <li><a href="/rdoc-main/page/buyingstore.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">buyingstore</a></li>
+  <li><a href="/rdoc-main/page/searchstores.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">searchstores</a></li>
+  <li><a href="/rdoc-main/page/enable_command-disable_command.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">enable_command, disable_command</a></li>
+  <li><a href="/rdoc-main/page/openstorage.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">openstorage</a></li>
+  <li><a href="/rdoc-main/page/openstorage2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">openstorage2</a></li>
+  <li><a href="/rdoc-main/page/openmail.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">openmail()</a></li>
+  <li><a href="/rdoc-main/page/mail.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mail</a></li>
+  <li><a href="/rdoc-main/page/openauction.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">openauction()</a></li>
+  <li><a href="/rdoc-main/page/guildopenstorage.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">guildopenstorage()</a></li>
+  <li><a href="/rdoc-main/page/guildopenstorage_log.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">guildopenstorage_log()</a></li>
+  <li><a href="/rdoc-main/page/guild_has_permission.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">guild_has_permission()</a></li>
+  <li><a href="/rdoc-main/page/guildchangegm.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">guildchangegm()</a></li>
+  <li><a href="/rdoc-main/page/guildgetexp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">guildgetexp</a></li>
+  <li><a href="/rdoc-main/page/guildskill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">guildskill</a></li>
+  <li><a href="/rdoc-main/page/resetlvl.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">resetlvl</a></li>
+  <li><a href="/rdoc-main/page/resetstatus.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">resetstatus()</a></li>
+  <li><a href="/rdoc-main/page/resetskill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">resetskill()</a></li>
+  <li><a href="/rdoc-main/page/resetfeel.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">resetfeel()</a></li>
+  <li><a href="/rdoc-main/page/resethate.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">resethate()</a></li>
+  <li><a href="/rdoc-main/page/sc_start-sc_end.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">sc_start, sc_start2, sc_start4, sc_end, sc_end_class</a></li>
+  <li><a href="/rdoc-main/page/getstatus.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getstatus()</a></li>
+  <li><a href="/rdoc-main/page/skilleffect.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">skilleffect</a></li>
+  <li><a href="/rdoc-main/page/npcskilleffect.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npcskilleffect</a></li>
+  <li><a href="/rdoc-main/page/specialeffect.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">specialeffect</a></li>
+  <li><a href="/rdoc-main/page/specialeffect2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">specialeffect2</a></li>
+  <li><a href="/rdoc-main/page/removespecialeffect.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">removespecialeffect</a></li>
+  <li><a href="/rdoc-main/page/removespecialeffect2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">removespecialeffect2</a></li>
+  <li><a href="/rdoc-main/page/statusup.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">statusup</a></li>
+  <li><a href="/rdoc-main/page/statusup2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">statusup2</a></li>
+  <li><a href="/rdoc-main/page/traitstatusup.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">traitstatusup</a></li>
+  <li><a href="/rdoc-main/page/traitstatusup2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">traitstatusup2</a></li>
+  <li><a href="/rdoc-main/page/bonus.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bonus, bonus2, bonus3, bonus4, bonus5</a></li>
+  <li><a href="/rdoc-main/page/autobonus.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">autobonus, autobonus2, autobonus3</a></li>
+  <li><a href="/rdoc-main/page/bonus_script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bonus_script</a></li>
+  <li><a href="/rdoc-main/page/bonus_script_clear.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bonus_script_clear</a></li>
+  <li><a href="/rdoc-main/page/plagiarizeskill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">plagiarizeskill</a></li>
+  <li><a href="/rdoc-main/page/plagiarizeskillreset.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">plagiarizeskillreset</a></li>
+  <li><a href="/rdoc-main/page/skill-addtoskill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">skill, addtoskill</a></li>
+  <li><a href="/rdoc-main/page/nude.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">nude</a></li>
+  <li><a href="/rdoc-main/page/sit-stand.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">sit, stand</a></li>
+  <li><a href="/rdoc-main/page/disguise-undisguise.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">disguise, undisguise</a></li>
+  <li><a href="/rdoc-main/page/transform-active_transform.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">transform, active_transform</a></li>
+  <li><a href="/rdoc-main/page/marriage.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">marriage()</a></li>
+  <li><a href="/rdoc-main/page/wedding.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">wedding</a></li>
+  <li><a href="/rdoc-main/page/divorce.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">divorce()</a></li>
+  <li><a href="/rdoc-main/page/adopt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">adopt()</a></li>
+  <li><a href="/rdoc-main/page/pcfollow-pcstopfollow.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pcfollow, pcstopfollow</a></li>
+  <li><a href="/rdoc-main/page/pcblockmove-unitblockmove.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pcblockmove, unitblockmove</a></li>
+  <li><a href="/rdoc-main/page/pcblockskill-unitblockskill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pcblockskill, unitblockskill</a></li>
+  <li><a href="/rdoc-main/page/setpcblock-getpcblock.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setpcblock, getpcblock</a></li>
+  <li><a href="/rdoc-main/page/macro_detector.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">macro_detector()</a></li>
+  <li><a href="/rdoc-main/page/permission_check.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">permission_check()</a></li>
+  <li><a href="/rdoc-main/page/permission_add-permission_remove.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">permission_add, permission_remove</a></li>
+  <li><a href="/rdoc-main/page/areamonster.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">areamonster</a></li>
+  <li><a href="/rdoc-main/page/areamobuseskill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">areamobuseskill</a></li>
+  <li><a href="/rdoc-main/page/killmonster.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">killmonster</a></li>
+  <li><a href="/rdoc-main/page/killmonsterall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">killmonsterall</a></li>
+  <li><a href="/rdoc-main/page/strmobinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strmobinfo()</a></li>
+  <li><a href="/rdoc-main/page/mobcount.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mobcount()</a></li>
+  <li><a href="/rdoc-main/page/clone.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">clone</a></li>
+  <li><a href="/rdoc-main/page/summon.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">summon</a></li>
+  <li><a href="/rdoc-main/page/addmonsterdrop-delmonsterdrop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addmonsterdrop, delmonsterdrop</a></li>
+  <li><a href="/rdoc-main/page/mob_setidleevent.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mob_setidleevent</a></li>
+  <li><a href="/rdoc-main/page/disablenpc-enablenpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">disablenpc, enablenpc</a></li>
+  <li><a href="/rdoc-main/page/hideonnpc-hideoffnpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">hideonnpc, hideoffnpc</a></li>
+  <li><a href="/rdoc-main/page/unloadnpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unloadnpc</a></li>
+  <li><a href="/rdoc-main/page/duplicate.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">duplicate</a></li>
+  <li><a href="/rdoc-main/page/duplicate_dynamic.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">duplicate_dynamic()</a></li>
+  <li><a href="/rdoc-main/page/cloakonnpc-cloakoffnpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cloakonnpc, cloakoffnpc</a></li>
+  <li><a href="/rdoc-main/page/cloakonnpcself-cloakoffnpcself.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cloakonnpcself, cloakoffnpcself</a></li>
+  <li><a href="/rdoc-main/page/isnpccloaked.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isnpccloaked</a></li>
+  <li><a href="/rdoc-main/page/doevent.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">doevent</a></li>
+  <li><a href="/rdoc-main/page/donpcevent.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">donpcevent</a></li>
+  <li><a href="/rdoc-main/page/cmdothernpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cmdothernpc</a></li>
+  <li><a href="/rdoc-main/page/npctalk.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npctalk</a></li>
+  <li><a href="/rdoc-main/page/setnpcdisplay.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setnpcdisplay()</a></li>
+  <li><a href="/rdoc-main/page/initnpctimer-npctimer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer</a></li>
+  <li><a href="/rdoc-main/page/sleep-sleep2-awake.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">sleep, sleep2, awake</a></li>
+  <li><a href="/rdoc-main/page/progressbar.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">progressbar</a></li>
+  <li><a href="/rdoc-main/page/progressbar_npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">progressbar_npc</a></li>
+  <li><a href="/rdoc-main/page/announce.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">announce</a></li>
+  <li><a href="/rdoc-main/page/mapannounce.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mapannounce</a></li>
+  <li><a href="/rdoc-main/page/areaannounce.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">areaannounce</a></li>
+  <li><a href="/rdoc-main/page/npcshopitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npcshopitem</a></li>
+  <li><a href="/rdoc-main/page/npcshopadditem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npcshopadditem</a></li>
+  <li><a href="/rdoc-main/page/npcshopdelitem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npcshopdelitem</a></li>
+  <li><a href="/rdoc-main/page/npcshopattach.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npcshopattach</a></li>
+  <li><a href="/rdoc-main/page/npcshopupdate.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npcshopupdate</a></li>
+  <li><a href="/rdoc-main/page/waitingroom.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">waitingroom</a></li>
+  <li><a href="/rdoc-main/page/delwaitingroom.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">delwaitingroom</a></li>
+  <li><a href="/rdoc-main/page/enablewaitingroomevent-disablewaitingroomevent.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">enablewaitingroomevent, disablewaitingroomevent, enablearena, disablearena</a></li>
+  <li><a href="/rdoc-main/page/getwaitingroomstate.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getwaitingroomstate()</a></li>
+  <li><a href="/rdoc-main/page/warpwaitingpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warpwaitingpc</a></li>
+  <li><a href="/rdoc-main/page/waitingroomkick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">waitingroomkick</a></li>
+  <li><a href="/rdoc-main/page/getwaitingroomusers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getwaitingroomusers</a></li>
+  <li><a href="/rdoc-main/page/kickwaitingroomall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">kickwaitingroomall</a></li>
+  <li><a href="/rdoc-main/page/setmapflagnosave.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmapflagnosave</a></li>
+  <li><a href="/rdoc-main/page/setmapflag.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setmapflag</a></li>
+  <li><a href="/rdoc-main/page/removemapflag.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">removemapflag</a></li>
+  <li><a href="/rdoc-main/page/getmapflag.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmapflag()</a></li>
+  <li><a href="/rdoc-main/page/setbattleflag-getbattleflag.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setbattleflag, getbattleflag</a></li>
+  <li><a href="/rdoc-main/page/warpportal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">warpportal</a></li>
+  <li><a href="/rdoc-main/page/mapwarp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mapwarp</a></li>
+  <li><a href="/rdoc-main/page/maprespawnguildid.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">maprespawnguildid</a></li>
+  <li><a href="/rdoc-main/page/agitstart-agitend.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">agitstart, agitend, agitstart2, agitend2, agitstart3, agitend3</a></li>
+  <li><a href="/rdoc-main/page/gvgon-gvgoff.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gvgon, gvgoff</a></li>
+  <li><a href="/rdoc-main/page/gvgon3-gvgoff3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gvgon3, gvgoff3</a></li>
+  <li><a href="/rdoc-main/page/flagemblem.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">flagemblem</a></li>
+  <li><a href="/rdoc-main/page/guardian.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">guardian</a></li>
+  <li><a href="/rdoc-main/page/guardianinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">guardianinfo()</a></li>
+  <li><a href="/rdoc-main/page/getguildalliance.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getguildalliance()</a></li>
+  <li><a href="/rdoc-main/page/npcspeed-npcwalkto-npcstop.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npcspeed, npcwalkto, npcstop</a></li>
+  <li><a href="/rdoc-main/page/movenpc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">movenpc</a></li>
+  <li><a href="/rdoc-main/page/debugmes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">debugmes</a></li>
+  <li><a href="/rdoc-main/page/errormes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">errormes</a></li>
+  <li><a href="/rdoc-main/page/logmes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">logmes</a></li>
+  <li><a href="/rdoc-main/page/globalmes.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">globalmes</a></li>
+  <li><a href="/rdoc-main/page/rand.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">rand()</a></li>
+  <li><a href="/rdoc-main/page/viewpoint.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">viewpoint</a></li>
+  <li><a href="/rdoc-main/page/viewpointmap.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">viewpointmap</a></li>
+  <li><a href="/rdoc-main/page/cutin.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cutin</a></li>
+  <li><a href="/rdoc-main/page/emotion.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">emotion</a></li>
+  <li><a href="/rdoc-main/page/misceffect.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">misceffect</a></li>
+  <li><a href="/rdoc-main/page/soundeffect-soundeffectall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">soundeffect, soundeffectall</a></li>
+  <li><a href="/rdoc-main/page/playBGM-playBGMall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">playBGM, playBGMall</a></li>
+  <li><a href="/rdoc-main/page/pvpon-pvpoff.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pvpon, pvpoff</a></li>
+  <li><a href="/rdoc-main/page/atcommand.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">atcommand</a></li>
+  <li><a href="/rdoc-main/page/charcommand.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">charcommand</a></li>
+  <li><a href="/rdoc-main/page/bindatcmd.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bindatcmd</a></li>
+  <li><a href="/rdoc-main/page/unbindatcmd.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unbindatcmd</a></li>
+  <li><a href="/rdoc-main/page/useatcmd.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">useatcmd</a></li>
+  <li><a href="/rdoc-main/page/camerainfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">camerainfo</a></li>
+  <li><a href="/rdoc-main/page/refineui.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">refineui()</a></li>
+  <li><a href="/rdoc-main/page/openstylist.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">openstylist()</a></li>
+  <li><a href="/rdoc-main/page/laphine_synthesis.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">laphine_synthesis()</a></li>
+  <li><a href="/rdoc-main/page/laphine_upgrade.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">laphine_upgrade()</a></li>
+  <li><a href="/rdoc-main/page/openbank.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">openbank()</a></li>
+  <li><a href="/rdoc-main/page/enchantgradeui.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">enchantgradeui</a></li>
+  <li><a href="/rdoc-main/page/set_reputation_points.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">set_reputation_points()</a></li>
+  <li><a href="/rdoc-main/page/get_reputation_points.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">get_reputation_points()</a></li>
+  <li><a href="/rdoc-main/page/add_reputation_points.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">add_reputation_points()</a></li>
+  <li><a href="/rdoc-main/page/item_reform.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">item_reform()</a></li>
+  <li><a href="/rdoc-main/page/item_enchant.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">item_enchant()</a></li>
+  <li><a href="/rdoc-main/page/opentips.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">opentips()</a></li>
+  <li><a href="/rdoc-main/page/specialpopup.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">specialpopup()</a></li>
+  <li><a href="/rdoc-main/page/unitwalk-unitwalkto.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unitwalk, unitwalkto</a></li>
+  <li><a href="/rdoc-main/page/unitattack.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unitattack</a></li>
+  <li><a href="/rdoc-main/page/unitkill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unitkill</a></li>
+  <li><a href="/rdoc-main/page/unitwarp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unitwarp</a></li>
+  <li><a href="/rdoc-main/page/unitstopattack.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unitstopattack</a></li>
+  <li><a href="/rdoc-main/page/unitstopwalk.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unitstopwalk</a></li>
+  <li><a href="/rdoc-main/page/unittalk.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unittalk</a></li>
+  <li><a href="/rdoc-main/page/unitskilluseid-unitskillusepos.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unitskilluseid, unitskillusepos</a></li>
+  <li><a href="/rdoc-main/page/unitexists.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">unitexists</a></li>
+  <li><a href="/rdoc-main/page/getunittype.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunittype</a></li>
+  <li><a href="/rdoc-main/page/getunitname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunitname</a></li>
+  <li><a href="/rdoc-main/page/setunitname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setunitname</a></li>
+  <li><a href="/rdoc-main/page/setunittitle.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setunittitle</a></li>
+  <li><a href="/rdoc-main/page/getunittitle.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunittitle</a></li>
+  <li><a href="/rdoc-main/page/getunitdata-setunitdata.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getunitdata, setunitdata</a></li>
+  <li><a href="/rdoc-main/page/geteleminfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">geteleminfo</a></li>
+  <li><a href="/rdoc-main/page/npcskill.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">npcskill</a></li>
+  <li><a href="/rdoc-main/page/day-night.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">day, night</a></li>
+  <li><a href="/rdoc-main/page/defpattern.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">defpattern, activatepset, deactivatepset, deletepset</a></li>
+  <li><a href="/rdoc-main/page/pow.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pow()</a></li>
+  <li><a href="/rdoc-main/page/sqrt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">sqrt()</a></li>
+  <li><a href="/rdoc-main/page/distance.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">distance()</a></li>
+  <li><a href="/rdoc-main/page/min-max.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">min, minimum, max, maximum</a></li>
+  <li><a href="/rdoc-main/page/cap_value.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">cap_value()</a></li>
+  <li><a href="/rdoc-main/page/round-ceil-floor.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">round, ceil, floor</a></li>
+  <li><a href="/rdoc-main/page/md5.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">md5()</a></li>
+  <li><a href="/rdoc-main/page/query_sql-query_logsql.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">query_sql, query_logsql</a></li>
+  <li><a href="/rdoc-main/page/escape_sql.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">escape_sql()</a></li>
+  <li><a href="/rdoc-main/page/setiteminfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setiteminfo()</a></li>
+  <li><a href="/rdoc-main/page/setitemscript.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setitemscript()</a></li>
+  <li><a href="/rdoc-main/page/atoi-axtoi-strtol.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">atoi, axtoi, strtol</a></li>
+  <li><a href="/rdoc-main/page/compare.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">compare()</a></li>
+  <li><a href="/rdoc-main/page/strcmp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strcmp()</a></li>
+  <li><a href="/rdoc-main/page/getstrlen.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getstrlen()</a></li>
+  <li><a href="/rdoc-main/page/charisalpha.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">charisalpha()</a></li>
+  <li><a href="/rdoc-main/page/charat.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">charat()</a></li>
+  <li><a href="/rdoc-main/page/setchar.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setchar()</a></li>
+  <li><a href="/rdoc-main/page/insertchar.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">insertchar()</a></li>
+  <li><a href="/rdoc-main/page/delchar.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">delchar()</a></li>
+  <li><a href="/rdoc-main/page/strtoupper-strtolower.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strtoupper, strtolower</a></li>
+  <li><a href="/rdoc-main/page/charisupper-charislower.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">charisupper, charislower</a></li>
+  <li><a href="/rdoc-main/page/substr.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">substr()</a></li>
+  <li><a href="/rdoc-main/page/explode.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">explode()</a></li>
+  <li><a href="/rdoc-main/page/implode.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">implode()</a></li>
+  <li><a href="/rdoc-main/page/sprintf.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">sprintf()</a></li>
+  <li><a href="/rdoc-main/page/sscanf.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">sscanf()</a></li>
+  <li><a href="/rdoc-main/page/strpos.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">strpos()</a></li>
+  <li><a href="/rdoc-main/page/replacestr.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">replacestr()</a></li>
+  <li><a href="/rdoc-main/page/countstr.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">countstr()</a></li>
+  <li><a href="/rdoc-main/page/preg_match.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">preg_match()</a></li>
+  <li><a href="/rdoc-main/page/setfont.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setfont</a></li>
+  <li><a href="/rdoc-main/page/showdigit.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">showdigit</a></li>
+  <li><a href="/rdoc-main/page/setcell.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setcell</a></li>
+  <li><a href="/rdoc-main/page/checkcell.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkcell()</a></li>
+  <li><a href="/rdoc-main/page/getfreecell.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getfreecell</a></li>
+  <li><a href="/rdoc-main/page/setwall-delwall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setwall, delwall</a></li>
+  <li><a href="/rdoc-main/page/checkwall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkwall</a></li>
+  <li><a href="/rdoc-main/page/readbook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">readbook</a></li>
+  <li><a href="/rdoc-main/page/open_roulette.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">open_roulette()</a></li>
+  <li><a href="/rdoc-main/page/naviregisterwarp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">naviregisterwarp()</a></li>
+  <li><a href="/rdoc-main/page/navihide.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">navihide</a></li>
+  <li><a href="/rdoc-main/page/instance_create.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_create()</a></li>
+  <li><a href="/rdoc-main/page/instance_destroy.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_destroy</a></li>
+  <li><a href="/rdoc-main/page/instance_enter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_enter()</a></li>
+  <li><a href="/rdoc-main/page/instance_npcname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_npcname()</a></li>
+  <li><a href="/rdoc-main/page/instance_mapname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_mapname()</a></li>
+  <li><a href="/rdoc-main/page/instance_id.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_id()</a></li>
+  <li><a href="/rdoc-main/page/instance_warpall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_warpall</a></li>
+  <li><a href="/rdoc-main/page/instance_announce.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_announce</a></li>
+  <li><a href="/rdoc-main/page/instance_check_party.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_check_party()</a></li>
+  <li><a href="/rdoc-main/page/instance_check_guild.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_check_guild()</a></li>
+  <li><a href="/rdoc-main/page/instance_check_clan.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_check_clan()</a></li>
+  <li><a href="/rdoc-main/page/instance_info.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_info()</a></li>
+  <li><a href="/rdoc-main/page/instance_live_info.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_live_info()</a></li>
+  <li><a href="/rdoc-main/page/instance_list.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">instance_list()</a></li>
+  <li><a href="/rdoc-main/page/getinstancevar.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getinstancevar()</a></li>
+  <li><a href="/rdoc-main/page/setinstancevar.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setinstancevar()</a></li>
+  <li><a href="/rdoc-main/page/questinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">questinfo</a></li>
+  <li><a href="/rdoc-main/page/questinfo_refresh.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">questinfo_refresh</a></li>
+  <li><a href="/rdoc-main/page/setquest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setquest</a></li>
+  <li><a href="/rdoc-main/page/completequest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">completequest</a></li>
+  <li><a href="/rdoc-main/page/erasequest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">erasequest</a></li>
+  <li><a href="/rdoc-main/page/changequest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">changequest</a></li>
+  <li><a href="/rdoc-main/page/checkquest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkquest()</a></li>
+  <li><a href="/rdoc-main/page/isbegin_quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isbegin_quest()</a></li>
+  <li><a href="/rdoc-main/page/showevent.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">showevent</a></li>
+  <li><a href="/rdoc-main/page/open_quest_ui.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">open_quest_ui</a></li>
+  <li><a href="/rdoc-main/page/waitingroom2bg_single.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">waitingroom2bg_single()</a></li>
+  <li><a href="/rdoc-main/page/waitingroom2bg.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">waitingroom2bg()</a></li>
+  <li><a href="/rdoc-main/page/bg_create.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_create()</a></li>
+  <li><a href="/rdoc-main/page/bg_join.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_join()</a></li>
+  <li><a href="/rdoc-main/page/bg_team_setxy.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_team_setxy</a></li>
+  <li><a href="/rdoc-main/page/bg_reserve.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_reserve()</a></li>
+  <li><a href="/rdoc-main/page/bg_unbook.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_unbook()</a></li>
+  <li><a href="/rdoc-main/page/bg_desert.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_desert()</a></li>
+  <li><a href="/rdoc-main/page/bg_warp.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_warp</a></li>
+  <li><a href="/rdoc-main/page/bg_monster.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_monster()</a></li>
+  <li><a href="/rdoc-main/page/bg_monster_set_team.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_monster_set_team</a></li>
+  <li><a href="/rdoc-main/page/bg_leave.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_leave</a></li>
+  <li><a href="/rdoc-main/page/bg_destroy.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_destroy</a></li>
+  <li><a href="/rdoc-main/page/areapercentheal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">areapercentheal</a></li>
+  <li><a href="/rdoc-main/page/bg_get_data.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_get_data()</a></li>
+  <li><a href="/rdoc-main/page/bg_getareausers.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_getareausers()</a></li>
+  <li><a href="/rdoc-main/page/bg_updatescore.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_updatescore</a></li>
+  <li><a href="/rdoc-main/page/bg_info.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bg_info()</a></li>
+  <li><a href="/rdoc-main/page/bpet-birthpet.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">bpet, birthpet</a></li>
+  <li><a href="/rdoc-main/page/pet-catchpet.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">pet, catchpet</a></li>
+  <li><a href="/rdoc-main/page/makepet.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">makepet</a></li>
+  <li><a href="/rdoc-main/page/getpetinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getpetinfo()</a></li>
+  <li><a href="/rdoc-main/page/petskillbonus.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">petskillbonus</a></li>
+  <li><a href="/rdoc-main/page/petrecovery.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">petrecovery</a></li>
+  <li><a href="/rdoc-main/page/petloot.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">petloot</a></li>
+  <li><a href="/rdoc-main/page/petskillsupport.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">petskillsupport</a></li>
+  <li><a href="/rdoc-main/page/petskillattack-petskillattack2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">petskillattack, petskillattack2</a></li>
+  <li><a href="/rdoc-main/page/petautobonus.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">petautobonus, petautobonus2, petautobonus3</a></li>
+  <li><a href="/rdoc-main/page/homevolution.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">homevolution</a></li>
+  <li><a href="/rdoc-main/page/morphembryo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">morphembryo</a></li>
+  <li><a href="/rdoc-main/page/hommutate.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">hommutate</a></li>
+  <li><a href="/rdoc-main/page/checkhomcall.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">checkhomcall()</a></li>
+  <li><a href="/rdoc-main/page/gethominfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">gethominfo()</a></li>
+  <li><a href="/rdoc-main/page/homshuffle.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">homshuffle</a></li>
+  <li><a href="/rdoc-main/page/addhomintimacy.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addhomintimacy</a></li>
+  <li><a href="/rdoc-main/page/mercenary_create.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mercenary_create</a></li>
+  <li><a href="/rdoc-main/page/mercenary_delete.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mercenary_delete</a></li>
+  <li><a href="/rdoc-main/page/mercenary_heal.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mercenary_heal</a></li>
+  <li><a href="/rdoc-main/page/mercenary_sc_start.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mercenary_sc_start</a></li>
+  <li><a href="/rdoc-main/page/mercenary_get_calls-mercenary_set_calls.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mercenary_get_calls, mercenary_set_calls</a></li>
+  <li><a href="/rdoc-main/page/mercenary_get_faith-mercenary_set_faith.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mercenary_get_faith, mercenary_set_faith</a></li>
+  <li><a href="/rdoc-main/page/getmercinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getmercinfo()</a></li>
+  <li><a href="/rdoc-main/page/getpartyname.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getpartyname()</a></li>
+  <li><a href="/rdoc-main/page/getpartymember.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getpartymember</a></li>
+  <li><a href="/rdoc-main/page/getpartyleader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getpartyleader()</a></li>
+  <li><a href="/rdoc-main/page/is_party_leader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">is_party_leader()</a></li>
+  <li><a href="/rdoc-main/page/party_create.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">party_create()</a></li>
+  <li><a href="/rdoc-main/page/party_destroy.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">party_destroy()</a></li>
+  <li><a href="/rdoc-main/page/party_addmember.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">party_addmember()</a></li>
+  <li><a href="/rdoc-main/page/party_delmember.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">party_delmember()</a></li>
+  <li><a href="/rdoc-main/page/party_changeleader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">party_changeleader()</a></li>
+  <li><a href="/rdoc-main/page/party_changeoption.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">party_changeoption()</a></li>
+  <li><a href="/rdoc-main/page/opendressroom.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">opendressroom()</a></li>
+  <li><a href="/rdoc-main/page/hateffect.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">hateffect()</a></li>
+  <li><a href="/rdoc-main/page/getrandomoptinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getrandomoptinfo()</a></li>
+  <li><a href="/rdoc-main/page/getequiprandomoption.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getequiprandomoption()</a></li>
+  <li><a href="/rdoc-main/page/setrandomoption.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setrandomoption()</a></li>
+  <li><a href="/rdoc-main/page/randomoptgroup.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">randomoptgroup</a></li>
+  <li><a href="/rdoc-main/page/clan_join.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">clan_join()</a></li>
+  <li><a href="/rdoc-main/page/clan_leave.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">clan_leave()</a></li>
+  <li><a href="/rdoc-main/page/itemlink.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">itemlink()</a></li>
+  <li><a href="/rdoc-main/page/mesitemicon.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">mesitemicon()</a></li>
+  <li><a href="/rdoc-main/page/channel_create.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_create</a></li>
+  <li><a href="/rdoc-main/page/channel_join.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_join</a></li>
+  <li><a href="/rdoc-main/page/channel_setopt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_setopt</a></li>
+  <li><a href="/rdoc-main/page/channel_getopt.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_getopt</a></li>
+  <li><a href="/rdoc-main/page/channel_setcolor.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_setcolor</a></li>
+  <li><a href="/rdoc-main/page/channel_setpass.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_setpass</a></li>
+  <li><a href="/rdoc-main/page/channel_setgroup-channel_setgroup2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_setgroup, channel_setgroup2</a></li>
+  <li><a href="/rdoc-main/page/channel_chat.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_chat</a></li>
+  <li><a href="/rdoc-main/page/channel_ban.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_ban</a></li>
+  <li><a href="/rdoc-main/page/channel_unban.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_unban</a></li>
+  <li><a href="/rdoc-main/page/channel_kick.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_kick</a></li>
+  <li><a href="/rdoc-main/page/channel_delete.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">channel_delete</a></li>
+  <li><a href="/rdoc-main/page/achievementadd.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">achievementadd()</a></li>
+  <li><a href="/rdoc-main/page/achievementremove.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">achievementremove()</a></li>
+  <li><a href="/rdoc-main/page/achievementinfo.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">achievementinfo()</a></li>
+  <li><a href="/rdoc-main/page/achievementcomplete.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">achievementcomplete()</a></li>
+  <li><a href="/rdoc-main/page/achievementexists.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">achievementexists()</a></li>
+  <li><a href="/rdoc-main/page/achievementupdate.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">achievementupdate()</a></li>
+  <li><a href="/rdoc-main/page/addfame.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">addfame()</a></li>
+  <li><a href="/rdoc-main/page/getfame.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getfame()</a></li>
+  <li><a href="/rdoc-main/page/getfamerank.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">getfamerank()</a></li>
+  <li><a href="/rdoc-main/page/isdead.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">isdead()</a></li>
+  <li><a href="/rdoc-main/page/has_autoloot.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">has_autoloot()</a></li>
+  <li><a href="/rdoc-main/page/autoloot.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">autoloot()</a></li>
+  <li><a href="/rdoc-main/page/setdialogalign.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setdialogalign()</a></li>
+  <li><a href="/rdoc-main/page/setdialogsize.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setdialogsize()</a></li>
+  <li><a href="/rdoc-main/page/setdialogpos.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setdialogpos()</a></li>
+  <li><a href="/rdoc-main/page/setdialogpospercent.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">setdialogpospercent()</a></li>
   `;
 
 // Append the Show Case Script list at the Sidenav
-document.getElementById("rathena-topic-list").innerHTML = mainTopicList;
+document.getElementById("rathena-topic-list").innerHTML = mainTopicList.replaceAll('/rdoc-main/', `${_rdocBase}/`);
 
 const title = document.getElementById("rathena-topic-title").textContent.trim().toLowerCase();
 const links = document.querySelectorAll("#rathena-topic-list li a");
@@ -696,72 +1131,72 @@ links.forEach((a, index) => {
 });
 
 const showCaseList = `
-	<li><a href="/rdoc/page/sc_script/bloody-branch-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Bloody Branch Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/hunting-board-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hunting Board NPC</a></li>
-  <li><a href="/rdoc/page/sc_script/newbie-freebies.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Newbie Freebies</a></li>
-  <li><a href="/rdoc/page/sc_script/server-announcement.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Server Announcement</a></li>
-  <li><a href="/rdoc/page/sc_script/tcg-buyer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Buyer</a></li>
-  <li><a href="/rdoc/page/sc_script/last-fallen-warrior-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Last Fallen Warrior Event</a></li>
-  <li><a href="/rdoc/page/sc_script/fabre-hunt-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Hunt Event</a></li>
-  <li><a href="/rdoc/page/sc_script/gm-summon-treasure-box-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Summon Treasure Box Event</a></li>
-  <li><a href="/rdoc/page/sc_script/autoasura.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autoasura</a></li>
-  <li><a href="/rdoc/page/sc_script/berry-ticket-seller.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Ticket Seller</a></li>
-  <li><a href="/rdoc/page/sc_script/dual-client-kick-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Dual Client Kick Script</a></li>
-  <li><a href="/rdoc/page/sc_script/fabre-punch-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Punch Event</a></li>
-  <li><a href="/rdoc/page/sc_script/holiday-announcer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holiday Announcer</a></li>
-  <li><a href="/rdoc/page/sc_script/sex-changer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Sex Changer</a></li>
-  <li><a href="/rdoc/page/sc_script/autopots.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autopots</a></li>
-  <li><a href="/rdoc/page/sc_script/c-master-of-wind-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">C. Master of Wind Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/advance-clone-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Advance Clone Script</a></li>
-  <li><a href="/rdoc/page/sc_script/falcon-rental-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Falcon Rental NPC</a></li>
-  <li><a href="/rdoc/page/sc_script/fishing-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fishing Event</a></li>
-  <li><a href="/rdoc/page/sc_script/global-item-deleter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Item Deleter</a></li>
-  <li><a href="/rdoc/page/sc_script/geffen-tower-summit-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Geffen Tower Summit Event</a></li>
-  <li><a href="/rdoc/page/sc_script/hide-and-seek-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hide and Seek Event</a></li>
-  <li><a href="/rdoc/page/sc_script/mushroom-kill-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Mushroom Kill Event</a></li>
-  <li><a href="/rdoc/page/sc_script/my-character-id-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">My Character ID Script</a></li>
-  <li><a href="/rdoc/page/sc_script/real-poring-hunt-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Real Poring Hunt Event</a></li>
-  <li><a href="/rdoc/page/sc_script/treasure-box-spawner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Treasure Box Spawner</a></li>
-  <li><a href="/rdoc/page/sc_script/gm-promoter-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Promoter Event</a></li>
-  <li><a href="/rdoc/page/sc_script/rename-ticket-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rename Ticket Script</a></li>
-  <li><a href="/rdoc/page/sc_script/tcg-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/ticket-refiner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ticket Refiner</a></li>
-  <li><a href="/rdoc/page/sc_script/activity-token-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Activity Token Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/event-token-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Event Token Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/ayothaya-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ayothaya HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/berry-exchanger-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Exchanger NPC</a></li>
-  <li><a href="/rdoc/page/sc_script/body-style-changer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Body Style Changer</a></li>
-  <li><a href="/rdoc/page/sc_script/cheap-costume-item-enchanter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Cheap Costume Item Enchanter</a></li>
-  <li><a href="/rdoc/page/sc_script/payon-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Payon HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/christmas-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Christmas HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/coin-zeny-exchanger.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Coin Zeny Exchanger</a></li>
-  <li><a href="/rdoc/page/sc_script/costume-item-enchanter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Costume Item Enchanter</a></li>
-  <li><a href="/rdoc/page/sc_script/enable-pvp-town-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Enable PVP Town Script</a></li>
-  <li><a href="/rdoc/page/sc_script/global-player-hp-configuration-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Player HP Configuration Script</a></li>
-  <li><a href="/rdoc/page/sc_script/gold-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gold Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/gonryun-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gonryun HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/he-bubble-gum-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">HE Bubble Gum Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/holloween-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holloween HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/icepick-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/icepick-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/jobs-item-dealer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Jobs Item Dealer</a></li>
-  <li><a href="/rdoc/page/sc_script/kaho-maker-1.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 1</a></li>
-  <li><a href="/rdoc/page/sc_script/kaho-maker-2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 2</a></li>
-  <li><a href="/rdoc/page/sc_script/kaho-maker-3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 3</a></li>
-  <li><a href="/rdoc/page/sc_script/kaho-maker-4.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 4</a></li>
-  <li><a href="/rdoc/page/sc_script/lucky-9-game-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Lucky 9 Game NPC</a></li>
-  <li><a href="/rdoc/page/sc_script/monster-invasion-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Monster Invasion Script</a></li>
-  <li><a href="/rdoc/page/sc_script/mvp-voucher-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">MVP Voucher Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/odin-mask-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Odin Mask Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/pc-logout-event-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">PC Logout Event Script</a></li>
-  <li><a href="/rdoc/page/sc_script/prontera-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Prontera HG Quest</a></li>
-  <li><a href="/rdoc/page/sc_script/rune-skill-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rune Skill Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/shadow-item-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Shadow Item Trader</a></li>
-  <li><a href="/rdoc/page/sc_script/stats-seller.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Stats Seller</a></li>
+	<li><a href="/rdoc-main/page/sc_script/bloody-branch-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Bloody Branch Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/hunting-board-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hunting Board NPC</a></li>
+  <li><a href="/rdoc-main/page/sc_script/newbie-freebies.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Newbie Freebies</a></li>
+  <li><a href="/rdoc-main/page/sc_script/server-announcement.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Server Announcement</a></li>
+  <li><a href="/rdoc-main/page/sc_script/tcg-buyer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Buyer</a></li>
+  <li><a href="/rdoc-main/page/sc_script/last-fallen-warrior-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Last Fallen Warrior Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/fabre-hunt-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Hunt Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/gm-summon-treasure-box-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Summon Treasure Box Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/autoasura.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autoasura</a></li>
+  <li><a href="/rdoc-main/page/sc_script/berry-ticket-seller.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Ticket Seller</a></li>
+  <li><a href="/rdoc-main/page/sc_script/dual-client-kick-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Dual Client Kick Script</a></li>
+  <li><a href="/rdoc-main/page/sc_script/fabre-punch-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fabre Punch Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/holiday-announcer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holiday Announcer</a></li>
+  <li><a href="/rdoc-main/page/sc_script/sex-changer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Sex Changer</a></li>
+  <li><a href="/rdoc-main/page/sc_script/autopots.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Autopots</a></li>
+  <li><a href="/rdoc-main/page/sc_script/c-master-of-wind-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">C. Master of Wind Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/advance-clone-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Advance Clone Script</a></li>
+  <li><a href="/rdoc-main/page/sc_script/falcon-rental-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Falcon Rental NPC</a></li>
+  <li><a href="/rdoc-main/page/sc_script/fishing-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Fishing Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/global-item-deleter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Item Deleter</a></li>
+  <li><a href="/rdoc-main/page/sc_script/geffen-tower-summit-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Geffen Tower Summit Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/hide-and-seek-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Hide and Seek Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/mushroom-kill-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Mushroom Kill Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/my-character-id-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">My Character ID Script</a></li>
+  <li><a href="/rdoc-main/page/sc_script/real-poring-hunt-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Real Poring Hunt Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/treasure-box-spawner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Treasure Box Spawner</a></li>
+  <li><a href="/rdoc-main/page/sc_script/gm-promoter-event.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">GM Promoter Event</a></li>
+  <li><a href="/rdoc-main/page/sc_script/rename-ticket-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rename Ticket Script</a></li>
+  <li><a href="/rdoc-main/page/sc_script/tcg-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">TCG Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/ticket-refiner.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ticket Refiner</a></li>
+  <li><a href="/rdoc-main/page/sc_script/activity-token-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Activity Token Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/event-token-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Event Token Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/ayothaya-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Ayothaya HG Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/berry-exchanger-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Berry Exchanger NPC</a></li>
+  <li><a href="/rdoc-main/page/sc_script/body-style-changer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Body Style Changer</a></li>
+  <li><a href="/rdoc-main/page/sc_script/cheap-costume-item-enchanter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Cheap Costume Item Enchanter</a></li>
+  <li><a href="/rdoc-main/page/sc_script/payon-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Payon HG Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/christmas-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Christmas HG Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/coin-zeny-exchanger.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Coin Zeny Exchanger</a></li>
+  <li><a href="/rdoc-main/page/sc_script/costume-item-enchanter.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Costume Item Enchanter</a></li>
+  <li><a href="/rdoc-main/page/sc_script/enable-pvp-town-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Enable PVP Town Script</a></li>
+  <li><a href="/rdoc-main/page/sc_script/global-player-hp-configuration-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Global Player HP Configuration Script</a></li>
+  <li><a href="/rdoc-main/page/sc_script/gold-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gold Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/gonryun-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Gonryun HG Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/he-bubble-gum-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">HE Bubble Gum Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/holloween-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Holloween HG Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/icepick-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/icepick-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Icepick Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/jobs-item-dealer.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Jobs Item Dealer</a></li>
+  <li><a href="/rdoc-main/page/sc_script/kaho-maker-1.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 1</a></li>
+  <li><a href="/rdoc-main/page/sc_script/kaho-maker-2.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 2</a></li>
+  <li><a href="/rdoc-main/page/sc_script/kaho-maker-3.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 3</a></li>
+  <li><a href="/rdoc-main/page/sc_script/kaho-maker-4.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Kaho Maker 4</a></li>
+  <li><a href="/rdoc-main/page/sc_script/lucky-9-game-npc.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Lucky 9 Game NPC</a></li>
+  <li><a href="/rdoc-main/page/sc_script/monster-invasion-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Monster Invasion Script</a></li>
+  <li><a href="/rdoc-main/page/sc_script/mvp-voucher-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">MVP Voucher Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/odin-mask-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Odin Mask Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/pc-logout-event-script.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">PC Logout Event Script</a></li>
+  <li><a href="/rdoc-main/page/sc_script/prontera-hg-quest.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Prontera HG Quest</a></li>
+  <li><a href="/rdoc-main/page/sc_script/rune-skill-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Rune Skill Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/shadow-item-trader.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Shadow Item Trader</a></li>
+  <li><a href="/rdoc-main/page/sc_script/stats-seller.html" class="sidebar-link block p-2 rounded-md hover:bg-blue-100 text-gray-700 font-medium transition-colors duration-200">Stats Seller</a></li>
 `;
 
 // Append the Show Case Script list at the Sidenav
-document.getElementById("show-case-list").innerHTML = showCaseList;
+document.getElementById("show-case-list").innerHTML = showCaseList.replaceAll('/rdoc-main/', `${_rdocBase}/`);
 
 const showCaselistItems = document.querySelectorAll("#show-case-list li a");
 showCaselistItems.forEach((a, index) => {
@@ -806,10 +1241,10 @@ modalContent.innerHTML = `
         <!-- Filterable List -->
         <ul id="filterableList" class="space-y-2" style="height: 260px;overflow-y:scroll;font-size:13px;">
 					<!-- Main Topic -->
-          ${mainTopicList}
+          ${mainTopicList.replaceAll('/rdoc-main/', `${_rdocBase}/`)}
 
 					<!-- Showcase Script -->
-					${showCaseList}
+					${showCaseList.replaceAll('/rdoc-main/', `${_rdocBase}/`)}
         </ul>
     </div>
 `;
@@ -936,8 +1371,8 @@ videos.forEach(video => {
 });
 
 document.getElementById("custom_ad_container").innerHTML = `
-	<a id="custom_ad1" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank"><img src="/rdoc/page/img/rte_ad.png" width="100%" style="height:auto"></a>
-  <a id="custom_ad2" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank" style="display:none;"><img src="/rdoc/page/img/rte_ad2.png" width="100%" style="height:auto"></a>
+	<a id="custom_ad1" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank"><img src="${_rdocBase}/page/img/rte_ad.png" width="100%" style="height:auto"></a>
+  <a id="custom_ad2" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank" style="display:none;"><img src="${_rdocBase}/page/img/rte_ad2.png" width="100%" style="height:auto"></a>
 `;
 
 let showFirst = true;
@@ -963,7 +1398,7 @@ const sections = document.querySelectorAll('.content-section');
 sections.forEach(section => {
   section.insertAdjacentHTML('beforeend', `
     <br/><hr/><br/>
-    <a id="footer_custom_ad1" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank"><img src="/rdoc/page/img/rte_ad2.png" width="100%" style="height:auto"></a>
-    <a id="footer_custom_ad2" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank" style="display:none;"><img src="/rdoc/page/img/rte_ad.png" width="100%" style="height:auto"></a>
+    <a id="footer_custom_ad1" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank"><img src="${_rdocBase}/page/img/rte_ad2.png" width="100%" style="height:auto"></a>
+    <a id="footer_custom_ad2" href="https://manuuuu21.github.io/rAthena-Text-Editor/" target="_blank" style="display:none;"><img src="${_rdocBase}/page/img/rte_ad.png" width="100%" style="height:auto"></a>
   `);
 });

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - mail</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 320px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">mail</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is mail? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This command will send <code>mail</code> to the <code>&lt;destination id&gt;</code> which is a character ID. A <code>&lt;sender name&gt;</code> can be specified but does not have to be from the direct creator of the <code>mail</code> and is limited to <code>NAME_LENGTH</code> (24) characters. Mail <code>&lt;title&gt;</code> is limited to <code>MAIL_TITLE_LENGTH</code> (40) characters. Mail <code>&lt;body&gt;</code> is limited to <code>MAIL_BODY_LENGTH</code> (200) characters for PACKETVER &lt; 20150513 or 500 characters for later clients.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Optional <code>&lt;zeny&gt;</code> and item data can be added to the <code>mail</code> as well. PACKETVER &lt; 20150513 is limited to 1 item while later clients are limited to <code>MAIL_MAX_ITEM</code> (5).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>&lt;item id array&gt;</code>, <code>&lt;item amount array&gt;</code>, <code>&lt;item card0 array&gt;</code>, <code>&lt;item card1 array&gt;</code>, <code>&lt;item card2 array&gt;</code>, and <code>&lt;item card3 array&gt;</code> should all be integer arrays.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    For random options there can be 5 arrays in pairs of 3 (ids, values, parameters) right after the cards. All of these arrays shall be integer arrays as well.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of mail 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>mail &lt;destination id&gt;,"&lt;sender name&gt;","&lt;title&gt;","&lt;body&gt;"{,&lt;zeny&gt;{,&lt;item id array&gt;,&lt;item amount array&gt;{,refine{,bound{,&lt;item card0 array&gt;{,&lt;item card1 array&gt;{,&lt;item card2 array&gt;{,&lt;item card3 array&gt; {,&lt;random option id0 array&gt;, &lt;random option value0 array&gt;, &lt;random option paramter0 array&gt;{,&lt;random option id1 array&gt;, &lt;random option value1 array&gt;, &lt;random option paramter1 array&gt; {,&lt;random option id2 array&gt;, &lt;random option value2 array&gt;, &lt;random option paramter2 array&gt;{,&lt;random option id3 array&gt;, &lt;random option value3 array&gt;, &lt;random option paramter3 array&gt; {,&lt;random option id4 array&gt;, &lt;random option value4 array&gt;, &lt;random option paramter4 array&gt;}}}}}}}}};</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;,&gt;"</code></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;,&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;destination id&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;destination id&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;sender name&gt;"</code></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;sender name&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;title&gt;"</code></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;title&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;body&gt;"</code></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;body&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;zeny&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;zeny&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;item id array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;item id array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;item amount array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;item amount array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;item card0 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;item card0 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;item card1 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;item card1 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;item card2 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;item card2 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;item card3 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;item card3 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option id0 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option id0 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option value0 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option value0 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option paramter0 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option paramter0 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option id1 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option id1 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option value1 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option value1 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option paramter1 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option paramter1 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option id2 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option id2 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option value2 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option value2 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option paramter2 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option paramter2 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option id3 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option id3 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option value3 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option value3 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option paramter3 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option paramter3 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option id4 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option id4 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option value4 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option value4 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;random option paramter4 array&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Array</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;random option paramter4 array&gt;</code> parameter for <code>mail</code>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= mail Demonstration NPC
+//= Demonstrates how to use mail
+//============================================================
+prontera,150,150,4	script	MailDemo	100,{
+    mes "[MailDemo]";
+    .@charid = getcharid(0);
+        .@sender$ = "Poring";
+        .@title$ = "Welcome";
+        .@body$ = "Hi! I'm a simple Poring from the Prontera fields! Welcome to Ragnarok!";
+        .@zeny = 5000;
+        mail .@charid, .@sender$, .@title$, .@body$, .@zeny;
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>The script defines an NPC object on <code>prontera</code> (or the target map) that triggers when a player interacts with it.</li>
+                            <li>It invokes <code>mail</code> with the required arguments as specified in the rAthena scripting reference.</li>
+                            <li>Any resulting state change, return value, or player/unit update is processed immediately within the active script execution context.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 2:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= mail Demonstration NPC
+//= Demonstrates how to use mail
+//============================================================
+prontera,150,150,4	script	MailDemo	100,{
+    mes "[MailDemo]";
+    .@charid = getcharid(0);
+        .@sender$ = "Angeling";
+        .@title$ = "Welcome";
+        .@body$ = "Hi! I'm a simple Angeling from the Prontera fields! Welcome to Ragnarok!";
+        .@zeny = 0;
+        setarray .@mailitem[0], 504, 505, 2220, 1214; // White Potion, Blue Potion, Hat, Dagger
+        setarray .@mailamount[0], 10, 5, 1, 1; // 10 White Potions, 5 Blue Potions, 1 Hat, 1 Dagger
+        setarray .@mailrefine[0], 0, 0, 3, 10; // +3 Hat, +10 Dagger
+        setarray .@mailbound[0], 0, 0, Bound_Account, Bound_Char; // Account bounded Hat, Char bounded Dagger
+        setarray .@mailcard0[0], 0, 0, 4198, 4092; // Attach Maya Purple Card to the Hat, Attach Skeleton Worker Card to Dagger
+        setarray .@mailcard1[0], 0, 0, 0, 4092; // Attach Skeleton Worker Card to Dagger
+        setarray .@mailcard2[0], 0, 0, 0, 4092; // Attach Skeleton Worker Card to Dagger
+        mail .@charid, .@sender$, .@title$, .@body$, .@zeny, .@mailitem, .@mailamount, .@mailrefine, .@mailbound, .@mailcard0, .@mailcard1, .@mailcard2;
+    close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 3:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= mail Demonstration NPC
+//= Demonstrates how to use mail
+//============================================================
+prontera,150,150,4	script	MailDemo	100,{
+    mes "[MailDemo]";
+    .@charid = getcharid(0);
+        .@sender$ = "Angeling";
+        .@title$ = "Welcome";
+        .@body$ = "Hi! I'm a simple Angeling from the Prontera fields! Welcome to Ragnarok!";
+        .@zeny = 0;
+        setarray .@mailitem[0], 504, 505, 2220, 1214; // White Potion, Blue Potion, Hat, Dagger
+        setarray .@mailamount[0], 10, 5, 1, 1; // 10 White Potions, 5 Blue Potions, 1 Hat, 1 Dagger
+        setarray .@mailrefine[0], 0, 0, 3, 10; // +3 Hat, +10 Dagger
+        setarray .@mailbound[0], 0, 0, Bound_Account, Bound_Char; // Account bounded Hat, Char bounded Dagger
+        setarray .@mailcard0[0], 0, 0, 4198, 4092; // Attach Maya Purple Card to the Hat, Attach Skeleton Worker Card to Dagger
+        setarray .@mailcard1[0], 0, 0, 0, 4092; // Attach Skeleton Worker Card to Dagger
+        setarray .@mailcard2[0], 0, 0, 0, 4092; // Attach Skeleton Worker Card to Dagger
+        setarray .@mailcard3[0], 0, 0, 0, 0; // Empty last slot
+        setarray .@mailrndopt_id0[0], 0, 0, 0, RDMOPT_VAR_MAXHPAMOUNT; // Enchant the Dagger with increased HP option
+        setarray .@mailrndopt_val0[0], 0, 0, 0, 1000; // Enchant the Dagger with increased HP option by 1000 points
+        setarray .@mailrndopt_prm0[0], 0, 0, 0, 0; // Enchant the Dagger with increased HP option - does not need any parameter
+        mail .@charid, .@sender$, .@title$, .@body$, .@zeny, .@mailitem, .@mailamount, .@mailrefine, .@mailbound, .@mailcard0, .@mailcard1, .@mailcard2, .@mailcard3, .@mailrndopt_id0, .@mailrndopt_val0, .@mailrndopt_prm0;
+    close;
+}
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

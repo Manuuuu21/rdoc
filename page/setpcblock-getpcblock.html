@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - setpcblock, getpcblock</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 320px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">setpcblock, getpcblock</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What are setpcblock, getpcblock? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>setpcblock</code> command prevents/allows the player from doing the given <code>&lt;type&gt;</code> of action according to the <code>&lt;state&gt;</code> during the player session (note: @reloadscript removes all <code>&lt;type&gt;</code> except <code>PCBLOCK_IMMUNE</code>). The <code>&lt;type&gt;</code> values are bit-masks, multiples of <code>&lt;type&gt;</code> can be added to change the player action.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The action is blocked when the <code>&lt;state&gt;</code> is true, while false allows the action again.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>getpcblock</code> command return the bit-mask value of the currently enabled block flags.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of setpcblock, getpcblock 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>setpcblock &lt;type&gt;,&lt;state&gt;{,&lt;account ID&gt;};</code></li>
+                    <li><code>getpcblock {&lt;account ID&gt;};</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;type&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans"><code>&lt;type&gt;</code> can be added to change the player action.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;state&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Constant / Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">the <code>&lt;state&gt;</code> is true, while false allows the action again.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;account ID&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The target account ID (AID). If omitted, defaults to the currently attached player.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Constants &amp; Options ⚙️</h3>
+                <p class="text-gray-700 font-medium mt-3 mb-2">Available <code>&lt;type&gt;</code>:</p>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Constant / Value</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_MOVE</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from moving.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_ATTACK</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from attacking.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_SKILL</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from using skills/itemskills.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_USEITEM</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from using usable items.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_CHAT</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from sending global/guild/party/whisper messages.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_IMMUNE</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from being hit by monsters.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_SITSTAND</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from sitting/standing.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_COMMANDS</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from using atcommands/charcommands.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_NPCCLICK</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from clicking/touching any NPC/shop/warp.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_EMOTION</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from using emotions.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_EQUIP</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Prevent the player from replacing equipment.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_NPC</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Simulate NPC interaction. Useful for NPC with no mes window. Sum of <code>PCBLOCK_MOVE</code>|<code>PCBLOCK_SKILL</code>|<code>PCBLOCK_USEITEM</code>|<code>PCBLOCK_COMMANDS</code>|<code>PCBLOCK_NPCCLICK</code>|<code>PCBLOCK_EQUIP</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>PCBLOCK_ALL</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Sum of all the flags.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= setpcblock, getpcblock Demonstration NPC
+//= Demonstrates how to use setpcblock, getpcblock
+//============================================================
+prontera,150,150,4	script	SetpcblockDemo	100,{
+    mes "[SetpcblockDemo]";
+    // Make the attached player invulnerable to monster (same as @monsterignore)
+        setpcblock PCBLOCK_IMMUNE, true;
+
+    // Prevents the attached player from attacking and using skills
+        setpcblock PCBLOCK_ATTACK|PCBLOCK_SKILL, true;
+
+    // Re-enables attack, skills and item use
+        setpcblock PCBLOCK_ATTACK|PCBLOCK_SKILL|PCBLOCK_USEITEM, false;
+
+    // getpcblock related checks
+        if (getpcblock() &amp; PCBLOCK_IMMUNE)
+            mes "You are invulnerable!";
+
+        if (getpcblock() &amp; (PCBLOCK_MOVE|PCBLOCK_SITSTAND))
+            mes "You can't walk or sit.";
+
+        if ((getpcblock() &amp; (PCBLOCK_ATTACK|PCBLOCK_SKILL)) == 0)
+            mes "You can attack and use skills.";
+
+        if (getpcblock() &amp; PCBLOCK_CHAT)
+            mes "You can't chat.";
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>The script defines an NPC object on <code>prontera</code> (or the target map) that triggers when a player interacts with it.</li>
+                            <li>It invokes <code>setpcblock</code> with the required arguments as specified in the rAthena scripting reference.</li>
+                            <li>Any resulting state change, return value, or player/unit update is processed immediately within the active script execution context.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - sc_start, sc_start2, sc_start4, sc_end, sc_end_class</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 320px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">sc_start, sc_start2, sc_start4, sc_end, sc_end_class</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What are sc_start, sc_start2, sc_start4, sc_end, sc_end_class? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    These commands will bestow a status effect on a character.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>&lt;effect type&gt;</code> determines which status is invoked. This can be either a number or constant, with the common statuses (mostly negative) found in <code>src/map/script_constants.hpp</code> with the <code>SC_</code> prefix. A full list is located in <code>src/map/status.hpp</code>, though they are not currently documented.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The duration of the status is given in <code>&lt;ticks&gt;</code>, or milleseconds. Use <code>INFINITE_TICK</code> for infinite duration.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Certain status changes take an additional parameter <code>&lt;value 1&gt;</code>, which typically modifies player stats by the given number or percentage. This differs for each status, and is sometimes zero.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Optional value <code>&lt;rate&gt;</code> is the chance that the status will be invoked (100 = 1%). This is used primarily in item scripts. When used in an NPC script, a flag MUST be defined for the rate to work.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Optional value <code>&lt;flag&gt;</code> is how the status change start will be handled (a bitmask).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If a <code>&lt;GID&gt;</code> is given, the status change will be invoked on the specified character instead of the one attached to the script. This can only be defined after setting a rate and flag.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>sc_start2</code> and <code>sc_start4</code> allow extra parameters to be passed, and are used only for effects that require them. The meaning of the extra values vary depending on the effect type. For more infos, read status_change.txt containing a list of all Status Changes and theirs val1, val2, val3, and val4 usage in source.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>sc_end</code> will remove a specified status effect. If <code>SC_ALL</code> (-1) is given, it will perform a complete removal of all statuses (although permanent ones will re-apply).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    <code>sc_end_class</code> works like <code>sc_end</code> but will remove all status effects from any learned skill on the invoking character. If <code>&lt;job_id&gt;</code> is provided it will end the effect for that job.
+                </p>
+                <p class="text-gray-700 leading-relaxed bg-blue-50 text-blue-800 p-4 border-l-4 border-blue-400 rounded mb-4 italic">
+                    <b>Note:</b> Note: to use <code>SC_NOCHAT</code> you should alter Manner set Manner, -5;	// Will mute a user for 5 minutes set Manner, 0;	// Will unmute a user set Manner, 5;	// Will unmute a user and prevent the next use of <code>Manner</code>
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of sc_start, sc_start2, sc_start4, sc_end, sc_end_class 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>sc_start &lt;effect type&gt;,&lt;ticks&gt;,&lt;value 1&gt;{,&lt;rate&gt;,&lt;flag&gt;{,&lt;GID&gt;}};</code></li>
+                    <li><code>sc_start2 &lt;effect type&gt;,&lt;ticks&gt;,&lt;value 1&gt;,&lt;value 2&gt;{,&lt;rate&gt;,&lt;flag&gt;{,&lt;GID&gt;}};</code></li>
+                    <li><code>sc_start4 &lt;effect type&gt;,&lt;ticks&gt;,&lt;value 1&gt;,&lt;value 2&gt;,&lt;value 3&gt;,&lt;value 4&gt;{,&lt;rate&gt;,&lt;flag&gt;{,&lt;GID&gt;}};</code></li>
+                    <li><code>sc_end &lt;effect type&gt;{,&lt;GID&gt;};</code></li>
+                    <li><code>sc_end_class {&lt;char_id&gt;{,&lt;job_id&gt;}};</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;effect type&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The <code>&lt;effect type&gt;</code> determines which status is invoked.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;ticks&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Duration or timer value in milliseconds (1000 ticks = 1 second).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;value 1&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;value 1&gt;</code> parameter for <code>sc_start</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;rate&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans"><code>&lt;rate&gt;</code> is the chance that the status will be invoked (100 = 1%).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;flag&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans"><code>&lt;flag&gt;</code> is how the status change start will be handled (a bitmask).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;GID&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The unique Game ID (GID) of the target unit (monster, NPC, pet, homunculus, mercenary, or player).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;value 2&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;value 2&gt;</code> parameter for <code>sc_start</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;value 3&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;value 3&gt;</code> parameter for <code>sc_start</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;value 4&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;value 4&gt;</code> parameter for <code>sc_start</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;char_id&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The target character ID. If omitted, defaults to the currently attached player (RID).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;job_id&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">If <code>&lt;job_id&gt;</code> is provided it will end the effect for that job.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Constants &amp; Options ⚙️</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Constant / Value</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>SCSTART_NOAVOID</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Status change cannot be avoided.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>SCSTART_NOTICKDEF</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Tick cannot be reduced by stats (default).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>SCSTART_LOADED</code></td>
+                                <td class="py-2 px-4 border-b font-sans">sc_data loaded, so no value will be altered.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>SCSTART_NORATEDEF</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Rate cannot be reduced.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>SCSTART_NOICON</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Status icon won't be sent to client</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= sc_start, sc_start2, sc_start4, sc_end, sc_end_class Demonstration NPC
+//= Demonstrates how to use sc_start, sc_start2, sc_start4, sc_end, sc_end_class
+//============================================================
+prontera,150,150,4	script	ScStartDemo	100,{
+    mes "[ScStartDemo]";
+    // This will poison the invoking character for 10 minutes at 50% chance.
+        sc_start SC_POISON,600000,0,5000;
+
+        // This will bestow the effect of Level 10 Blessing.
+        sc_start SC_BLESSING,240000,10;
+
+        // Adjust element resistance by percentage. Sample with Resist_Fire item script:
+        // val1: Water resistance
+        // val2: Earth resistance
+        // val3: Fire resistance
+        // val4: Wind resistance
+        sc_start4 SC_ARMOR_ELEMENT,1200000,-15,0,20,0;
+
+        // This will end the Freezing status for the invoking character.
+        sc_end SC_FREEZE;
+
+        // This will end the effect of any learned skill for the invoking character.
+        sc_end_class;
+
+        // This will end the effect of any learned skill for the character with the &lt;char_id&gt; 150000.
+        // val1: &lt;char_id&gt;
+        sc_end_class(150000);
+
+        // This will end the effect of any Arch Bishop skill for the invoking character.
+        // val1: &lt;char_id&gt;
+        // val2: &lt;job_id&gt; of Arch Bishop
+        sc_end_class(getcharid(0),Job_Arch_Bishop);
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>The script defines an NPC object on <code>prontera</code> (or the target map) that triggers when a player interacts with it.</li>
+                            <li>It invokes <code>sc_start</code> with the required arguments as specified in the rAthena scripting reference.</li>
+                            <li>Any resulting state change, return value, or player/unit update is processed immediately within the active script execution context.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

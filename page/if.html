@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - if</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 320px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">if</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What is if? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This is the basic conditional statement command, and just about the only one available in this scripting language.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The condition can be any expression. All expressions resulting in a non-zero value will be considered True, including negative values. All expressions resulting in a zero are false.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If the expression results in True, the statement will be executed. If it isn't true, nothing happens and we move on to the next line of the script.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    For more information on conditional operators see the operators section above. Anything that is returned by a function can be used in a condition check without bothering to store it in a specific variable:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    More examples of using the <code>if</code> command in the real world:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Notice that examples 1 and 2 have the same effect.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    See <code>strcharinfo</code> for an explanation of what this function does.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Example 6: Using complex conditions.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The script engine also supports nested <code>if</code> statements:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If the condition isn't met, it'll do the action following the <code>else</code>. We can also group several actions depending on a condition:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Remember that <code>if</code> you plan to do several actions upon the condition being false, and you forget to use the curly braces (the { } ), the second action will be executed regardless the output of the condition, unless of course, you stop the execution of the script <code>if</code> the condition is true (that is, in the first grouping using a return; , and end; or a close; )
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Also, you can have multiple conditions nested or chained.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of if 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>if (&lt;condition&gt;) &lt;statement&gt;;</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;condition&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Expression</td>
+                                <td class="py-2 px-4 border-b font-sans">A conditional expression that evaluates to non-zero (true) or zero (false).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;statement&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Statement</td>
+                                <td class="py-2 px-4 border-b font-sans">A single script statement or a block of statements enclosed in <code>{ ... }</code>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    if (1)  mes "This will always print.";
+        if (0)  mes "And this will never print.";
+        if (5)  mes "This will also always print.";
+        if (-1) mes "Funny as it is, this will also print just fine.";
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>The script defines an NPC object on <code>prontera</code> (or the target map) that triggers when a player interacts with it.</li>
+                            <li>It invokes <code>if</code> with the required arguments as specified in the rAthena scripting reference.</li>
+                            <li>Any resulting state change, return value, or player/unit update is processed immediately within the active script execution context.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 2:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    if (strcharinfo(0) == "Daniel Jackson") mes "It is true, you are Daniel!";
+    close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 3:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    .@answer = 1;
+        input .@input;
+        if (.@input == .@answer)
+            close;
+        mes "Sorry, your answer is incorrect.";
+        close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 4:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    .@answer = 1;
+        input .@input;
+        if (.@input != .@answer)
+            mes "Sorry, your answer is incorrect.";
+        close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 5:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    .@count++;
+        mes "[Forgetful Man]";
+        if (.@count == 1) mes "This is the first time you have talked to me.";
+        if (.@count == 2) mes "This is the second time you have talked to me.";
+        if (.@count == 3) mes "This is the third time you have talked to me.";
+        if (.@count == 4) {
+            mes "This is the fourth time you have talked to me.";
+            mes "I think I am getting amnesia, I have forgotten about you...";
+            .@count = 0;
+        }
+        close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 6:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    mes "[Quest Person]";
+        if (countitem(512) &lt; 1) {  // 512 is the item ID for Apple, found in db/item_db.yml
+            mes "Can you please bring me an apple?";
+            close;
+        }
+        mes "Oh, you brought an Apple!";
+        mes "I didn't want it, I just wanted to see one.";
+        close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 7:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    mes "[Person Checker]";
+        if ($@name$ == "") {  // global variable not yet set
+            mes "Please tell me someones name";
+            next;
+            input $@name$;
+            $@name2$ = strcharinfo(0);
+            mes "[Person Checker]";
+            mes "Thank you.";
+            close;
+        }
+        if ($@name$ == strcharinfo(0)) {  // player name matches $@name$
+            mes "You are the person that " + $@name2$ + " just mentioned.";
+            mes "Nice to meet you!";
+
+            // reset the global variables
+            $@name$ = "";
+            $@name2$ = "";
+
+            close;
+        }
+        mes "You are not the person that " + $name2$ + " mentioned.";
+        close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 8:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    mes "[Multiple Checks]";
+        if (@queststarted == 1 &amp;&amp; countitem(512) &gt;= 5) {
+            mes "Well done, you have started the quest and brought me 5 Apples.";
+            @queststarted = 0;
+            delitem 512,5;
+            close;
+        }
+        mes "Please bring me 5 apples.";
+        @queststarted = 1;
+        close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 9:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    if (&lt;condition&gt;)
+            dothis;
+        else
+            dothat;
+    close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 10:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    if (&lt;condition&gt;) {
+            dothis1;
+            dothis2;
+        } else {
+            dothat1;
+            dothat2;
+            dothat3;
+        }
+    close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 11:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= if Demonstration NPC
+//= Demonstrates how to use if
+//============================================================
+prontera,150,150,4	script	IfDemo	100,{
+    mes "[IfDemo]";
+    if (&lt;condition 1&gt;)
+            dothis;
+        else if (&lt;condition 2&gt;) {
+            dothat;
+            end;
+        } else
+            dothis;
+}
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

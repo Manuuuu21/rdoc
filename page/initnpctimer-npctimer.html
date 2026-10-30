@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 320px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What are initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This set of commands and functions will create and manage an NPC-based timer. The NPC name may be omitted, in which case the calling NPC is used as target.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Contrary to addtimer/deltimer commands which let you have many different timers referencing different labels in the same NPC, each with their own countdown, <code>initnpctimer</code> can only have one per NPC object. But it can trigger many labels and let you know how many were triggered already and how many still remain.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    This timer is counting up from 0 in ticks of 1/1000ths of a second each. Upon creating this timer, the execution will not stop, but will happily continue onward. The timer will then invoke new execution threads at labels "OnTimer<code>&lt;time&gt;</code>:" in the NPC object it is attached to.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    To create the timer, use the <code>initnpctimer</code>, which will start it running. <code>stopnpctimer</code> will pause the timer, without clearing the current tick, while <code>startnpctimer</code> will let the paused timer continue.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    By default timers do not have a RID attached, which lets them continue even if the player that started them logs off. To attach a RID to a timer, you can either use the optional "attach flag" when using <code>initnpctimer/startnpctimer</code>, or do it manually by using <code>attachnpctimer</code>. Likewise, the optional flag of <code>stopnpctimer</code> lets you detach any RID after stopping the timer, and by using <code>detachnpctimer</code> you can detach a RID at any time.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Normally there is only a single timer per NPC, but as an exception, as long as you attach a player to the timer, you can have multiple timers running at once, because these will get stored on the players instead of the NPC.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    NOTE: You need to attach the RID before the timer _before_ you start it to
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    get a player-attached timer. Otherwise it'll stay a NPC timer (no effect).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    If the player that is attached to the npctimer logs out, the "OnTimerQuit:" event label of that NPC will be triggered, so you can do the appropriate cleanup (the player is still attached when this event is triggered).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    The <code>setnpctimer</code> command will explicitly set the timer to a given tick. <code>getnpctimer</code> provides timer information. Its parameter defines what type:
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    specified NPC waiting for execution.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    2: Will return the number of times the timer has triggered and will trigger
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    an "OnTimer<code>&lt;tick&gt;</code>:"  label in the specified NPC.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>initnpctimer{ "&lt;NPC name&gt;" {, &lt;Attach Flag&gt;} } | { "&lt;NPC name&gt;" | &lt;Attach Flag&gt; };</code></li>
+                    <li><code>stopnpctimer{ "&lt;NPC name&gt;" {, &lt;Detach Flag&gt;}  } | { "&lt;NPC name&gt;" | &lt;Detach Flag&gt; };</code></li>
+                    <li><code>startnpctimer{ "&lt;NPC name&gt;" {, &lt;Attach Flag&gt;} } | { "&lt;NPC name&gt;" | &lt;Attach Flag&gt; };</code></li>
+                    <li><code>setnpctimer &lt;tick&gt;{,"&lt;NPC name&gt;"};</code></li>
+                    <li><code>getnpctimer(&lt;type of information&gt;{,"&lt;NPC name&gt;"})</code></li>
+                    <li><code>attachnpctimer {"&lt;character name&gt;"};</code></li>
+                    <li><code>detachnpctimer {"&lt;NPC name&gt;"};</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;NPC name&gt;"</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">The unique name of the target NPC object. If omitted, defaults to the current NPC.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;Attach Flag&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Constant / Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;Attach Flag&gt;</code> parameter for <code>initnpctimer</code>.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;Detach Flag&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Constant / Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Specifies the <code>&lt;Detach Flag&gt;</code> parameter for <code>initnpctimer</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;tick&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Timer value in milliseconds (1000 ticks = 1 second).</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;type of information&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The type of information to retrieve (see valid types below).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;character name&gt;"</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">The exact name of the target character.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Constants &amp; Options ⚙️</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Constant / Value</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>0</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Will return the current tick count of the timer.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>1</code></td>
+                                <td class="py-2 px-4 border-b font-sans">Will return 1 if there are remaining "OnTimer<code>&lt;ticks&gt;</code>:" labels in the</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer Demonstration NPC
+//= Demonstrates how to use initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer
+//============================================================
+prontera,150,150,4	script	InitnpctimerDemo	100,{
+    mes "[InitnpctimerDemo]";
+    &lt;NPC Header&gt; {
+        // We need to use attachnpctimer because the mes command below needs RID attach
+            attachnpctimer;
+            initnpctimer;
+            npctalk "I cant talk right now, give me 10 seconds";
+            end;
+        OnTimer5000:
+            npctalk "Ok 5 seconds more";
+            end;
+        OnTimer6000:
+            npctalk "4";
+            end;
+        OnTimer7000:
+            npctalk "3";
+            end;
+        OnTimer8000:
+            npctalk "2";
+            end;
+        OnTimer9000:
+            npctalk "1";
+            end;
+        OnTimer10000:
+            stopnpctimer;
+            mes "[Man]";
+            mes "Ok we can talk now";
+            detachnpctimer;
+            // and remember attachnpctimer and detachnpctimer can only use while the NPC timer is not running !
+        }
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>The script defines an NPC object on <code>prontera</code> (or the target map) that triggers when a player interacts with it.</li>
+                            <li>It invokes <code>initnpctimer</code> with the required arguments as specified in the rAthena scripting reference.</li>
+                            <li>Any resulting state change, return value, or player/unit update is processed immediately within the active script execution context.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 2:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer Demonstration NPC
+//= Demonstrates how to use initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer
+//============================================================
+prontera,150,150,4	script	InitnpctimerDemo	100,{
+    mes "[InitnpctimerDemo]";
+    mes "Event listener active.";
+    close;
+
+    OnTimer15000:
+            npctalk "Another 15 seconds have passed.";
+
+            // You have to use 'initnpctimer' instead of 'setnpctimer 0'.
+            // This is equal to 'setnpctimer 0' + 'startnpctimer'.
+            // Alternatively, you can also insert another 'OnTimer15001' label so that the timer won't stop. */
+            initnpctimer;
+            end;
+
+        // This OnInit label will run when the script is loaded, so that the timer
+        // is initialized immediately as the server starts. It is dropped back to 0
+        // every time the NPC says something, so it will cycle continuously.
+        OnInit:
+            initnpctimer;
+            end;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 3:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer Demonstration NPC
+//= Demonstrates how to use initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer
+//============================================================
+prontera,150,150,4	script	InitnpctimerDemo	100,{
+    mes "[InitnpctimerDemo]";
+    mes "[Man]";
+        mes "I have been waiting " + (getnpctimer(0)/1000) + " seconds for you.";
+        // We divide the timer returned by 1000 to convert milliseconds to seconds.
+        close;
+}
+                        </pre>
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example 4:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer Demonstration NPC
+//= Demonstrates how to use initnpctimer, stopnpctimer, startnpctimer, setnpctimer, getnpctimer, attachnpctimer, detachnpctimer
+//============================================================
+prontera,150,150,4	script	InitnpctimerDemo	100,{
+    mes "[InitnpctimerDemo]";
+    mes "[Man]";
+        mes "Ok, I will let you have 30 more seconds...";
+        close2;
+        setnpctimer (getnpctimer(0)-30000);
+        // Notice the 'close2'. If there were a 'next' there the timer would be
+        // changed only after the player pressed the 'next' button.
+        end;
+}
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>

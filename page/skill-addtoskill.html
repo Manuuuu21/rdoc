@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rAthena Documentation - skill, addtoskill</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../index.css" rel="stylesheet" />
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <style>
+        .ace-editor-instance {
+            min-height: 280px;
+            max-height: 320px;
+            width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <button style="margin-right:10px;" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <button id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+               style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 bg-white p-6 rounded-lg shadow-md">
+            <div class="content-section mb-8">
+                <!-- Ad container -->
+                <div id="custom_ad_container"></div>
+                <br/><hr/><br/>
+
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">skill, addtoskill</h2>
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">What are skill, addtoskill? 🤔</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    These commands will give the invoking character a specified <code>skill</code>. This is also used for item scripts.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Level is obvious. Skill id is the ID number of the <code>skill</code> in question as per <code>db/(pre-)re/skill_db.yml</code>. It is not known for certain whether this can be used to give a character a monster's <code>skill</code>, but you're welcome to try with the numbers given in <code>db/(pre-)re/mob_skill_db.txt</code>.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Flag is 0 if the <code>skill</code> is given permanently (will get written with the character data) or 1 if it is temporary (will be lost eventually, this is meant for card item scripts usage.).  The flag parameter is optional, and defaults to 1 in <code>skill</code> and to 2 in <code>addtoskill</code>.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Flag 2 means that the level parameter is to be interpreted as a stackable additional bonus to the <code>skill</code> level. If the character did not have that <code>skill</code> previously, they will now at 0+the level given.
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    Flag 3 is the same as flag 1 in that it saves to the database.  However, these skills are ignored when any action is taken that adjusts the <code>skill</code> tree (reset/job change).
+                </p>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    // This will permanently give the character Stone Throw (<code>TF_THROWSTONE</code>,152), at // level 1.
+                </p>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax of skill, addtoskill 📜</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 font-mono text-sm">
+                    <li><code>skill &lt;skill id&gt;,&lt;level&gt;{,&lt;flag&gt;};</code></li>
+                    <li><code>skill "&lt;skill name&gt;",&lt;level&gt;{,&lt;flag&gt;};</code></li>
+                    <li><code>addtoskill &lt;skill id&gt;,&lt;level&gt;{,&lt;flag&gt;};</code></li>
+                    <li><code>addtoskill "&lt;skill name&gt;",&lt;level&gt;{,&lt;flag&gt;};</code></li>
+                </ul>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Syntax Parameter Explanation 🧩</h3>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Parameter</th>
+                                <th class="py-2 px-4 border-b">Type</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;skill id&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The numeric skill ID from <code>skill_db.yml</code>.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;level&gt;</code></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">The target level value.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>&lt;flag&gt;</code> <span class="text-gray-400 font-sans">(Optional)</span></td>
+                                <td class="py-2 px-4 border-b">Integer</td>
+                                <td class="py-2 px-4 border-b font-sans">Bitmask or mode flag controlling specific behavior of the command (see flag options below).</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>"&lt;skill name&gt;"</code></td>
+                                <td class="py-2 px-4 border-b">String</td>
+                                <td class="py-2 px-4 border-b font-sans">The AegisName of the skill from <code>skill_db.yml</code> (e.g., <code>"AL_HEAL"</code>).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Constants &amp; Options ⚙️</h3>
+                <p class="text-gray-700 font-medium mt-3 mb-2">Flag constants:</p>
+                <div class="overflow-x-auto my-4 text-sm font-sans mb-6">
+                    <table class="min-w-full bg-white border border-gray-200 text-left">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold">
+                                <th class="py-2 px-4 border-b">Constant / Value</th>
+                                <th class="py-2 px-4 border-b">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 font-mono">
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>0</code></td>
+                                <td class="py-2 px-4 border-b font-sans"><code>SKILL_PERM</code></td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>1</code></td>
+                                <td class="py-2 px-4 border-b font-sans"><code>SKILL_TEMP</code></td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b font-semibold"><code>2</code></td>
+                                <td class="py-2 px-4 border-b font-sans"><code>SKILL_TEMPLEVEL</code></td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 px-4 border-b font-semibold"><code>3</code></td>
+                                <td class="py-2 px-4 border-b font-sans"><code>SKILL_PERM_GRANT</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr class="my-6 border-gray-200" />
+
+                <h3 class="text-xl font-medium mb-2 text-gray-800 mt-4">Example Usage 💡</h3>
+                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 mb-6">
+                    <div class="pre_container">
+                        <div class="text-gray-700" style="margin-bottom:-25px;"><b>Example Code:</b></div>
+                        <button class="copy-button">Copy</button>
+                        <pre>
+//===== rAthena Script =======================================
+//= skill, addtoskill Demonstration NPC
+//= Demonstrates how to use skill, addtoskill
+//============================================================
+prontera,150,150,4	script	SkillDemo	100,{
+    mes "[SkillDemo]";
+    skill 152,1,0;
+    close;
+}
+                        </pre>
+                    </div>
+
+                    <div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                        <h4 class="font-semibold text-gray-800 mb-1">In this script:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 text-sm">
+                            <li>The script defines an NPC object on <code>prontera</code> (or the target map) that triggers when a player interacts with it.</li>
+                            <li>It invokes <code>skill</code> with the required arguments as specified in the rAthena scripting reference.</li>
+                            <li>Any resulting state change, return value, or player/unit update is processed immediately within the active script execution context.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg"></footer>
+
+    <script src="../rathena_highlight_rules.js"></script>
+</body>
+</html>
