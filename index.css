@@ -44,6 +44,43 @@ html {
         max-width: 1280px !important;
     }
 }
+/* Let the two navigation lists share the available window height. */
+#sidebar {
+    height: var(--sidebar-height, calc(100dvh - 2rem)) !important;
+    min-height: 0;
+    flex-shrink: 0;
+}
+#sidebar > nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+#sidebar > nav > h2 {
+    flex-shrink: 0;
+}
+/* Replace the legacy paragraph/line-break spacing with one divider. */
+#sidebar > nav > p,
+#sidebar > nav > br {
+    display: none;
+}
+#sidebar > nav > hr {
+    flex-shrink: 0;
+    margin: 1rem 0;
+}
+#rathena-topic-list,
+#show-case-list {
+    height: auto !important;
+    min-height: 0;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+}
+#rathena-topic-list {
+    flex: 3 1 0;
+}
+#show-case-list {
+    flex: 2 1 0;
+}
 /* Responsive adjustments for sidebar */
 @media (min-width: 768px) {
     #sidebar {

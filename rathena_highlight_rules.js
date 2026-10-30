@@ -446,11 +446,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
 
-    if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
-            // Toggle the 'hidden' class to show/hide the sidebar
+    if (sidebar) {
+        let sidebarFrame = null;
+        const desktopLayout = window.matchMedia('(min-width: 768px)');
+
+        const resizeSidebar = () => {
+            sidebarFrame = null;
+            if (!sidebar.getClientRects().length) return;
+
+            const gap = parseFloat(getComputedStyle(document.documentElement).fontSize);
+            const viewport = window.visualViewport;
+            const viewportTop = viewport ? viewport.offsetTop : 0;
+            const viewportHeight = viewport ? viewport.height : window.innerHeight;
+            const top = Math.max(sidebar.getBoundingClientRect().top, viewportTop + gap);
+            const height = Math.max(0, viewportTop + viewportHeight - top - gap);
+            sidebar.style.setProperty('--sidebar-height', `${height}px`);
+        };
+
+        const scheduleSidebarResize = () => {
+            if (sidebarFrame === null) {
+                sidebarFrame = requestAnimationFrame(resizeSidebar);
+            }
+        };
+
+        window.addEventListener('resize', scheduleSidebarResize);
+        window.addEventListener('scroll', () => {
+            if (desktopLayout.matches) scheduleSidebarResize();
+        }, { passive: true });
+        window.visualViewport?.addEventListener('resize', scheduleSidebarResize);
+
+        const header = document.querySelector('header');
+        if (header) new ResizeObserver(scheduleSidebarResize).observe(header);
+
+        menuToggle?.addEventListener('click', () => {
             sidebar.classList.toggle('hidden');
+            scheduleSidebarResize();
         });
+        scheduleSidebarResize();
     }
 
     // Initialize Ace Editor for each code block
