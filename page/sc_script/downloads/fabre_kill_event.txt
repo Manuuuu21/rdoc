@@ -1,0 +1,85 @@
+//===== rAthena Script =======================================
+//= Fabre Event NPC
+//===== By: rAthena AI Assistant ============================
+//= Spawns Fabre monsters that trigger an event when killed.
+//= This event runs automatically every 2 hours with a countdown.
+//= @reloadnpcfile npc/custom/manuel_npc/fabre_kill_event.txt
+//============================================================
+
+-	script	FabreEventNPC	-1,{
+	OnInit:
+		.total_spawned_fabres = 0;
+		.killed_fabres = 0;
+		.last_map$ = ""; // Track the last map used for spawning
+		initnpctimer;
+		startnpctimer;
+		goto OnEventStart;
+		end;
+
+	// This label triggers every 180 minutes (3 hours).
+	OnTimer10800000:
+		initnpctimer;
+		startnpctimer; // Restart the timer.
+		goto OnEventStart;
+		end;
+	
+	OnEventStart:
+		announce "Fabre Hunt Event is about to begin!",bc_all;
+		sleep 10000;
+		announce "Fabre Hunt Event will begin in 2 minutes! Prepare yourselves!", bc_all;
+		sleep 30000;
+		announce "Fabre Hunt Event will begin in 1 minute! Prepare yourselves!", bc_all;
+		sleep 30000;
+		announce "Fabre Hunt Event will begin in 5 seconds! Prepare yourselves!", bc_all;
+		sleep 1000;
+		announce "Fabre Hunt Event will begin in 4 seconds! Prepare yourselves!", bc_all;
+		sleep 1000;
+		announce "Fabre Hunt Event will begin in 3 seconds! Prepare yourselves!", bc_all;
+		sleep 1000;
+		announce "Fabre Hunt Event will begin in 2 seconds! Prepare yourselves!", bc_all;
+		sleep 1000;
+		announce "Fabre Hunt Event will begin in 1 second! Prepare yourselves!", bc_all;
+		sleep 1000;
+		
+		goto OnSpawnFabres;
+		end;
+	
+	OnSpawnFabres:
+		// Clean up any remaining Fabres from the previous event to prevent count stacking
+		if (.last_map$ != "") {
+			killmonster .last_map$, "FabreEventNPC::OnFabreKilled";
+		}
+
+		setarray .@spawn_map$[0], "prontera", "morocc", "alberta", "izlude", "aldebaran", "xmas", "comodo", "yuno", "amatsu", "gonryun";
+		.randMapIndex1 = rand(getarraysize(.@spawn_map$));
+		.last_map$ = .@spawn_map$[.randMapIndex1];
+		
+		announce "Fabre Hunt Event has begun! Hunt them down at " + .last_map$ + "!",bc_all;
+	
+		.total_spawned_fabres = 5;
+		.killed_fabres = 0;
+
+		monster .last_map$,0,0,"Fabre Hunt Event",1007,.total_spawned_fabres,"FabreEventNPC::OnFabreKilled";
+		end;
+	
+	OnFabreKilled:
+		.killed_fabres++;
+		
+		if (playerattached()) {
+			announce strcharinfo(0) + " has killed an Event Fabre at " + .last_map$ + "! (" + .killed_fabres + "/" + .total_spawned_fabres + ")",bc_all;
+			getitem 7227,1; // TCG Card
+			getitem 30339,1; // Berry Ticket
+			getitem 30343,1; // Activity Token
+			getitem 30341,1; // Event Token
+		}
+		else if ($killermobgid > 0) {
+			announce getunitname($killermobgid) + " has killed an Event Fabre at " + .last_map$ + "! (" + .killed_fabres + "/" + .total_spawned_fabres + ")",bc_all;
+			$killermobgid = 0;
+		}
+		
+		if (.killed_fabres >= .total_spawned_fabres) {
+			announce "Fabre Hunt Event: All Fabres have been defeated! " + (playerattached() ? "Well done, adventurers!" : "The hunt is over!"), bc_all;
+			.last_map$ = ""; // Reset since all are dead
+		}
+	end;
+}

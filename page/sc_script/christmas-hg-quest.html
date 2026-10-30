@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas HG Quest - rAthena Documentation</title>
+    <meta name="description" content="A Lutie headgear quest NPC offers Christmas-themed costume rewards using configurable material requirements.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Christmas HG Quest</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">A Lutie headgear quest NPC offers Christmas-themed costume rewards using configurable material requirements.</p>
+                <a href="downloads/christmas_hg_quest.txt" download="christmas_hg_quest.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download christmas_hg_quest.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">christmas_hg_quest.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">472 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">NPC locations</th><td class="border-b px-4 py-3 text-gray-600 break-words">Xmas Headgear Quest — xmas (120, 151)</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/christmas_hg_quest.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/christmas_hg_quest.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/christmas_hg_quest.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>christmas_hg_quest.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Christmas HG Quest script">Copy</button>
+                    <pre>//===== By:==================================================
+//= Manuel Sintos
+// @reloadnpc npc/custom/manuel_npc/christmas_hg_quest.txt
+
+xmas,120,151,5	script	Xmas Headgear Quest	26,{
+	// NOTE: Configuration for the quest HG
+	// 1. C_Chilly_Breath
+	// 2. C_Snowman_Hat
+	// 3. C_Snow_Bear_Hood
+	// 4. C_Snow_Fox
+	// 5. C_Snow_Ice_Hair
+	// 6. C_Snow_Rabbit_Knit_Hat
+	// 7. C_Snownow_Hat
+	setarray .questRewardItemID, 19992, 20231, 31440, 31620, 31905, 19990, 20242;
+
+	// Required items for C_Chilly_Breath
+	// 1. Ice Cubic
+	// 2. Ice Scale
+	// 3. Platinum Coin
+	// 4. TCG
+	// 5. Event Token
+	// 6. Activity Token
+	setarray .requiredItemID0, 7066, 7562, 677, 7227, 30341, 30343;
+	setarray .requiredAmount0, 350, 10, 1, 15, 20, 20;
+
+	// Required items for C_Snowman_Hat
+	// 1. Small Snow Flower (Buyable at Pet Groomer)
+	// 2. White Dyestuff
+	// 3. Platinum Coin
+	// 4. TCG
+	// 5. Event Token
+	// 6. Activity Token
+	setarray .requiredItemID1, 6098, 982, 677, 7227, 30341, 30343;
+	setarray .requiredAmount1, 5000, 20, 1, 15, 20, 20;
+
+	// Required items for C_Snow_Bear_Hood
+	// 1. Frozen Rose
+	// 2. Mystic Frozen
+	// 3. Platinum Coin
+	// 4. TCG
+	// 5. Event Token
+	// 6. Activity Token
+	setarray .requiredItemID2, 749, 995, 677, 7227, 30341, 30343;
+	setarray .requiredAmount2, 100, 50, 1, 15, 20, 20;
+
+	// Required items for C_Snow_Fox
+	// 1. Immortal Heart
+	// 2. Nine Tails
+	// 3. Platinum Coin
+	// 4. TCG
+	// 5. Event Token
+	// 6. Activity Token
+	setarray .requiredItemID3, 929, 1022, 677, 7227, 30341, 30343;
+	setarray .requiredAmount3, 350, 1000, 2, 15, 20, 20;
+
+	// Required items for C_Snow_Ice_Hair
+	// 1. Sea-Otter Fur
+	// 2. White Dyestuff
+	// 3. Platinum Coin
+	// 4. TCG
+	// 5. Event Token
+	// 6. Activity Token
+	setarray .requiredItemID4, 7065, 982, 677, 7227, 30341, 30343;
+	setarray .requiredAmount4, 530, 120, 2, 15, 20, 20;
+
+	// Required items for C_Snow_Rabbit_Knit_Hat
+	// 1. Soft Feather
+	// 2. White Dyestuff
+	// 3. Platinum Coin
+	// 4. TCG
+	// 5. Event Token
+	// 6. Activity Token
+	setarray .requiredItemID5, 7063, 982, 677, 7227, 30341, 30343;
+	setarray .requiredAmount5, 300, 110, 3, 15, 20, 20;
+
+	// Required items for C_Snownow_Hat
+	// 1. Small Snow Flower (Buyable at Pet Groomer)
+	// 2. White Dyestuff
+	// 3. Platinum Coin
+	// 4. TCG
+	// 5. Event Token
+	// 6. Activity Token
+	setarray .requiredItemID6, 6098, 982, 677, 7227, 30341, 30343;
+	setarray .requiredAmount6, 8000, 100, 5, 15, 20, 20;
+
+	// Set name of the NPC
+	set @name$, "[ ^1100AASaint Michaela^000000 ]";
+
+	mes @name$;
+	mes "Ho ho ho! It's the season of giving!";
+	mes "I can craft special Christmas headgears for you, if you bring the right materials!";
+	next;
+	mes @name$;
+	mes "Which headgear would you like to craft?";
+	
+	switch(select(
+		getitemname(.questRewardItemID[0]) + ":" +
+		getitemname(.questRewardItemID[1]) + ":" +
+		getitemname(.questRewardItemID[2]) + ":" +
+		getitemname(.questRewardItemID[3]) + ":" +
+		getitemname(.questRewardItemID[4]) + ":" +
+		getitemname(.questRewardItemID[5]) + ":" +
+		getitemname(.questRewardItemID[6])
+	)) {
+
+		case 1:
+			next;
+
+			mes @name$;
+			mes "To craft a ^1100AA" + getitemname(.questRewardItemID[0]) + "^000000, you need to bring the following items:";
+			next;
+
+			mes @name$;
+			// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID0); .@i++) {
+				mes .requiredAmount0[.@i] + ((.requiredAmount0[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID0[.@i]);
+			}
+			next;
+
+			mes @name$;
+			mes "Do you have them...? Let me see...";
+			next;
+
+			.@isMissingItem = false;
+
+			// Check if player has all required items using a loop
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID0); .@i++) {
+				if (countitem(.requiredItemID0[.@i]) &lt; .requiredAmount0[.@i]) {
+					.@missingItem = true; // Set to true if any item is missing
+					break; // Exit loop as soon as we find a missing item
+				}
+			}
+
+			if (.@missingItem) {
+				emotion ET_SCRATCH;
+				mes @name$;
+				mes "Hmm... you don't have everything...";
+				mes "Return when you have gathered them...";
+				close;
+			}
+			else {
+				mes @name$;
+				mes "Ah... you do have them...";
+				mes "Please wait for a while...";
+				next;
+
+				// Delete item item requirements and get the reward costume
+				for( .@j = 0; .@j &lt; getarraysize(.requiredItemID0); .@j++ ) {
+					delitem .requiredItemID0[.@j], .requiredAmount0[.@j];
+				}
+				getitem .questRewardItemID[0], 1;
+				mes @name$;
+				mes "Here is your ^1100AA" + getitemname(.questRewardItemID[0]) + "^000000...";
+				mes "Enjoy!";
+				close;
+			}
+		break;
+
+		case 2:
+			next;
+
+			mes @name$;
+			mes "To craft a ^1100AA" + getitemname(.questRewardItemID[1]) + "^000000, you need to bring the following items:";
+			next;
+
+			mes @name$;
+			// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID1); .@i++) {
+				mes .requiredAmount1[.@i] + ((.requiredAmount1[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID1[.@i]);
+			}
+			next;
+
+			mes @name$;
+			mes "Do you have them...? Let me see...";
+			next;
+
+			.@isMissingItem = false;
+
+			// Check if player has all required items using a loop
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID1); .@i++) {
+				if (countitem(.requiredItemID1[.@i]) &lt; .requiredAmount1[.@i]) {
+					.@missingItem = true; // Set to true if any item is missing
+					break; // Exit loop as soon as we find a missing item
+				}
+			}
+
+			if (.@missingItem) {
+				emotion ET_SCRATCH;
+				mes @name$;
+				mes "Hmm... you don't have everything...";
+				mes "Return when you have gathered them...";
+				close;
+			}
+			else {
+				mes @name$;
+				mes "Ah... you do have them...";
+				mes "Please wait for a while...";
+				next;
+
+				// Delete item item requirements and get the reward costume
+				for( .@j = 0; .@j &lt; getarraysize(.requiredItemID1); .@j++ ) {
+					delitem .requiredItemID1[.@j], .requiredAmount1[.@j];
+				}
+				getitem .questRewardItemID[1], 1;
+				mes @name$;
+				mes "Here is your ^1100AA" + getitemname(.questRewardItemID[1]) + "^000000...";
+				mes "Enjoy!";
+				close;
+			}
+		break;
+		case 3:
+			next;
+
+			mes @name$;
+			mes "To craft a ^1100AA" + getitemname(.questRewardItemID[2]) + "^000000, you need to bring the following items:";
+			next;
+
+			mes @name$;
+			// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID2); .@i++) {
+				mes .requiredAmount2[.@i] + ((.requiredAmount2[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID2[.@i]);
+			}
+			next;
+
+			mes @name$;
+			mes "Do you have them...? Let me see...";
+			next;
+
+			.@isMissingItem = false;
+
+			// Check if player has all required items using a loop
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID2); .@i++) {
+				if (countitem(.requiredItemID2[.@i]) &lt; .requiredAmount2[.@i]) {
+					.@missingItem = true; // Set to true if any item is missing
+					break; // Exit loop as soon as we find a missing item
+				}
+			}
+
+			if (.@missingItem) {
+				emotion ET_SCRATCH;
+				mes @name$;
+				mes "Hmm... you don't have everything...";
+				mes "Return when you have gathered them...";
+				close;
+			}
+			else {
+				mes @name$;
+				mes "Ah... you do have them...";
+				mes "Please wait for a while...";
+				next;
+
+				// Delete item item requirements and get the reward costume
+				for( .@j = 0; .@j &lt; getarraysize(.requiredItemID2); .@j++ ) {
+					delitem .requiredItemID2[.@j], .requiredAmount2[.@j];
+				}
+				getitem .questRewardItemID[2], 1;
+				mes @name$;
+				mes "Here is your ^1100AA" + getitemname(.questRewardItemID[2]) + "^000000...";
+				mes "Enjoy!";
+				close;
+			}
+		break;
+		case 4:
+			next;
+
+			mes @name$;
+			mes "To craft a ^1100AA" + getitemname(.questRewardItemID[3]) + "^000000, you need to bring the following items:";
+			next;
+
+			mes @name$;
+			// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID3); .@i++) {
+				mes .requiredAmount3[.@i] + ((.requiredAmount3[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID3[.@i]);
+			}
+			next;
+
+			mes @name$;
+			mes "Do you have them...? Let me see...";
+			next;
+
+			.@isMissingItem = false;
+
+			// Check if player has all required items using a loop
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID3); .@i++) {
+				if (countitem(.requiredItemID3[.@i]) &lt; .requiredAmount3[.@i]) {
+					.@missingItem = true; // Set to true if any item is missing
+					break; // Exit loop as soon as we find a missing item
+				}
+			}
+
+			if (.@missingItem) {
+				emotion ET_SCRATCH;
+				mes @name$;
+				mes "Hmm... you don't have everything...";
+				mes "Return when you have gathered them...";
+				close;
+			}
+			else {
+				mes @name$;
+				mes "Ah... you do have them...";
+				mes "Please wait for a while...";
+				next;
+
+				// Delete item item requirements and get the reward costume
+				for( .@j = 0; .@j &lt; getarraysize(.requiredItemID3); .@j++ ) {
+					delitem .requiredItemID3[.@j], .requiredAmount3[.@j];
+				}
+				getitem .questRewardItemID[3], 1;
+				mes @name$;
+				mes "Here is your ^1100AA" + getitemname(.questRewardItemID[3]) + "^000000...";
+				mes "Enjoy!";
+				close;
+			}
+		break;
+		case 5:
+			next;
+
+			mes @name$;
+			mes "To craft a ^1100AA" + getitemname(.questRewardItemID[4]) + "^000000, you need to bring the following items:";
+			next;
+
+			mes @name$;
+			// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID4); .@i++) {
+				mes .requiredAmount4[.@i] + ((.requiredAmount4[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID4[.@i]);
+			}
+			next;
+
+			mes @name$;
+			mes "Do you have them...? Let me see...";
+			next;
+
+			.@isMissingItem = false;
+
+			// Check if player has all required items using a loop
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID4); .@i++) {
+				if (countitem(.requiredItemID4[.@i]) &lt; .requiredAmount4[.@i]) {
+					.@missingItem = true; // Set to true if any item is missing
+					break; // Exit loop as soon as we find a missing item
+				}
+			}
+
+			if (.@missingItem) {
+				emotion ET_SCRATCH;
+				mes @name$;
+				mes "Hmm... you don't have everything...";
+				mes "Return when you have gathered them...";
+				close;
+			}
+			else {
+				mes @name$;
+				mes "Ah... you do have them...";
+				mes "Please wait for a while...";
+				next;
+
+				// Delete item item requirements and get the reward costume
+				for( .@j = 0; .@j &lt; getarraysize(.requiredItemID4); .@j++ ) {
+					delitem .requiredItemID4[.@j], .requiredAmount4[.@j];
+				}
+				getitem .questRewardItemID[4], 1;
+				mes @name$;
+				mes "Here is your ^1100AA" + getitemname(.questRewardItemID[4]) + "^000000...";
+				mes "Enjoy!";
+				close;
+			}
+		break;
+		case 6:
+			next;
+
+			mes @name$;
+			mes "To craft a ^1100AA" + getitemname(.questRewardItemID[5]) + "^000000, you need to bring the following items:";
+			next;
+
+			mes @name$;
+			// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID5); .@i++) {
+				mes .requiredAmount5[.@i] + ((.requiredAmount5[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID5[.@i]);
+			}
+			next;
+
+			mes @name$;
+			mes "Do you have them...? Let me see...";
+			next;
+
+			.@isMissingItem = false;
+
+			// Check if player has all required items using a loop
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID5); .@i++) {
+				if (countitem(.requiredItemID5[.@i]) &lt; .requiredAmount5[.@i]) {
+					.@missingItem = true; // Set to true if any item is missing
+					break; // Exit loop as soon as we find a missing item
+				}
+			}
+
+			if (.@missingItem) {
+				emotion ET_SCRATCH;
+				mes @name$;
+				mes "Hmm... you don't have everything...";
+				mes "Return when you have gathered them...";
+				close;
+			}
+			else {
+				mes @name$;
+				mes "Ah... you do have them...";
+				mes "Please wait for a while...";
+				next;
+
+				// Delete item item requirements and get the reward costume
+				for( .@j = 0; .@j &lt; getarraysize(.requiredItemID5); .@j++ ) {
+					delitem .requiredItemID5[.@j], .requiredAmount5[.@j];
+				}
+				getitem .questRewardItemID[5], 1;
+				mes @name$;
+				mes "Here is your ^1100AA" + getitemname(.questRewardItemID[5]) + "^000000...";
+				mes "Enjoy!";
+				close;
+			}
+		break;
+		case 7:
+			next;
+
+			mes @name$;
+			mes "To craft a ^1100AA" + getitemname(.questRewardItemID[6]) + "^000000, you need to bring the following items:";
+			next;
+
+			mes @name$;
+			// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID6); .@i++) {
+				mes .requiredAmount6[.@i] + ((.requiredAmount6[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID6[.@i]);
+			}
+			next;
+
+			mes @name$;
+			mes "Do you have them...? Let me see...";
+			next;
+
+			.@isMissingItem = false;
+
+			// Check if player has all required items using a loop
+			for (.@i = 0; .@i &lt; getarraysize(.requiredItemID6); .@i++) {
+				if (countitem(.requiredItemID6[.@i]) &lt; .requiredAmount6[.@i]) {
+					.@missingItem = true; // Set to true if any item is missing
+					break; // Exit loop as soon as we find a missing item
+				}
+			}
+
+			if (.@missingItem) {
+				emotion ET_SCRATCH;
+				mes @name$;
+				mes "Hmm... you don't have everything...";
+				mes "Return when you have gathered them...";
+				close;
+			}
+			else {
+				mes @name$;
+				mes "Ah... you do have them...";
+				mes "Please wait for a while...";
+				next;
+
+				// Delete item item requirements and get the reward costume
+				for( .@j = 0; .@j &lt; getarraysize(.requiredItemID6); .@j++ ) {
+					delitem .requiredItemID6[.@j], .requiredAmount6[.@j];
+				}
+				getitem .questRewardItemID[6], 1;
+				mes @name$;
+				mes "Here is your ^1100AA" + getitemname(.questRewardItemID[6]) + "^000000...";
+				mes "Enjoy!";
+				close;
+			}
+		break;
+	}
+}</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

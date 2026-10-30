@@ -1,0 +1,113 @@
+//===== rAthena Script =======================================
+//= DeleteItemSQL
+//===== By: rAthena AI Assistant ============================
+//= Checks and deletes all instances of a specific item ID
+//= from inventory, cart, storage, and guild storage.
+//= Restricted to GM access (getgroupid > 0).
+//= @reloadnpcfile npc/custom/manuel_npc/global_item_deleter.txt
+//============================================================
+
+prontera,150,150,5	script	DeleteItemGlobal	99,{
+	// GM Restriction Check
+	if (getgroupid() == 0) {
+		mes "[Global Item Deleter]";
+		mes "You do not have permission to use this NPC.";
+		close;
+	}
+
+	mes "[Global Item Deleter]";
+	mes "Enter the Item ID to remove from all accounts.";
+	next;
+
+	input .@item_id, 1, 100000;
+
+	// Validate Item ID
+	if (getitemname(.@item_id) == "null") {
+		mes "Invalid Item ID. Please enter a valid item.";
+		close;
+	}
+
+	// Show item count breakdown
+	.@sum_inventory = 0;
+	.@sum_cart = 0;
+	.@sum_storage = 0;
+	.@sum_guild_storage = 0;
+
+	.@char_id = getcharid(0);
+	.@account_id = getcharid(3);
+	.@guild_id = getcharid(2);
+
+	// Inventory: Sum of all other players + active GM's live memory count
+	query_sql("SELECT SUM(amount) FROM `inventory` WHERE `nameid` = " + .@item_id + " AND `char_id` != " + .@char_id, .@sum_inventory);
+	.@sum_inventory += countitem(.@item_id);
+
+	// Cart Inventory: Sum of all other players + active GM's live memory cart count (only if GM has a cart)
+	query_sql("SELECT SUM(amount) FROM `cart_inventory` WHERE `nameid` = " + .@item_id + " AND `char_id` != " + .@char_id, .@sum_cart);
+	if (checkcart()) {
+		.@sum_cart += max(0, cartcountitem(.@item_id));
+	}
+
+	// Storage: Sum of all other accounts + active GM's live memory storage count
+	query_sql("SELECT SUM(amount) FROM `storage` WHERE `nameid` = " + .@item_id + " AND `account_id` != " + .@account_id, .@sum_storage);
+	.@sum_storage += max(0, storagecountitem(.@item_id));
+
+	// Guild Storage: Check if active GM's guild storage is loaded in memory
+	if (.@guild_id > 0) {
+		.@g_count = guildstoragecountitem(.@item_id);
+		if (.@g_count == -1) {
+			query_sql("SELECT SUM(amount) FROM `guild_storage` WHERE `nameid` = " + .@item_id, .@sum_guild_storage);
+		} else {
+			query_sql("SELECT SUM(amount) FROM `guild_storage` WHERE `nameid` = " + .@item_id + " AND `guild_id` != " + .@guild_id, .@sum_guild_storage);
+			.@sum_guild_storage += .@g_count;
+		}
+	} else {
+		query_sql("SELECT SUM(amount) FROM `guild_storage` WHERE `nameid` = " + .@item_id, .@sum_guild_storage);
+	}
+
+	.@total = .@sum_inventory + .@sum_cart + .@sum_storage + .@sum_guild_storage;
+
+	mes "For item ID <ITEM>" + .@item_id + "<INFO>" + .@item_id + "</INFO></ITEM> - " + getitemname(.@item_id);
+	mes "Total items found: " + .@total;
+	mes "- Inventory: " + .@sum_inventory;
+	mes "- Cart: " + .@sum_cart;
+	mes "- Storage: " + .@sum_storage;
+	mes "- Guild Storage: " + .@sum_guild_storage;
+	next;
+
+	mes "Do you want to delete ALL of these items?";
+	if (select("Yes, delete all of them.:No, cancel.") == 2) {
+		mes "Operation cancelled.";
+		close;
+	}
+	next;
+
+	// Delete from SQL storage
+	query_sql("DELETE FROM `inventory` WHERE `nameid` = " + .@item_id);
+	query_sql("DELETE FROM `cart_inventory` WHERE `nameid` = " + .@item_id);
+	query_sql("DELETE FROM `storage` WHERE `nameid` = " + .@item_id);
+	query_sql("DELETE FROM `guild_storage` WHERE `nameid` = " + .@item_id);
+
+	// Also delete from this online player (the GM running the script)
+	// to prevent memory-to-SQL overwrite on logout/save.
+	.@count = countitem(.@item_id);
+	if (.@count > 0) {
+		delitem .@item_id, .@count;
+	}
+
+	if (checkcart()) {
+		.@cart_count = cartcountitem(.@item_id);
+		if (.@cart_count > 0) {
+			cartdelitem .@item_id, .@cart_count;
+		}
+	}
+
+	.@storage_count = storagecountitem(.@item_id);
+	if (.@storage_count > 0) {
+		storagedelitem .@item_id, .@storage_count;
+	}
+
+	mes "item ID <ITEM>" + .@item_id + "<INFO>" + .@item_id + "</INFO></ITEM> - " + getitemname(.@item_id) + " has been deleted.";
+	mes "- All players of the server";
+	mes "- All storage systems";
+	close;
+}

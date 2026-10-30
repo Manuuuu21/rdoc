@@ -1,0 +1,134 @@
+//===== rAthena Script =======================================
+//= Hide and Seek Event
+//===== By: rAthena AI Assistant ============================
+//= This script manages a Hide and Seek event, including initial delay,
+//= recurring event triggers, NPC hiding, and player rewards.
+//= @reloadnpcfile npc/custom/manuel_npc/hideandseek_event.txt
+//============================================================
+prontera,143,178,5	script	Hide and Seek Event	769,10,10,{
+	
+
+	OnTouchNPC:
+		.@mobGID = getattachedrid();
+		
+		// If the Hide and Seek Event is currently running
+		if (.isHaS_Event == 1) {
+			// Reset the event state to not running
+			.isHaS_Event = 0;
+			
+			// Delete any active notification room (e.g., "I'm here!").
+			delwaitingroom;
+			
+			// Mark the NPC as found for this round
+			.on_FOUND = 1;
+			
+			// NPC speaks a message upon being found
+			npctalk "Manuel : Yaay! you found me.";
+	
+			// Announce to all players that the NPC has been found and the event is over
+			announce "[ " + getunitname(.@mobGID) + " ] has found the Hide and Seek NPC and won the event! Congratulations!", 0;
+			
+			// Pause the script briefly
+			sleep 1000;
+			
+			// Move the NPC back to its original coordinates
+			unitwarp(getnpcid(0), "prontera", 143, 178);
+			
+			// Reset the found flag for the next event round
+			.on_FOUND = 0;
+		}
+	end;
+	
+	// Set name of the NPC
+	set .name$, "[^1100AA Manuel ^000000]";
+
+	// Check if the NPC has already been found in this event round
+	// NPC speaks a message if already found
+	if (.on_FOUND == 1) {
+		npctalk "Manuel : You already found me! Stop clicking.";
+		end;
+	}
+		
+	// If the Hide and Seek Event is not currently running
+	if (.isHaS_Event == 0) {
+		mes .name$;
+		mes "Hi, I'm Manuel! I'll be hiding somewhere in one specific map. If you find me, I'll give you a reward!";
+		close;
+	}
+	
+	// If the Hide and Seek Event is currently running
+	if (.isHaS_Event == 1) {
+		// Reset the event state to not running
+		.isHaS_Event = 0;
+		
+		// Delete any active notification room (e.g., "I'm here!").
+		delwaitingroom;
+		
+		// Mark the NPC as found for this round
+		.on_FOUND = 1;
+		
+		// NPC speaks a message upon being found
+		npctalk "Manuel : Yaay! you found me.";
+
+		// Announce to all players that the NPC has been found and the event is over
+		announce "[ " + strcharinfo(0) + " ] has found the Hide and Seek NPC and won the event! Congratulations!", 0;
+
+		// Reward the player with items (TCG, Activity Token 1, Event Token 1)
+		getitem 7227, 1;
+		getitem 30341, 1;
+		getitem 30343, 1;
+		
+		// Pause the script briefly
+		sleep 1000;
+		
+		// Move the NPC back to its original coordinates
+		unitwarp(getnpcid(0), "prontera", 143, 178);
+		
+		// Reset the found flag for the next event round
+		.on_FOUND = 0;
+	}
+	
+	OnFindNPC:
+		// Delete any existing waiting room (used for the "I'm here!" notification)
+		delwaitingroom;
+
+		// Set the event state to running
+		.isHaS_Event = 1;
+		
+		// Define an array of possible maps for the NPC to hide on
+		// setarray .@maps$, "prontera", "morocc", "geffen", "gef_fild10", "payon", "pay_arche", "alberta", "izlude", "aldebaran", "xmas", "comodo", "yuno", "amatsu", "gonryun", "umbala", "niflheim", "louyang", "ayothaya", "jawaii", "einbroch", "lighthalzen", "einbech", "hugel", "rachel", "veins", "moscovia", "mid_camp", "manuk", "splendide", "brasilis", "dicastes01", "mora", "dewata", "malangdo", "malaya", "eclage", "lasagna";
+		setarray .@maps$, "prontera", "morocc", "pay_arche", "gef_fild10", "alberta", "izlude", "aldebaran", "xmas", "comodo", "yuno", "amatsu", "gonryun", "lighthalzen";
+		
+		// Get a random map index from the array
+		.randIndex = rand( getarraysize(.@maps$) );
+
+		// Get the map name using the random index
+		.@randMap$ = .@maps$[.randIndex];
+
+		// Find a random empty cell in Prontera and store it within .@x and .@y
+		getfreecell(.@randMap$,.@x,.@y); 
+
+		// Warp the NPC to the selected map and coordinates
+		unitwarp(getnpcid(0), .@randMap$, .@x, .@y);
+
+		// Create a waiting room (notification bubble) above the NPC
+		waitingroom "I'm here!",0;
+
+		// Announce to all players that the Hide and Seek event has started and where the NPC is hiding
+		announce "Hide and Seek event has started! Find the NPC hiding somewhere in " + .@randMap$ + " for a reward!", 0;
+	end;
+
+	OnInit:
+		.on_FOUND = 0;
+		// Add an initial delay of 20 minutes (1,200,000 milliseconds) before the first event starts
+		sleep 2000;
+		// Start a recurring timer that triggers every 60 minutes (3,600,000 milliseconds)
+		// Note: The original timer was 3,800,000, changed to 3,600,000 for 60 minutes
+		OnTimer1800000:
+		// Re-initialize the NPC timer to reset the countdown for the next trigger
+		initnpctimer;
+		
+		// Jump to the label that handles finding a new hiding spot and starting the event
+		goto OnFindNPC;
+	end;
+}

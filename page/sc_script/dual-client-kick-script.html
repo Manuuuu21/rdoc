@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Client Kick Script - rAthena Documentation</title>
+    <meta name="description" content="A map-entry handler compares player IP addresses on configured maps and kicks clients that match its duplicate-connection rules.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Dual Client Kick Script</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">A map-entry handler compares player IP addresses on configured maps and kicks clients that match its duplicate-connection rules.</p>
+                <a href="downloads/dualclientkick.txt" download="dualclientkick.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download dualclientkick.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">dualclientkick.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">59 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Entry points</th><td class="border-b px-4 py-3 text-gray-600 break-words">Event labels in the source</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/dualclientkick.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/dualclientkick.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+<li>The restriction is based on IP address, so players sharing a connection can match the same rule. Review the restricted-map list and loadevent mapflags in the source.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/dualclientkick.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>dualclientkick.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Dual Client Kick Script script">Copy</button>
+                    <pre>//===== rAthena Script =======================================
+//= dualclientkicker
+//===== By: rAthena AI Assistant ============================
+//= Prevents dual-clienting on specific maps by checking IP addresses
+//= @reloadnpcfile npc/custom/manuel_npc/dualclientkick.txt
+//============================================================
+-	script	dualclientkicker	-1,{
+OnPCLoadMapEvent:
+	// Check if the current map is one of the restricted maps
+	set .@charmap$, strcharinfo(3);
+	// Use inarray to check if the current map is in the list
+	if (inarray(.maps$[0], .@charmap$) == -1) end;
+
+	// Get the IP address of the triggering player
+	set .@player_ip$, getcharip();
+	set .@player_aid, getcharid(3); // Get the account ID of the triggering player
+
+	set .@same_ip_count, 0;
+
+	// Get a list of all players on the current map by their Account ID
+	set .@num_players_on_map, getmapunits(BL_PC, .@charmap$, .@map_player_aids[0]);
+
+	// Iterate through players on the map
+	for (set .@i, 0; .@i &lt; .@num_players_on_map; set(.@i, .@i + 1)) {
+		set .@current_aid, .@map_player_aids[.@i];
+
+		// Skip the triggering player themselves
+		if (.@current_aid == .@player_aid) continue;
+
+		// Get the IP address of the current player on the map
+		set .@current_ip$, getcharip(.@current_aid);
+
+		// Compare IP addresses
+		if (.@current_ip$ == .@player_ip$) {
+			set .@same_ip_count, .@same_ip_count + 1;
+		}
+	}
+
+	// Check if the count of other players with the same IP exceeds the limit
+	// .limitacc is the maximum allowed *additional* accounts (e.g., 1 means total 2 accounts allowed)
+	if (.@same_ip_count &gt;= .limitacc) {
+		dispbottom "Dual accounts not allowed in this map.";
+		warp "SavePoint",0,0;
+	}
+	end;
+
+OnInit:
+	// Maximum allowed additional accounts with the same IP on the restricted maps
+	set .limitacc, 1; // Allows 1 additional account (total 2)
+
+	// List of maps where dual-clienting is restricted
+	setarray .maps$[0], "poring_w01", "quiz_01";
+
+	// Set mf_loadevent flag on these maps
+	set .@lens, getarraysize(.maps$);
+	for (set .@a, 0; .@a &lt; .@lens; set(.@a, .@a + 1)) {
+		setmapflag .maps$[.@a], mf_loadevent;
+	}
+}</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

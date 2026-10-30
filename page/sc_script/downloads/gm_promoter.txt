@@ -1,0 +1,47 @@
+//===== By:==================================================
+//= Manuel Sintos
+// @reloadnpcfile npc/custom/manuel_npc/gm_promoter.txt
+
+prontera,155,159,5	script	GM Promoter	813,{
+	
+	if (getgroupid() > 0) {
+		mes "[ GM Promoter ]";
+		mes "You are currently a ^FF0000Game Master^000000!";
+		mes "Would you like to revert back to a normal player?";
+		next;
+		switch(select("Yes, revert me:No, keep GM status")) {
+			case 1:
+				next;
+				mes "[ GM Promoter ]";
+				query_sql("UPDATE `login` SET `group_id` = 0 WHERE `account_id` = "+ getcharid(3) +";");
+				mes "You have been reverted to a normal player! Please relog for the changes to take effect.";
+				close;
+			case 2:
+				next;
+				mes "[ GM Promoter ]";
+				mes "Alright, keeping your GM status intact.";
+				close;
+		}
+	}
+
+	mes "[ GM Promoter ]";
+	mes "Your Account ID is: " + getcharid(3);
+	next;
+	mes "[ GM Promoter ]";
+	mes "Do you want to become a GM?";
+	switch(select("Yes:No")) {
+		case 1:
+			next;
+
+			mes "[ GM Promoter ]";
+			query_sql("UPDATE `login` SET `group_id` = 99 WHERE `account_id` = "+ getcharid(3) +";");
+			mes "You are now a Game Master! Please relog for the changes to take effect.";
+			close;
+		case 2:
+			next;
+
+			mes "[ GM Promoter ]";
+			mes "Alright! Let me know if you change your mind.";
+			close;
+	}
+}

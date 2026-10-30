@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fishing Event - rAthena Documentation</title>
+    <meta name="description" content="Fishing spots, @autofish, a fishing equipment seller, and a fish trader share catch and range-checking functions.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Fishing Event</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">Fishing spots, @autofish, a fishing equipment seller, and a fish trader share catch and range-checking functions.</p>
+                <a href="downloads/fishing_event.txt" download="fishing_event.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download fishing_event.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">fishing_event.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">441 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">NPC locations</th><td class="border-b px-4 py-3 text-gray-600 break-words">Fishing Spot — ayothaya (261, 95); Fishing Items Seller — ayothaya (230, 81); Fish Trader — ayothaya (221, 94)</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Bound commands</th><td class="border-b px-4 py-3 text-gray-600 break-words">@autofish, @joinfishing</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Functions included</th><td class="border-b px-4 py-3 text-gray-600 break-words">F_FishingCatchItem, F_FishingSpotInRange</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/fishing_event.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/fishing_event.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+<li>Uses custom fishing items and NPC sprites from the original server. The catch table and equipment checks are defined in this source.</li>
+<li>Both shared fishing functions are included in the same file.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/fishing_event.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>fishing_event.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Fishing Event script">Copy</button>
+                    <pre>//===== rAthena Script =======================================
+//= Fishing Event
+//===== By: ==================================================
+//= Manuel Sintos
+//===== Current Version: =====================================
+//= 1.0
+//===== Description: =========================================
+//= Some items are created to fit this fishing event
+//===== Additional Comments: =================================
+//= 1.1 Added Fishing Spot, Trader, and Item Seller at Hugel
+// @reloadnpcfile npc/custom/manuel_npc/fishing_event.txt
+
+// Shared catch table for clicking the NPC and @autofish. Zero means no catch.
+function	script	F_FishingCatchItem	{
+	.@roll = getarg(0);
+	if (.@roll &lt; 20) return 6771;
+	if (.@roll &lt; 35) return 6772;
+	if (.@roll &lt; 50) return 6773;
+	if (.@roll &lt; 60) return 6775;
+	if (.@roll &lt; 70) return 6778;
+	if (.@roll &lt; 75) return 6770;
+	if (.@roll &lt; 85) return 30338;
+	return 0;
+}
+
+function	script	F_FishingSpotInRange	{
+	if (getarg(3) == "") return 0;
+	if (getmapxy(.@map$, .@x, .@y, BL_NPC, getarg(3))) return 0;
+	return getarg(0) == .@map$ &amp;&amp; distance(getarg(1), getarg(2), .@x, .@y) &lt;= getarg(4);
+}
+
+ayothaya,261,95,3	script	Fishing Spot	10065,{
+	if (@AutoFishing) {
+		dispbottom "Autofishing is active. Use @autofish off to stop.";
+		end;
+	}
+	// Fishing Event item name
+	// 1. Fishing Rod (30006)
+	// 2. Fishing Bots (2443)
+	// 3. Fishing Muffler (2550)
+	// 4. Fishing Hat (30005)
+	// 5. Artificial Lure (30340)
+	setarray .fishingItems_itemID, 30006, 2443, 2550, 30005, 30340;
+
+	// For itemID caught fish.
+	// 1. Tuna (6771)
+	// 2. Octopus (6772)
+	// 3. Snapper (6773)
+	// 4. Salmon (6775)
+	// 5. Squid (6778)
+	// 6. Shark (6770)
+	// 7. Marlin (30338)
+	setarray .caughtFishItemID, 6771, 6772, 6773, 6775, 6778, 6770, 30338;
+
+	// Get the character ID of the player who is fishing
+	.@char_id = getcharid(3);
+
+	// Script to check if the player has the Fishing Rod weapon equipped
+	// and has an artificial lure
+	if (isequipped(.fishingItems_itemID[0])) {
+		if (countitem(.fishingItems_itemID[4]) == 0) {
+			mes "You do not have a ^1100AAArtificial Lure^000000.";
+	    	close;
+		}
+		else {
+			if (isFishing[.@char_id]) {
+				// Show some messege above the head of character
+				showscript "You're currently fishing! Please wait until it's done.", .@char_id, self;
+				end;
+			}
+			else {
+				// Casting time for Fishing
+				set .@fcast,9;
+
+				if (isequipped(.fishingItems_itemID[0])) { //Fishing Rod
+					set .@fcast,.@fcast - 3;
+				}
+				if (isequipped(.fishingItems_itemID[1])) { //Fishing Boots
+					set .@fcast,.@fcast - 2;
+				}
+				if (isequipped(.fishingItems_itemID[2])) { //Fishing Muffler
+					set .@fcast,.@fcast - 2;
+				}
+				if (isequipped(.fishingItems_itemID[3])) { //Fishing Hat
+					set .@fcast,.@fcast - 1;
+				}
+
+				// Show a message above the character's head indicating the action
+				showscript "Throwing lure!", .@char_id, self;
+
+				// Display a progress bar to indicate casting time
+				progressbar "ffffff", .@fcast;
+
+				// Prevents the current char from moving away.
+				pcblockmove .@char_id,1;
+
+				// Set the flag to indicate that this player is currently fishing
+				set isFishing[.@char_id], 1;
+
+				// Show some messege above the head of character
+				showscript "You're fishing!", .@char_id, self;
+
+				// Trigger a bubble special effect at the fishing spot
+				// and Play a water splash sound effect
+				specialeffect EF_BUBBLE, AREA, strnpcinfo(3);
+				soundeffect "splash_water.wav", 0;
+
+				// Display a fishing cutin image (image must be in the correct directory)
+				cutin "2013_summer_fish_1_edit", 1;
+				// Wait for a short moment for effect
+				sleep2 500;
+				cutin "2013_summer_fish_1_edit", 255;
+				cutin "2013_summer_fish_2_edit", 1;
+				sleep2 800;
+				cutin "2013_summer_fish_2_edit", 255;
+				cutin "2013_summer_fish_3_edit", 1;
+				sleep2 800;
+				cutin "2013_summer_fish_3_edit", 255;
+				cutin "2013_summer_fish_4_edit", 1;
+				sleep2 800;
+				cutin "2013_summer_fish_4_edit", 255;
+
+				.@fish = callfunc("F_FishingCatchItem", rand(100));
+				if (.@fish) {
+					cutin "2013_summer_fish_5_edit", 1;
+					getitem .@fish, 1;
+				} else {
+					specialeffect2 611;
+					cutin "2013_summer_fish_6_edit", 1; // No Catched 
+					// You didn't catch anything this time. 15% chance
+				}
+
+				// Play a sound effect for players when a fish is caught
+				soundeffect "catched_fish.wav", 0;
+				
+				// Remove 1 piece of lure from the player's inventory after fishing
+				delitem .fishingItems_itemID[4], 1;
+
+				sleep2 800;
+				cutin "", 255;
+				goto L_Fishing_Complete;
+			}
+		}
+	} else {
+	    mes "You do not have the ^1100AASmall Fishing Rod^000000 weapon equipped.";
+	    close;
+	}
+
+	// Fishing completion logic after sleep
+	L_Fishing_Complete:
+		// Reset the flag after fishing is done
+		set isFishing[.@char_id], 0;
+
+		// Show some messege above the head of character
+		showscript "You finished fishing!", .@char_id, self;
+
+		// Enables the current char to move again.
+		pcblockmove .@char_id,0;
+	end;
+}
+
+// Duplicate Fishing Spot NPC
+ayothaya,261,105,3	duplicate(Fishing Spot)	Fishing Spot#fs2	10065
+ayothaya,255,105,3	duplicate(Fishing Spot)	Fishing Spot#fs3	10065
+ayothaya,247,105,3	duplicate(Fishing Spot)	Fishing Spot#fs4	10065
+ayothaya,239,105,3	duplicate(Fishing Spot)	Fishing Spot#fs5	10065
+ayothaya,239,88,3	duplicate(Fishing Spot)	Fishing Spot#fs6	10065
+ayothaya,247,88,3	duplicate(Fishing Spot)	Fishing Spot#fs7	10065
+ayothaya,257,88,3	duplicate(Fishing Spot)	Fishing Spot#fs8	10065
+ayothaya,188,67,3	duplicate(Fishing Spot)	Fishing Spot#fs9	10065
+ayothaya,193,69,3	duplicate(Fishing Spot)	Fishing Spot#fs10	10065
+hugel,214,191,3	duplicate(Fishing Spot)	Fishing Spot#fs11	10065
+hugel,216,197,3	duplicate(Fishing Spot)	Fishing Spot#fs12	10065
+hugel,224,224,3	duplicate(Fishing Spot)	Fishing Spot#fs13	10065
+hugel,223,233,3	duplicate(Fishing Spot)	Fishing Spot#fs14	10065
+
+
+// Player timers separate the casting bar and fishing animations.
+-	script	AutoFishing	-1,{
+OnInit:
+	.Range = 10; // Maximum distance; standing closer is allowed.
+	.Rod = 30006;
+	.Lure = 30340;
+	setarray .Spots$[0], "Fishing Spot", "Fishing Spot#fs2", "Fishing Spot#fs3",
+		"Fishing Spot#fs4", "Fishing Spot#fs5", "Fishing Spot#fs6", "Fishing Spot#fs7",
+		"Fishing Spot#fs8", "Fishing Spot#fs9", "Fishing Spot#fs10", "Fishing Spot#fs11",
+		"Fishing Spot#fs12", "Fishing Spot#fs13", "Fishing Spot#fs14";
+	bindatcmd "autofish", strnpcinfo(3) + "::OnCommand";
+	end;
+
+OnCommand:
+	// Bound commands queued during a progress bar lose their parameters in
+	// this emulator. Treat a queued command as stop, never as another start.
+	if (.@atcmd_command$ == "") {
+		if (@AutoFishing) callsub S_Stop, "Autofishing stopped.";
+		else dispbottom "Use @autofish after closing your current NPC interaction.";
+		end;
+	}
+	if (.@atcmd_numparameters == 1 &amp;&amp; strtolower(.@atcmd_parameters$[0]) == "off") {
+		if (!@AutoFishing) {
+			dispbottom "Autofishing is already off.";
+			end;
+		}
+		callsub S_Stop, "Autofishing stopped.";
+		end;
+	}
+	if (.@atcmd_numparameters) {
+		dispbottom "Usage: @autofish or @autofish off";
+		end;
+	}
+	if (@AutoFishing) {
+		dispbottom "Autofishing is already active. Use @autofish off to stop.";
+		end;
+	}
+	if (isFishing[getcharid(3)]) {
+		dispbottom "Please finish your current fishing attempt first.";
+		end;
+	}
+	@AutoFishSpot$ = "";
+	getmapxy .@map$, .@x, .@y, BL_PC;
+	.@nearest = .Range + 1;
+	for (.@i = 0; .@i &lt; getarraysize(.Spots$); .@i++) {
+		if (getmapxy(.@npcmap$, .@nx, .@ny, BL_NPC, .Spots$[.@i])) continue;
+		if (.@npcmap$ != .@map$) continue;
+		.@distance = distance(.@x, .@y, .@nx, .@ny);
+		if (.@distance &lt; .@nearest) {
+			@AutoFishSpot$ = .Spots$[.@i];
+			.@nearest = .@distance;
+		}
+	}
+	.@reason$ = callsub(S_Check);
+	if (.@reason$ != "") {
+		dispbottom .@reason$;
+		end;
+	}
+	@AutoFishing = 1;
+	@AutoFishPhase = 0;
+	pcblockmove getcharid(3), 1;
+	@AutoFishLocked = 1;
+	deltimer strnpcinfo(3) + "::OnStep";
+	dispbottom "Autofishing started. Use @autofish off to stop.";
+	addtimer 1, strnpcinfo(3) + "::OnStep";
+	end;
+
+OnStep:
+	if (!@AutoFishing) end;
+	.@reason$ = callsub(S_Check);
+	if (.@reason$ != "") {
+		callsub S_Stop, .@reason$;
+		end;
+	}
+	switch (@AutoFishPhase) {
+	case 0:
+		face_npc @AutoFishSpot$;
+		// Same cast-time bonuses as manual fishing: 6 seconds down to 1.
+		.@fcast = 6 - 2 * isequipped(2443) - 2 * isequipped(2550) - isequipped(30005);
+		isFishing[getcharid(3)] = 1;
+		showscript "Throwing lure!", getcharid(3), self;
+		@AutoFishCasting = 1;
+		// If the client cancels the bar, the script ends before its next line.
+		// The watchdog then releases the movement lock and cancels autofishing.
+		addtimer .@fcast * 1000 + 1000, strnpcinfo(3) + "::OnCastTimeout";
+		progressbar "ffffff", .@fcast;
+		@AutoFishCasting = 0;
+		deltimer strnpcinfo(3) + "::OnCastTimeout";
+		if (!@AutoFishing) end;
+		.@delay = 1; // The progress bar already waited for the casting time.
+		break;
+	case 1:
+		showscript "You're fishing!", getcharid(3), self;
+		specialeffect EF_BUBBLE, AREA, @AutoFishSpot$;
+		soundeffect "splash_water.wav", 0;
+		cutin "2013_summer_fish_1_edit", 1;
+		.@delay = 500;
+		break;
+	case 2:
+	case 3:
+	case 4:
+		cutin "2013_summer_fish_" + @AutoFishPhase + "_edit", 1;
+		.@delay = 800;
+		break;
+	case 5:
+		.@fish = callfunc("F_FishingCatchItem", rand(100));
+		// Script &amp;&amp; evaluates both operands; never pass the no-catch ID to checkweight.
+		if (.@fish) {
+			if (!checkweight(.@fish, 1)) {
+				callsub S_Stop, "Autofishing stopped: make room in your inventory.";
+				end;
+			}
+		}
+		// Charge once, including unsuccessful attempts, before granting a catch.
+		delitem .Lure, 1;
+		if (.@fish) {
+			getitem .@fish, 1;
+			cutin "2013_summer_fish_5_edit", 1;
+			// dispbottom "Caught " + getitemname(.@fish) + "!";
+		} else {
+			specialeffect2 611;
+			cutin "2013_summer_fish_6_edit", 1;
+		}
+		soundeffect "catched_fish.wav", 0;
+		if (!countitem(.Lure)) {
+			callsub S_Stop, "Autofishing stopped: no Artificial Lure remaining.";
+			end;
+		}
+		.@delay = 800;
+		break;
+	case 6:
+		cutin "", 255;
+		@AutoFishPhase = 0;
+		addtimer 500, strnpcinfo(3) + "::OnStep";
+		end;
+	}
+	@AutoFishPhase++;
+	addtimer .@delay, strnpcinfo(3) + "::OnStep";
+	end;
+
+OnCastTimeout:
+	if (@AutoFishing &amp;&amp; @AutoFishCasting)
+		callsub S_Stop, "Autofishing stopped: casting was interrupted.";
+	end;
+
+S_InRange:
+	if (getmapxy(.@map$, .@x, .@y, BL_PC)) return 0;
+	return callfunc("F_FishingSpotInRange", .@map$, .@x, .@y, getarg(0), .Range);
+
+S_Check:
+	if (isdead()) return "Autofishing stopped: you are dead.";
+	if (!callsub(S_InRange, @AutoFishSpot$))
+		return "Autofishing requires a Fishing Spot within " + .Range + " cells.";
+	if (!isequipped(.Rod)) return "Autofishing stopped: equip your Small Fishing Rod.";
+	if (!countitem(.Lure)) return "Autofishing stopped: no Artificial Lure remaining.";
+	return "";
+
+S_Stop:
+	deltimer strnpcinfo(3) + "::OnStep";
+	deltimer strnpcinfo(3) + "::OnCastTimeout";
+	if (@AutoFishLocked) pcblockmove getcharid(3), 0;
+	cutin "", 255;
+	isFishing[getcharid(3)] = 0;
+	@AutoFishing = 0;
+	@AutoFishLocked = 0;
+	@AutoFishPhase = 0;
+	@AutoFishCasting = 0;
+	@AutoFishSpot$ = "";
+	if (getarg(0, "") != "") dispbottom getarg(0);
+	return;
+
+OnPCDieEvent:
+OnPCLogoutEvent:
+	if (@AutoFishing) callsub S_Stop;
+	end;
+
+OnPCLoginEvent:
+	// Character timers never survive logout; clear any saved fishing flag too.
+	isFishing[getcharid(3)] = 0;
+	end;
+}
+
+// Fishing Item Seller NPC
+ayothaya,230,81,7	script	Fishing Items Seller	843,{
+	// Get the character ID of the player who is fishing
+	if (isFishing[getcharid(3)]) {
+		// Show some messege above the head of character
+		showscript "You're currently fishing! Please wait until it's done.", getcharid(3), self;
+		end;
+	}
+
+	callshop "itemForFishing",1; end; 
+}
+-	shop	itemForFishing	-1,30006:320000000,2443:250000000,2550:250000000,30005:200000000,30340:500000;
+
+// Duplicate NPC
+hugel,202,221,5	duplicate(Fishing Items Seller)	Fishing Items Seller#fis2	578
+
+// Fishing Trader NPC
+ayothaya,221,94,7	script	Fish Trader	842,{
+	// Get the character ID of the player who is fishing
+	if (isFishing[getcharid(3)]) {
+		// Show some messege above the head of character
+		showscript "You're currently fishing! Please wait until it's done.", getcharid(3), self;
+		end;
+	}
+
+	switch(select("Tuna:Octopus:Snapper:Salmon:Squid:Shark:Marlin")) {
+		case 1: callshop "Tuna",0; end; break;
+		case 2: callshop "Octopus",0; end; break;
+		case 3: callshop "Snapper",0; end; break;
+		case 4: callshop "Salmon",0; end; break;
+		case 5: callshop "Squid",0; end; break;
+		case 6: callshop "Shark",0; end; break;
+		case 7: callshop "Marlin",0; end; break;
+	}
+}
+
+-	itemshop	Tuna	-1,6771,16394:100,16396:100
+-	itemshop	Octopus	-1,6772,16394:100,16396:100
+-	itemshop	Snapper	-1,6773,16394:90,16396:90
+-	itemshop	Salmon	-1,6775,16394:80,16396:80
+-	itemshop	Squid	-1,6778,16394:60,16396:60
+-	itemshop	Shark	-1,6770,16394:50,16396:50
+-	itemshop	Marlin	-1,30338,16394:50,16396:50
+
+// Duplicate NPC
+hugel,198,214,5	duplicate(Fish Trader)	Fish Trader#ft2	850
+prontera,164,141,5	duplicate(Fish Trader)	Fish Trader#prt2	850
+
+
+-	script	joinFishing	-,{
+	
+	OnInit:
+		bindatcmd "joinfishing", strnpcinfo(3) + "::OnFishing";
+	end;
+
+	OnFishing:
+		// Attach the player who used the command
+		attachrid(getcharid(3));
+
+		// Define coordinates and maps
+		setarray .@hugelCoordinates[0], 205, 208;
+		setarray .@ayothayaCoordinates[0], 231, 100;
+		setarray .@map$, "ayothaya", "hugel";
+
+		// Randomly choose Ayothaya or Hugel
+		.@choice = rand(2);
+		
+		// Set coordinates based on choice
+		if (.@choice == 0) {
+			.@map$ = .@map$[0];
+			.@x = .@ayothayaCoordinates[0];
+			.@y = .@ayothayaCoordinates[1];
+		} else {
+			.@map$ = .@map$[1];
+			.@x = .@hugelCoordinates[0];
+			.@y = .@hugelCoordinates[1];
+		}
+
+		// Warp the player
+		warp .@map$, .@x, .@y;
+	end;
+}
+</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

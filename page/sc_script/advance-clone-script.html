@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advance Clone Script - rAthena Documentation</title>
+    <meta name="description" content="The @msclone command creates player clones with configurable appearance, combat behavior, and respawn handling.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Advance Clone Script</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">The @msclone command creates player clones with configurable appearance, combat behavior, and respawn handling.</p>
+                <a href="downloads/clone_master.txt" download="clone_master.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download clone_master.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">clone_master.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">156 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Bound commands</th><td class="border-b px-4 py-3 text-gray-600 break-words">@msclone</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/clone_master.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/clone_master.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+<li>The source binds @msclone and parses a character ID, map, and clone count. Review the bindatcmd access levels and the clone settings before loading.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/clone_master.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>clone_master.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Advance Clone Script script">Copy</button>
+                    <pre>//===== rAthena Script =======================================
+//= Clone Spawner
+//===== By: rAthena AI Assistant ============================
+//= Spawns a clone of the player who clicks the NPC.
+//= The clone will automatically respawn a few seconds after being killed.
+//= The clone will now autotarget the cloned player with a skill.
+//=	@reloadnpcfile npc/custom/manuel_npc/clone_master.txt
+//============================================================
+-	script	cloneCmd	-,{
+
+	// This block runs once when the NPC script is loaded (e.g., during server startup or @reloadscript).
+	OnInit:
+		// Binds the "@msclone" GM command to the "OnBokClone" label within this NPC.
+		// - "msclone": The command name.
+		// - strnpcinfo(0) + "::OnBokClone": The event label to trigger (this NPC's unique name followed by the label).
+		// - 0: Minimum GM level for the command (player level 0).
+		// - 99: Maximum GM level for the command (GM level 99).
+		bindatcmd("msclone", strnpcinfo(0) + "::OnBokClone", 0, 99);
+		end;
+	
+	// This label is triggered when the "@msclone" command is used by a GM.
+	OnBokClone:
+		attachrid(getcharid(0));
+		// Retrieves parameters passed with the GM command.
+		// @atcmd_parameters$[0]: First parameter (expected: target character's Account ID / GID).
+		// @atcmd_parameters$[1]: Second parameter (expected: map name for spawning).
+		// @atcmd_parameters$[2]: Third parameter (expected: number of clones to spawn).
+		set $@charid, atoi(.@atcmd_parameters$[0]); // Stores the target player's Account ID (RID) in a global temporary variable.
+		set $@map$, .@atcmd_parameters$[1];          // Stores the target map name in a global temporary variable.
+		set .@count, atoi(.@atcmd_parameters$[2]);   // Stores the number of clones to spawn.
+
+		// Input validation: Checks if required parameters are valid.
+		if ($@charid &lt;= 0 || $@map$ == "" || .@count &lt;= 0) {
+			dispbottom "Usage: @msclone &lt;char_id&gt; &lt;map&gt; &lt;count&gt;"; // Informs the GM of incorrect usage.
+			end; // Terminates the script if input is invalid.
+		}
+		
+		// set the top headgear
+		setarray .itemHGTop, 99, 513, 1301;
+		// Set the low headgear
+		setarray .itemHGBottom, 2204, 2205, 2206, 2209;
+		// set the job Class
+		setarray .jobclassTarget, 4016, 4077, 4262;
+		// set RobeID
+		setarray .itemRobe, 23, 25, 1, 12, 14, 16;
+		
+		// Pre-calculate the combined mob mode flags to avoid "player not attached!" errors.
+		set $@mob_mode_flags, MD_AGGRESSIVE | MD_SKILL | MD_ANGRY | MD_LOOTER;
+		
+		// Loop to spawn the specified number of clones.
+		for (.@i = 0; .@i &lt; .@count; .@i++) {
+			
+			// Spawns a clone of the target player.
+			// - $@map$, .@x, .@y: Map and coordinates for the clone's spawn.
+			// - strnpcinfo(0)+"::OnMSCloneKilled": The event label to call when this specific clone is killed.
+			//   This ensures that each clone's death triggers a respawn.
+			// - $@charid: The Account ID (GID) of the player to clone.
+			// - 0: Master ID (0 means no master).
+			// - 0: Mob mode (default).
+			// - 1: Flag for summoned monster (targets other monsters).
+			set .@cloneGID, clone($@map$, 0, 0, strnpcinfo(0)+"::OnMSCloneKilled", $@charid, 0, 0, 1);
+			
+			setunitdata .@cloneGID, UMOB_MAXHP, 990000;
+			setunitdata .@cloneGID, UMOB_HP, 990000;
+			setunitdata .@cloneGID, UMOB_STR, 1000;
+			setunitdata .@cloneGID, UMOB_AGI, 10000;
+			setunitdata .@cloneGID, UMOB_DEX, 10000;
+			setunitdata .@cloneGID, UMOB_LUK, 1000;
+			// Randomly Choose RobeID
+			setunitdata .@cloneGID, UMOB_ROBE, .itemRobe[rand(getarraysize(.itemRobe))];
+			// Set the clone's gender (0 for female, 1 for male).
+			setunitdata .@cloneGID, UMOB_SEX, rand(0, 1);
+			// Set Top, Bottom Headgear and Job Class
+			setunitdata .@cloneGID, UMOB_HEADTOP, .itemHGTop[rand(getarraysize(.itemHGTop))];
+			setunitdata .@cloneGID, UMOB_HEADBOTTOM, .itemHGBottom[rand(getarraysize(.itemHGBottom))];
+			setunitdata .@cloneGID, UMOB_CLASS, .jobclassTarget[rand(getarraysize(.jobclassTarget))];
+		}
+		
+		// Set the mobai into attack
+		setunitdata .@cloneGID, UMOB_AI, AI_ATTACK;
+		// Make the clone aggressive, able to move, and use skills.
+		setunitdata .@cloneGID, UMOB_MODE, MD_AGGRESSIVE | MD_SKILL | MD_ANGRY | MD_LOOTER; // Use the pre-calculated flag.
+
+		// Announces to the map that clones have been spawned.
+		// strcharinfo(3) gets the name of the map where the command was issued.
+		mapannounce strcharinfo(3), "Spawned clones of ["+$@charid+"] in map ["+$@map$+"]", bc_blue;
+		end; // Ends the OnBokClone script instance.
+
+	// This label is triggered when a cloned monster is killed.
+	OnMSCloneKilled:
+		
+		set .@player_aid, playerattached();
+		// set the top headgear
+		setarray .itemHGTop, 99, 513, 1301;
+		// Set the low headgear
+		setarray .itemHGBottom, 2204, 2205, 2206, 2209;
+		// set the job Class
+		setarray .jobclassTarget, 4016, 4077, 4262;
+		// set RobeID
+		setarray .itemRobe, 23, 25, 1, 12, 14, 16;
+
+		if (.@player_aid != 0) {
+			// This creates a continuous respawn cycle.
+			// The GID of the *newly spawned* clone for this specific event instance is stored in .@cloneGID.
+			set .@cloneGID, clone($@map$, 0, 0, strnpcinfo(0)+"::OnMSCloneKilled", $@charid, 0, 0, 1);
+			announce "Killed by Player: Respawned clones of ["+$@charid+"] in map ["+$@map$+"]", bc_blue;
+			
+			setunitdata .@cloneGID, UMOB_MAXHP, 990000;
+			setunitdata .@cloneGID, UMOB_HP, 990000;
+			setunitdata .@cloneGID, UMOB_STR, 1000;
+			setunitdata .@cloneGID, UMOB_AGI, 10000;
+			setunitdata .@cloneGID, UMOB_DEX, 10000;
+			setunitdata .@cloneGID, UMOB_LUK, 1000;
+			// Randomly Choose RobeID
+			setunitdata .@cloneGID, UMOB_ROBE, .itemRobe[rand(getarraysize(.itemRobe))];
+			// Set the clone's gender (0 for female, 1 for male).
+			setunitdata .@cloneGID, UMOB_SEX, rand(0, 1);
+			// Set Top, Bottom Headgear and Job Class
+			setunitdata .@cloneGID, UMOB_HEADTOP, .itemHGTop[rand(getarraysize(.itemHGTop))];
+			setunitdata .@cloneGID, UMOB_HEADBOTTOM, .itemHGBottom[rand(getarraysize(.itemHGBottom))];
+			setunitdata .@cloneGID, UMOB_CLASS, .jobclassTarget[rand(getarraysize(.jobclassTarget))];
+			
+			// Set the mobai into attack
+			setunitdata .@cloneGID, UMOB_AI, AI_ATTACK;
+			// Make the clone aggressive, able to move, and use skills.
+			setunitdata .@cloneGID, UMOB_MODE, MD_AGGRESSIVE | MD_SKILL | MD_ANGRY | MD_LOOTER; // Use the pre-calculated flag.
+		}
+		else {
+			// This creates a continuous respawn cycle.
+			// The GID of the *newly spawned* clone for this specific event instance is stored in .@cloneGID.
+			set .@cloneGID, clone($@map$, 0, 0, strnpcinfo(0)+"::OnMSCloneKilled", $@charid, 0, 0, 1);
+			announce "Killed by Mobs: Respawned clones of ["+$@charid+"] in map ["+$@map$+"]", bc_blue;
+			
+			setunitdata .@cloneGID, UMOB_MAXHP, 990000;
+			setunitdata .@cloneGID, UMOB_HP, 990000;
+			setunitdata .@cloneGID, UMOB_STR, 1000;
+			setunitdata .@cloneGID, UMOB_AGI, 10000;
+			setunitdata .@cloneGID, UMOB_DEX, 10000;
+			setunitdata .@cloneGID, UMOB_LUK, 1000;
+			// Randomly Choose RobeID
+			setunitdata .@cloneGID, UMOB_ROBE, .itemRobe[rand(getarraysize(.itemRobe))];
+			// Set the clone's gender (0 for female, 1 for male).
+			setunitdata .@cloneGID, UMOB_SEX, rand(0, 1);
+			// Set Top, Bottom Headgear and Job Class
+			setunitdata .@cloneGID, UMOB_HEADTOP, .itemHGTop[rand(getarraysize(.itemHGTop))];
+			setunitdata .@cloneGID, UMOB_HEADBOTTOM, .itemHGBottom[rand(getarraysize(.itemHGBottom))];
+			setunitdata .@cloneGID, UMOB_CLASS, .jobclassTarget[rand(getarraysize(.jobclassTarget))];
+			
+			// Set the mobai into attack
+			setunitdata .@cloneGID, UMOB_AI, AI_ATTACK;
+			// Make the clone aggressive, able to move, and use skills.
+			setunitdata .@cloneGID, UMOB_MODE, $@mob_mode_flags; // Use the pre-calculated flag.
+		}
+		end; 
+		
+}</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

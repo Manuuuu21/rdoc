@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Refiner - rAthena Documentation</title>
+    <meta name="description" content="Euphy&#x27;s Ticket Refiner checks equipped items and uses refinement tickets through the Refine Master NPC.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Ticket Refiner</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">Euphy&#x27;s Ticket Refiner checks equipped items and uses refinement tickets through the Refine Master NPC.</p>
+                <a href="downloads/ticket_refiner.txt" download="ticket_refiner.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download ticket_refiner.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">ticket_refiner.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">194 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">NPC locations</th><td class="border-b px-4 py-3 text-gray-600 break-words">Refine Master — prontera (183, 214)</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/ticket_refiner.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/ticket_refiner.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+<li>Load the external functions called by this script: <code>F_IsEquipIDHack</code>, <code>F_IsEquipRefineHack</code>, <code>F_IsEquipCardHack</code>.</li>
+<li>The listed <code>F_</code> helper functions are provided by <code>npc/other/Global_Functions.txt</code> in the supplied emulator.</li>
+<li>Original author and version comments from Euphy are retained in the source.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/ticket_refiner.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>ticket_refiner.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Ticket Refiner script">Copy</button>
+                    <pre>//===== rAthena Script ======================================= 
+//= Ticket Refiner
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Refiner that uses +5~9/+11 refine tickets to refine
+//= equipment with no chance of failure.
+//= NOTE: This NPC is currently disabled on official servers.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//= 1.1 Do not refine above ticket level. [Euphy]
+//============================================================
+
+// Main NPC :: safety_Ref_NPC
+//============================================================
+prontera,183,214,3	script	Refine Master	851,{
+	disable_items;
+	if (countitem(6238) || countitem(6228) || countitem(6229) || countitem(6230) || countitem(6231) || countitem(6456))
+		set .@bWeaponUp,1;
+	if (countitem(6239) || countitem(6232) || countitem(6233) || countitem(6234) || countitem(6235) || countitem(6457))
+		set .@bArmorUp,1;
+	if (!.@bWeaponUp &amp;&amp; !.@bArmorUp) {
+		mes "[Refine Master]";
+		mes "Hello!";
+		mes "What's up?";
+		mes "I'm a specialist";
+		mes "for refining items,";
+		mes "but I don't work anymore.";
+		next;
+		switch(select("I'll go on my way.:Hmm... this makes me curious.")) {
+		case 1:
+			mes "[Refine Master]";
+			mes "Take care, adventurer.";
+			close;
+		case 2:
+			mes "[Refine Master]";
+			mes "Actually, I sometimes provide refine services for adventurers with a ^006400Refine Ticket^000000...";
+			mes "Bye bye~!";
+			close;
+		}
+	}
+	emotion ET_SURPRISE;
+	mes "[Refine Master]";
+	mes "Greetings!";
+	mes "I can refine an item up to the ^006400same level as your ticket^000000.";
+	mes "You don't have to worry! There's no chance of breaking your item.";
+	next;
+	if(select("I'll come back later.:Refine item with ticket.") == 1) {
+		mes "[Refine Master]";
+		mes "Okay.";
+		mes "You can come again later.";
+		close;
+	}
+	mes "[Refine Master]";
+	mes "Which equipment would you like to refine?";
+	next;
+	setarray .@position$[1],"Head upper","Armor","Left hand","Right hand","Robe","Shoes","Accessory 1","Accessory 2","Head middle","Head lower";
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+	for(set .@i,1; .@i&lt;=10; set .@i,.@i+1)
+		set .@menu$, .@menu$+((getequipisequiped(.@indices[.@i]))?getequipname(.@indices[.@i]):.@position$[.@i]+"- [Empty]")+":";
+	set .@part, .@indices[ select(.@menu$) ];
+	if (!getequipisequiped(.@part)) {
+		mes "[Refine Master]";
+		mes "You have to equip the item you want to refine.";
+		close;
+	}
+	if (!getequipisenableref(.@part)) {
+		emotion ET_OTL;
+		mes "[Refine Master]";
+		mes "Oh, I'm sorry.";
+		mes "This item is impossible to refine.";
+		close;
+	}
+	.@refineitemid = getequipid(.@part); // save id of the item
+	.@refinerycnt = getequiprefinerycnt(.@part); //save refinery count
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	.@itemtype = getiteminfo( .@refineitemid, ITEMINFO_TYPE );
+	if( .@itemtype == IT_WEAPON ){
+		switch( getequipweaponlv( .@part ) ){
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+				setarray .@tickets[0],6456,6231,6230,6229,6228,6238;
+				setarray .@levels[0],5,6,7,8,9,10;
+				set .@type$,"Weapon";
+				set .@check,.@bWeaponUp;
+				break;
+			default:
+				// TODO:
+				close;
+		}
+	}else if( .@itemtype == IT_ARMOR ){
+		switch( getequiparmorlv( .@part ) ){
+			case 1:
+				setarray .@tickets[0],6457,6235,6234,6233,6232,6239;
+				setarray .@levels[0],5,6,7,8,9,10;
+				set .@type$,"Armor";
+				set .@check,.@bArmorUp;
+				break;
+			default:
+				// TODO:
+				close;
+		}
+	}else{
+		// TODO:
+		close;
+	}
+	if (!.@check) {
+		emotion ET_THINK;
+		mes "[Refine Master]";
+		mes "If you want to refine this ^006400"+.@type$+"^000000, please come along with ^006400"+.@type$+" Refine Ticket^000000.";
+		mes "See you later!";
+		close;
+	}
+	mes "[Refine Master]";
+	mes "Please choose which ^006400"+.@type$+" Refine Ticket^000000 you want to use.";
+	next;
+	set .@menu$,"";
+	for(set .@i,0; .@i&lt;getarraysize(.@tickets); set .@i,.@i+1)
+		set .@menu$, .@menu$+getitemname(.@tickets[.@i])+":";
+	set .@select, select(.@menu$)-1;
+	set .@ticket_lv, .@levels[.@select];
+	set .@ticket_id, .@tickets[.@select];
+	if (countitem(.@ticket_id) == 0) {
+		emotion ET_QUESTION;
+		mes "[Refine Master]";
+		mes getitemname(.@ticket_id)+" is not in your inventory. Did you put it in your storage?";
+		mes "Please check again.";
+		mes "See you later!";
+		close;
+	}
+	if (getequiprefinerycnt(.@part) &gt;= .@ticket_lv) {
+		emotion ET_PROFUSELY_SWEAT;
+		mes "[Refine Master]";
+		mes "^8B4513This item is already refined as much as your deed.^000000";
+		mes "Please come along with an item refined less than your ticket.";
+		close;
+	}
+	mes "[Refine Master]";
+	mes "I'm going to refine ^006400"+getequipname(.@part)+"^8B4513 up to the +"+.@ticket_lv+" level^000000 with ^006400"+getitemname(.@ticket_id)+"^000000.";
+	mes "May I proceed?";
+	next;
+	if(select("No.:Yes.") == 1) {
+		emotion ET_THINK;
+		mes "[Refine Master]";
+		mes "Oh, you changed your mind.";
+		mes "Ok.";
+		mes "You can come back later.";
+		close;
+	}
+	mes "[Refine Master]";
+	mes "Great.";
+	mes "As you wish!";
+	mes "I have my own special way to refine...";
+	mes ".......ka boom!";
+	specialeffect EF_SUI_EXPLOSION;
+	if (countitem(.@ticket_id)) {
+		delitem .@ticket_id,1;
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", .@part, .@refineitemid) ||
+			callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3])) {
+			mes "[Refine Master]";
+			emotion ET_FRET;
+			mes "Wait a second...";
+			mes "Do you think I'm stupid?!";
+			mes "You switched the item while I wasn't looking! Get out of here!";
+			close;
+		}
+	} else {
+		next;
+		mes "Error!";
+		mes "Please report this.";
+		close;
+	}
+	successrefitem .@part, .@ticket_lv - getequiprefinerycnt(.@part);
+	next;
+	emotion ET_DELIGHT;
+	mes "[Refine Master]";
+	mes "Alright, here it is~";
+	mes "Well, ^0000FF"+strcharinfo(0)+"^000000!";
+	mes "Congratulations on your shining "+.@type$+".";
+	mes "You look GREAT!";
+	mes "Farewell~!";
+	close;
+}
+
+
+</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

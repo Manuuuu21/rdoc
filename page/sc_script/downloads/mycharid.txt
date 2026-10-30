@@ -1,0 +1,18 @@
+//===== rAthena Script =======================================
+//= Custom Command: @mycharid
+//===== By: rAthena AI Assistant ============================
+//= Binds a custom @command to display the user's character ID.
+//============================================================
+-	script	atcmd_mycharid	-1,{
+OnInit:
+	// Bind the @mycharid command to the OnMyCharIDCommand event label.
+	// This command can be used by players with GM level 0 (default).
+	bindatcmd "mycharid", strnpcinfo(3) + "::OnMyCharIDCommand", 0;
+	end;
+
+OnMyCharIDCommand:
+	// Get the character ID of the invoking player.
+	// getcharid(0) returns the character's unique ID.
+	dispbottom "Your Character ID is: " + getcharid(0);
+	end;
+}

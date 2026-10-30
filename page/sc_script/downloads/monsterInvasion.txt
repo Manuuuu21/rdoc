@@ -1,0 +1,99 @@
+// @reloadnpc npc/custom/manuel_npc/monsterInvasion.txt
+
+-	script	Monster Invasion	-,{
+
+	OnInit:
+		// Initial delay after server start or script reload before starting the first event
+		sleep 10000;
+
+	OnTimer7200000:
+		// Reset and start the timer for every 2 hours
+		initnpctimer;
+
+		// Safely remove any remaining event monsters from a previous invasion without affecting map mobs or player_mbase
+		killmonster "payon", "Monster Invasion::OnWaveClear";
+		killmonster "payon", "Monster Invasion::OnMI_TboxDestroyed";
+
+		announce "Monster Invasion is starting in 1 minute! Please head to Payon!!", bc_all, 0xf7be6e;
+	end;
+
+	OnTimer30000:
+		announce "Monster Invasion is starting in 30 seconds!", bc_all, 0xf7be6e;
+	end;
+
+	OnTimer60000:
+		sleep 1000;
+		announce "Monster Invasion is starting in 5 seconds.", bc_all, 0xf7be6e;
+		sleep 1000;
+		announce "Monster Invasion is starting in 4 seconds.", bc_all, 0xf7be6e;
+		sleep 1000;
+		announce "Monster Invasion is starting in 3 seconds.", bc_all, 0xf7be6e;
+		sleep 1000;
+		announce "Monster Invasion is starting in 2 seconds.", bc_all, 0xf7be6e;
+		sleep 1000;
+		announce "Monster Invasion is starting in 1 second.", bc_all, 0xf7be6e;
+		sleep 1000;
+		announce "The Monster Invasion event has started!", bc_all, 0xf7be6e;
+
+		// Initialize wave counter
+		.wave = 1;
+		// Call the invasion starter
+		goto mI_Start;
+	end;
+
+	mI_Start:
+		// Announce the wave number
+		mapannounce "payon", "Wave " + .wave + " is coming! Get ready!", bc_map, 0xf7be6e;
+
+		// Spawn monsters based on the wave number
+		switch (.wave) {
+			case 1:
+				monster "payon", 153, 220, "Poring", 1002, 5, "Monster Invasion::OnWaveClear";
+			break;
+			case 2:
+				monster "payon", 153, 220, "Marin", 1242, 5, "Monster Invasion::OnWaveClear";
+			break;
+			case 3:
+				monster "payon", 153, 220, "Picky", 1049, 5, "Monster Invasion::OnWaveClear";
+			break;
+			case 4:
+				monster "payon", 153, 220, "Poporing", 1031, 5, "Monster Invasion::OnWaveClear";
+			break;
+			case 5:
+				monster "payon", 153, 220, "Drops", 1113, 5, "Monster Invasion::OnWaveClear"; // 1113
+			break;
+		}
+	end;
+
+	OnWaveClear:
+		set .@mobCounting, mobcount("payon", "Monster Invasion::OnWaveClear");
+
+		if (.@mobCounting == 0) {
+			.wave++; // Increment wave number
+
+			sleep 2000;
+
+			// If there are more waves, announce and start the next wave
+			if (.wave < 6) {
+				goto mI_Start; // Start the next wave
+			} else {
+				// Final wave cleared, spawn treasure boxes
+				monster "payon", 148, 224, "Treasure Box", 2288, 1, "Monster Invasion::OnMI_TboxDestroyed";
+				monster "payon", 153, 221, "Treasure Box", 2288, 1, "Monster Invasion::OnMI_TboxDestroyed";
+
+				announce "Congratulations! the monster invasion waves have all been defeated!!", bc_all, 0xf7be6e;
+			}
+		}
+	end;
+
+	OnMI_TboxDestroyed:
+		// Check if a player is attached (killed by player)
+		if (playerattached()) {
+			// Reward the player who killed the treasure box
+			callfunc("eventRewards");
+		} 
+		else if ($killermobgid > 0) {
+			// Do nothing
+		}
+	end;
+}

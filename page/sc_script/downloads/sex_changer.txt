@@ -1,0 +1,31 @@
+//===== rAthena Script =======================================
+//= Sex Changer
+//===== By: rAthena AI Assistant ============================
+//= Allows players to change their character's sex for a fee.
+//============================================================
+prontera,187,210,4	script	Sex Changer	814,{
+	mes "[Sex Changer]";
+	mes "Greetings, adventurer. Are you perhaps feeling a disconnect between your inner self and your outward appearance?";
+	mes "For a fee of 1 TCG Card, I can help you change your gender.";
+	next;
+	if (countitem(7227) < 1) {
+		mes "[Sex Changer]";
+		mes "It seems you do not have a TCG Card. Please bring one if you wish to proceed.";
+		close;
+	}
+
+	mes "[Sex Changer]";
+	mes "You have 1 TCG Card. Are you sure you wish to proceed with the gender change?";
+	switch(select("Yes, change my gender.","No, I've changed my mind.")) {
+		case 1:
+			delitem 7227,1;
+			changecharsex getcharid(0); // Changed: Now changes gender only for the interacting character.
+			mes "[Sex Changer]";
+			mes "Your gender has been changed. You will be disconnected to apply the changes.";
+			close;
+		case 2:
+			mes "[Sex Changer]";
+			mes "Very well. Come back if you change your mind.";
+			close;
+	}
+}

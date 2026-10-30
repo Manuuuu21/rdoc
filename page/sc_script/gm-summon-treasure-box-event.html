@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM Summon Treasure Box Event - rAthena Documentation</title>
+    <meta name="description" content="A floating event NPC broadcasts GM-style announcements, summons a treasure box, and handles the box&#x27;s reward event.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">GM Summon Treasure Box Event</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">A floating event NPC broadcasts GM-style announcements, summons a treasure box, and handles the box&#x27;s reward event.</p>
+                <a href="downloads/gmtrigger_event.txt" download="gmtrigger_event.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download gmtrigger_event.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">gmtrigger_event.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">130 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Entry points</th><td class="border-b px-4 py-3 text-gray-600 break-words">Event labels in the source</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/gmtrigger_event.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/gmtrigger_event.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/gmtrigger_event.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>gmtrigger_event.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy GM Summon Treasure Box Event script">Copy</button>
+                    <pre>//===== rAthena Script =======================================
+//= Server Announcement
+//===== By: rAthena AI Assistant ============================
+//= Server Announcement and GM Triggered Announcement
+//= @reloadnpcfile npc/custom/manuel_npc/gmtrigger_event.txt
+//============================================================
+
+-	script	gmAnnouncement_Event	-,{
+	OnInit:
+		OnTimer4400000: //every 60mins
+		setarray .@eventAnnounce1$,
+		"Mic check... something's coming up!",
+		"Testing, testing... prepare for an event!",
+		"Sound check! Stay alert, event starting soon!",
+		"Can you hear me? Get ready, event is near!",
+		"Mic test... everyone standby, something fun is coming!",
+		"Mic test mic test... event incoming, standby!";
+		// Get a random map index from the array
+		.randIndex1 = rand( getarraysize(.@eventAnnounce1$) );
+		
+		setarray .@eventAnnounce2$,
+		"A Treasure Box will appear in Prontera! Smash it and claim your prize!",
+		"Spawning a Treasure Box in Prontera. destroy it to earn rewards!",
+		"Watch out! A Treasure Box is coming to Prontera. Break it for loot!",
+		"I'm summoning a Treasure Box in Prontera! Be the first to break it!",
+		"A reward-filled Treasure Box will appear in Prontera. Get ready to destroy it!",
+		"I will respawn a Treasure Box at the Prontera. Destroy it and get the reward!";
+		// Get a random map index from the array
+		.randIndex2 = rand( getarraysize(.@eventAnnounce2$) );
+	
+		initnpctimer;
+		// sleep 120000;
+		// GM triggered announcement sequence
+		announce "GM-Bokiebok: " + .@eventAnnounce1$[.randIndex1], bc_all;
+		sleep 5000; // 1 second delay
+		announce "GM-Bokiebok: " + .@eventAnnounce2$[.randIndex2], bc_all;
+		sleep 5000;
+		goto OnSpawnTBox_GMRespawn;
+	end;
+		
+	OnTBoxDes_GMRespawn:
+		// Announce monster destroyed the Tbox (these arrays do not use strcharinfo(0))
+		setarray .@monsterDestroyedAnnounce1$,
+		"The Treasure Box has been destroyed by a MONSTER!",
+		"Oh no! A monster claimed the Treasure Box!",
+		"The Treasure Box was defeated by a wild creature!",
+		"A monster got to the Treasure Box first!";
+		.randIndex5 = rand( getarraysize(.@monsterDestroyedAnnounce1$) );
+
+		setarray .@monsterDestroyedAnnounce2$,
+		"GM-Bokiebok: Sad :(",
+		"GM-Bokiebok: What a shame :(",
+		"GM-Bokiebok: Unlucky :(",
+		"GM-Bokiebok: Ohhhh :(";
+		.randIndex6 = rand( getarraysize(.@monsterDestroyedAnnounce2$) );
+
+		setarray .@monsterDestroyedAnnounce3$,
+		"GM-Bokiebok: It found and destroyed by a monster!",
+		"GM-Bokiebok: The monster took the loot!",
+		"GM-Bokiebok: It was too strong for the box!",
+		"GM-Bokiebok: The monster claimed the prize!";
+		.randIndex7 = rand( getarraysize(.@monsterDestroyedAnnounce3$) );
+
+		setarray .@monsterDestroyedAnnounce4$,
+		"GM-Bokiebok: Better luck next time!",
+		"GM-Bokiebok: Don't give up. I will respawn it again in another time!",
+		"GM-Bokiebok: Try harder next time!",
+		"GM-Bokiebok: Wait for another time. I will respawn it again later!";
+		.randIndex8 = rand( getarraysize(.@monsterDestroyedAnnounce4$) );
+
+		// Check if a player is attached (killed by player)
+		if (playerattached()) {
+			// Initialize these arrays ONLY if a player is attached
+			setarray .@playerDestroyedAnnounce$,
+			"The Treasure Box has been found and destroyed by [ " + strcharinfo(0) + "! ]",
+			"A Treasure Box has been vanquished by [ " + strcharinfo(0) + "! ]",
+			"Victory! [ " + strcharinfo(0) + " ] has defeated the Treasure Box!",
+			"The Treasure Box is no more, thanks to [ " + strcharinfo(0) + "! ]";
+			.randIndex3 = rand( getarraysize(.@playerDestroyedAnnounce$) );
+
+			setarray .@congratsAnnounce$,
+			"GM-Bokiebok: Congrats " + strcharinfo(0) + "!",
+			"GM-Bokiebok: Well done, " + strcharinfo(0) + "!",
+			"GM-Bokiebok: Amazing work, " + strcharinfo(0) + "!",
+			"GM-Bokiebok: You're a true hero, " + strcharinfo(0) + "!";
+			.randIndex4 = rand( getarraysize(.@congratsAnnounce$) );
+
+			// Announce player destroyed the Tbox
+			announce .@playerDestroyedAnnounce$[.randIndex3], bc_all;
+			// Reward the player who killed the treasure box
+			getitem 7227,1;
+			getitem 30339,2;
+			getitem 30341,1;
+			getitem 30343,1;
+			
+			sleep 5000; // 1 second delay
+			announce .@congratsAnnounce$[.randIndex4], bc_all;
+		} 
+		else if ($killermobgid &gt; 0) {
+			.winnerName$ = getunitname($killermobgid);
+			announce "The Treasure Box has been found and destroyed by [ " + .winnerName$ + "! ]", 0;
+			sleep 5000; // 5 second delay
+			announce "GM-Bokiebok: Congrats " + .winnerName$ + "!", 0;
+			$killermobgid = 0; // Reset variable
+		}
+	
+	end;
+
+	OnSpawnTBox_GMRespawn:
+		setarray .@spawnAnnounce$,
+		"A new Treasure Box has appeared in Prontera!",
+		"Behold! A Treasure Box has spawned in Prontera!",
+		"Look alive! A Treasure Box has spawned now in Prontera!",
+		"Fresh loot! A Treasure Box is waiting in Prontera!";
+		.randIndex9 = rand( getarraysize(.@spawnAnnounce$) );
+		
+		// Variables to hold random coordinates
+		.@map$ = "prontera";
+		// Find a random empty cell in Prontera and store it within .@x and .@y
+		getfreecell("prontera",.@x,.@y); 
+
+		// Spawn the treasure box at the random walkable location
+		monster .@map$, .@x, .@y, "Treasure Box", 2288, 1, "gmAnnouncement_Event::OnTBoxDes_GMRespawn";
+
+		// Announce that the treasure box has respawned
+		announce .@spawnAnnounce$[.randIndex9], bc_all;
+		// Note: This is for debugging. 
+		//announce "A new Treasure Box has appeared in Prontera! (" + .@x + ", " + .@y + ")", 0;
+	end;
+}</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+//===== rAthena Script =======================================
+//= dualclientkicker
+//===== By: rAthena AI Assistant ============================
+//= Prevents dual-clienting on specific maps by checking IP addresses
+//= @reloadnpcfile npc/custom/manuel_npc/dualclientkick.txt
+//============================================================
+-	script	dualclientkicker	-1,{
+OnPCLoadMapEvent:
+	// Check if the current map is one of the restricted maps
+	set .@charmap$, strcharinfo(3);
+	// Use inarray to check if the current map is in the list
+	if (inarray(.maps$[0], .@charmap$) == -1) end;
+
+	// Get the IP address of the triggering player
+	set .@player_ip$, getcharip();
+	set .@player_aid, getcharid(3); // Get the account ID of the triggering player
+
+	set .@same_ip_count, 0;
+
+	// Get a list of all players on the current map by their Account ID
+	set .@num_players_on_map, getmapunits(BL_PC, .@charmap$, .@map_player_aids[0]);
+
+	// Iterate through players on the map
+	for (set .@i, 0; .@i < .@num_players_on_map; set(.@i, .@i + 1)) {
+		set .@current_aid, .@map_player_aids[.@i];
+
+		// Skip the triggering player themselves
+		if (.@current_aid == .@player_aid) continue;
+
+		// Get the IP address of the current player on the map
+		set .@current_ip$, getcharip(.@current_aid);
+
+		// Compare IP addresses
+		if (.@current_ip$ == .@player_ip$) {
+			set .@same_ip_count, .@same_ip_count + 1;
+		}
+	}
+
+	// Check if the count of other players with the same IP exceeds the limit
+	// .limitacc is the maximum allowed *additional* accounts (e.g., 1 means total 2 accounts allowed)
+	if (.@same_ip_count >= .limitacc) {
+		dispbottom "Dual accounts not allowed in this map.";
+		warp "SavePoint",0,0;
+	}
+	end;
+
+OnInit:
+	// Maximum allowed additional accounts with the same IP on the restricted maps
+	set .limitacc, 1; // Allows 1 additional account (total 2)
+
+	// List of maps where dual-clienting is restricted
+	setarray .maps$[0], "poring_w01", "quiz_01";
+
+	// Set mf_loadevent flag on these maps
+	set .@lens, getarraysize(.maps$);
+	for (set .@a, 0; .@a < .@lens; set(.@a, .@a + 1)) {
+		setmapflag .maps$[.@a], mf_loadevent;
+	}
+}

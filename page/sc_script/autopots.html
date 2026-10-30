@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autopots - rAthena Documentation</title>
+    <meta name="description" content="The @autopot command consumes Yggdrasil Berries when HP reaches the configured percentage and restores HP and SP.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Autopots</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">The @autopot command consumes Yggdrasil Berries when HP reaches the configured percentage and restores HP and SP.</p>
+                <a href="downloads/autopots.txt" download="autopots.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download autopots.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">autopots.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">104 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Bound commands</th><td class="border-b px-4 py-3 text-gray-600 break-words">@autopot</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/autopots.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/autopots.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+<li>This version accepts item 607 only. Example: @autopot 607 50; stop with @autopot off.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/autopots.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>autopots.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Autopots script">Copy</button>
+                    <pre>//===== rAthena Script =======================================
+//= Auto-Potion
+//===== By: rAthena AI Assistant ============================
+//= Provides an @autopot command to automatically use potions
+//= based on specified item ID and HP percentage.
+//============================================================
+-	script	AutopotNPC	-1,{
+
+	OnInit:
+		// Binds the @autopot command.
+		// Level 0 allows all players to use it, 99 is the max GM level that can bypass it.
+	    bindatcmd("autopot", strnpcinfo(0) + "::OnCommand", 0, 99);
+	end;
+
+	OnCommand:
+		// Check if any arguments were provided for the command.
+	    if (getarraysize(.@atcmd_parameters$) == 0) {
+	        message strcharinfo(0), "Invalid syntax. Usage: @autopot &lt;item_id&gt; &lt;min_hp_percent&gt; or @autopot off";
+	        end;
+	    }
+
+		// Retrieve the first argument and convert it to lowercase for easier comparison.
+		.@command_arg1$ = strtolower(.@atcmd_parameters$[0]);
+
+		// Handle the "off" command to deactivate autopot.
+		if (.@command_arg1$ == "off") {
+			// Check if autopot is currently active.
+			if (@autopot_state) {
+				@autopot_state = 0; // Set state to off
+				dispbottom "Autopot deactivated!";
+			} else {
+				dispbottom "Autopot is not active.";
+			}
+			end;
+		}
+
+		// Parse item ID and HP percentage from the command arguments.
+		// These are stored in character-attached temporary variables to persist for the player.
+	    .@item_id_str$ = .@atcmd_parameters$[0];
+	    .@min_hp_percent_str$ = .@atcmd_parameters$[1];
+
+		// Convert string arguments to integers.
+		// atoi() returns 0 if the string is not a valid number.
+	    @autopot_item_id = atoi(.@item_id_str$);
+	    @autopot_min_hp = atoi(.@min_hp_percent_str$);
+
+		// Validate the inputs.
+	    if (@autopot_item_id &lt;= 0 || @autopot_min_hp &lt; 1 || @autopot_min_hp &gt; 100) {
+	        message strcharinfo(0), "Invalid item ID or HP percentage. Please use: @autopot &lt;item_id&gt; &lt;min_hp_percent&gt;";
+	        end;
+	    }
+		// Further validation: Ensure the item is a healing item.
+		if (@autopot_item_id != 607) {
+			dispbottom "Yggdrasil Berry (#607) is the only supported healing item.";
+			end;
+		}
+		
+		/*
+		// Further validation: Ensure the item is a healing item.
+		if (getiteminfo(@autopot_item_id, ITEMINFO_TYPE) != IT_HEALING) {
+			dispbottom getitemname(@autopot_item_id) + " is not a healing item.";
+			end;
+		}
+		*/
+
+		// Set the autopot state to active.
+	    @autopot_state = 1;
+	    dispbottom "Autopot activated! Using " + getitemname(@autopot_item_id) + " when HP is below " + @autopot_min_hp + "%.";
+
+		// This loop runs continuously while the autopot is active.
+		// Using a `sleep2` inside a `while` loop for player-specific actions
+		// can potentially cause server strain if many players use it simultaneously
+		// or if the delay is too low. For more robust and scalable solutions,
+		// consider using `addtimer` with an `OnStart` label (as seen in the
+		// larger Auto-Potion script provided in previous contexts).
+	    while (@autopot_state) {
+	        // Check if the player is dead or otherwise unable to potion.
+	        if (Hp &lt;= 0) {
+	            // If any disabling condition is met, turn off autopot.
+	            @autopot_state = 0;
+	            dispbottom "Autopot deactivated due to status effect or death!";
+	            break; // Exit the loop
+	        }
+
+	        // Check if current HP is below the specified percentage threshold.
+	        if ((Hp * 100) / MaxHp &lt;= @autopot_min_hp) {
+	            // Check if the player has the specified item in their inventory.
+	            if (countitem(@autopot_item_id) &gt; 0) {
+	                delitem @autopot_item_id, 1;  // Remove one item
+	                // Perform healing (e.g., full heal, or use itemheal for potion bonuses)
+	                percentheal 100, 100; // Heals 100% HP and SP
+	                specialeffect2 EF_POTION8;
+	            } else {
+	                // If no items are left, deactivate autopot.
+	                dispbottom "Autopot deactivated! No more " + getitemname(@autopot_item_id) + "s left!";
+	                @autopot_state = 0;
+	                break; // Exit the loop
+	            }
+	        }
+	 
+	        sleep2 100; // Wait for 100 milliseconds (0.1 seconds) before checking again
+	    }
+	end;
+}</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

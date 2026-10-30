@@ -1,0 +1,103 @@
+//===== rAthena Script =======================================
+//= Falcon Rental NPC
+//===== By: ==================================================
+//= Manuel Sintos
+//===== Current Version: =====================================
+//= 1.0
+//===== Description: =========================================
+//= Falcon Rental NPC. Rent and Remove the Falcon
+//===== Additional Comments: =================================
+// @reloadnpcfile npc/custom/manuel_npc/falcon_rental.txt
+
+prontera,128,211,5	script	Falcon Rental Master	105,{
+	// NPC Variables
+	set .cost, 100000; // Cost to rent a Falcon
+	
+	// Check if the player is a valid job
+	if (BaseJob != Job_Hunter) {
+		// If not a valid job, display a message
+		mes "[ Falcon Rental Master ]";
+		mes "I'm sorry, but only Hunters, Snipers, Rangers, and Winhawks can rent a Falcon. Please return when you have become one of those classes.";
+		close; // Exit the script
+	}
+
+	// If valid job, display the greeting and rental offer
+    if (BaseJob == Job_Hunter) {
+    	mes "[ Falcon Rental Master ]";
+        mes "Welcome, Would you like to rent a Falcon for " + callfunc("F_InsertComma", .cost) + " zeny? It could be a great companion for your adventures.";
+        next; // Proceed to the next interaction
+
+		switch (select("I will rent a Falcon:Remove the Falcon:Exit")) {
+			case 1: // Rent a Falcon
+				switch(checkfalcon()) {
+					case true: // Player already has a Falcon
+						next; // Advance to the next message box
+						mes "[ Falcon Rental Master ]";
+	                    mes "You already have a Falcon with you.";
+	                    close; // Exit the script
+					break;
+					case false: // Player does not have a falcon.
+						// Check if the player has enough Zeny
+				        if (Zeny < .cost) {
+				        	mes "[ Falcon Rental Master ]";
+				            mes "I'm sorry, but it looks like you don't have enough zeny.";
+				            close; // Exit the script
+				        }
+				        else {
+				        	if (getskilllv("HT_FALCON")) { // Check if the player has Falcon Training
+				        		// Check if the player does not have Wug or Wugrider options
+		                        if (!checkoption(Option_Wug) && !checkoption(Option_Wugrider)) {
+		                            // If the player does not have a Falcon, set one
+		                            if (!checkfalcon()) { // Double check for safety
+		                                next; // Advance to the next message box
+		                                Zeny -= .cost; // Deduct zeny
+		                                setfalcon(1); // Set a Falcon
+		                                mes "[ Falcon Rental Master ]";
+		                                mes "Your Falcon has been set! Please take care of it.";
+		                                close; // Exit the script
+		                            }
+		                        }
+		                        else { // Player has Wug or Wugrider
+		                            next; // Advance to the next message box
+		                            mes "[ Falcon Rental Master ]";
+		                            mes "I'm afraid you cannot rent a Falcon while using a Warg or Wargrider.";
+		                            close; // Exit the script
+		                        }
+				        	}
+				        	else { // Player does not have Falcon Training
+				        		mes "[ Falcon Rental Master ]";
+		                		mes "You need to learn Falcon Training first if you wish to rent a Falcon.";
+		                		close; // Exit the script
+				        	}	 
+				        }
+					break;
+				}
+			break;
+			case 2: // Remove the Falcon
+				// Check if the player has a Falcon
+                if (checkfalcon()) {
+                    next; // Advance to the next message box
+                    setfalcon(0); // Remove the Falcon
+                    mes "[ Falcon Rental Master ]";
+                    mes "Your Falcon has been removed. Come back soon!";
+                    close; // Exit the script
+                }
+                else { // Player does not have a Falcon
+                    next; // Advance to the next message box
+                    mes "[ Falcon Rental Master ]";
+                    mes "It seems you don't have a Falcon to remove.";
+                    close; // Exit the script
+                }
+			break;
+			case 3: // Exit
+				next; // Advance to the next message box
+                mes "[ Falcon Rental Master ]";
+                mes "Thank you for stopping by! Feel free to return anytime.";
+                close; // Exit the script
+			break;
+		}
+    }
+}
+
+
+payon,166,110,5	duplicate(Falcon Rental Master)	Falcon Rental Master#payon	105

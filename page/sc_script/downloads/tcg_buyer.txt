@@ -1,0 +1,95 @@
+//===== rAthena Script =======================================
+//= TCG Buyer & Token Trader
+//===== By: rAthena AI Assistant ============================
+//= Buys TCG Cards for Zeny and exchanges Tokens for TCG Cards.
+//= @reloadnpcfile npc/custom/manuel_npc/tcg_buyer.txt
+//============================================================
+prontera,164,171,3	script	TCG/Activity/Event Token Buyer	58,{
+	mes "Hello, " + strcharinfo(0) + "!";
+	mes "I am looking to buy ^1100AATCG Cards^000000, or trade your ^1100AAEvent Token^000000 or ^1100AAActivity Token^000000!";
+	next;
+
+	mes "What would you like to do today?";
+	.@menu = select("Sell TCG Card (100,000,000 Zeny):Trade 50 Activity Tokens (1 TCG Card):Trade 20 Event Tokens (1 TCG Card):Cancel");
+	next;
+
+	if (.@menu == 1) {
+		if (countitem(7227) > 0) {
+			mes "Do you wish to sell me a ^1100AATCG Card^000000?";
+			if (select("Yes, I sell one.:No, not right now.") == 1) {
+				next;
+				if (countitem(7227) < 1) {
+					mes "Hey, you don't have any ^1100AATCG Cards^000000 left!";
+					close;
+				}
+				delitem 7227,1;
+				Zeny += 100000000;
+				mes "Thank you for the ^1100AATCG Card^000000!";
+				mes "Here is your ^1100AA100,000,000 Zeny^000000.";
+				close;
+			} else {
+				next;
+				mes "Alright, come back if you change your mind.";
+				close;
+			}
+		} else {
+			mes "It seems you don't have any ^1100AATCG Cards^000000 on you.";
+			close;
+		}
+	} else if (.@menu == 2) {
+		if (countitem(30343) >= 50) {
+			mes "Do you wish to trade ^1100AA50 Activity Tokens^000000 for ^1100AA1 TCG Card^000000?";
+			if (select("Yes, trade them.:No, thanks.") == 1) {
+				next;
+				if (countitem(30343) < 50) {
+					mes "You don't have enough Activity Tokens!";
+					close;
+				}
+				if (!checkweight(7227, 1)) {
+					mes "You are carrying too much weight to receive a TCG Card.";
+					close;
+				}
+				delitem 30343, 50;
+				getitem 7227, 1;
+				mes "Trade complete! Here is your ^1100AATCG Card^000000.";
+				close;
+			} else {
+				next;
+				mes "Alright, let me know if you change your mind.";
+				close;
+			}
+		} else {
+			mes "You need at least ^1100AA50 Activity Tokens^000000 to trade.";
+			close;
+		}
+	} else if (.@menu == 3) {
+		if (countitem(30341) >= 20) {
+			mes "Do you wish to trade ^1100AA20 Event Tokens^000000 for ^1100AA1 TCG Card^000000?";
+			if (select("Yes, trade them.:No, thanks.") == 1) {
+				next;
+				if (countitem(30341) < 20) {
+					mes "You don't have enough Event Tokens!";
+					close;
+				}
+				if (!checkweight(7227, 1)) {
+					mes "You are carrying too much weight to receive a TCG Card.";
+					close;
+				}
+				delitem 30341, 20;
+				getitem 7227, 1;
+				mes "Trade complete! Here is your ^1100AATCG Card^000000.";
+				close;
+			} else {
+				next;
+				mes "Alright, let me know if you change your mind.";
+				close;
+			}
+		} else {
+			mes "You need at least ^1100AA20 Event Tokens^000000 to trade.";
+			close;
+		}
+	} else {
+		mes "Have a nice day!";
+		close;
+	}
+}

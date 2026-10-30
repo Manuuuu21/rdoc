@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Poring Hunt Event - rAthena Documentation</title>
+    <meta name="description" content="An automated hunt hides a real Poring among decoys, provides a warper, and rewards the player who defeats the correct monster.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Real Poring Hunt Event</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">An automated hunt hides a real Poring among decoys, provides a warper, and rewards the player who defeats the correct monster.</p>
+                <a href="downloads/poringkill_event.txt" download="poringkill_event.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download poringkill_event.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">poringkill_event.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">180 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">NPC locations</th><td class="border-b px-4 py-3 text-gray-600 break-words">PoringHuntWarper — pay_arche (53, 133)</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/poringkill_event.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/poringkill_event.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/poringkill_event.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>poringkill_event.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Real Poring Hunt Event script">Copy</button>
+                    <pre>
+//===== rAthena Script =======================================
+//= Poring Hunt Event
+//===== By: rAthena AI Assistant ============================
+//= This script creates an automatic Poring hunting event
+//= every 1.5 hours. A "real" Poring is hidden among fake ones.
+//= The first player to kill the real Poring wins a reward.
+//= @reloadnpcfile npc/custom/manuel_npc/poringkill_event.txt
+//============================================================
+-	script	PoringEvent	-1,{ // Floating NPC for global event logic and timers (no sprite).
+
+OnInit:
+	.num_fakePlayers = 2; // base on array data of fake players
+	
+	// High Wizard
+	setarray .mob_names$, "DonutAce", "MinorityZ";
+	setarray .job_id[0], 4010, 4010;
+	setarray .gender[0], 1, 1;
+	setarray .hairstyle[0], rand(0,42), rand(0,42);
+	setarray .haircolor[0], rand(0,8), rand(0,8);
+	setarray .weapon_id[0], 1644, 1644;
+	setarray .shield_id[0], 2115, 2115;
+	setarray .hgtop_id[0], rand(20,500), rand(20,500);
+	setarray .hgmid_id[0], 125, 125;
+	setarray .hglow_id[0], 0, 0;
+	setarray .robe[0], 0, 0;
+	setarray .options[0], 0, 0;
+	setarray .clothcolor[0], rand(0,20), rand(0,20);
+	setarray .mob_behavior[0], 1639, 1639;
+	
+	// Lord Knight
+	setarray .lk_mob_names$, "Crocomom", "FrauD Mihk";
+	setarray .lk_job_id[0], 4008, 4008;
+	setarray .lk_gender[0], 1, 1;
+	setarray .lk_hairstyle[0], rand(0,42), rand(0,42);
+	setarray .lk_haircolor[0], rand(0,8), rand(0,8);
+	setarray .lk_weapon_id[0], 1230, 1230;
+	setarray .lk_shield_id[0], 2115, 2115;
+	setarray .lk_hgtop_id[0], rand(20,500), rand(20,500);
+	setarray .lk_hgmid_id[0], 125, 125;
+	setarray .lk_hglow_id[0], 0, 0;
+	setarray .lk_robe[0], 0, 0;
+	setarray .lk_options[0], 0, 0;
+	setarray .lk_clothcolor[0], rand(0,20), rand(0,20);
+	setarray .lk_mob_behavior[0], 1634, 1634;
+	
+	setarray .ass_mob_names$, "Agendapice", "RatShanks";
+	setarray .ass_job_id[0], 4013, 4013;
+	setarray .ass_gender[0], 1, 0;
+	setarray .ass_hairstyle[0], rand(0,42), rand(0,42);
+	setarray .ass_haircolor[0], rand(0,8), rand(0,8);
+	setarray .ass_weapon_id[0], 1257, 1257;
+	setarray .ass_shield_id[0], 0, 0;
+	setarray .ass_hgtop_id[0], rand(20,500), rand(20,500);
+	setarray .ass_hgmid_id[0], 125, 125;
+	setarray .ass_hglow_id[0], 0, 0;
+	setarray .ass_robe[0], 0, 0;
+	setarray .ass_options[0], 0, 0;
+	setarray .ass_clothcolor[0], rand(0,20), rand(0,20);
+	setarray .ass_mob_behavior[0], 1635, 1635;
+	
+	// Global variables are set when the script loads.
+	$@EventMap$ = "poring_w01"; 
+	set $@poringWinnerAID, 0; // Tracks the winner's Account ID. Initialized to 0 (no winner).
+	set $@realPoringGID, 0; // Stores the Game ID (GID) of the unique "Real Poring". Initialized to 0.
+	
+	// This block runs on script load or reload.
+	initnpctimer; // Initialize the NPC timer.
+	setnpctimer 0; // Set timer to 0.
+	startnpctimer; // Start the timer.
+	disablenpc "PoringHuntWarper"; // Hide the warper NPC initially.
+	killmonsterall $@EventMap$; // Clear any monsters on the event map at startup.
+	end;
+
+OnTimer5400000: // This label triggers every 90 minutes (5,400,000 milliseconds).
+	// Main event trigger.
+	setnpctimer 0; // Reset timer for the next cycle.
+	startnpctimer; // Restart the timer.
+	
+	enablenpc "PoringHuntWarper"; // Make warper NPC visible for players to join.
+	
+	announce "A Poring Hunt event is about to begin!",bc_all; // Announce event start.
+	sleep 1000; // Pause for 1 second.
+	announce "Please go to @go 16 and click the Poring Hunt NPC to join Poring Hunt event!!",bc_all; // Instructions to join.
+
+	// Countdown sequence before monster spawn.
+	sleep 60000; // Pause for 1 minute.
+	announce "Poring Hunt Event starting in 2 minutes!", bc_all; // 2-minute warning.
+	sleep 60000; // Pause for 1 minute.
+	announce "Poring Hunt Event starting in 1 minute!", bc_all; // 1-minute warning.
+	sleep 1000; // Pause for 1 second.
+	announce "Poring Hunt Event starting in 5 seconds!", bc_all; // 5-second countdown.
+	sleep 1000; // Pause for 1 second.
+	announce "Poring Hunt Event starting in 4 seconds!", bc_all; // 4-second countdown.
+	sleep 1000; // Pause for 1 second.
+	announce "Poring Hunt Event starting in 3 seconds!", bc_all; // 3-second countdown.
+	sleep 1000; // Pause for 1 second.
+	announce "Poring Hunt Event starting in 2 seconds!", bc_all; // 2-second countdown.
+	sleep 1000; // Pause for 1 second.
+	announce "Poring Hunt Event starting in 1 second!", bc_all; // 1-second countdown.
+	sleep 1000; // Pause for 1 second.
+	announce "Poring Hunt Event started! Lets Find the Real Poring!!", bc_all; // Event begins.
+	
+	disablenpc "PoringHuntWarper"; // Hide warper to prevent late joins.
+
+	killmonsterall $@EventMap$; // Clear all existing monsters on the event map.
+	
+	// Spawn the fakeplayer
+	for (.@i = 0; .@i &lt; .num_fakePlayers; .@i++) {
+		.hw_GID[.@i] = player_mbase($@EventMap$, 0, 0, .mob_names$[.@i], .job_id[.@i], .gender[.@i], .hairstyle[.@i], .haircolor[.@i], .weapon_id[.@i], .shield_id[.@i], .hgtop_id[.@i], .hgmid_id[.@i], .hglow_id[.@i], .robe[.@i], .options[.@i], .clothcolor[.@i], .mob_behavior[.@i], "");
+		.lk_GID[.@i] = player_mbase($@EventMap$, 0, 0, .lk_mob_names$[.@i], .lk_job_id[.@i], .lk_gender[.@i], .lk_hairstyle[.@i], .lk_haircolor[.@i], .lk_weapon_id[.@i], .lk_shield_id[.@i], .lk_hgtop_id[.@i], .lk_hgmid_id[.@i], .lk_hglow_id[.@i], .lk_robe[.@i], .lk_options[.@i], .lk_clothcolor[.@i], .lk_mob_behavior[.@i], "");
+		.ass_GID[.@i] = player_mbase($@EventMap$, 0, 0, .ass_mob_names$[.@i], .ass_job_id[.@i], .ass_gender[.@i], .ass_hairstyle[.@i], .ass_haircolor[.@i], .ass_weapon_id[.@i], .ass_shield_id[.@i], .ass_hgtop_id[.@i], .ass_hgmid_id[.@i], .ass_hglow_id[.@i], .ass_robe[.@i], .ass_options[.@i], .ass_clothcolor[.@i], .ass_mob_behavior[.@i], "");
+	}
+	// Spawn 100 "fake" Porings randomly.
+	// monster $@EventMap$,0,0,"Poring",1002,100;
+	
+	areamonster $@EventMap$,88,117,120,90,"Poring",1002,100;
+
+	// Spawn 1 "Real Poring" randomly, attaching a killer event.
+	areamonster($@EventMap$, 88, 90, 120, 117, "Event Poring", 1002, 1, strnpcinfo(3) + "::OnRealPoringKilled");
+	// set $@realPoringGID, monster($@EventMap$,0,0,"Event Poring",1002,1,strnpcinfo(3)+"::OnRealPoringKilled");
+	
+	end;
+
+OnRealPoringKilled:
+
+	if (playerattached()) {
+		// Announce winner and reward.
+		announce strcharinfo(0) + " has found and killed the Event Poring! Congratulations!", bc_all;
+
+		getitem 30339, 5; // Give 5 Berry Tickets to the winner.
+	} else if ($killermobgid &gt; 0) {
+		announce "The Event Poring was killed by [ " + getunitname($killermobgid) + "! ] Congratulations!", bc_all;
+		$killermobgid = 0; // Reset the global temporary variable.
+	}
+
+	sleep 3000; // Pause for 3 seconds for messages to display.
+
+	// Cleanup and warp players out.
+	mapannounce $@EventMap$, "All remaining Porings have been vanquished!", bc_all; // Announce to event map.
+	killmonsterall $@EventMap$; // Clear all remaining monsters on the map.
+	
+	
+	// For testing
+	// Safe cleanup loop that ignores GMs/Administrators
+	.count = getmapunits(BL_PC, $@EventMap$, .players[0]);
+	for (.i = 0; .i &lt; .count; .i++) {
+		if (attachrid(.players[.i])) {
+			// Check if the player is a normal player (Group ID 0)
+			if (getgroupid() == 0) {
+				warp "prontera", 149, 161;
+			}
+			detachrid();
+		}
+	}
+	
+	// mapwarp $@EventMap$, "prontera", 149, 161; // Warp all players from event map to Prontera.
+	end;
+
+}
+
+//===== rAthena Script =======================================
+//= Poring Hunt Event Warper
+//===== By: rAthena AI Assistant ============================
+//= Warps players to the Poring Hunt event map.
+//============================================================
+pay_arche,53,133,4	script	PoringHuntWarper	1904,{ // NPC definition: Located at malaya (243, 216), facing south-east, using sprite ID 1904 (Bomb Poring).
+	mes "[Poring Hunt Warper]"; // Display NPC's name in the dialog.
+	mes "The Poring Hunt event is active! Would you like to go to the event map?"; // Prompt player to join.
+	next; // Advance dialog.
+	if (select("Yes","No") == 1) { // If player selects "Yes":
+		warp "poring_w01",102,107; // Warp player to the event map at specific coordinates.
+		end; // End script.
+	}
+	mes "[Poring Hunt Warper]"; // If player selects "No":
+	mes "Alright, maybe next time!"; // Display farewell.
+	close; // Close dialog and end script.
+}
+
+poring_w01	mapflag	pvp	off</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

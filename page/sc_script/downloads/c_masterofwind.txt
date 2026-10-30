@@ -1,0 +1,205 @@
+//===== rAthena Script =======================================
+//= Costume Quest - Master of Wind
+//===== By: ==================================================
+//= Manuel G. Sintos
+//===== Description: ==========================================
+//= Quest NPC for crafting the Costume: Master of Wind.
+//= Requires specific items and Zeny to complete the quest.
+//===== File: =================================================
+//= npc/custom/manuel_npc/c_masterofwind.txt
+//===== Version: ==============================================
+//= 1.0 Initial Release
+//===== Compatible With: ======================================
+//= rAthena
+//=============================================================
+
+yuno,26,213,3	script	Elder Mira	78,{
+	set @name$, "[^1100AA Elder Mira ^000000]";
+
+	mes @name$;
+	if (WindMasterQuest == 0) {
+		mes "Many seek the power of the wind, but few are chosen.";
+		mes "There was once a legend... of a robe woven from pure air, worn only by the chosen.";
+		next;
+		mes @name$;
+		mes "If you wish to earn the ^0099FFCostume Master of Wind^000000, you must follow the whispers.";
+		next;
+		if(select("Yes, I want it!:No, not now.") == 2) {
+			mes @name$;
+			mes "I see. It's wise to pause before chasing the wind.";
+			mes "Return when your heart is certain.";
+			close;
+		}
+		mes @name$;
+		mes "Then your journey begins.";
+		mes "Seek out ^00AAFFWindwatcher Riko^000000 in the eastern fields of Payon.";
+		mes "She'll be waiting, where the wind meets the trees.";
+		set WindMasterQuest, 1;
+		navigateto "pay_fild04",265,194;
+		close;
+	}
+	// Already talk the NPC
+	else if (WindMasterQuest == 1) {
+		mes "The wind still has more to teach you. Go to Payon and look for Windwatcher Riko.";
+		close;
+	}
+	else if (WindMasterQuest == 4) {
+		mes "You've returned with the proof of storm and soul.";
+		mes "I can feel its song in your spirit.";
+		next;
+		mes @name$;
+		mes "Accept the blessing of the skies...";
+		getitem 31803, 1; // Replace with actual ID
+		set WindMasterQuest, 5;
+		close;
+	} 
+	else if (WindMasterQuest >= 2 && WindMasterQuest < 4) {
+		mes "The wind still has more to teach you. Go to the next location.";
+		close;
+	} 
+	else if (WindMasterQuest == 5) {
+		if (gettimetick(2) < cd_WindMasterQuest) {
+			mes "You already carry the wind's blessing.";
+			mes "Let it guide your steps, wherever they may lead.";
+			next;
+			mes @name$;
+			mes "If you wanted to do the quest again. Please go back after 1 hour!";
+			close;
+		}
+		else {
+			mes "Quest has been reset!";
+			set WindMasterQuest, 0;
+			close;
+		}
+	}
+}
+
+pay_fild04,265,194,4	script	Windwatcher Riko	474,{
+	set @name$, "[^1100AA Windwatcher Riko ^000000]";
+
+	mes @name$;
+	if (WindMasterQuest == 1) {
+		if (countitem(992) > 9) {
+			mes "Ah... I can feel it. The wind dances around you.";
+			mes "You've brought what I asked. Good.";
+			delitem 992, 10;
+			next;
+			mes @name$;
+			mes "Your next step lies beyond these fields.";
+			mes "Seek the ^0099FFSilent Guardian^000000, hidden deep in the Mt. Mjolnir North Foothills.";
+			mes "Go where the air grows thin and quiet...";
+			navigateto "mjolnir_12",78,334;
+			set WindMasterQuest, 2;
+			close;
+		}
+		else {
+			mes "Shh... do you hear that?";
+			mes "The wind speaks. It calls your name.";
+			mes "Bring me 10 pcs ^FF0000" + getitemname(992) + "^000000, and I shall open the path.";
+			close;
+		}
+	} 
+	else if (WindMasterQuest > 1) {
+		mes "You're no longer a stranger to the wind.";
+		mes "Your path lies with the ^0099FFSilent Guardian^000000. Go now.";
+		navigateto "mjolnir_12",78,334;
+		close;
+	} 
+	else {
+		mes "Hmm? The breeze doesn't recognize you yet.";
+		mes "Return when Elder Mira has sent you.";
+		close;
+	}
+}
+
+mjolnir_12,78,334,4	script	Silent Guardian	897,{
+	set @name$, "[^1100AA Silent Guardian ^000000]";
+	
+	mes @name$;
+	if (WindMasterQuest == 2) {
+		if (countitem(997) > 4 && countitem(916) > 0) {
+			delitem 997, 5;
+			delitem 916, 1;
+			mes "................";
+			mes "The silence approves...";
+			mes "You are ready.";
+			next;
+			mes @name$;
+			mes "Take this. The ^0099FFBook of Gust of Wind^000000.";
+			mes "May its pages carry you forward.";
+			getitem 1556, 1; // Book of Gust of Wind
+			set WindMasterQuest, 3;
+			navigateto "gon_dun01",153,230;
+			close;
+		}
+		else {
+			mes "................";
+			mes "You are not yet ready.";
+			mes "Only those who carry nature's strength and a feathered grace may proceed.";
+			mes "Bring me:";
+			mes "- 5pcs ^FF0000Great Nature^000000 (Item ID: 997)";
+			mes "- 1pc ^FF0000Feather of Birds^000000 (Item ID: 916)";
+			next;
+			mes @name$;
+			mes "Only then shall I grant you the Book of Gust of Wind.";
+			close;
+		}
+	} 
+	else if (WindMasterQuest > 2) {
+		navigateto "gon_dun01",153,230;
+		mes "You have already received what you came for.";
+		mes "Let the wind guide you from here.";
+		close;
+	}
+	else {
+		mes "The wind does not speak your name.";
+		mes "You are not yet part of this path.";
+		close;
+	}
+}
+
+gon_dun01,153,230,4	script	Procella	10550,{
+	set @name$, "[^1100AA Procella ^000000]";
+    
+	mes @name$;
+	if (WindMasterQuest == 3) {
+		if (countitem(1556) >= 1) {
+			mes "The storm swells around you...";
+			mes "Offer the Book of Gust of Wind and defeat the guardian that emerges.";
+			switch(select("Okay, I will offer you the Book of Gust of Wind", "No, I wont")) {
+			    case 1:
+        			delitem 1556, 1;
+        			monster "gon_dun01",149,228,"Storm Guardian",2881,1,"Storm Altar::OnGuardianDead";
+        			close;
+			    break;
+			    case 2:
+			        next;
+			        mes "The wind left quietly ...";
+			        close;
+			    break;
+			}
+		} 
+		else {
+			mes "The altar stirs, but your offering is missing.";
+			mes "Return when you hold the ^0099FFBook of Gust of Wind^000000.";
+			close;
+		}
+	} 
+	else if (WindMasterQuest == 4) {
+		mes "The storm has acknowledged you.";
+		mes "Return to ^1100AAElder Mira^000000... she awaits the final winds.";
+		close;
+	} 
+	else {
+		mes "The altar lies still.";
+		mes "No storm calls your name... yet.";
+		close;
+	}
+
+	OnGuardianDead:
+		// Set a cooldown of 60 minutes (3600 seconds)
+		set cd_WindMasterQuest, gettimetick(2) + 3600;
+		set WindMasterQuest, 4;
+		mapannounce "gon_dun01", "The storm calms... The Guardian has fallen!", 0;
+	end;
+}

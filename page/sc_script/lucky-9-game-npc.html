@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky 9 Game NPC - rAthena Documentation</title>
+    <meta name="description" content="Card Master Manuel runs a Lucky 9 card game with item wagers, two-card hands, and payout handling.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Lucky 9 Game NPC</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">Card Master Manuel runs a Lucky 9 card game with item wagers, two-card hands, and payout handling.</p>
+                <a href="downloads/master_card_manuel.txt" download="master_card_manuel.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download master_card_manuel.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">master_card_manuel.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">167 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">NPC locations</th><td class="border-b px-4 py-3 text-gray-600 break-words">Card Master Manuel — prontera (150, 180)</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/master_card_manuel.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/master_card_manuel.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+<li>The original source file is master_card_manuel.txt. Wager items and payout rules are configured inside the script.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/master_card_manuel.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>master_card_manuel.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Lucky 9 Game NPC script">Copy</button>
+                    <pre>//===== rAthena Script =======================================
+//= Lucky 9 Gambling NPC
+//===== By: Manuel Sintos ============================
+//= A gambling game where players bet items to get a hand
+//= of two cards, aiming for a total of 9 (or closest).
+//============================================================
+//= @reloadnpcfile npc/custom/manuel_npc/master_card_manuel.txt
+
+prontera,150,180,5	script	Card Master Manuel	715,{
+	
+	set @name$, "[ ^1100AACard Master Manuel^000000 ]";
+
+	// Define allowed betting items and their names
+	setarray .@bet_item_ids[0], 7915, 7916, 7517, 674, 677, 7227, 30341, 30343;
+	setarray .@bet_item_names$[0], "Bronze Coin", "Silver Coin", "Gold Coin", "Mythril Coin", "Platinum Coin", "TCG Card", "Event Token", "Activity Token";
+	.bet_item_count = getarraysize(.@bet_item_ids);
+
+	mes @name$;
+	mes "Welcome to my table, adventurer!";
+	mes "Do you wish to play a game of Lucky 9?";
+	next;
+	
+	switch(select("Yes, let's play!:No, maybe later.")) {
+		case 1:
+			mes @name$;
+			mes "Great! Let's see if luck is on your side.";
+			mes "Which item would you like to bet?";
+			next;
+
+			.@menu_options$ += "Bronze Coin:Silver Coin:Gold Coin:Mythril Coin:Platinum Coin:TCG Card:Event Token:Activity Token:Cancel";
+
+			.@selected_item_index = select(.@menu_options$);
+
+			if (.@selected_item_index == .bet_item_count + 1) { // If Cancel is selected
+				mes @name$;
+				mes "No worries, come back anytime if you change your mind.";
+				close;
+			}
+
+			.@bet_item_id = .@bet_item_ids[.@selected_item_index - 1]; // Get the actual item ID
+			.@bet_item_name$ = .@bet_item_names$[.@selected_item_index - 1]; // Get the actual item name
+			
+			next;
+			mes @name$;
+			mes "You chose to bet " + .@bet_item_name$ + ".";
+			mes "How many would you like to bet?";
+			input @bet_amount, 1; // Input the quantity, minimum 1
+
+			if(countitem(.@bet_item_id) &lt; @bet_amount) {
+				next;
+				mes @name$;
+				mes "It seems you don't have enough " + .@bet_item_name$ + " for that bet.";
+				mes "You currently have " + countitem(.@bet_item_id) + " " + .@bet_item_name$ + ".";
+				close;
+			}
+			
+			next;
+			delitem .@bet_item_id, @bet_amount; // Deduct the bet item from the player's inventory
+			mes @name$;
+			mes "You bet " + @bet_amount + " " + .@bet_item_name$ + ". Let's begin!";
+			next;
+			
+			set @player_card1, rand(1,9);
+			set @player_card2, rand(1,9);
+			set @npc_card1, rand(1,9);
+			set @npc_card2, rand(1,9);
+			
+			set @player_total, (@player_card1 + @player_card2) % 10;
+			set @npc_total, (@npc_card1 + @npc_card2) % 10;
+
+			mes @name$;
+			mes "You draw: " + @player_card1 + " and " + @player_card2 + ".";
+			mes "Your total is: " + @player_total;
+			next;
+
+			switch(select("Draw a third card.:Stand")) {
+				case 1:
+					set @player_card3, rand(1,9);
+					set @player_total, (@player_total + @player_card3) % 10;
+
+					mes @name$;
+					mes "You draw a " + @player_card3 + ".";
+					mes "Your new total is: " + @player_total;
+					next;
+
+					mes @name$;
+					mes "My turn now.";
+					next;
+
+					mes @name$;
+					mes "I draw: " + @npc_card1 + " and " + @npc_card2 + ".";
+					mes "My total is: " + @npc_total;
+					next;
+
+					if(@npc_total &lt; 7) {
+						set @npc_card3, rand(1,9);
+						set @npc_total, (@npc_total + @npc_card3) % 10;
+
+						mes @name$;
+						mes "I will Draw my Third Card.";
+						next;
+
+						mes @name$;
+						mes "I draw a " + @npc_card3 + ".";
+						mes "My new total is: " + @npc_total;
+					}
+					next;
+
+				break;
+
+				case 2:
+					mes @name$;
+					mes "My turn now.";
+					next;
+
+					mes @name$;
+					mes "I draw: " + @npc_card1 + " and " + @npc_card2 + ".";
+					mes "My total is: " + @npc_total;
+					next;
+
+					if(@npc_total &lt; 7) {
+						set @npc_card3, rand(1,9);
+						set @npc_total, (@npc_total + @npc_card3) % 10;
+
+						mes @name$;
+						mes "I will Draw my Third Card.";
+						next;
+
+						mes @name$;
+						mes "I draw a " + @npc_card3 + ".";
+						mes "My new total is: " + @npc_total;
+					}
+					next;
+				break;
+			}
+
+			if(@player_total &gt; @npc_total) {
+				mes @name$;
+				mes "Congratulations! You win!";
+				specialeffect2 EF_HOLY_AVENGE; // Example visual effect
+				getitem .@bet_item_id, @bet_amount * 2; // Player wins double the bet item
+				mes "You've won " + @bet_amount * 2 + " " + .@bet_item_name$ + "!";
+				dispbottom "You Win! Congratulations!";
+			} else if (@player_total == @npc_total) {
+				mes @name$;
+				mes "It's a tie! Your bet is returned.";
+				dispbottom "It's a Tie! Your bet is returned!";
+				getitem .@bet_item_id, @bet_amount; // Return the bet item in case of a tie
+			} else {
+				mes @name$;
+				mes "I win! Better luck next time.";
+				specialeffect2 EF_STUN;
+				dispbottom "You Lose! Better luck next time!";
+			}
+			close;
+			
+		break;
+
+		case 2:
+			mes @name$;
+			mes "No worries, come back anytime if you change your mind.";
+			close;
+		break;
+	}
+}
+
+cmd_in02,168,89,1	duplicate(Card Master Manuel)	Card Master Manuel#cmd	715</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

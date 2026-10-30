@@ -1,0 +1,214 @@
+//===== rAthena Script =======================================
+//= LFW Event Warper
+//===== By: rAthena AI Assistant ============================
+//= This NPC provides a warp service to the Last Fallen Warrior
+//= event map.
+//============================================================
+prontera,156,172,3	script	LFW Event Warper	811,{
+	// Declare the event map name where players will be warped
+	.event_map$ = "quiz_01";
+	// Declare the initial X coordinate on the event map
+	.event_x = 42;
+	// Declare the initial Y coordinate on the event map
+	.event_y = 369;
+
+	// Warp the invoking player to the defined event map and coordinates
+	warp .event_map$, .event_x, .event_y;
+	end;
+}
+
+//===== rAthena Script =======================================
+//= Last Fallen Warrior Event Manager
+//===== By: rAthena AI Assistant ============================
+//= This script manages the "Last Fallen Warrior" event,
+//= handling announcements, warper activation, monster spawning,
+//= player tracking, and winner determination.
+//============================================================
+-	script	LFWE_Event	-,{
+	OnInit:
+		// Initialize the event start flag to 0 (event not active)
+		.lfw_start = 0;
+		// Jump to the announcement phase of the event
+		goto OnLWEEventAnnouncement;
+		end;
+
+	// This label handles the pre-event announcements and warper management
+	OnLWEEventAnnouncement:
+		// Remove any remaining monsters from the previous event run on "quiz_01" map
+		killmonsterall "quiz_01";
+		// Initialize and start the NPC timer for timed announcements
+		initnpctimer;
+		// Announce the start of the Last Fallen Warrior Event to all players
+		announce "LFW Event: We are going to have a Last Fallen Warrior Event!", 0;
+		end;
+
+	// Timer events for announcements
+	OnTimer3000:
+		announce "LFW Event: For those who want to join, please come to Prontera Town!", 0;
+		end;
+	OnTimer5000:
+		announce "LFW Event: The Warper will be open for 1 minute.", 0;
+		end;
+	OnTimer38000:
+		announce "LFW Event: Last 30 Seconds until the warper closes.", 0;
+		end;
+
+	// Timer event: 65 seconds after initnpctimer, close warper
+	OnTimer65000:
+		// Stop the NPC timer
+		stopnpctimer;
+		// Small delay
+		sleep 1000;
+		// Countdown announcements before warper closes
+		announce "LFW Event: The Event will close in 5 seconds.", 0;
+		sleep 1000;
+		announce "LFW Event: The Event will close in 4 seconds.", 0;
+		sleep 1000;
+		announce "LFW Event: The Event will close in 3 seconds.", 0;
+		sleep 1000;
+		announce "LFW Event: The Event will close in 2 seconds.", 0;
+		sleep 1000;
+		announce "LFW Event: The Event will close in 1 second.", 0;
+		sleep 1000;
+		announce "LFW Event: Warper Closed.", 0;
+		// Disable the LFW Event Warper NPC
+		disablenpc "LFW Event Warper";
+		// Call the main event logic
+		goto OnLFWEEvent;
+		end;
+
+	// This label contains the core logic for the Last Fallen Warrior Event battle
+	OnLFWEEvent:
+		// Add a short delay before event starts after warper closes
+		sleep 3000;
+
+		// Check if no player joined the LFWE
+		if (getmapusers("quiz_01") == 0) {
+			// Announce that the event has ended due to no participation
+			announce "LFW Event: Event has ended. No players participated.", 0;
+			goto OnResetEvent;
+		}
+
+		// Countdown announcements on the event map before battle starts
+		mapannounce "quiz_01", "LFW Event Announcer: The event will start in 5 seconds!", 0, 0x00FF00;
+		sleep 1000;
+		mapannounce "quiz_01", "LFW Event Announcer: 4 seconds remaining!", 0, 0x00FF00;
+		sleep 1000;
+		mapannounce "quiz_01", "LFW Event Announcer: 3 seconds remaining!", 0, 0x00FF00;
+		sleep 1000;
+		mapannounce "quiz_01", "LFW Event Announcer: 2 seconds remaining!", 0, 0x00FF00;
+		sleep 1000;
+		mapannounce "quiz_01", "LFW Event Announcer: 1 second remaining!", 0, 0x00FF00;
+		sleep 1000;
+		mapannounce "quiz_01", "LFW Event Announcer: Let the battle begin!", 0, 0x00FF00;
+
+		// Set the event start flag to 1 (event is now active)
+		.lfw_start = 1;
+
+		// Spawn multiple "Champion Chen" monsters at various coordinates on the "quiz_01" map
+		monster "quiz_01", 42, 369, "Champion Chen", 2238, 1;
+		monster "quiz_01", 27, 373, "Champion Chen", 2238, 1;
+		monster "quiz_01", 26, 365, "Champion Chen", 2238, 1;
+		monster "quiz_01", 36, 364, "Champion Chen", 2238, 1;
+		monster "quiz_01", 36, 373, "Champion Chen", 2238, 1;
+		monster "quiz_01", 47, 373, "Champion Chen", 2238, 1;
+		monster "quiz_01", 57, 372, "Champion Chen", 2238, 1;
+		monster "quiz_01", 58, 365, "Champion Chen", 2238, 1;
+		monster "quiz_01", 48, 364, "Champion Chen", 2238, 1;
+		end;
+
+	OnResetEvent:
+		// Clear all monsters, in case any were missed.
+		killmonsterall "quiz_01";
+		// Ensure the event status is inactive.
+		.lfw_start = 0;
+		// Schedule the next event announcement cycle in 40 minutes (2,400,000 milliseconds).
+		sleep 2400000;
+		// Re-enable the warper for the next event.
+		enablenpc "LFW Event Warper";
+		// Go back to the announcement cycle for the next event.
+		goto OnLWEEventAnnouncement;
+		end;
+}
+
+// Separate script to handle global PC events cleanly without thread conflicts
+-	script	LFWE_PC_Events	-,{
+	OnPCDieEvent:
+		// Check if the event is active and the player died on the event map
+		if (getvariableofnpc(.lfw_start, "LFWE_Event") == 1 && strcharinfo(3) == "quiz_01") {
+			.dead_player_name$ = strcharinfo(0);
+			.dead_player_cid = getcharid(0);
+			.dead_player_aid = getcharid(3);
+
+			// Announce the player's elimination on the event map
+			mapannounce "quiz_01", "LFW Event Announcer: " + .dead_player_name$ + " has fallen.", 0, 0x00FF00;
+
+			// Revive and warp the eliminated player out of the event map to Prontera immediately
+			recovery 0, .dead_player_cid, 1;
+			warp "prontera", 149, 161, .dead_player_cid;
+
+			// After the current player has been warped out, check the number of players left on the map.
+			if (getmapusers("quiz_01") == 1) {
+				// The last remaining player is the survivor and the winner!
+				getmapunits(BL_PC, "quiz_01", .@players[0]);
+				.winner_aid = .@players[0];
+				.winner_cid = convertpcinfo(.winner_aid, CPC_CHAR);
+				.winner_name$ = convertpcinfo(.winner_aid, CPC_NAME);
+
+				// Kill all remaining event monsters
+				killmonsterall "quiz_01";
+
+				// Announce the winner to the entire server
+				announce "Congratulations to " + .winner_name$ + " for winning the Last Fallen Warrior Event!", 0;
+
+				// Give rewards directly using the winner's Account ID
+				getitem 7227, 1, .winner_aid;	// Item ID for Poring Coin
+				getitem 30341, 1, .winner_aid;	// Item ID for Reward Box
+				getitem 30343, 1, .winner_aid;	// Item ID for Elite Box
+
+				// Warp the winner out safely
+				warp "prontera", 149, 161, .winner_cid;
+
+				// Trigger the main NPC to reset
+				donpcevent "LFWE_Event::OnResetEvent";
+			} else if (getmapusers("quiz_01") == 0) {
+				// Fallback: if the last two players died at the exact same time, the last one to trigger the event wins
+				.winner_aid = .dead_player_aid;
+				.winner_name$ = .dead_player_name$;
+
+				// Kill all remaining event monsters
+				killmonsterall "quiz_01";
+
+				// Announce the winner to the entire server
+				announce "Congratulations to " + .winner_name$ + " for winning the Last Fallen Warrior Event!", 0;
+
+				// Give rewards directly using the winner's Account ID
+				getitem 7227, 1, .winner_aid;	// Item ID for Poring Coin
+				getitem 30341, 1, .winner_aid;	// Item ID for Reward Box
+				getitem 30343, 1, .winner_aid;	// Item ID for Elite Box
+
+				// Trigger the main NPC to reset
+				donpcevent "LFWE_Event::OnResetEvent";
+			}
+		}
+		end;
+
+	OnPCLogoutEvent:
+		// If a player logs out on the event map while the event is active
+		if (getvariableofnpc(.lfw_start, "LFWE_Event") == 1 && strcharinfo(3) == "quiz_01") {
+			// Check if no players are left on the map
+			if (getmapusers("quiz_01") == 0) {
+				// Reset the event
+				donpcevent "LFWE_Event::OnResetEvent";
+			}
+		}
+		end;
+}
+
+quiz_01	mapflag	nogo
+quiz_01	mapflag	nomemo
+quiz_01	mapflag	noreturn
+quiz_01	mapflag	nowarp
+quiz_01	mapflag	nowarpto
+quiz_01	mapflag	nosave
+quiz_01	mapflag	nobranch

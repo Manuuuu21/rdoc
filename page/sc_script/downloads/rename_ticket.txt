@@ -1,0 +1,34 @@
+// @reloadnpcfile npc/custom/manuel_npc/rename_ticket.txt
+
+function	script	Rename_Ticket	{
+    mes "Enter your new name:";
+    mes "^FF0000* Remember! Character name must be between 4 and 24 characters. *^000000";
+    input .@newname$;
+
+    // Check for invalid names
+    if (getstrlen(.@newname$) < 4 || getstrlen(.@newname$) > 24) {
+        close;
+    }
+    if (checkvending() || checkchatting()) {
+        mes "Please close all vending and chat windows before renaming.";
+        close;
+    }
+
+    // Check if the name already exists in SQL
+    query_sql "SELECT COUNT(*) FROM `char` WHERE `name` = '"+escape_sql(.@newname$)+"'", .@nameExists;
+    if (.@nameExists > 0) {
+        mes "That name is already in use.";
+        close;
+    }
+
+    // Update the character name in SQL
+    query_sql "UPDATE `char` SET `name` = '"+escape_sql(.@newname$)+"' WHERE `char_id` = "+getcharid(0);
+
+    next;
+    mes "Your character name has been changed to ^1100AA"+.@newname$+"^000000!";
+    mes "^FF0000* Please relog to take effect the change name. *^000000";
+    close2;
+    sleep 500;
+    
+    atcommand "@kick "+ getcharid(3);
+}

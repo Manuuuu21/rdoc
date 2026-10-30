@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Item Deleter - rAthena Documentation</title>
+    <meta name="description" content="A GM-only NPC counts a selected item across inventory and storage tables and offers a confirmed global deletion operation.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Global Item Deleter</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">A GM-only NPC counts a selected item across inventory and storage tables and offers a confirmed global deletion operation.</p>
+                <a href="downloads/global_item_deleter.txt" download="global_item_deleter.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download global_item_deleter.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">global_item_deleter.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">113 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">NPC locations</th><td class="border-b px-4 py-3 text-gray-600 break-words">DeleteItemGlobal — prontera (150, 150)</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/global_item_deleter.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/global_item_deleter.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+<li>This script executes DELETE statements against inventory, cart_inventory, storage, and guild_storage. It also removes items from the invoking GM&#x27;s live inventory, cart, and personal storage; it does not synchronize every other online player&#x27;s cached items.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/global_item_deleter.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>global_item_deleter.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Global Item Deleter script">Copy</button>
+                    <pre>//===== rAthena Script =======================================
+//= DeleteItemSQL
+//===== By: rAthena AI Assistant ============================
+//= Checks and deletes all instances of a specific item ID
+//= from inventory, cart, storage, and guild storage.
+//= Restricted to GM access (getgroupid &gt; 0).
+//= @reloadnpcfile npc/custom/manuel_npc/global_item_deleter.txt
+//============================================================
+
+prontera,150,150,5	script	DeleteItemGlobal	99,{
+	// GM Restriction Check
+	if (getgroupid() == 0) {
+		mes "[Global Item Deleter]";
+		mes "You do not have permission to use this NPC.";
+		close;
+	}
+
+	mes "[Global Item Deleter]";
+	mes "Enter the Item ID to remove from all accounts.";
+	next;
+
+	input .@item_id, 1, 100000;
+
+	// Validate Item ID
+	if (getitemname(.@item_id) == "null") {
+		mes "Invalid Item ID. Please enter a valid item.";
+		close;
+	}
+
+	// Show item count breakdown
+	.@sum_inventory = 0;
+	.@sum_cart = 0;
+	.@sum_storage = 0;
+	.@sum_guild_storage = 0;
+
+	.@char_id = getcharid(0);
+	.@account_id = getcharid(3);
+	.@guild_id = getcharid(2);
+
+	// Inventory: Sum of all other players + active GM's live memory count
+	query_sql("SELECT SUM(amount) FROM `inventory` WHERE `nameid` = " + .@item_id + " AND `char_id` != " + .@char_id, .@sum_inventory);
+	.@sum_inventory += countitem(.@item_id);
+
+	// Cart Inventory: Sum of all other players + active GM's live memory cart count (only if GM has a cart)
+	query_sql("SELECT SUM(amount) FROM `cart_inventory` WHERE `nameid` = " + .@item_id + " AND `char_id` != " + .@char_id, .@sum_cart);
+	if (checkcart()) {
+		.@sum_cart += max(0, cartcountitem(.@item_id));
+	}
+
+	// Storage: Sum of all other accounts + active GM's live memory storage count
+	query_sql("SELECT SUM(amount) FROM `storage` WHERE `nameid` = " + .@item_id + " AND `account_id` != " + .@account_id, .@sum_storage);
+	.@sum_storage += max(0, storagecountitem(.@item_id));
+
+	// Guild Storage: Check if active GM's guild storage is loaded in memory
+	if (.@guild_id &gt; 0) {
+		.@g_count = guildstoragecountitem(.@item_id);
+		if (.@g_count == -1) {
+			query_sql("SELECT SUM(amount) FROM `guild_storage` WHERE `nameid` = " + .@item_id, .@sum_guild_storage);
+		} else {
+			query_sql("SELECT SUM(amount) FROM `guild_storage` WHERE `nameid` = " + .@item_id + " AND `guild_id` != " + .@guild_id, .@sum_guild_storage);
+			.@sum_guild_storage += .@g_count;
+		}
+	} else {
+		query_sql("SELECT SUM(amount) FROM `guild_storage` WHERE `nameid` = " + .@item_id, .@sum_guild_storage);
+	}
+
+	.@total = .@sum_inventory + .@sum_cart + .@sum_storage + .@sum_guild_storage;
+
+	mes "For item ID &lt;ITEM&gt;" + .@item_id + "&lt;INFO&gt;" + .@item_id + "&lt;/INFO&gt;&lt;/ITEM&gt; - " + getitemname(.@item_id);
+	mes "Total items found: " + .@total;
+	mes "- Inventory: " + .@sum_inventory;
+	mes "- Cart: " + .@sum_cart;
+	mes "- Storage: " + .@sum_storage;
+	mes "- Guild Storage: " + .@sum_guild_storage;
+	next;
+
+	mes "Do you want to delete ALL of these items?";
+	if (select("Yes, delete all of them.:No, cancel.") == 2) {
+		mes "Operation cancelled.";
+		close;
+	}
+	next;
+
+	// Delete from SQL storage
+	query_sql("DELETE FROM `inventory` WHERE `nameid` = " + .@item_id);
+	query_sql("DELETE FROM `cart_inventory` WHERE `nameid` = " + .@item_id);
+	query_sql("DELETE FROM `storage` WHERE `nameid` = " + .@item_id);
+	query_sql("DELETE FROM `guild_storage` WHERE `nameid` = " + .@item_id);
+
+	// Also delete from this online player (the GM running the script)
+	// to prevent memory-to-SQL overwrite on logout/save.
+	.@count = countitem(.@item_id);
+	if (.@count &gt; 0) {
+		delitem .@item_id, .@count;
+	}
+
+	if (checkcart()) {
+		.@cart_count = cartcountitem(.@item_id);
+		if (.@cart_count &gt; 0) {
+			cartdelitem .@item_id, .@cart_count;
+		}
+	}
+
+	.@storage_count = storagecountitem(.@item_id);
+	if (.@storage_count &gt; 0) {
+		storagedelitem .@item_id, .@storage_count;
+	}
+
+	mes "item ID &lt;ITEM&gt;" + .@item_id + "&lt;INFO&gt;" + .@item_id + "&lt;/INFO&gt;&lt;/ITEM&gt; - " + getitemname(.@item_id) + " has been deleted.";
+	mes "- All players of the server";
+	mes "- All storage systems";
+	close;
+}</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

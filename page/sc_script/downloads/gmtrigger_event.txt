@@ -1,0 +1,130 @@
+//===== rAthena Script =======================================
+//= Server Announcement
+//===== By: rAthena AI Assistant ============================
+//= Server Announcement and GM Triggered Announcement
+//= @reloadnpcfile npc/custom/manuel_npc/gmtrigger_event.txt
+//============================================================
+
+-	script	gmAnnouncement_Event	-,{
+	OnInit:
+		OnTimer4400000: //every 60mins
+		setarray .@eventAnnounce1$,
+		"Mic check... something's coming up!",
+		"Testing, testing... prepare for an event!",
+		"Sound check! Stay alert, event starting soon!",
+		"Can you hear me? Get ready, event is near!",
+		"Mic test... everyone standby, something fun is coming!",
+		"Mic test mic test... event incoming, standby!";
+		// Get a random map index from the array
+		.randIndex1 = rand( getarraysize(.@eventAnnounce1$) );
+		
+		setarray .@eventAnnounce2$,
+		"A Treasure Box will appear in Prontera! Smash it and claim your prize!",
+		"Spawning a Treasure Box in Prontera. destroy it to earn rewards!",
+		"Watch out! A Treasure Box is coming to Prontera. Break it for loot!",
+		"I'm summoning a Treasure Box in Prontera! Be the first to break it!",
+		"A reward-filled Treasure Box will appear in Prontera. Get ready to destroy it!",
+		"I will respawn a Treasure Box at the Prontera. Destroy it and get the reward!";
+		// Get a random map index from the array
+		.randIndex2 = rand( getarraysize(.@eventAnnounce2$) );
+	
+		initnpctimer;
+		// sleep 120000;
+		// GM triggered announcement sequence
+		announce "GM-Bokiebok: " + .@eventAnnounce1$[.randIndex1], bc_all;
+		sleep 5000; // 1 second delay
+		announce "GM-Bokiebok: " + .@eventAnnounce2$[.randIndex2], bc_all;
+		sleep 5000;
+		goto OnSpawnTBox_GMRespawn;
+	end;
+		
+	OnTBoxDes_GMRespawn:
+		// Announce monster destroyed the Tbox (these arrays do not use strcharinfo(0))
+		setarray .@monsterDestroyedAnnounce1$,
+		"The Treasure Box has been destroyed by a MONSTER!",
+		"Oh no! A monster claimed the Treasure Box!",
+		"The Treasure Box was defeated by a wild creature!",
+		"A monster got to the Treasure Box first!";
+		.randIndex5 = rand( getarraysize(.@monsterDestroyedAnnounce1$) );
+
+		setarray .@monsterDestroyedAnnounce2$,
+		"GM-Bokiebok: Sad :(",
+		"GM-Bokiebok: What a shame :(",
+		"GM-Bokiebok: Unlucky :(",
+		"GM-Bokiebok: Ohhhh :(";
+		.randIndex6 = rand( getarraysize(.@monsterDestroyedAnnounce2$) );
+
+		setarray .@monsterDestroyedAnnounce3$,
+		"GM-Bokiebok: It found and destroyed by a monster!",
+		"GM-Bokiebok: The monster took the loot!",
+		"GM-Bokiebok: It was too strong for the box!",
+		"GM-Bokiebok: The monster claimed the prize!";
+		.randIndex7 = rand( getarraysize(.@monsterDestroyedAnnounce3$) );
+
+		setarray .@monsterDestroyedAnnounce4$,
+		"GM-Bokiebok: Better luck next time!",
+		"GM-Bokiebok: Don't give up. I will respawn it again in another time!",
+		"GM-Bokiebok: Try harder next time!",
+		"GM-Bokiebok: Wait for another time. I will respawn it again later!";
+		.randIndex8 = rand( getarraysize(.@monsterDestroyedAnnounce4$) );
+
+		// Check if a player is attached (killed by player)
+		if (playerattached()) {
+			// Initialize these arrays ONLY if a player is attached
+			setarray .@playerDestroyedAnnounce$,
+			"The Treasure Box has been found and destroyed by [ " + strcharinfo(0) + "! ]",
+			"A Treasure Box has been vanquished by [ " + strcharinfo(0) + "! ]",
+			"Victory! [ " + strcharinfo(0) + " ] has defeated the Treasure Box!",
+			"The Treasure Box is no more, thanks to [ " + strcharinfo(0) + "! ]";
+			.randIndex3 = rand( getarraysize(.@playerDestroyedAnnounce$) );
+
+			setarray .@congratsAnnounce$,
+			"GM-Bokiebok: Congrats " + strcharinfo(0) + "!",
+			"GM-Bokiebok: Well done, " + strcharinfo(0) + "!",
+			"GM-Bokiebok: Amazing work, " + strcharinfo(0) + "!",
+			"GM-Bokiebok: You're a true hero, " + strcharinfo(0) + "!";
+			.randIndex4 = rand( getarraysize(.@congratsAnnounce$) );
+
+			// Announce player destroyed the Tbox
+			announce .@playerDestroyedAnnounce$[.randIndex3], bc_all;
+			// Reward the player who killed the treasure box
+			getitem 7227,1;
+			getitem 30339,2;
+			getitem 30341,1;
+			getitem 30343,1;
+			
+			sleep 5000; // 1 second delay
+			announce .@congratsAnnounce$[.randIndex4], bc_all;
+		} 
+		else if ($killermobgid > 0) {
+			.winnerName$ = getunitname($killermobgid);
+			announce "The Treasure Box has been found and destroyed by [ " + .winnerName$ + "! ]", 0;
+			sleep 5000; // 5 second delay
+			announce "GM-Bokiebok: Congrats " + .winnerName$ + "!", 0;
+			$killermobgid = 0; // Reset variable
+		}
+	
+	end;
+
+	OnSpawnTBox_GMRespawn:
+		setarray .@spawnAnnounce$,
+		"A new Treasure Box has appeared in Prontera!",
+		"Behold! A Treasure Box has spawned in Prontera!",
+		"Look alive! A Treasure Box has spawned now in Prontera!",
+		"Fresh loot! A Treasure Box is waiting in Prontera!";
+		.randIndex9 = rand( getarraysize(.@spawnAnnounce$) );
+		
+		// Variables to hold random coordinates
+		.@map$ = "prontera";
+		// Find a random empty cell in Prontera and store it within .@x and .@y
+		getfreecell("prontera",.@x,.@y); 
+
+		// Spawn the treasure box at the random walkable location
+		monster .@map$, .@x, .@y, "Treasure Box", 2288, 1, "gmAnnouncement_Event::OnTBoxDes_GMRespawn";
+
+		// Announce that the treasure box has respawned
+		announce .@spawnAnnounce$[.randIndex9], bc_all;
+		// Note: This is for debugging. 
+		//announce "A new Treasure Box has appeared in Prontera! (" + .@x + ", " + .@y + ")", 0;
+	end;
+}

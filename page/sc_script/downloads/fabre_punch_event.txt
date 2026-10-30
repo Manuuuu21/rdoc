@@ -1,0 +1,278 @@
+//===== rAthena Script =======================================
+//= Fabre Punch Event
+//===== By: rAthena AI Assistant ============================
+//= A mini-game event where players earn points by punching Fabre monsters.
+//= Includes ranking, rewards, and GM controls for event management.
+//=
+//= Use this SQL Table to create DB in your phpmyadmin
+//= 
+//= CREATE TABLE IF NOT EXISTS `e_fabre_punch_rank` (
+//= `cid` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+//= `name` NVARCHAR(30) NOT NULL DEFAULT '',
+//= `point` INT(11) NOT NULL DEFAULT 0,
+//= `rank` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0,
+//= PRIMARY KEY (`cid`)
+//= ) ENGINE=MyISAM;
+//============================================================
+prontera,129,204,5	script	Fabre Punch Event	4_M_MOC_SOLDIER,{
+	// When the "Fabre Punch Event" NPC is clicked, it triggers the OnTalk event in the main script.
+	doevent "fabre_punch_main::OnTalk";
+}
+
+pvp_n_1-2,100,100,5	script	Fabre Punch Ranking	4_M_MOC_SOLDIER,{
+	// When the "Fabre Punch Ranking" NPC is clicked, it triggers the OnViewRank event in the main script.
+	doevent "fabre_punch_main::OnViewRank";
+}
+
+// Monster spawns for the event. These Fabre monsters award different points when killed.
+// The event label links their death to the L_Point subroutine in the main script.
+pvp_n_1-2,0,0,0,0	monster	1 Point	1007,60,5000,60000,"fabre_punch_main::OnKill_1"
+pvp_n_1-2,0,0,0,0	monster	10 Points	1007,30,5000,60000,"fabre_punch_main::OnKill_2"
+pvp_n_1-2,0,0,0,0	monster	-20 Points	1007,50,5000,60000,"fabre_punch_main::OnKill_3"
+pvp_n_1-2,0,0,0,0	monster	Super Points	1007,10,5000,60000,"fabre_punch_main::OnKill_4"
+		
+-	script	fabre_punch_main	-1,{
+	OnInit:
+		bindatcmd "joinfabre", strnpcinfo(3) + "::OnWarpFabreMap";
+		
+		// Define the map name where the event takes place.
+		.map$ = "pvp_n_1-2";
+
+		// Get the unique name of this NPC script for self-referencing events.
+		.npc_name$ = strnpcinfo(3);
+		// Set various mapflags for the event map to control player behavior.
+		setmapflag .map$, mf_noskill;    // Disable skill usage
+		setmapflag .map$, mf_nodrop;     // Disable item dropping
+		setmapflag .map$, mf_nomobloot;  // Disable mob looting
+		setmapflag .map$, mf_nomvploot;  // Disable MVP item looting
+		setmapflag .map$, mf_nosave;     // Prevent saving on this map
+		setmapflag .map$, mf_noteleport; // Prevent teleporting to/from this map
+		setmapflag .map$, mf_nowarpto;   // Prevent warping to this map
+		setmapflag .map$, mf_nobranch;   // Prevent Dead Branch usage
+
+		// Warp all players currently on the event map back to Prontera.
+		mapwarp .map$, "prontera",155,181;
+		end;
+	
+	OnWarpFabreMap:
+		// If inventory and cart are clear, check event status.
+		switch ( .status ) {
+			case 1:
+			case 2:
+				// If event is starting or running, warp player to the event map.
+				warp .map$,0,0;
+				break;
+			case 3:
+				mes "Event ending, try again next time."; // Event is ending.
+				break;
+			default:
+				mes "Event isn't running, try again next time."; // Event is not running.
+				break;
+		}
+	end;
+	
+	OnViewRank:
+		// Display a menu for viewing event ranks.
+		switch ( select(
+			"My Current Score",
+			"Top List Puncher",
+			"Nevermind"
+		)) {
+			case 1:
+				// If "My Current Score" is selected, query the player's current score from the database.
+				query_sql( "SELECT `point` FROM `e_fabre_punch_rank` WHERE `cid` = "+getcharid(0)+" LIMIT 1",.@current_score );
+				mes "My Current Score: " + .@current_score;
+				break;
+			case 2:
+				// If "Top List Puncher" is selected, query the top 10 players by score.
+				query_sql( "SELECT `name`,`point` FROM `e_fabre_punch_rank` ORDER BY `point` DESC LIMIT 10",.@name$,.@point );
+				.@size = getarraysize( .@name$ ); // Get the number of results.
+				mes "Ranking";
+				// Loop through the results and display each player's name and score.
+				for ( .@i = 0; .@i < .@size; .@i++ ) {
+					mes .@name$[.@i] +": "+.@point[.@i]+" Point";
+				}
+				break;
+			default:
+				// Do nothing if "Nevermind" or any other option is selected.
+				break;
+		}
+		close; // Close the NPC dialog.
+
+	OnTalk:
+		// Get the character ID of the interacting player.
+		.@cid = getcharid(0);
+		// Check if the player has GM level (greater than 0).
+		.@is_gm = ( getgmlevel() > 0 );
+
+		// Display a menu with options based on event status and GM privileges.
+		switch ( select(
+			"Join Event",
+			"Get Reward",
+			( .@is_gm && !.status ) ? "[GM] Start Event" : "", // GM option to start event if not running.
+			( .@is_gm && .status == 1 ) ? "[GM] Stop Event" : "", // GM option to stop event if running.
+			"Nevermind"
+		)) {
+			case 1:
+				// If "Join Event" is selected, check player's inventory and cart.
+				getinventorylist; // Get player's inventory items.
+				if ( @inventorylist_count > 0 ) {
+					mes "Please remove all your inventory items."; // Prompt to clear inventory.
+				}
+				else if ( checkcart() ) {
+					mes "Please remove your cart as well."; // Prompt to remove cart.
+				}
+				else {
+					// If inventory and cart are clear, check event status.
+					switch ( .status ) {
+						case 1:
+						case 2:
+							// If event is starting or running, warp player to the event map.
+							warp .map$,0,0;
+							break;
+						case 3:
+							mes "Event ending, try again next time."; // Event is ending.
+							break;
+						default:
+							mes "Event isn't running, try again next time."; // Event is not running.
+							break;
+					}
+				}
+				break;
+			case 2:
+				// If "Get Reward" is selected, check player's rank.
+				query_sql( "SELECT `rank` FROM `e_fabre_punch_rank` WHERE `cid` = "+.@cid+" LIMIT 1",.@rank );
+				switch ( .@rank ) {
+					case 1: // If player is rank 1.
+					case 2: // If player is rank 2.
+					case 3: // If player is rank 3.
+						// Set player's rank to 0 to prevent multiple claims.
+						query_sql( "UPDATE `e_fabre_punch_rank` SET `rank` = 0 WHERE `cid` = "+.@cid+" LIMIT 1" );
+						// Award items (Apples in this example).
+						getitem 7227,1;
+						getitem 30339,2;
+						getitem 30341,1;
+						getitem 30343,1;
+						mes "You gained rewards";
+						break;
+					default:
+						mes "No reward."; // No reward if not ranked in top 3 or already claimed.
+						break;
+				}
+				break;
+			case 3:
+				// GM option: Start Event.
+				mes "Event will be starting soon.";
+				close2; // Close dialog but keep script running.
+				donpcevent .npc_name$+"::OnStart"; // Trigger the OnStart event.
+				end; // End current script instance.
+			case 4:
+				// GM option: Stop Event.
+				mes "Event will be ended soon.";
+				close2; // Close dialog but keep script running.
+				donpcevent .npc_name$+"::OnEnd"; // Trigger the OnEnd event.
+				end; // End current script instance.
+			default:
+				// Do nothing if "Nevermind" or any other option is selected.
+				break;
+		}
+		close; // Close the NPC dialog.
+
+	OnMinute30: // This label can be triggered by the server clock at 30 minutes past the hour.
+	OnStart: // This label can be triggered by the GM option.
+		// Check if the event is not already running.
+		if ( !.status ) {
+			.status = 1; // Set status to 1 (event starting).
+			query_sql( "TRUNCATE `e_fabre_punch_rank`" ); // Clear previous ranking data.
+			// Countdown to event start.
+			for ( .@i = 1; .@i > 0 && .status == 1; .@i-- ) {
+				announce "Fabre Punch Event:  Start in "+.@i+" minute(s).",bc_all; // Announce countdown server-wide.
+				sleep 6000; // Wait 1 minute (6000 milliseconds).
+			}
+			announce "Fabre Punch Event:  Started.",bc_all; // Announce event start.
+
+			// Countdown for players on the event map.
+			for ( .@i = 5; .@i > 0 && .status == 1; .@i-- ) {
+				mapannounce .map$,"Fabre Punch Event:  Start in "+.@i+" second(s).",bc_all; // Announce countdown on map.
+				sleep 1000; // Wait 1 second.
+			}
+
+			.point_rate = 1; // Initialize point rate to 1x.
+			if ( .status == 1 ) { // If event is still in starting phase.
+				.status = 2; // Set status to 2 (event running).
+				// Main event loop, runs for 15 minutes, checking every 5 minutes.
+				for ( .@minute = 15; .@minute > 0; .@minute -= 5 ) {
+					mapannounce .map$,"Fabre Punch Event:  Time Left "+.@minute+" Minute(s).",bc_all; // Announce time left.
+					if ( .@minute <= 5 ) {
+						.point_rate = 3; // 3x point rate for the last 5 minutes.
+					}
+					else if ( .@minute <= 10 ) {
+						.point_rate = 2;  // 2x point rate for minutes 6-10.
+					}
+					sleep ( 5 * 6000 ); // Wait 5 minutes.
+				}
+				// After the event time, retrieve top 3 players by points.
+				query_sql( "SELECT `cid`,`name`,`point` FROM `e_fabre_punch_rank` WHERE `point` > 0 ORDER BY `point` DESC LIMIT 3",.@cid,.@name$,.@point );
+				.@size = getarraysize( .@cid ); // Get the number of winners found.
+				// Update ranks in the database and announce winners.
+				for ( .@i = 0; .@i < .@size; .@i++ ) {
+					query_sql( "UPDATE `e_fabre_punch_rank` SET `rank` = "+( .@i + 1 )+" WHERE `cid` = "+.@cid[.@i]+" LIMIT 1" );
+					mapannounce .map$,"Fabre Punch Event:  Winner "+( .@i + 1 )+" - '"+.@name$[.@i]+"' with "+.@point[.@i]+" Points.",bc_all;
+				}
+
+				mapannounce .map$,"Fabre Punch Event:  Ended. Total "+.@size+" winners.",bc_all; // Announce event end.
+				.status = 0; // Reset event status to 0 (not running).
+
+				sleep 5000; // Wait 5 seconds.
+				mapwarp .map$, "prontera",155,181; // Warp all players from the event map back to Prontera.
+			}
+		}
+		end; // End script instance.
+
+	OnEnd: // This label can be triggered by the GM option.
+		// If the event is running (status 2), awake the NPC to stop any ongoing sleep timers.
+		if ( .status == 2 )
+			awake .npc_name$;
+		end; // End script instance.
+
+	OnKill_1:
+		// Call L_Point subroutine with 1 point (multiplied by current rate).
+		callsub( L_Point,( .point_rate * 1 ) ); // Fabre = 1 Point
+		end; // End script instance.
+
+	OnKill_2:
+		// Call L_Point subroutine with 10 points (multiplied by current rate).
+		callsub( L_Point,( .point_rate * 10 ) ); // Fabre = 10 Point
+		end; // End script instance.
+
+	OnKill_3:
+		// Call L_Point subroutine with -20 points (multiplied by current rate).
+		callsub( L_Point,( .point_rate * -20 ) ); // Fabre = -20 Point
+		end; // End script instance.
+
+	OnKill_4:
+		// Call L_Point subroutine with a random point value (1-100) and announce to map.
+		callsub( L_Point, rand( 1,100 ), bc_map ); // Fabre = random 1~100 Point
+		end; // End script instance.
+
+	L_Point:
+		// Subroutine to handle point updates.
+		// Get the point value passed as argument 0.
+		.@value = getarg( 0,0 );
+		// Get the announcement flag passed as argument 1 (default to self-only).
+		.@announce = getarg( 1,bc_self );
+
+		// Check if the event is currently running.
+		if ( .status == 2 ) {
+			// Insert or update player's score in the database.
+			query_sql( "INSERT INTO `e_fabre_punch_rank` (`cid`, `name`, `point`) VALUES ( "+getcharid(0)+", '"+escape_sql( strcharinfo(0) )+"', "+.@value+" ) ON DUPLICATE KEY UPDATE `point` = `point` + "+.@value );
+			dispbottom "Fabre Punch Event:  Gained " + .@value + " Point."; // Display points gained to player.
+			//if ( .@announce )
+				// Announce monster kill and points gained to the specified target (map or self).
+				//announce "Super Fabre has been killed by [ " + strcharinfo(0) + " ] for " + .@value + " Point(s) !",.@announce;
+		}
+		else if ( .status == 0 ) {
+			dispbottom "Event not yet start, please wait."; // Inform player if event is not running.
+		}
+		return; // Return from the subroutine.
+}

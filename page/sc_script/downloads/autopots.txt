@@ -1,0 +1,104 @@
+//===== rAthena Script =======================================
+//= Auto-Potion
+//===== By: rAthena AI Assistant ============================
+//= Provides an @autopot command to automatically use potions
+//= based on specified item ID and HP percentage.
+//============================================================
+-	script	AutopotNPC	-1,{
+
+	OnInit:
+		// Binds the @autopot command.
+		// Level 0 allows all players to use it, 99 is the max GM level that can bypass it.
+	    bindatcmd("autopot", strnpcinfo(0) + "::OnCommand", 0, 99);
+	end;
+
+	OnCommand:
+		// Check if any arguments were provided for the command.
+	    if (getarraysize(.@atcmd_parameters$) == 0) {
+	        message strcharinfo(0), "Invalid syntax. Usage: @autopot <item_id> <min_hp_percent> or @autopot off";
+	        end;
+	    }
+
+		// Retrieve the first argument and convert it to lowercase for easier comparison.
+		.@command_arg1$ = strtolower(.@atcmd_parameters$[0]);
+
+		// Handle the "off" command to deactivate autopot.
+		if (.@command_arg1$ == "off") {
+			// Check if autopot is currently active.
+			if (@autopot_state) {
+				@autopot_state = 0; // Set state to off
+				dispbottom "Autopot deactivated!";
+			} else {
+				dispbottom "Autopot is not active.";
+			}
+			end;
+		}
+
+		// Parse item ID and HP percentage from the command arguments.
+		// These are stored in character-attached temporary variables to persist for the player.
+	    .@item_id_str$ = .@atcmd_parameters$[0];
+	    .@min_hp_percent_str$ = .@atcmd_parameters$[1];
+
+		// Convert string arguments to integers.
+		// atoi() returns 0 if the string is not a valid number.
+	    @autopot_item_id = atoi(.@item_id_str$);
+	    @autopot_min_hp = atoi(.@min_hp_percent_str$);
+
+		// Validate the inputs.
+	    if (@autopot_item_id <= 0 || @autopot_min_hp < 1 || @autopot_min_hp > 100) {
+	        message strcharinfo(0), "Invalid item ID or HP percentage. Please use: @autopot <item_id> <min_hp_percent>";
+	        end;
+	    }
+		// Further validation: Ensure the item is a healing item.
+		if (@autopot_item_id != 607) {
+			dispbottom "Yggdrasil Berry (#607) is the only supported healing item.";
+			end;
+		}
+		
+		/*
+		// Further validation: Ensure the item is a healing item.
+		if (getiteminfo(@autopot_item_id, ITEMINFO_TYPE) != IT_HEALING) {
+			dispbottom getitemname(@autopot_item_id) + " is not a healing item.";
+			end;
+		}
+		*/
+
+		// Set the autopot state to active.
+	    @autopot_state = 1;
+	    dispbottom "Autopot activated! Using " + getitemname(@autopot_item_id) + " when HP is below " + @autopot_min_hp + "%.";
+
+		// This loop runs continuously while the autopot is active.
+		// Using a `sleep2` inside a `while` loop for player-specific actions
+		// can potentially cause server strain if many players use it simultaneously
+		// or if the delay is too low. For more robust and scalable solutions,
+		// consider using `addtimer` with an `OnStart` label (as seen in the
+		// larger Auto-Potion script provided in previous contexts).
+	    while (@autopot_state) {
+	        // Check if the player is dead or otherwise unable to potion.
+	        if (Hp <= 0) {
+	            // If any disabling condition is met, turn off autopot.
+	            @autopot_state = 0;
+	            dispbottom "Autopot deactivated due to status effect or death!";
+	            break; // Exit the loop
+	        }
+
+	        // Check if current HP is below the specified percentage threshold.
+	        if ((Hp * 100) / MaxHp <= @autopot_min_hp) {
+	            // Check if the player has the specified item in their inventory.
+	            if (countitem(@autopot_item_id) > 0) {
+	                delitem @autopot_item_id, 1;  // Remove one item
+	                // Perform healing (e.g., full heal, or use itemheal for potion bonuses)
+	                percentheal 100, 100; // Heals 100% HP and SP
+	                specialeffect2 EF_POTION8;
+	            } else {
+	                // If no items are left, deactivate autopot.
+	                dispbottom "Autopot deactivated! No more " + getitemname(@autopot_item_id) + "s left!";
+	                @autopot_state = 0;
+	                break; // Exit the loop
+	            }
+	        }
+	 
+	        sleep2 100; // Wait for 100 milliseconds (0.1 seconds) before checking again
+	    }
+	end;
+}

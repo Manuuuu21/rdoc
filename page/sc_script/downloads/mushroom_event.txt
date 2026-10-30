@@ -1,0 +1,60 @@
+//===== rAthena Script =======================================
+//= HourlyMushroomSpawner
+//===== By: rAthena AI Assistant ============================
+//= Spawns 10 Mushrooms randomly on an active map every hour.
+//= Rewards players with TCG Cards and Berry Tickets upon killing these mushrooms.
+//= @reloadnpcfile npc/custom/manuel_npc/mushroom_event.txt
+//============================================================
+-	script	HourlyMushroomSpawner	-1,{
+	OnInit:
+		.total_spawned_mushrooms = 0;
+		.killed_mushrooms = 0;
+		.last_map$ = ""; // Track the last map used for spawning
+		initnpctimer;
+		goto S_SpawnMushrooms;
+	end;
+
+	OnMinute00:
+		goto S_SpawnMushrooms;
+	end;
+
+	S_SpawnMushrooms:
+		// Clean up any remaining mushrooms from the previous hour to prevent count stacking
+		if (.last_map$ != "") {
+			killmonster .last_map$, strnpcinfo(3) + "::OnMushroomKilled";
+		}
+
+		.total_spawned_mushrooms = 10;
+		.killed_mushrooms = 0;
+		
+		setarray .@spawn_maps$[0], "prontera", "morocc", "alberta", "izlude", "aldebaran", "xmas", "comodo", "yuno", "amatsu", "gonryun";
+		.@selected_map$ = .@spawn_maps$[rand(getarraysize(.@spawn_maps$))];
+		.last_map$ = .@selected_map$; // Save the current map as the last map
+
+		for (.@i = 0; .@i < .total_spawned_mushrooms; .@i++) {
+			monster(.@selected_map$, 0, 0, "Event Mushroom", 1084, 1, strnpcinfo(3) + "::OnMushroomKilled");
+				}
+
+		announce .total_spawned_mushrooms + " Event Mushrooms have spawned at " + .@selected_map$ + "! Find and defeat them for rewards!", bc_all;
+	end;
+
+	OnMushroomKilled:
+		.killed_mushrooms++;
+		set .@player_aid, playerattached();
+		
+		if (.@player_aid != 0) {
+			getitem 7227, 1;
+			getitem 30339, 2;
+			announce strcharinfo(0) + " killed an Event Mushroom at " + .last_map$ + "! (" + .killed_mushrooms + "/" + .total_spawned_mushrooms + ")", bc_all;
+		}
+		else if ($killermobgid > 0) {
+			announce getunitname($killermobgid) + " killed an Event Mushroom at " + .last_map$ + "! (" + .killed_mushrooms + "/" + .total_spawned_mushrooms + ")", bc_all;
+			$killermobgid = 0;
+		}
+
+		if (.killed_mushrooms == .total_spawned_mushrooms) {
+			announce "All " + .total_spawned_mushrooms + " Event Mushrooms have been defeated! Great job, adventurers!", bc_all;
+			.last_map$ = ""; // Reset since all are dead
+		}
+	end;
+}

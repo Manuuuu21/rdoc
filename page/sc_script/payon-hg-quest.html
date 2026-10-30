@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payon HG Quest - rAthena Documentation</title>
+    <meta name="description" content="Payon&#x27;s cHiZWiTcH NPC exchanges materials for Hairband of Reginleif, Dragon Helm, Sigrun Wings, and Handkerchief in Mouth.">
+    <link rel="icon" href="../img/icon.png" type="image/png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ace Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ext-language_tools.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/theme-monokai.js"></script>
+    <link href="../../index.css" rel="stylesheet" />
+    <style>
+        .pre_container pre { display: block; max-height: 550px; overflow: auto; white-space: pre; }
+        #content-display code { overflow-wrap: anywhere; }
+        .pre_container { min-width: 0; }
+        @media (max-width: 767px) { header h1 { font-size: 1.25rem !important; } }
+
+        /* Styling for the Ace Editor container */
+        .ace-editor-instance {
+            min-height: 450px; /* Default height for Ace editor */
+            max-height: 550px; /* Max height, Ace will add scrollbar */
+            width: 100%;
+            border-radius: 0.5rem; /* Match pre_container border-radius */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+            font-size: 0.875rem; /* text-sm from original pre */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg rounded-b-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold rounded-md">rAthena Scripting Documentation</h1>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button style="margin-right:10px;" aria-label="Search documentation" id="openModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-end">
+                <!-- Search Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+            </button>
+            <!-- Mobile menu button - non-functional in pure CSS static site -->
+            <button aria-label="Toggle navigation" id="menu-toggle" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex flex-1 flex-col md:flex-row container mx-auto mt-4 p-4 gap-4">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden w-full md:w-64 shrink-0 bg-white p-4 rounded-lg shadow-md md:sticky md:top-4 md:self-start"
+                style="height:40rem;overflow:hidden;padding-right:5px !important;">
+            <nav>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">rAthena Topics</h2>
+
+                <ul id="rathena-topic-list" class="space-y-2" style="height: 280px;overflow-y:scroll;font-size:13px;"></ul>
+
+                <p style="padding:10px 0 10px 0"><hr/><br/></p>
+
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Showcase Scripts</h2>
+                <!-- IMPORTANT NOTE: the topic list name should be the same as topic Title -->
+                <ul id="show-case-list" class="space-y-2" style="height:190px;overflow-y:scroll;font-size:13px;"></ul>
+                <div id="custom_ad_container" class="mt-4"></div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Display Area -->
+        <section id="content-display" class="flex-1 min-w-0 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <div id="scripting" class="content-section mb-8">
+                <p class="text-sm font-medium text-blue-700 mb-2">Showcase Scripts</p>
+                <h2 id="rathena-topic-title" class="text-3xl font-semibold mb-4 text-gray-800">Payon HG Quest</h2>
+                <p class="text-gray-700 leading-relaxed mb-5">Payon&#x27;s cHiZWiTcH NPC exchanges materials for Hairband of Reginleif, Dragon Helm, Sigrun Wings, and Handkerchief in Mouth.</p>
+                <a href="downloads/chizwitch_npc.txt" download="chizwitch_npc.txt" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg mb-5">Download chizwitch_npc.txt</a>
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full border border-gray-200 text-sm"><tbody>
+                        <tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Source file</th><td class="border-b px-4 py-3 text-gray-600 break-words">chizwitch_npc.txt</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">Script length</th><td class="border-b px-4 py-3 text-gray-600 break-words">256 lines</td></tr>
+<tr><th scope="row" class="border-b px-4 py-3 text-left font-medium text-gray-700 align-top">NPC locations</th><td class="border-b px-4 py-3 text-gray-600 break-words">cHiZWiTcH — payon (191, 113)</td></tr>
+                    </tbody></table>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Setup notes</h3>
+                <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm leading-relaxed mb-6">
+                    <li>Save the downloaded file as <code>npc/custom/manuel_npc/chizwitch_npc.txt</code>.</li>
+<li>Add <code>npc: npc/custom/manuel_npc/chizwitch_npc.txt</code> to <code>npc/scripts_custom.conf</code> if it is not already loaded.</li>
+<li>Review the item IDs, maps, sprites, prices, and access levels used by this script for your server.</li>
+<li>This page uses chizwitch_npc.txt, the four-reward Payon version, rather than the separate chizwitch_npc2.txt variant.</li>
+                </ul>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Script source</h3>
+                <p class="text-sm text-gray-600 mb-3">Original script from <code>manuel_npc/chizwitch_npc.txt</code>. Author credits and source comments are preserved.</p>
+                <div class="pre_container">
+                    <div class="text-gray-700" style="margin-bottom:-25px;"><b>chizwitch_npc.txt</b></div>
+                    <button type="button" class="copy-button" aria-label="Copy Payon HG Quest script">Copy</button>
+                    <pre>//===== By:==================================================
+//= Manuel Sintos
+// @reloadnpc npc/custom/manuel_npc/chizwitch_npc.txt
+
+payon,191,113,3	script	cHiZWiTcH	10247,{
+	set @name$, "[^1100AA cHiZWiTcH ^000000]";
+
+	// quests items
+	// 1. Hairband of Reginleif
+	// 2. Dragon Helm
+	// 3. Sigrun Wings
+	// 4. Handkerchief in Mouth
+	setarray .questItems, 5471, 5467, 5592, 18670;
+
+	// for Hairband of Reginleif requirement quest
+	setarray .requiredItemID0, 7510, 710, 7300;
+	setarray .requiredAmount0, 200, 100, 20;
+
+	// for Dragon Helm requirement quest
+	setarray .requiredItemID1, 7451, 7562, 7443, 7022;
+	setarray .requiredAmount1, 20, 20, 40, 10;
+
+	// for Sigrun Wings requirement quest
+	setarray .requiredItemID2, 7018, 751, 7021, 7513;
+	setarray .requiredAmount2, 5, 5, 100, 20;
+
+	// for Handkerchief in Mouth requirement quest
+	setarray .requiredItemID3, 1059, 982, 7166;
+	setarray .requiredAmount3, 200, 20, 200;
+
+	emotion ET_THINK;
+	mes @name$;
+	mes "Hello there, " + strcharinfo(0) + "!";
+	mes "Are you interested to my items?";
+
+	switch(select("Yes! I am interested.:Sorry, I don't have time.")) {
+		case 1:
+			next;
+
+			mes @name$;
+			mes "Great! Which one are you interested in?";
+
+			switch(select(
+				getitemname(.questItems[0])	+ ":" +
+				getitemname(.questItems[1])	+ ":" +
+				getitemname(.questItems[2])	+ ":" +
+				getitemname(.questItems[3])
+			)) {
+				case 1:
+					next;
+
+					mes @name$;
+					mes "Alright! If you bring me these items, I'll trade you for the ^1100AA" + getitemname(.questItems[0]) + "^000000:";
+					mes "";
+					// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+					for (.@i = 0; .@i &lt; getarraysize(.requiredItemID0); .@i++) {
+						mes .requiredAmount0[.@i] + ((.requiredAmount0[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID0[.@i]);
+					}
+					next;
+
+					mes @name$;
+					mes "Are you sure you want the " + getitemname(.questItems[0]) + "?";
+
+					switch(select("Yes, let's do it!:No, I've changed my mind.")) {
+						case 1:
+							next;
+
+							// validate if there is no items
+							if (countitem(.requiredItemID0[0]) &lt; .requiredAmount0[0] ||
+								countitem(.requiredItemID0[1]) &lt; .requiredAmount0[1] ||
+								countitem(.requiredItemID0[2]) &lt; .requiredAmount0[2]) {
+								emotion ET_SCRATCH;
+								mes @name$;
+								mes "Uh-oh! It seems like you don't have enough items. Come back when you're ready!";
+								close;
+							}
+							else {
+								for( .@z = 0; .@z &lt; getarraysize(.requiredItemID0); .@z++ ) {
+									delitem .requiredItemID0[.@z], .requiredAmount0[.@z];
+								}
+								getitem .questItems[0], 1;
+								emotion ET_BEST;
+
+								mes @name$;
+								mes "Here's your new headgear! Hope you like it!";
+								close;
+							}
+						break;
+						case 2:
+							next;
+
+							mes @name$;
+							mes "No worries! Feel free to come back anytime.";
+							close;
+						break;
+					}
+				break;
+				case 2:
+					next;
+
+					mes @name$;
+					mes "Alright! If you bring me these items, I'll trade you for the ^1100AA" + getitemname(.questItems[1]) + "^000000:";
+					mes "";
+					// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+					for (.@i = 0; .@i &lt; getarraysize(.requiredItemID1); .@i++) {
+						mes .requiredAmount1[.@i] + ((.requiredAmount1[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID1[.@i]);
+					}
+					next;
+
+					mes @name$;
+					mes "Are you sure you want the " + getitemname(.questItems[1]) + "?";
+
+					switch(select("Yes, let's do it!:No, I've changed my mind.")) {
+						case 1:
+							next;
+
+							// validate if there is no items
+							if (countitem(.requiredItemID1[0]) &lt; .requiredAmount1[0] ||
+								countitem(.requiredItemID1[1]) &lt; .requiredAmount1[1] ||
+								countitem(.requiredItemID1[2]) &lt; .requiredAmount1[2]) {
+								emotion ET_SCRATCH;
+								mes @name$;
+								mes "Uh-oh! It seems like you don't have enough items. Come back when you're ready!";
+								close;
+							}
+							else {
+								for( .@z = 0; .@z &lt; getarraysize(.requiredItemID1); .@z++ ) {
+									delitem .requiredItemID1[.@z], .requiredAmount1[.@z];
+								}
+								getitem .questItems[1], 1;
+								emotion ET_BEST;
+
+								mes @name$;
+								mes "Here's your new headgear! Hope you like it!";
+								close;
+							}
+						break;
+						case 2:
+							next;
+
+							mes @name$;
+							mes "No worries! Feel free to come back anytime.";
+							close;
+						break;
+					}
+				break;
+				case 3:
+					next;
+
+					mes @name$;
+					mes "Alright! If you bring me these items, I'll trade you for the ^1100AA" + getitemname(.questItems[2]) + "^000000:";
+					mes "";
+					// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+					for (.@i = 0; .@i &lt; getarraysize(.requiredItemID2); .@i++) {
+						mes .requiredAmount2[.@i] + ((.requiredAmount2[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID2[.@i]);
+					}
+					next;
+
+					mes @name$;
+					mes "Are you sure you want the " + getitemname(.questItems[2]) + "?";
+
+					switch(select("Yes, let's do it!:No, I've changed my mind.")) {
+						case 1:
+							next;
+
+							// validate if there is no items
+							if (countitem(.requiredItemID2[0]) &lt; .requiredAmount2[0] ||
+								countitem(.requiredItemID2[1]) &lt; .requiredAmount2[1] ||
+								countitem(.requiredItemID2[2]) &lt; .requiredAmount2[2]) {
+								emotion ET_SCRATCH;
+								mes @name$;
+								mes "Uh-oh! It seems like you don't have enough items. Come back when you're ready!";
+								close;
+							}
+							else {
+								for( .@z = 0; .@z &lt; getarraysize(.requiredItemID2); .@z++ ) {
+									delitem .requiredItemID2[.@z], .requiredAmount2[.@z];
+								}
+								getitem .questItems[2], 1;
+								emotion ET_BEST;
+
+								mes @name$;
+								mes "Here's your new headgear! Hope you like it!";
+								close;
+							}
+						break;
+						case 2:
+							next;
+
+							mes @name$;
+							mes "No worries! Feel free to come back anytime.";
+							close;
+						break;
+					}
+				break;
+				case 4:
+					next;
+
+					mes @name$;
+					mes "Alright! If you bring me these items, I'll trade you for the ^1100AA" + getitemname(.questItems[3]) + "^000000:";
+					mes "";
+					// Loop through the required items and display the correct "pc" or "pcs" based on the amount
+					for (.@i = 0; .@i &lt; getarraysize(.requiredItemID3); .@i++) {
+						mes .requiredAmount3[.@i] + ((.requiredAmount3[.@i] == 1) ? "pc - " : "pcs - ") + getitemname(.requiredItemID3[.@i]);
+					}
+					next;
+
+					mes @name$;
+					mes "Are you sure you want the " + getitemname(.questItems[3]) + "?";
+
+					switch(select("Yes, let's do it!:No, I've changed my mind.")) {
+						case 1:
+							next;
+
+							// validate if there is no items
+							if (countitem(.requiredItemID3[0]) &lt; .requiredAmount3[0] ||
+								countitem(.requiredItemID3[1]) &lt; .requiredAmount3[1] ||
+								countitem(.requiredItemID3[2]) &lt; .requiredAmount3[2]) {
+								emotion ET_SCRATCH;
+								mes @name$;
+								mes "Uh-oh! It seems like you don't have enough items. Come back when you're ready!";
+								close;
+							}
+							else {
+								for( .@z = 0; .@z &lt; getarraysize(.requiredItemID3); .@z++ ) {
+									delitem .requiredItemID3[.@z], .requiredAmount3[.@z];
+								}
+								getitem .questItems[3], 1;
+								emotion ET_BEST;
+
+								mes @name$;
+								mes "Here's your new headgear! Hope you like it!";
+								close;
+							}
+						break;
+						case 2:
+							next;
+
+							mes @name$;
+							mes "No worries! Feel free to come back anytime.";
+							close;
+						break;
+					}
+				break;
+			}
+		break;
+		case 2:
+			next;
+
+			mes @name$;
+			mes "No worries! Feel free to come back anytime.";
+			close;
+		break;
+	}
+
+}</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 mt-8 rounded-t-lg">
+        <div class="container mx-auto text-center text-sm">
+            &copy; 2025 Manuel G. Sintos. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../rathena_highlight_rules.js"></script>
+</body>
+</html>

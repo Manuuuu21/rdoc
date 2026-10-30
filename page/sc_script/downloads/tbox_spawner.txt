@@ -1,0 +1,54 @@
+//===== By:==================================================
+// @reloadnpcfile npc/custom/manuel_npc/tbox_spawner.txt
+
+prontera,214,219,3	script	Treasure Box Spawner	735,{
+	mes "[ Treasure Box Spawner ]";
+	mes "Hi there! I'm the Treasure Box Spawner.";
+	mes "Every hour, after you destroyed the box, a treasure box will appear in random locations.";
+	mes "Good luck in finding them!";
+	close;
+
+	OnInit:
+		// Spawn the first treasure box when the server starts
+		goto OnSpawnTreasureBox;
+	end;
+	
+	OnTBoxDestroyed:
+		// Check if a player is attached (killed by player)
+		if (playerattached()) {
+			// Announce player destroyed the Tbox
+			announce "The Treasure Box has been found and destroyed by [ " + strcharinfo(0) + "! ]", 0;
+	
+			// Reward the player who killed the treasure box
+			callfunc("eventRewards");
+		} 
+		else if ($killermobgid > 0) {
+			announce "The Treasure Box was destroyed by [ " + getunitname($killermobgid) + "! ]", 0;
+			$killermobgid = 0; // Reset variable
+		}
+
+		// Start a 1-hour cooldown before spawning the next box
+		stopnpctimer;
+		setnpctimer 0;
+		startnpctimer;
+	end;
+	
+	OnTimer3600000:
+		// 1 hour (3,600,000 ms) has passed, stop the timer and spawn the box
+		stopnpctimer;
+		goto OnSpawnTreasureBox;
+	end;
+
+OnSpawnTreasureBox:
+	// Variables to hold random coordinates
+	.@map$ = "prontera";
+	// Find a random empty cell in Prontera and store it within .@x and .@y
+	getfreecell(.@map$, .@x, .@y); 
+
+	// Spawn the treasure box at the random walkable location
+	monster .@map$, .@x, .@y, "Treasure Box", 2288, 1, "Treasure Box Spawner::OnTBoxDestroyed";
+
+	// Announce that the treasure box has respawned
+	announce "A new Treasure Box has appeared in Prontera!", 0;
+	end;
+}

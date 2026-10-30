@@ -1,0 +1,167 @@
+//===== rAthena Script =======================================
+//= Lucky 9 Gambling NPC
+//===== By: Manuel Sintos ============================
+//= A gambling game where players bet items to get a hand
+//= of two cards, aiming for a total of 9 (or closest).
+//============================================================
+//= @reloadnpcfile npc/custom/manuel_npc/master_card_manuel.txt
+
+prontera,150,180,5	script	Card Master Manuel	715,{
+	
+	set @name$, "[ ^1100AACard Master Manuel^000000 ]";
+
+	// Define allowed betting items and their names
+	setarray .@bet_item_ids[0], 7915, 7916, 7517, 674, 677, 7227, 30341, 30343;
+	setarray .@bet_item_names$[0], "Bronze Coin", "Silver Coin", "Gold Coin", "Mythril Coin", "Platinum Coin", "TCG Card", "Event Token", "Activity Token";
+	.bet_item_count = getarraysize(.@bet_item_ids);
+
+	mes @name$;
+	mes "Welcome to my table, adventurer!";
+	mes "Do you wish to play a game of Lucky 9?";
+	next;
+	
+	switch(select("Yes, let's play!:No, maybe later.")) {
+		case 1:
+			mes @name$;
+			mes "Great! Let's see if luck is on your side.";
+			mes "Which item would you like to bet?";
+			next;
+
+			.@menu_options$ += "Bronze Coin:Silver Coin:Gold Coin:Mythril Coin:Platinum Coin:TCG Card:Event Token:Activity Token:Cancel";
+
+			.@selected_item_index = select(.@menu_options$);
+
+			if (.@selected_item_index == .bet_item_count + 1) { // If Cancel is selected
+				mes @name$;
+				mes "No worries, come back anytime if you change your mind.";
+				close;
+			}
+
+			.@bet_item_id = .@bet_item_ids[.@selected_item_index - 1]; // Get the actual item ID
+			.@bet_item_name$ = .@bet_item_names$[.@selected_item_index - 1]; // Get the actual item name
+			
+			next;
+			mes @name$;
+			mes "You chose to bet " + .@bet_item_name$ + ".";
+			mes "How many would you like to bet?";
+			input @bet_amount, 1; // Input the quantity, minimum 1
+
+			if(countitem(.@bet_item_id) < @bet_amount) {
+				next;
+				mes @name$;
+				mes "It seems you don't have enough " + .@bet_item_name$ + " for that bet.";
+				mes "You currently have " + countitem(.@bet_item_id) + " " + .@bet_item_name$ + ".";
+				close;
+			}
+			
+			next;
+			delitem .@bet_item_id, @bet_amount; // Deduct the bet item from the player's inventory
+			mes @name$;
+			mes "You bet " + @bet_amount + " " + .@bet_item_name$ + ". Let's begin!";
+			next;
+			
+			set @player_card1, rand(1,9);
+			set @player_card2, rand(1,9);
+			set @npc_card1, rand(1,9);
+			set @npc_card2, rand(1,9);
+			
+			set @player_total, (@player_card1 + @player_card2) % 10;
+			set @npc_total, (@npc_card1 + @npc_card2) % 10;
+
+			mes @name$;
+			mes "You draw: " + @player_card1 + " and " + @player_card2 + ".";
+			mes "Your total is: " + @player_total;
+			next;
+
+			switch(select("Draw a third card.:Stand")) {
+				case 1:
+					set @player_card3, rand(1,9);
+					set @player_total, (@player_total + @player_card3) % 10;
+
+					mes @name$;
+					mes "You draw a " + @player_card3 + ".";
+					mes "Your new total is: " + @player_total;
+					next;
+
+					mes @name$;
+					mes "My turn now.";
+					next;
+
+					mes @name$;
+					mes "I draw: " + @npc_card1 + " and " + @npc_card2 + ".";
+					mes "My total is: " + @npc_total;
+					next;
+
+					if(@npc_total < 7) {
+						set @npc_card3, rand(1,9);
+						set @npc_total, (@npc_total + @npc_card3) % 10;
+
+						mes @name$;
+						mes "I will Draw my Third Card.";
+						next;
+
+						mes @name$;
+						mes "I draw a " + @npc_card3 + ".";
+						mes "My new total is: " + @npc_total;
+					}
+					next;
+
+				break;
+
+				case 2:
+					mes @name$;
+					mes "My turn now.";
+					next;
+
+					mes @name$;
+					mes "I draw: " + @npc_card1 + " and " + @npc_card2 + ".";
+					mes "My total is: " + @npc_total;
+					next;
+
+					if(@npc_total < 7) {
+						set @npc_card3, rand(1,9);
+						set @npc_total, (@npc_total + @npc_card3) % 10;
+
+						mes @name$;
+						mes "I will Draw my Third Card.";
+						next;
+
+						mes @name$;
+						mes "I draw a " + @npc_card3 + ".";
+						mes "My new total is: " + @npc_total;
+					}
+					next;
+				break;
+			}
+
+			if(@player_total > @npc_total) {
+				mes @name$;
+				mes "Congratulations! You win!";
+				specialeffect2 EF_HOLY_AVENGE; // Example visual effect
+				getitem .@bet_item_id, @bet_amount * 2; // Player wins double the bet item
+				mes "You've won " + @bet_amount * 2 + " " + .@bet_item_name$ + "!";
+				dispbottom "You Win! Congratulations!";
+			} else if (@player_total == @npc_total) {
+				mes @name$;
+				mes "It's a tie! Your bet is returned.";
+				dispbottom "It's a Tie! Your bet is returned!";
+				getitem .@bet_item_id, @bet_amount; // Return the bet item in case of a tie
+			} else {
+				mes @name$;
+				mes "I win! Better luck next time.";
+				specialeffect2 EF_STUN;
+				dispbottom "You Lose! Better luck next time!";
+			}
+			close;
+			
+		break;
+
+		case 2:
+			mes @name$;
+			mes "No worries, come back anytime if you change your mind.";
+			close;
+		break;
+	}
+}
+
+cmd_in02,168,89,1	duplicate(Card Master Manuel)	Card Master Manuel#cmd	715
